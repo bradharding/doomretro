@@ -2799,9 +2799,9 @@ static void cmdlistfunc2(char *cmd, char *parms)
             char    name[255];
             char    format[255];
             char    description[255];
-            int     len;
 
-            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
+            M_StringCopy(name, (english == english_american
+                || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
                 consolecmds[i].name : consolecmds[i].altspelling), sizeof(name));
 
             if (*parms && !wildcard(name, parms))
@@ -2811,30 +2811,21 @@ static void cmdlistfunc2(char *cmd, char *parms)
                 C_Header(tabs, cmdlist, CMDLISTHEADER);
 
             if (M_StringCompare(name, "map"))
-                M_snprintf(format, sizeof(format), BOLD("map") " %s", (gamemission == doom ? MAPFORMAT1 : MAPFORMAT2));
+                M_snprintf(format, sizeof(format), BOLD("map") " %s",
+                    (gamemission == doom ? MAPFORMAT1 : MAPFORMAT2));
             else
                 M_snprintf(format, sizeof(format), BOLD("%s") " %s", name, consolecmds[i].format);
 
-            len = (int)strlen(format);
-
-            while (C_TextWidth(format, NULL, true, true) > columnwidth)
+            if (C_TextWidth(format, NULL, true, true) > columnwidth)
             {
-                if (len >= 2 && format[len - 2] == ' ')
-                {
-                    format[len - 2] = '.';
-                    format[len - 1] = '.';
-                    format[len] = '.';
-                    format[len + 1] = '\0';
-                }
-                else if (len >= 1)
-                {
-                    format[len - 1] = '.';
-                    format[len] = '.';
-                    format[len + 1] = '.';
-                    format[len + 2] = '\0';
-                }
+                char    original[255];
+                size_t  length;
 
-                len--;
+                M_StringCopy(original, format, sizeof(original));
+                length = strlen(original);
+
+                while (length > 0 && C_TextWidth(format, NULL, true, true) > columnwidth)
+                    M_TruncateWithEllipsis(format, sizeof(format), original, --length);
             }
 
             M_StringCopy(description, consolecmds[i].description, sizeof(description));
@@ -3294,13 +3285,17 @@ static void cvarlistfunc2(char *cmd, char *parms)
             else if (consolecmds[i].flags & CF_STRING)
             {
                 const char  *value = *(char **)consolecmds[i].variable;
+                char        truncated[256];
+
+                if (strlen(value) > 14)
+                    M_TruncateWithEllipsis(truncated, sizeof(truncated), value, 14);
+                else
+                    M_StringCopy(truncated, value, sizeof(truncated));
 
                 if (M_StringCompare(value, consolecmds[i].defaultstring))
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("\"%.14s%s\"") "\t%s",
-                        name, value, (strlen(value) > 14 ? "..." : ""), description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("\"%s\"") "\t%s", name, truncated, description);
                 else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("\"%.14s%s\"") "\t%s",
-                        name, value, (strlen(value) > 14 ? "..." : ""), description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("\"%s\"") "\t%s", name, truncated, description);
             }
             else if (consolecmds[i].flags & CF_TIME)
             {
@@ -5731,12 +5726,7 @@ static const char *TruncateMaplistText(char *dest, size_t destsize, const char *
     if (strlen(dest) <= 29)
         return dest;
 
-    dest[29] = '\0';
-
-    while (strlen(dest) > 0 && dest[strlen(dest) - 1] == ' ')
-        dest[strlen(dest) - 1] = '\0';
-
-    M_StringCopy(dest + strlen(dest), "...", destsize - strlen(dest));
+    M_TruncateWithEllipsis(dest, destsize, dest, 29);
     return dest;
 }
 
@@ -5864,8 +5854,10 @@ static void maplistfunc2(char *cmd, char *parms)
                             temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1]);
 
                         RemoveMapNum(temp1);
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%.30s%s") "\t%.30s%s\t%s",
-                            lump, temp1, (strlen(temp1) > 30 ? "..." : ""), author, (strlen(author) > 30 ? "..." : ""), wadname);
+                        TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
+                        TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
+                            lump, truncatedtitle, truncatedauthor, wadname);
                         free(temp1);
                     }
                 }

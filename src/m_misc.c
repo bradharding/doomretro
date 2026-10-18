@@ -702,6 +702,57 @@ bool M_StringEndsWith(const char *s, const char *suffix)
     return (len1 >= len2 && M_StringCompare(s + len1 - len2, suffix));
 }
 
+void M_TruncateWithEllipsis(char *dest, const size_t destsize, const char *src, const size_t maxchars)
+{
+    size_t  len = strlen(src);
+    bool    markers = false;
+
+    if (len > maxchars)
+        len = maxchars;
+
+    if (destsize < 8)
+    {
+        if (destsize)
+            *dest = '\0';
+
+        return;
+    }
+
+    if (len > destsize - 7)
+        len = destsize - 7;
+
+    memmove(dest, src, len);
+
+    while (len > 0)
+    {
+        size_t  last = len;
+
+        while (last > 0 && (unsigned char)dest[last - 1] < ' ')
+            last--;
+
+        if (!last || (dest[last - 1] != ' ' && dest[last - 1] != '.' && dest[last - 1] != ',' && dest[last - 1] != '-'))
+            break;
+
+        memmove(dest + last - 1, dest + last, len - last);
+        len--;
+    }
+
+    for (size_t i = 0; i < len; i++)
+        if (dest[i] == BOLDONCHAR || dest[i] == BOLDOFFCHAR || dest[i] == ITALICSONCHAR || dest[i] == ITALICSOFFCHAR)
+        {
+            markers = true;
+            break;
+        }
+
+    if (markers)
+    {
+        memcpy(dest + len, BOLDOFF BOLDOFF ITALICSOFF, 3);
+        len += 3;
+    }
+
+    memcpy(dest + len, "...", 4);
+}
+
 // Safe, portable vsnprintf().
 void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
 {

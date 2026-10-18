@@ -79,6 +79,16 @@ bool        spritebasedpickups = true;
 
 int         MT_TRAIL2;
 
+static const char *deh_Shorten(char *dest, const size_t destsize, const char *src)
+{
+    if (strlen(src) > 12)
+        M_TruncateWithEllipsis(dest, destsize, src, 12);
+    else
+        M_StringCopy(dest, src, destsize);
+
+    return dest;
+}
+
 static byte *deh_GetTranslationTable(const int lump, const char *name)
 {
     const int   lumplength = W_LumpLength(lump);
@@ -4393,8 +4403,12 @@ static void deh_procText(DEHFILE *fpin, const char *line)
     if (!found) // Nothing we want to handle here -- see if strings can deal with it.
     {
         if (devparm)
-            C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i",
-                inbuffer, (strlen(inbuffer) > 12 ? "..." : ""), fromlen, tolen);
+        {
+            char    shortened[32];
+
+            C_Output("Checking text area through strings for \"%s\" from = %i to = %i",
+                deh_Shorten(shortened, sizeof(shortened), inbuffer), fromlen, tolen);
+        }
 
         if (fromlen <= (int)strlen(inbuffer))
         {
@@ -4633,9 +4647,12 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
                 else if (lookfor)
                 {
-                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s",
-                        lookfor, (strlen(lookfor) > 12 ? "..." : ""),
-                        newstring, (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
+                    char    shortened1[32];
+                    char    shortened2[32];
+
+                    C_Output("Assigned \"%s\" to \"%s\" at key %s",
+                        deh_Shorten(shortened1, sizeof(shortened1), lookfor),
+                        deh_Shorten(shortened2, sizeof(shortened2), newstring), deh_strlookup[i].lookup);
                     C_Output("*BEX FORMAT:");
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
                     C_Output("*END BEX");

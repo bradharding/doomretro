@@ -1241,6 +1241,20 @@ static void M_DrawSaveLoadBorder(int x, int y, bool highlight)
 //
 // M_LoadGame
 //
+static void M_FitSaveString(char *string)
+{
+    if (M_StringWidth(string) > SAVESTRINGPIXELWIDTH)
+    {
+        char    original[SAVESTRINGSIZE];
+        size_t  length = strlen(string);
+
+        M_StringCopy(original, string, sizeof(original));
+
+        while (length > 0 && M_StringWidth(string) > SAVESTRINGPIXELWIDTH)
+            M_TruncateWithEllipsis(string, SAVESTRINGSIZE, original, --length);
+    }
+}
+
 static void M_DrawLoad(void)
 {
     M_DrawMenuBackground();
@@ -1260,7 +1274,6 @@ static void M_DrawLoad(void)
 
     for (int i = 0; i < load_end; i++)
     {
-        int         len = (int)strlen(savegamestrings[i]);
         const int   y = M_SaveMenuSlotY(i);
         const int   fade = M_GetMenuItemHighlightFade(&LoadDef, i);
 
@@ -1272,25 +1285,7 @@ static void M_DrawLoad(void)
         currentmenu->menuitems[i].width = 209;
         currentmenu->menuitems[i].height = LITTLESHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
-        while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
-        {
-            if (len >= 2 && savegamestrings[i][len - 2] == ' ')
-            {
-                savegamestrings[i][len - 2] = '.';
-                savegamestrings[i][len - 1] = '.';
-                savegamestrings[i][len] = '.';
-                savegamestrings[i][len + 1] = '\0';
-            }
-            else if (len >= 1)
-            {
-                savegamestrings[i][len - 1] = '.';
-                savegamestrings[i][len] = '.';
-                savegamestrings[i][len + 1] = '.';
-                savegamestrings[i][len + 2] = '\0';
-            }
-
-            len--;
-        }
+        M_FitSaveString(savegamestrings[i]);
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
             && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
@@ -1402,25 +1397,8 @@ static void M_DrawSave(void)
         currentmenu->menuitems[i].width = 209;
         currentmenu->menuitems[i].height = LITTLESHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
-        while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
-        {
-            if (len >= 2 && savegamestrings[i][len - 2] == ' ')
-            {
-                savegamestrings[i][len - 2] = '.';
-                savegamestrings[i][len - 1] = '.';
-                savegamestrings[i][len] = '.';
-                savegamestrings[i][len + 1] = '\0';
-            }
-            else if (len >= 1)
-            {
-                savegamestrings[i][len - 1] = '.';
-                savegamestrings[i][len] = '.';
-                savegamestrings[i][len + 1] = '.';
-                savegamestrings[i][len + 2] = '\0';
-            }
-
-            len--;
-        }
+        M_FitSaveString(savegamestrings[i]);
+        len = (int)strlen(savegamestrings[i]);
 
         // draw save game description
         if (savestringenter && i == itemon)
