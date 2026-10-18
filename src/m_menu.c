@@ -67,15 +67,16 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define SPACEWIDTH              7
-#define LINEHEIGHT             17
-#define AUTOSAVEGAP             4
-#define MENUPITCH             128
-#define OFFSET                 17
-#define SKULLANIMCOUNT         10
-#define CARETANIMCOUNT         15
-#define MENUHIGHLIGHTFADESTEP  10
-#define MENUELEMFADECOUNT       8
+#define SPACEWIDTH                  7
+#define LINEHEIGHT                 17
+#define AUTOSAVEGAP                 4
+#define MENUPITCH                 128
+#define OFFSET                     17
+#define SKULLANIMCOUNT             10
+#define CARETANIMCOUNT             15
+#define MENUHIGHLIGHTFADESTEP      10
+#define MENUELEMFADECOUNT           8
+#define MENUCLOSEHOLDTHRESHOLD    500
 
 static int M_SaveMenuSlotY(int slot)
 {
@@ -129,6 +130,9 @@ bool            palettescreen = false;
 bool            menuactive;
 bool            savegames;
 bool            quitting;
+
+static bool     menucloseheld;
+static uint64_t menuclosekeydowntime;
 
 bool            reopenautomap = false;
 
@@ -3621,6 +3625,9 @@ bool M_Responder(event_t *ev)
     int             key = -1;
     static uint64_t keywait;
 
+    if (ev->type == ev_keyup && ev->data1 == KEY_ESCAPE)
+        menucloseheld = false;
+
     if (idclevtics)
         return false;
 
@@ -5070,6 +5077,12 @@ bool M_Responder(event_t *ev)
             // Deactivate menu or go back to previous menu
             keydown = key;
 
+            if (ev->type == ev_keydown && key == KEY_ESCAPE)
+            {
+                menucloseheld = true;
+                menuclosekeydowntime = I_GetTimeMS();
+            }
+
             if (gamemode != shareware || currentmenu != &EpiDef)
                 currentmenu->laston = itemon;
 
@@ -5721,6 +5734,8 @@ void M_Drawer(void)
 //
 void M_CloseMenu(void)
 {
+    menucloseheld = false;
+
     if (!menuactive)
         return;
 
@@ -5786,6 +5801,28 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
+    if (menucloseheld)
+    {
+        if (!windowfocused || !menuactive || consoleactive || (consoleoverlaymenu && consoleheight)
+            || messagetoprint || savestringenter || paused || keydown != KEY_ESCAPE)
+            menucloseheld = false;
+        else if (I_GetTimeMS() - menuclosekeydowntime >= MENUCLOSEHOLDTHRESHOLD)
+        {
+            if (gamemode != shareware || currentmenu != &EpiDef)
+                currentmenu->laston = itemon;
+
+            functionkey = 0;
+            M_CloseMenu();
+            S_StartSound(NULL, sfx_swtchx);
+            controllerbuttons = 0;
+            firstevent = true;
+            D_FadeScreen(false);
+
+            if (helpscreen)
+                R_SetViewSize(r_screensize);
+        }
+    }
+
     if (windowfocused)
     {
         if (quitmessagebuttonhighlightfading)
