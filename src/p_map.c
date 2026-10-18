@@ -451,11 +451,13 @@ static bool PIT_CheckThing(mobj_t *thing)
             && !(id24nummobjs > 14 && tmtype == id24firstmobj + 14))
         || (flags & MF_DROPPED))
         && !thing->nudge && tmthing->z == tmthing->floorz && !(corpse && (tmflags & MF_CORPSE))
-        && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
-        if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
+        && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy)))
+        && r_corpses_nudge
+        && P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
-            const angle_t   ang = (tmthing->momx || tmthing->momy ? R_PointToAngle2(0, 0, tmthing->momx, tmthing->momy) :
-                                tmthing->angle) + (angle_t)M_RandomInt(-45, 45) * ANG1;
+            const angle_t   ang = (tmthing->momx || tmthing->momy ?
+                                R_PointToAngle2(0, 0, tmthing->momx, tmthing->momy) : tmthing->angle)
+                                + (angle_t)M_RandomInt(-45, 45) * ANG1;
 
             thing->momx += FixedMul(FRACUNIT, finecosine[ang >> ANGLETOFINESHIFT]);
             thing->momy += FixedMul(FRACUNIT, finesine[ang >> ANGLETOFINESHIFT]);

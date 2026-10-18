@@ -60,12 +60,12 @@ typedef uint32_t    ufixed_t;
 
 CONSTATTR static inline int ABS(int a)
 {
-    return (a < 0 ? -a : a);
+    return (a < 0 ? (int)(0u - (unsigned int)a) : a);
 }
 
 CONSTATTR static inline int64_t ABS64(int64_t a)
 {
-    return (a < 0 ? -a : a);
+    return (a < 0 ? (int64_t)(0ull - (uint64_t)a) : a);
 }
 
 CONSTATTR static inline int MAX(int a, int b)
@@ -130,17 +130,22 @@ CONSTATTR static inline int64_t FixedMul64(int64_t a, int64_t b)
 
 CONSTATTR static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-    return (((int64_t)ABS(a) >> 15) >= ABS(b) ? (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX) : (((int64_t)a << FRACBITS) / b));
+    const int64_t   aa = (a < 0 ? -(int64_t)a : a);
+    const int64_t   ab = (b < 0 ? -(int64_t)b : b);
+
+    if ((aa >> 15) >= ab)
+        return (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX);
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
+    return (fixed_t)((double)((int64_t)a << FRACBITS) / (double)b);
+#else
+    return (fixed_t)(((int64_t)a << FRACBITS) / b);
+#endif
 }
 
 CONSTATTR static inline fixed_t FixedMod(fixed_t a, fixed_t b)
 {
     return ((b & (b - 1)) ? ((a %= b) < 0 ? a + b : a) : (a & (b - 1)));
-}
-
-CONSTATTR static inline fixed_t FixedABS(fixed_t x)
-{
-    return (x < 0 ? (fixed_t)(0u - (unsigned int)x) : x);
 }
 
 CONSTATTR static inline uint64_t SafeAdd(uint64_t a, int b)
