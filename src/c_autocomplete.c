@@ -1243,10 +1243,7 @@ static void ResolveArguments(const consolecmd_t *cmd, const char (*w)[WORDLEN], 
         }
     }
     else if (M_StringCompare(name, "print"))
-    {
-        if (!a)
-            AddCVARNames(CVARS_ALL, false);
-    }
+        AddCVARNames(CVARS_ALL, false);
     else if (M_StringCompare(name, "cvarlist"))
     {
         if (!a)

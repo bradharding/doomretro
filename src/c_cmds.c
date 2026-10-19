@@ -110,7 +110,7 @@
 #define PISTOLSTARTFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
 #define PLAYFORMAT                      BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
 #define NAMEFORMAT                      "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
-#define PRINTFORMAT                     BOLD("\x93") BOLDITALICS("message") BOLD("\x94") "|" BOLDITALICS("CVAR")
+#define PRINTFORMAT                     BOLD("\x93") BOLDITALICS("message") BOLD("\x94") "|" BOLDITALICS("CVAR") " [" BOLD("\x93") BOLDITALICS("message") BOLD("\x94") "|" BOLDITALICS("CVAR") "...]"
 #define REGENHEALTHFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
 #define REMOVEFORMAT                    BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
                                         BOLDITALICS("item") "|" BOLD("everything")
@@ -979,7 +979,7 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", "", nullfunc1, playerstatsfunc2, false, "",
         "Shows stats about you."),
     CCMD(print, "", "", ingameccmdfunc1, printfunc2, true, PRINTFORMAT,
-        "Prints a player " BOLDITALICS("\"message\"") " or the value of a " BOLDITALICS("CVAR") "."),
+        "Prints any combination of player " BOLDITALICS("\"messages\"") " and the values of " BOLDITALICS("CVARs") "."),
     CCMD(quit, "", exit, nullfunc1, quitfunc2, false, "",
         "Quits to the " DESKTOP "."),
     BOOLCVAR(r_antialiasing, "", "", boolfunc1, r_antialiasingfunc2, 0,
@@ -8701,9 +8701,28 @@ static bool C_GetCVARValueString(const int index, char *buffer, const int size)
     return true;
 }
 
+static bool C_GetCVARValueStringByName(const char *name, char *buffer, const int size)
+{
+    for (int i = 0; *consolecmds[i].name; i++)
+        if (consolecmds[i].type == CT_CVAR)
+        {
+            const char  *altname = (english == english_american
+                                || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
+                                consolecmds[i].name : consolecmds[i].altspelling);
+
+            if ((M_StringCompare(name, consolecmds[i].name) || M_StringCompare(name, altname))
+                && C_GetCVARValueString(i, buffer, size))
+                return true;
+        }
+
+    return false;
+}
+
 static void printfunc2(char *cmd, char *parms)
 {
-    const bool  quoted = consoleparmsquoted;
+    char        message[255] = "";
+    size_t      length = 0;
+    const char  *p = parms;
 
     if (!*parms)
     {
@@ -8711,30 +8730,57 @@ static void printfunc2(char *cmd, char *parms)
 
         C_ShowFormat(i);
         C_ShowDescription(i);
+        return;
     }
-    else if (quoted)
-    {
-        if (!M_StringCompare(parms, EMPTYVALUE))
-            HU_PlayerMessageAsIs(parms, true, false);
-    }
-    else
-    {
-        for (int i = 0; *consolecmds[i].name; i++)
-            if (consolecmds[i].type == CT_CVAR)
-            {
-                const char  *name = (english == english_american
-                                || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
-                                consolecmds[i].name : consolecmds[i].altspelling);
-                char        value[255];
 
-                if ((M_StringCompare(parms, consolecmds[i].name) || M_StringCompare(parms, name))
-                    && C_GetCVARValueString(i, value, (int)sizeof(value)))
-                {
-                    HU_PlayerMessageAsIs(value, true, false);
-                    return;
-                }
-            }
+    while (*p)
+    {
+        char    item[255];
+        char    name[255];
+        size_t  itemlength = 0;
+
+        if (isspace((unsigned char)*p))
+        {
+            p++;
+            continue;
+        }
+
+        if (*p == '"' || *p == '\x93')
+        {
+            p++;
+
+            while (*p && *p != '"' && *p != '\x94')
+                if (itemlength < sizeof(item) - 1)
+                    item[itemlength++] = *p++;
+                else
+                    p++;
+
+            if (!*p)
+                return;
+
+            p++;
+            item[itemlength] = '\0';
+        }
+        else
+        {
+            while (*p && !isspace((unsigned char)*p) && *p != '"' && *p != '\x93')
+                if (itemlength < sizeof(name) - 1)
+                    name[itemlength++] = *p++;
+                else
+                    p++;
+
+            name[itemlength] = '\0';
+
+            if (!C_GetCVARValueStringByName(name, item, (int)sizeof(item)))
+                return;
+        }
+
+        M_StringCopy(message + length, item, sizeof(message) - length);
+        length = strlen(message);
     }
+
+    if (length)
+        HU_PlayerMessageAsIs(message, true, false);
 }
 
 //

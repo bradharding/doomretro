@@ -2256,7 +2256,7 @@ static void HU_AddPlayerMessage(char *message, bool group, bool external, const 
         M_snprintf(buffer, sizeof(buffer), message,
             isdefaultplayername() ? "you" : playername);
     else
-        for (int i = 0, j = 0; i < len; i++)
+        for (int i = 0, j = 0; i < len && j < (int)sizeof(buffer) - 2; i++)
         {
             if (message[i] == '%')
                 buffer[j++] = '%';

@@ -3463,9 +3463,9 @@ bool C_ValidateInput(char *input)
         }
         else
         {
-            char    parms[128] = "";
+            char    parms[255] = "";
 
-            if (sscanf(input, "%127s %127[^\n]", cmd, parms) > 0)
+            if (sscanf(input, "%127s %254[^\n]", cmd, parms) > 0)
             {
                 char            *temp = M_StringDuplicate(parms);
                 const size_t    parmslength = strlen(temp);
@@ -3473,7 +3473,8 @@ bool C_ValidateInput(char *input)
                 consoleparmsquoted = (parmslength >= 2
                     && (temp[0] == '"' || temp[0] == '\x93') && (temp[parmslength - 1] == '"' || temp[parmslength - 1] == '\x94'));
 
-                if (!(parmslength == 2 && temp[0] == '"' && temp[1] == '"'))
+                if (!(parmslength == 2 && temp[0] == '"' && temp[1] == '"')
+                    && !M_StringCompare(consolecmds[i].name, "print"))
                     M_StripQuotes(temp);
 
                 if ((M_StringCompare(cmd, consolecmds[i].name)
