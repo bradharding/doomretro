@@ -224,12 +224,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 if (c >= 0 && c < CONSOLEFONTSIZE)
                     patch = consolefont[c];
 
-                if (!i || prevletter == ' ')
+                if (letter == '\'' || letter == '"')
                 {
-                    if (letter == '\'')
-                        patch = lsquote;
-                    else if (letter == '"')
-                        patch = ldquote;
+                    const int   pairing = C_GetQuotePairing(l->l, len, i);
+
+                    if (pairing == 1 || (pairing == -1 && (!i || prevletter == ' ')))
+                        patch = (letter == '\'' ? lsquote : ldquote);
                 }
 
                 // [BH] apply kerning to certain character pairs
@@ -289,12 +289,12 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
             if (c >= 0 && c < CONSOLEFONTSIZE)
                 patch = consolefont[c];
 
-            if (!i || prevletter == ' ')
+            if (letter == '\'' || letter == '"')
             {
-                if (letter == '\'')
-                    patch = lsquote;
-                else if (letter == '"')
-                    patch = ldquote;
+                const int   pairing = C_GetQuotePairing(l->l, len, i);
+
+                if (pairing == 1 || (pairing == -1 && (!i || prevletter == ' ')))
+                    patch = (letter == '\'' ? lsquote : ldquote);
             }
 
             // [BH] apply kerning to certain character pairs

@@ -659,6 +659,54 @@ const kern_t altkern[] =
     { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
+static bool IsQuoteFormattingChar(const char c)
+{
+    return (c == BOLDONCHAR || c == BOLDOFFCHAR || c == ITALICSONCHAR || c == ITALICSOFFCHAR
+        || c == MONOSPACEDONCHAR || c == MONOSPACEDOFFCHAR);
+}
+
+int C_GetQuotePairing(const char *text, const int len, const int i)
+{
+    const char  quote = text[i];
+    int         first = -1;
+    int         last = -1;
+    int         count = 0;
+
+    for (int j = 0; j < len; j++)
+        if (text[j] == quote)
+        {
+            if (++count > 2)
+                return -1;
+
+            if (first < 0)
+                first = j;
+            else
+                last = j;
+        }
+
+    if (count != 2)
+        return -1;
+
+    if (i == first)
+    {
+        int j = i - 1;
+
+        while (j >= 0 && IsQuoteFormattingChar(text[j]))
+            j--;
+
+        return (j >= 0 && isalnum((unsigned char)text[j]) ? -1 : 1);
+    }
+    else
+    {
+        int j = last + 1;
+
+        while (j < len && IsQuoteFormattingChar(text[j]))
+            j++;
+
+        return (j < len && isalnum((unsigned char)text[j]) ? -1 : 0);
+    }
+}
+
 int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting, const bool kerning)
 {
     bool            italics = false;
@@ -737,12 +785,16 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
 
             if (letter == '\'')
             {
-                const bool  left = (prevletter == '\'' ? (prevleftsquote && nextletter != '\0' && nextletter != ' ') :
+                const int   pairing = C_GetQuotePairing(text, len, i);
+                bool        left = (prevletter == '\'' ? (prevleftsquote && nextletter != '\0' && nextletter != ' ') :
                                 (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
                                 || prevletter == '\t' || prevletter == '(' || prevletter == '['
                                 || prevletter == '{' || prevletter == '<' || prevletter == '"'
                                 || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
                                     && prevletter2 != '.' && nextletter != '.')));
+
+                if (pairing != -1)
+                    left = (pairing == 1);
 
                 prevleftsquote = left;
 
@@ -758,12 +810,16 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
             }
             else if (letter == '"')
             {
-                const bool  left = (prevletter == '"' ? (prevleftdquote && nextletter != '\0' && nextletter != ' ') :
+                const int   pairing = C_GetQuotePairing(text, len, i);
+                bool        left = (prevletter == '"' ? (prevleftdquote && nextletter != '\0' && nextletter != ' ') :
                                 (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
                                 || prevletter == '\t' || prevletter == '(' || prevletter == '['
                                 || prevletter == '{' || prevletter == '<' || prevletter == '\''
                                 || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
                                     && prevletter2 != '.' && nextletter != '.')));
+
+                if (pairing != -1)
+                    left = (pairing == 1);
 
                 prevleftdquote = left;
 
@@ -1926,12 +1982,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    const bool  left = (prevletter == '\'' ? (prevleftsquote && nextletter != '\0' && nextletter != ' ') :
+                    const int   pairing = C_GetQuotePairing(text, len, i);
+                    bool        left = (prevletter == '\'' ? (prevleftsquote && nextletter != '\0' && nextletter != ' ') :
                                     (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
                                     || prevletter == '\t' || prevletter == '(' || prevletter == '['
                                     || prevletter == '{' || prevletter == '<' || prevletter == '"'
                                     || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
                                         && prevletter2 != '.' && nextletter != '.')));
+
+                    if (pairing != -1)
+                        left = (pairing == 1);
 
                     prevleftsquote = left;
 
@@ -1947,12 +2007,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (letter == '"')
                 {
-                    const bool  left = (prevletter == '"' ? (prevleftdquote && nextletter != '\0' && nextletter != ' ') :
+                    const int   pairing = C_GetQuotePairing(text, len, i);
+                    bool        left = (prevletter == '"' ? (prevleftdquote && nextletter != '\0' && nextletter != ' ') :
                                     (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
                                     || prevletter == '\t' || prevletter == '(' || prevletter == '['
                                     || prevletter == '{' || prevletter == '<' || prevletter == '\''
                                     || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
                                         && prevletter2 != '.' && nextletter != '.')));
+
+                    if (pairing != -1)
+                        left = (pairing == 1);
 
                     prevleftdquote = left;
 
