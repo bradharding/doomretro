@@ -4042,6 +4042,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_ESCAPE:
                 // close console
+                keydown = KEY_ESCAPE;
                 C_HideConsole();
                 break;
 
