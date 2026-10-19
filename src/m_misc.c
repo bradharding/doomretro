@@ -83,6 +83,7 @@
 #include "c_console.h"
 #include "i_system.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "w_file.h"
 
@@ -702,7 +703,44 @@ bool M_StringEndsWith(const char *s, const char *suffix)
     return (len1 >= len2 && M_StringCompare(s + len1 - len2, suffix));
 }
 
-void M_TruncateWithEllipsis(char *dest, const size_t destsize, const char *src, const size_t maxchars)
+void M_TruncateWithEllipsis(char *dest, const size_t destsize, const char *src, const int maxwidth, const bool menufont)
+{
+    char    *original;
+    size_t  length;
+
+    if (!destsize)
+        return;
+
+    if (strlen(src) < destsize
+        && (menufont ? M_StringWidth(src) : C_TextWidth(src, NULL, true, true)) <= maxwidth)
+    {
+        memmove(dest, src, strlen(src) + 1);
+        return;
+    }
+
+    original = M_StringDuplicate(src);
+    length = strlen(original);
+
+    if (destsize < 8)
+        length = 0;
+    else if (length > destsize - 7)
+        length = destsize - 7;
+
+    do
+    {
+        M_TruncateWithEllipsisByLength(dest, destsize, original, length);
+
+        if ((menufont ? M_StringWidth(dest) : C_TextWidth(dest, NULL, true, true)) <= maxwidth)
+            break;
+    } while (length-- > 0);
+
+    free(original);
+
+    while (*dest && (menufont ? M_StringWidth(dest) : C_TextWidth(dest, NULL, true, true)) > maxwidth)
+        dest[strlen(dest) - 1] = '\0';
+}
+
+void M_TruncateWithEllipsisByLength(char *dest, const size_t destsize, const char *src, const size_t maxchars)
 {
     size_t  len = strlen(src);
     bool    markers = false;

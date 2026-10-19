@@ -1247,16 +1247,7 @@ static void M_DrawSaveLoadBorder(int x, int y, bool highlight)
 //
 static void M_FitSaveString(char *string)
 {
-    if (M_StringWidth(string) > SAVESTRINGPIXELWIDTH)
-    {
-        char    original[SAVESTRINGSIZE];
-        size_t  length = strlen(string);
-
-        M_StringCopy(original, string, sizeof(original));
-
-        while (length > 0 && M_StringWidth(string) > SAVESTRINGPIXELWIDTH)
-            M_TruncateWithEllipsis(string, SAVESTRINGSIZE, original, --length);
-    }
+    M_TruncateWithEllipsis(string, SAVESTRINGSIZE, string, SAVESTRINGPIXELWIDTH, true);
 }
 
 static void M_DrawLoad(void)

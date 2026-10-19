@@ -82,7 +82,7 @@ int         MT_TRAIL2;
 static const char *deh_Shorten(char *dest, const size_t destsize, const char *src)
 {
     if (strlen(src) > 12)
-        M_TruncateWithEllipsis(dest, destsize, src, 12);
+        M_TruncateWithEllipsisByLength(dest, destsize, src, 12);
     else
         M_StringCopy(dest, src, destsize);
 

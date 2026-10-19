@@ -576,18 +576,8 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
     M_StringCopy(s, l->l, sizeof(s));
 
-    if (M_StringWidth(s) > maxwidth)
-    {
-        char    original[513];
-
-        M_StringCopy(original, s, sizeof(original));
-        len = (int)strlen(original);
-
-        while (len > 0 && M_StringWidth(s) > maxwidth)
-            M_TruncateWithEllipsis(s, sizeof(s), original, --len);
-
-        len = (int)strlen(s);
-    }
+    M_TruncateWithEllipsis(s, sizeof(s), s, maxwidth, true);
+    len = (int)strlen(s);
 
     for (int i = 0; i < len; i++)
     {

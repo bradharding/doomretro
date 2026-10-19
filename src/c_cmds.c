@@ -2816,17 +2816,7 @@ static void cmdlistfunc2(char *cmd, char *parms)
             else
                 M_snprintf(format, sizeof(format), BOLD("%s") " %s", name, consolecmds[i].format);
 
-            if (C_TextWidth(format, NULL, true, true) > columnwidth)
-            {
-                char    original[255];
-                size_t  length;
-
-                M_StringCopy(original, format, sizeof(original));
-                length = strlen(original);
-
-                while (length > 0 && C_TextWidth(format, NULL, true, true) > columnwidth)
-                    M_TruncateWithEllipsis(format, sizeof(format), original, --length);
-            }
+            M_TruncateWithEllipsis(format, sizeof(format), format, columnwidth, false);
 
             M_StringCopy(description, consolecmds[i].description, sizeof(description));
 
@@ -3287,10 +3277,8 @@ static void cvarlistfunc2(char *cmd, char *parms)
                 const char  *value = *(char **)consolecmds[i].variable;
                 char        truncated[256];
 
-                if (strlen(value) > 14)
-                    M_TruncateWithEllipsis(truncated, sizeof(truncated), value, 14);
-                else
-                    M_StringCopy(truncated, value, sizeof(truncated));
+                M_TruncateWithEllipsis(truncated, sizeof(truncated), value,
+                    tabs[1] - tabs[0] - C_TextWidth(BOLD("\"\""), NULL, true, true) - 5, false);
 
                 if (M_StringCompare(value, consolecmds[i].defaultstring))
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("\"%s\"") "\t%s", name, truncated, description);
@@ -5721,12 +5709,7 @@ static const char *GetAuthor(int ep, int map, bool replaced, gamemission_t missi
 
 static const char *TruncateMaplistText(char *dest, size_t destsize, const char *src)
 {
-    M_StringCopy(dest, src, destsize);
-
-    if (strlen(dest) <= 29)
-        return dest;
-
-    M_TruncateWithEllipsis(dest, destsize, dest, 29);
+    M_TruncateWithEllipsis(dest, destsize, src, 195, false);
     return dest;
 }
 
