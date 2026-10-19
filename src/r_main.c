@@ -1059,7 +1059,13 @@ void R_InitColumnFunctions(void)
         }
     }
 
-    if (r_ditheredlighting)
+    if (!r_textures)
+    {
+        mobjinfo[MT_TRAIL2].colfunc = (r_rockettrails_translucency ?
+            &R_DrawTranslucent50SolidColorColumn : basecolfunc);
+        mobjinfo[MT_TRAIL2].altcolfunc = mobjinfo[MT_TRAIL2].colfunc;
+    }
+    else if (r_ditheredlighting)
     {
         if (r_rockettrails_translucency)
         {
