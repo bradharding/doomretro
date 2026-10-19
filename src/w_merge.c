@@ -148,10 +148,10 @@ static void InitSpriteList(void)
 static int SpriteRotationNumber(const char rot)
 {
     if (isdigit((int)rot))
-        return rot - '0';
+        return (rot - '0');
 
     if (toupper((int)rot) >= 'A' && toupper((int)rot) <= 'G')
-        return toupper((int)rot) - 'A' + 10;
+        return (toupper((int)rot) - 'A' + 10);
 
     return -1;
 }

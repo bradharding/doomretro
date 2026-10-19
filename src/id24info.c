@@ -4445,16 +4445,16 @@ static int ID24_Remap(const int value)
     switch (value >> 28)
     {
         case 1:
-            return sprbase + offset;
+            return (sprbase + offset);
 
         case 2:
-            return statebase + offset;
+            return (statebase + offset);
 
         case 3:
-            return sfxbase + offset;
+            return (sfxbase + offset);
 
         case 5:
-            return mobjbase + offset;
+            return (mobjbase + offset);
     }
 
     return value;

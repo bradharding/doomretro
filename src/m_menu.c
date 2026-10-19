@@ -80,7 +80,7 @@
 
 static int M_SaveMenuSlotY(int slot)
 {
-    return LoadDef.y + slot * LINEHEIGHT + OFFSET + (slot > AUTOSAVESLOT ? AUTOSAVEGAP : 0);
+    return (LoadDef.y + slot * LINEHEIGHT + OFFSET + (slot > AUTOSAVESLOT ? AUTOSAVEGAP : 0));
 }
 
 // -1 = no quicksave slot picked!

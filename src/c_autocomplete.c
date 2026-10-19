@@ -388,7 +388,7 @@ static int NaturalCompare(const char *a, const char *b)
             const int   cb = tolower((unsigned char)*b);
 
             if (ca != cb)
-                return ca - cb;
+                return (ca - cb);
 
             a++;
             b++;
