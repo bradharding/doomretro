@@ -84,6 +84,8 @@ static int              scrollspeed = TICRATE;
 static bool             autoscrolling;
 static bool             autoscrolltotop;
 static int              autoscrollpos;
+static bool             autoscrolltargeted;
+static int              autoscrolltargetpos;
 static uint64_t         autoscrolltime;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
@@ -245,6 +247,7 @@ static void C_ScrollToBottom(void)
 static void C_ScrollToNewOutput(void)
 {
     autoscrolltotop = false;
+    autoscrolltargeted = false;
 
     if (smoothtransitions && consoleactive && !dragconsolescrollbaractive)
     {
@@ -1215,6 +1218,50 @@ static void C_ScrollOutputDown(void)
     C_SetTopRow(oldtoprow + 1);
 
     C_UpdateScrollOffset(oldtoprow);
+}
+
+static void C_ScrollOutput(const int lines)
+{
+    if (!lines)
+        return;
+
+    if (smoothtransitions && consoleactive && !dragconsolescrollbaractive)
+    {
+        const int   maxpos = (C_GetTopRowForDisplay() + 1) * CONSOLELINEHEIGHT;
+        int         base;
+
+        if (autoscrolling && autoscrolltargeted)
+            base = autoscrolltargetpos;
+        else
+        {
+            const int   pos = BETWEEN(0, (autoscrolling ? autoscrollpos :
+                                (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset), maxpos);
+
+            base = (lines < 0 ? pos / CONSOLELINEHEIGHT : (pos + CONSOLELINEHEIGHT - 1) / CONSOLELINEHEIGHT)
+                * CONSOLELINEHEIGHT;
+
+            if (!autoscrolling)
+            {
+                autoscrollpos = pos;
+                autoscrolltime = I_GetTimeMS();
+            }
+        }
+
+        autoscrolltargetpos = BETWEEN(0, base + lines * CONSOLELINEHEIGHT, maxpos);
+        autoscrolltargeted = true;
+        autoscrolltotop = false;
+        autoscrolling = true;
+    }
+    else if (lines < 0)
+    {
+        for (int i = 0; i < -lines && !topofconsole; i++)
+            C_ScrollOutputUp();
+    }
+    else
+    {
+        for (int i = 0; i < lines; i++)
+            C_ScrollOutputDown();
+    }
 }
 
 static void C_DrawScrollbar(void)
@@ -3066,7 +3113,9 @@ void C_Drawer(void)
 
     if (autoscrolling && (!smoothtransitions || !consoleactive) && !dragconsolescrollbaractive)
     {
-        if (autoscrolltotop)
+        if (autoscrolltargeted)
+            C_SetTopRow(autoscrolltargetpos / CONSOLELINEHEIGHT - 1);
+        else if (autoscrolltotop)
             C_ScrollToTop();
         else
             C_ScrollToBottom();
@@ -3078,14 +3127,16 @@ void C_Drawer(void)
     // animate scrolling down to newly added output, or up to the top of the console
     if (autoscrolling)
     {
-        const int   target = (autoscrolltotop ? 0 : (C_GetTopRowForDisplay() + 1) * CONSOLELINEHEIGHT);
+        const int   maxpos = (C_GetTopRowForDisplay() + 1) * CONSOLELINEHEIGHT;
+        const int   target = (autoscrolltargeted ? BETWEEN(0, autoscrolltargetpos, maxpos) :
+                        (autoscrolltotop ? 0 : maxpos));
 
         if (tics - autoscrolltime > 128)
             autoscrolltime = tics - 128;
 
         while (tics - autoscrolltime >= 16 && autoscrollpos != target)
         {
-            if (autoscrolltotop)
+            if (autoscrollpos > target)
                 autoscrollpos = MAX(target, autoscrollpos - MAX(2, (autoscrollpos - target) / 5));
             else
                 autoscrollpos = MIN(target, autoscrollpos + MAX(2, (target - autoscrollpos) / 5));
@@ -3095,7 +3146,12 @@ void C_Drawer(void)
 
         if (autoscrollpos == target)
         {
-            if (autoscrolltotop)
+            if (autoscrolltargeted && target > 0 && target < maxpos)
+            {
+                C_SetTopRow(target / CONSOLELINEHEIGHT - 1);
+                scrolloffset = 0;
+            }
+            else if (autoscrolltotop || (autoscrolltargeted && !target))
                 C_ScrollToTop();
             else
                 C_ScrollToBottom();
@@ -3895,6 +3951,7 @@ bool C_Responder(event_t *ev)
 
                         autoscrollpos = startpos;
                         autoscrolltotop = true;
+                        autoscrolltargeted = false;
                         autoscrolling = true;
                     }
                     else
@@ -3952,9 +4009,7 @@ bool C_Responder(event_t *ev)
                 {
                     // scroll output up
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                    for (int j = 0; j < scrollspeed / TICRATE && !topofconsole; j++)
-                        C_ScrollOutputUp();
+                    C_ScrollOutput(-scrollspeed / TICRATE);
                 }
                 else
                 {
@@ -3983,9 +4038,7 @@ bool C_Responder(event_t *ev)
                 {
                     // scroll output down
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                    for (int j = 0; j < scrollspeed / TICRATE; j++)
-                        C_ScrollOutputDown();
+                    C_ScrollOutput(scrollspeed / TICRATE);
                 }
                 else
                 {
@@ -4021,9 +4074,7 @@ bool C_Responder(event_t *ev)
                 if (!topofconsole && C_CanScrollOutput() && scrollbardrawn)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                    for (int j = 0; j < scrollspeed / TICRATE && !topofconsole; j++)
-                        C_ScrollOutputUp();
+                    C_ScrollOutput(-scrollspeed / TICRATE);
                 }
 
                 break;
@@ -4033,9 +4084,7 @@ bool C_Responder(event_t *ev)
                 if (outputhistory != -1 && scrollbardrawn)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                    for (int j = 0; j < scrollspeed / TICRATE; j++)
-                        C_ScrollOutputDown();
+                    C_ScrollOutput(scrollspeed / TICRATE);
                 }
 
                 break;
@@ -4515,13 +4564,11 @@ bool C_Responder(event_t *ev)
                 {
                     // scroll output up
                     if (y < scrollbarfacestart)
-                        for (int j = 0; j < scrollspeed / TICRATE && !topofconsole; j++)
-                            C_ScrollOutputUp();
+                        C_ScrollOutput(-scrollspeed / TICRATE);
 
                     // scroll output down
                     else if (y > scrollbarfaceend && y < scrollbartrackheight)
-                        for (int j = 0; j < scrollspeed / TICRATE; j++)
-                            C_ScrollOutputDown();
+                        C_ScrollOutput(scrollspeed / TICRATE);
                 }
             }
         }
@@ -4625,14 +4672,14 @@ bool C_Responder(event_t *ev)
         if (ev->data2 > 0)
         {
             if (!topofconsole && C_CanScrollOutput())
-                C_ScrollOutputUp();
+                C_ScrollOutput(-1);
         }
 
         // scroll output down
         else if (ev->data2 < 0)
         {
             if (outputhistory != -1)
-                C_ScrollOutputDown();
+                C_ScrollOutput(1);
         }
     }
     else if (ev->type == ev_controller)
@@ -4653,7 +4700,7 @@ bool C_Responder(event_t *ev)
             controllerwait = I_GetTime() + 2;
 
             if (!topofconsole && C_CanScrollOutput())
-                C_ScrollOutputUp();
+                C_ScrollOutput(-1);
         }
 
         // scroll output down
@@ -4664,7 +4711,7 @@ bool C_Responder(event_t *ev)
             controllerwait = I_GetTime() + 2;
 
             if (outputhistory != -1)
-                C_ScrollOutputDown();
+                C_ScrollOutput(1);
         }
     }
 
