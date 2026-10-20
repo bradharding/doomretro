@@ -4021,24 +4021,37 @@ static bool match(bool value, const char *toggle)
 
 static char *findelse(char *str)
 {
-    bool    inquotes = false;
-    char    quote = '\0';
+    const char  *start = str;
+    bool        inquotes = false;
+    char        quote = '\0';
+    int         depth = 0;
 
     for (; *str; str++)
     {
+        const bool  wordstart = (str == start || isspace((unsigned char)str[-1]));
+
         if (inquotes)
         {
             if (*str == quote)
                 inquotes = false;
         }
-        else if (*str == '"' || *str == '\'')
+        else if (*str == '"' || (*str == '\'' && wordstart))
         {
             inquotes = true;
             quote = *str;
         }
-        else if (isspace((unsigned char)*str) && !strncasecmp(str + 1, "else", 4)
-            && isspace((unsigned char)str[5]))
-            return str;
+        else if (wordstart)
+        {
+            if (!strncasecmp(str, "if", 2) && isspace((unsigned char)str[2]))
+                depth++;
+            else if (str > start && !strncasecmp(str, "else", 4) && isspace((unsigned char)str[4]))
+            {
+                if (depth)
+                    depth--;
+                else
+                    return (str - 1);
+            }
+        }
     }
 
     return NULL;
