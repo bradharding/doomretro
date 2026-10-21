@@ -535,6 +535,7 @@ typedef struct
     int             floorclip;
     int             ceilingclip;
     lighttable_t    *colormap;
+    lighttable_t    *nextcolormap;
     lighttable_t    *sectorcolormap;
 } prevcolumn_t;
 
@@ -545,7 +546,9 @@ static prevcolumn_t prevcolumn;
 //
 static inline bool R_CheckPrevColumn(const rcolumn_t *column, const fixed_t scale)
 {
-    const bool  result = (colfunc == &R_DrawColumn
+    const bool  result = ((colfunc == &R_DrawColumn
+                        || ((colfunc == &R_DrawDitheredColumn || colfunc == &R_DrawLowResDitheredColumn)
+                            && dc_colormap[0] == dc_nextcolormap[0]))
                     && column == prevcolumn.column
                     && dc_x == prevcolumn.x + 1
                     && sprtopscreen == prevcolumn.topscreen
@@ -555,6 +558,7 @@ static inline bool R_CheckPrevColumn(const rcolumn_t *column, const fixed_t scal
                     && dc_floorclip == prevcolumn.floorclip
                     && dc_ceilingclip == prevcolumn.ceilingclip
                     && dc_colormap[0] == prevcolumn.colormap
+                    && dc_nextcolormap[0] == prevcolumn.nextcolormap
                     && dc_sectorcolormap == prevcolumn.sectorcolormap);
 
     prevcolumn.column = column;
@@ -566,6 +570,7 @@ static inline bool R_CheckPrevColumn(const rcolumn_t *column, const fixed_t scal
     prevcolumn.floorclip = dc_floorclip;
     prevcolumn.ceilingclip = dc_ceilingclip;
     prevcolumn.colormap = dc_colormap[0];
+    prevcolumn.nextcolormap = dc_nextcolormap[0];
     prevcolumn.sectorcolormap = dc_sectorcolormap;
 
     return result;
