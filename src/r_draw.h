@@ -75,6 +75,7 @@ extern int              fuzz2table[MAXSCREENAREA];
 // The span blitting interface.
 // Hook in assembler or system specific BLT here.
 void R_DrawColumn(void);
+void R_CopyColumn(void);
 void R_DrawColumnWithBrightmap(void);
 void R_DrawLowResDitheredColumn(void);
 void R_DrawDitheredColumn(void);

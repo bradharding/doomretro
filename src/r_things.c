@@ -524,6 +524,53 @@ static inline void GetSpriteTiltScale(const fixed_t basescale, const fixed_t bas
     }
 }
 
+typedef struct
+{
+    const rcolumn_t *column;
+    int             x;
+    int64_t         topscreen;
+    fixed_t         scale;
+    fixed_t         iscale;
+    fixed_t         texturemid;
+    int             floorclip;
+    int             ceilingclip;
+    lighttable_t    *colormap;
+    lighttable_t    *sectorcolormap;
+} prevcolumn_t;
+
+static prevcolumn_t prevcolumn;
+
+//
+// R_CheckPrevColumn
+//
+static inline bool R_CheckPrevColumn(const rcolumn_t *column, const fixed_t scale)
+{
+    const bool  result = (colfunc == &R_DrawColumn
+                    && column == prevcolumn.column
+                    && dc_x == prevcolumn.x + 1
+                    && sprtopscreen == prevcolumn.topscreen
+                    && scale == prevcolumn.scale
+                    && dc_iscale == prevcolumn.iscale
+                    && dc_texturemid == prevcolumn.texturemid
+                    && dc_floorclip == prevcolumn.floorclip
+                    && dc_ceilingclip == prevcolumn.ceilingclip
+                    && dc_colormap[0] == prevcolumn.colormap
+                    && dc_sectorcolormap == prevcolumn.sectorcolormap);
+
+    prevcolumn.column = column;
+    prevcolumn.x = dc_x;
+    prevcolumn.topscreen = sprtopscreen;
+    prevcolumn.scale = scale;
+    prevcolumn.iscale = dc_iscale;
+    prevcolumn.texturemid = dc_texturemid;
+    prevcolumn.floorclip = dc_floorclip;
+    prevcolumn.ceilingclip = dc_ceilingclip;
+    prevcolumn.colormap = dc_colormap[0];
+    prevcolumn.sectorcolormap = dc_sectorcolormap;
+
+    return result;
+}
+
 //
 // R_BlastSpriteColumn
 //
@@ -531,6 +578,7 @@ static void inline R_BlastSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
     const rpost_t   *posts = column->posts;
+    const bool      copy = R_CheckPrevColumn(column, spryscale);
 
     while (dc_numposts--)
     {
@@ -541,9 +589,14 @@ static void inline R_BlastSpriteColumn(const rcolumn_t *column)
         if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length - 256) >> FRACBITS), dc_floorclip)) >= 0)
             if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT + 512) >> FRACBITS))) <= dc_yh)
             {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-                dc_source = pixels + topdelta;
-                colfunc();
+                if (copy)
+                    R_CopyColumn();
+                else
+                {
+                    dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                    dc_source = pixels + topdelta;
+                    colfunc();
+                }
             }
     }
 }
@@ -555,6 +608,7 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
     const rpost_t   *posts = column->posts;
+    const bool      copy = R_CheckPrevColumn(column, pspritescale);
 
     while (dc_numposts--)
     {
@@ -565,9 +619,14 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
         if ((dc_yh = MIN((int)((topscreen + (int64_t)pspritescale * post->length) >> FRACBITS), viewheight - 1)) >= 0)
             if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
             {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-                dc_source = pixels + topdelta;
-                colfunc();
+                if (copy)
+                    R_CopyColumn();
+                else
+                {
+                    dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                    dc_source = pixels + topdelta;
+                    colfunc();
+                }
             }
     }
 }
@@ -646,6 +705,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     }
 
     oldtranmap = R_ApplyVisSpriteTranmap(vis);
+    prevcolumn.column = NULL;
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     fuzz1pos = 0;
@@ -836,6 +896,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
     }
 
     oldtranmap = R_ApplyVisSpriteTranmap(vis);
+    prevcolumn.column = NULL;
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     baseclip = (int)(sprtopscreen + vis->footclip) >> FRACBITS;
@@ -1262,6 +1323,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     }
 
     oldtranmap = R_ApplyVisSpriteTranmap(vis);
+    prevcolumn.column = NULL;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
