@@ -196,6 +196,7 @@ extern bool     r_rockettrails;
 extern bool     r_rockettrails_translucency;
 extern int      r_screensize;
 extern bool     r_shadows;
+extern bool     r_shadows_soft;
 extern bool     r_shadows_translucency;
 extern bool     r_shake_barrels;
 extern bool     r_shake_berserk;
@@ -894,6 +895,8 @@ enum
 #define r_screensize_max                        8
 
 #define r_shadows_default                       true
+
+#define r_shadows_soft_default                  true
 
 #define r_shadows_translucency_default          true
 

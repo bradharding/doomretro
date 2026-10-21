@@ -62,6 +62,7 @@ typedef struct
 {
     const rcolumn_t         *columns;
     const byte              *tint;
+    const byte              *softtints[3];
     fixed_t                 top;
     fixed_t                 tz;
     fixed_t                 shift;

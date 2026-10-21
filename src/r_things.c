@@ -1142,14 +1142,31 @@ bool R_PrepareShadows(void)
         mobj = vis->mobj;
 
         if (!r_shadows_translucency)
+        {
             caster->tint = NULL;
+            caster->softtints[0] = caster->softtints[1] = caster->softtints[2] = NULL;
+        }
         else if (mobj->flags & MF_FUZZ)
+        {
             caster->tint = &tinttab15[caster->black << 8];
+            caster->softtints[0] = caster->softtints[1] = &tinttab10[caster->black << 8];
+            caster->softtints[2] = NULL;
+        }
         else if (vis->fullbright
             || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
+        {
             caster->tint = &tinttab25[caster->black << 8];
+            caster->softtints[0] = &tinttab20[caster->black << 8];
+            caster->softtints[1] = &tinttab15[caster->black << 8];
+            caster->softtints[2] = &tinttab10[caster->black << 8];
+        }
         else
+        {
             caster->tint = &tinttab40[caster->black << 8];
+            caster->softtints[0] = &tinttab30[caster->black << 8];
+            caster->softtints[1] = &tinttab20[caster->black << 8];
+            caster->softtints[2] = &tinttab10[caster->black << 8];
+        }
 
         numshadowcasters++;
     }
@@ -1158,21 +1175,76 @@ bool R_PrepareShadows(void)
 }
 
 //
-// R_DrawCasterShadowPixel
+// R_ColumnCoversRow
 //
-static inline void R_DrawCasterShadowPixel(const shadowcaster_t *caster, const int x, const int y,
-    const int row, const float u)
+static inline bool R_ColumnCoversRow(const rcolumn_t *column, const int row)
 {
-    const int       c = BETWEEN(0, (int)u, caster->width - 1);
-    const rcolumn_t *column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
     const rpost_t   *posts = column->posts;
 
     for (int p = 0; p < column->numposts; p++)
         if (row >= posts[p].topdelta && row < posts[p].topdelta + posts[p].length)
-        {
+            return true;
+
+    return false;
+}
+
+//
+// R_DrawCasterShadowPixel
+//
+static inline void R_DrawCasterShadowPixel(const shadowcaster_t *caster, const int x, const int y,
+    const float rowf, const float u)
+{
+    const float fu = u - 0.5f;
+    const float fv = rowf - 0.5f;
+    const int   c0 = (int)floorf(fu);
+    const int   r0 = (int)floorf(fv);
+    const float fx = fu - c0;
+    const float fy = fv - r0;
+    float       coverage = 0.0f;
+
+    if (!r_shadows_soft)
+    {
+        const int       c = BETWEEN(0, (int)u, caster->width - 1);
+        const rcolumn_t *column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
+
+        if (R_ColumnCoversRow(column, (int)rowf))
             R_DrawShadowPixel(x, y, caster->tint, caster->black);
-            break;
+
+        return;
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        const int   c = c0 + i;
+        float       weight;
+
+        if (c >= 0 && c < caster->width)
+        {
+            const rcolumn_t *column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
+
+            weight = (i ? fx : 1.0f - fx);
+
+            if (R_ColumnCoversRow(column, r0))
+                coverage += weight * (1.0f - fy);
+
+            if (R_ColumnCoversRow(column, r0 + 1))
+                coverage += weight * fy;
         }
+    }
+
+    if (!caster->tint)
+    {
+        if (coverage >= 0.5f)
+            R_DrawShadowPixel(x, y, NULL, caster->black);
+    }
+    else if (coverage >= 0.875f)
+        R_DrawShadowPixel(x, y, caster->tint, caster->black);
+    else if (coverage >= 0.625f)
+        R_DrawShadowPixel(x, y, caster->softtints[0], caster->black);
+    else if (coverage >= 0.375f)
+        R_DrawShadowPixel(x, y, caster->softtints[1], caster->black);
+    else if (coverage >= 0.125f && caster->softtints[2])
+        R_DrawShadowPixel(x, y, caster->softtints[2], caster->black);
 }
 
 //
@@ -1245,7 +1317,7 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
 
                 if (shadowbehind - tilt * w >= 0.0f && rowf >= 0.0f && row < caster->rows
                     && w >= -halfwidth && w < halfwidth)
-                    R_DrawCasterShadowPixel(caster, x, y, row, (w + halfwidth) * (1.0f / FRACUNIT));
+                    R_DrawCasterShadowPixel(caster, x, y, rowf, (w + halfwidth) * (1.0f / FRACUNIT));
             }
         }
         else if (caster->tilt)
@@ -1270,7 +1342,7 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
                 row = (int)rowf;
 
                 if (columnbehind >= 0.0f && rowf >= 0.0f && row < caster->rows)
-                    R_DrawCasterShadowPixel(caster, x, y, row, (w + halfwidth) * (1.0f / FRACUNIT));
+                    R_DrawCasterShadowPixel(caster, x, y, rowf, (w + halfwidth) * (1.0f / FRACUNIT));
             }
         }
         else
@@ -1287,7 +1359,7 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
                 * (1.0f / FRACUNIT);
 
             for (int x = xa; x <= xb; x++, u += du)
-                R_DrawCasterShadowPixel(caster, x, y, row, u);
+                R_DrawCasterShadowPixel(caster, x, y, rowf, u);
         }
     }
 }

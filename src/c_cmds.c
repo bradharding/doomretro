@@ -1099,6 +1099,8 @@ consolecmd_t consolecmds[] =
         "The screen size (" BOLD("0") " to " BOLD("8") ")."),
     BOOLCVAR(r_shadows, "", "", boolfunc1, boolfunc2, 0,
         "Toggles sprites casting shadows."),
+    BOOLCVAR(r_shadows_soft, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles softening the edges of shadows cast by sprites."),
     BOOLCVAR(r_shadows_translucency, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the translucency of shadows cast by sprites."),
     BOOLCVAR(r_shake_barrels, "", "", boolfunc1, boolfunc2, 0,

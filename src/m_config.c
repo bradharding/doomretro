@@ -208,6 +208,7 @@ bool        r_rockettrails = r_rockettrails_default;
 bool        r_rockettrails_translucency = r_rockettrails_translucency_default;
 int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
+bool        r_shadows_soft = r_shadows_soft_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
 bool        r_shake_barrels = r_shake_barrels_default;
 bool        r_shake_berserk = r_shake_berserk_default;
@@ -493,6 +494,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_rockettrails_translucency,      r_rockettrails_translucency,           r_rockettrails_translucency,           BOOLVALUEALIAS         ),
     CVAR_INT          (r_screensize,                     r_screensize,                          r_screensize,                          0                      ),
     CVAR_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                             BOOLVALUEALIAS         ),
+    CVAR_BOOL         (r_shadows_soft,                   r_shadows_soft,                        r_shadows_soft,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,                BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                       BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_shake_berserk,                  r_shake_berserk,                       r_shake_berserk,                       BOOLVALUEALIAS         ),
