@@ -1041,22 +1041,24 @@ static bool D_IsUnsupportedWAD(char *filename)
         char    *iwad;
         char    *title;
     } unsupported[] = {
-        { "heretic.wad",           "Heretic" },
-        { "heretic_ex.wad",        "Heretic" },
-        { "heretic_fr.wad",        "Heretic" },
-        { "heretic_mus_orig.wad",  "Heretic" },
-        { "heretic_mus_remix.wad", "Heretic" },
-        { "heretic1.wad",          "Heretic" },
-        { "hexen.wad",             "Hexen"   },
-        { "hexen_mus_orig.wad",    "Hexen"   },
-        { "hexen_mus_remix.wad",   "Hexen"   },
-        { "hexen_vog.wad",         "Hexen"   },
-        { "hexdd.wad",             "Hexen"   },
-        { "hexdd_ex.wad",          "Hexen"   },
-        { "hextest.wad",           "Hexen"   },
-        { "strife0.wad",           "Strife"  },
-        { "strife1.wad",           "Strife"  },
-        { "voices.wad",            "Strife"  }
+        { "heretic.wad",           "Heretic"    },
+        { "heretic_ex.wad",        "Heretic"    },
+        { "heretic_fr.wad",        "Heretic"    },
+        { "heretic_mus_orig.wad",  "Heretic"    },
+        { "heretic_mus_remix.wad", "Heretic"    },
+        { "heretic1.wad",          "Heretic"    },
+        { "hexen.wad",             "Hexen"      },
+        { "hexen_mus_orig.wad",    "Hexen"      },
+        { "hexen_mus_remix.wad",   "Hexen"      },
+        { "hexen_vog.wad",         "Hexen"      },
+        { "hexdd.wad",             "Hexen"      },
+        { "hexdd_ex.wad",          "Hexen"      },
+        { "hextest.wad",           "Hexen"      },
+        { "strife0.wad",           "Strife"     },
+        { "strife1.wad",           "Strife"     },
+        { "voices.wad",            "Strife"     },
+        { "blasphem.wad",          "Blasphemer" },
+        { "blasphdm.wad",          "Blasphemer" }
     };
 
     for (int i = 0; i < arrlen(unsupported); i++)
