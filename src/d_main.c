@@ -2727,7 +2727,7 @@ static void D_DoomMainSetup(void)
                 {
                     char    buffer[256];
 
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n"));
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n");
 
 #if defined(_WIN32)
                     if (previouswad)
