@@ -1237,7 +1237,8 @@ static void C_ScrollOutput(const int scrolllines)
             const int   pos = BETWEEN(0, (autoscrolling ? autoscrollpos :
                                 (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset), maxpos);
 
-            base = (scrolllines < 0 ? pos : (pos + CONSOLELINEHEIGHT - 1) / CONSOLELINEHEIGHT) * CONSOLELINEHEIGHT;
+            base = (scrolllines < 0 ? pos / CONSOLELINEHEIGHT : (pos + CONSOLELINEHEIGHT - 1) / CONSOLELINEHEIGHT)
+                * CONSOLELINEHEIGHT;
 
             if (!autoscrolling)
             {
