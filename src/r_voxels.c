@@ -1656,7 +1656,7 @@ void VX_DrawVoxel(const vissprite_t *spr)
     if (vv->shadow)
         VX_DrawShadow(spr);
 
-    vxwhite = !r_textures;
+    vxwhite = (!r_textures && !menuactive);
     vxbrightmap = (vxwhite ? NULL : vv->brightmap);
     vxtranslation = NULL;
 
