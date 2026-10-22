@@ -552,7 +552,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     char            s[513];
     const int       maxwidth = (external ? MAPWIDTH / 2 :
                         (r_screensize == r_screensize_max ? WIDEVANILLAWIDTH - x : VANILLAWIDTH));
-    int             len = l->len;
+    int             len;
     int             screenwidth;
     int             screenarea;
 

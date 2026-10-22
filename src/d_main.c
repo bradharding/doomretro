@@ -2725,15 +2725,13 @@ static void D_DoomMainSetup(void)
                 else if (!choseniwad && !error)
 #endif
                 {
-                    char    buffer[256];
-
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n");
-
 #if defined(_WIN32)
                     if (previouswad)
                         wad = GetCorrectCase(M_StringDuplicate(previouswad));
 #endif
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
+
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME,
+                        DOOMRETRO_NAME " couldn't find any IWADs.\n", NULL);
                 }
             } while (!choseniwad);
 #endif

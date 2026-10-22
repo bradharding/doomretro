@@ -1079,17 +1079,6 @@ int gcd(int a, int b)
     return (!b ? a : gcd(b, a % b));
 }
 
-int numspaces(const char *str)
-{
-    int         result = 0;
-    const int   len = (int)strlen(str);
-
-    for (int i = 0; i < len; i++)
-        result += (str[i] == ' ');
-
-    return result;
-}
-
 char *removespaces(const char *input)
 {
     char    *p = I_Malloc(strlen(input) + 1);

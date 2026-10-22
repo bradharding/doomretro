@@ -914,10 +914,10 @@ static void AddSoundsAndMusic(void)
 
     for (int i = 1; i < NUMMUSIC; i++)
     {
-        char    lump[9];
-
         if (*s_music[i].name2)
         {
+            char    lump[9];
+
             M_snprintf(lump, sizeof(lump), "h_%s", s_music[i].name2);
 
             if (W_CheckNumForName(lump) == -1)

@@ -4263,7 +4263,7 @@ bool M_Responder(event_t *ev)
             {
                 if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
                 {
-                    consolefullscreen = (gamestate == GS_TITLESCREEN && !menuactive && !messagetoprint);
+                    consolefullscreen = (gamestate == GS_TITLESCREEN && !menuactive);
                     consoleopenedbyconsolekey = true;
                     consolekeydowntime = I_GetTimeMS();
 

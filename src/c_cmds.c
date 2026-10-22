@@ -4087,13 +4087,14 @@ static void iffunc2(char *cmd, char *parms)
     char        parm3[256] = "";
     char        *elseparms;
     bool        negate = false;
-    char        word[64] = "";
     int         length = 0;
     const char  *rest;
     bool        parsed = false;
 
     if (sscanf(parms, "%63s%n", parm1, &length) == 1)
     {
+        char    word[64] = "";
+
         rest = parms + length;
 
         if (sscanf(rest, "%63s%n", word, &length) == 1)

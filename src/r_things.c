@@ -1225,13 +1225,11 @@ static inline void R_DrawCasterShadowPixel(const shadowcaster_t *caster, const i
     for (int i = 0; i < 2; i++)
     {
         const int   c = c0 + i;
-        float       weight;
 
         if (c >= 0 && c < caster->width)
         {
             const rcolumn_t *column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
-
-            weight = (i ? fx : 1.0f - fx);
+            float           weight = (i ? fx : 1.0f - fx);
 
             if (R_ColumnCoversRow(column, r0))
                 coverage += weight * (1.0f - fy);
