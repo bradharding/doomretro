@@ -1386,11 +1386,21 @@ void I_SetPalette(const byte *playpal)
             b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255);
         }
 
-        // Zero out the bottom two bits of each channel - the PC VGA
-        // controller only supports 6 bits of accuracy.
-        palettecolors[i].r = (r & ~3);
-        palettecolors[i].g = (g & ~3);
-        palettecolors[i].b = (b & ~3);
+        if (vanilla)
+        {
+            // Zero out the bottom two bits of each channel - the PC VGA
+            // controller only supports 6 bits of accuracy.
+            palettecolors[i].r = (r & ~3);
+            palettecolors[i].g = (g & ~3);
+            palettecolors[i].b = (b & ~3);
+        }
+        else
+        {
+            palettecolors[i].r = r;
+            palettecolors[i].g = g;
+            palettecolors[i].b = b;
+        }
+
         palettecolors[i].a = 0xFF;
 
         playpal += 3;
