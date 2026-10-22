@@ -1377,27 +1377,30 @@ static void VX_DrawShadow(const vissprite_t *spr)
     const mobj_t        *mobj = spr->mobj;
     byte                *dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
     const byte          black = spr->colormap[nearestblack];
-    const byte          *tint = NULL;
+    const byte          *tint;
+    const byte          *softtints[3];
+    const int64_t       distx = (int64_t)spr->gx - viewx;
+    const int64_t       disty = (int64_t)spr->gy - viewy;
+    bool                soft;
+    unsigned int        mark;
+    int                 bx1 = INT_MAX, bx2 = INT_MIN;
+    int                 by1 = INT_MAX, by2 = INT_MIN;
 
-    if (r_shadows_translucency)
-    {
-        if (mobj->flags & MF_FUZZ)
-            tint = &tinttab15[black << 8];
-        else if (spr->fullbright
-            || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
-            tint = &tinttab25[black << 8];
-        else
-            tint = &tinttab40[black << 8];
-    }
+    R_GetShadowTints(mobj, spr->fullbright, black, &tint, softtints);
+
+    soft = (r_shadows_soft && tint && distx * distx + disty * disty
+        < (int64_t)SHADOWSOFTDISTANCE * SHADOWSOFTDISTANCE);
 
     if (!shadowstamps)
         shadowstamps = I_Calloc(MAXSCREENAREA, sizeof(*shadowstamps));
 
-    if (!++shadowstamp)
+    if (++shadowstamp >= 0x80000000u)
     {
         memset(shadowstamps, 0, MAXSCREENAREA * sizeof(*shadowstamps));
         shadowstamp = 1;
     }
+
+    mark = shadowstamp << 1;
 
     for (int x = 0; x < v->xsize; x++)
         for (int y = 0; y < v->ysize; y++)
@@ -1539,14 +1542,75 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 yh = (int)MIN64(MIN(viewheight - 1, MIN(mfloorclip[screenx], shadowclipbot[screenx]) - 1),
                     hi >> FRACBITS);
 
-                for (int row = yl, pixel = yl * SCREENWIDTH + screenx; row <= yh; row++, pixel += SCREENWIDTH)
-                    if (shadowstamps[pixel] != shadowstamp
-                        && (voxeldepth[pixel].frame != voxelframe || !voxeldepth[pixel].owner))
+                if (!soft)
+                {
+                    for (int row = yl, pixel = yl * SCREENWIDTH + screenx; row <= yh; row++, pixel += SCREENWIDTH)
+                        if (shadowstamps[pixel] != mark
+                            && (voxeldepth[pixel].frame != voxelframe || !voxeldepth[pixel].owner))
+                        {
+                            shadowstamps[pixel] = mark;
+                            dest[pixel] = (tint ? tint[dest[pixel]] : black);
+                        }
+                }
+                else
+                {
+                    const int   rowlo = (int)MAX64(0, (lo + FRACMASK) >> FRACBITS);
+                    const int   rowhi = (int)MIN64(viewheight - 1, hi >> FRACBITS);
+
+                    for (int row = rowlo, pixel = rowlo * SCREENWIDTH + screenx; row <= rowhi;
+                        row++, pixel += SCREENWIDTH)
                     {
-                        shadowstamps[pixel] = shadowstamp;
-                        dest[pixel] = (tint ? tint[dest[pixel]] : black);
+                        if (shadowstamps[pixel] == mark)
+                            continue;
+
+                        if (row >= yl && row <= yh
+                            && (voxeldepth[pixel].frame != voxelframe || !voxeldepth[pixel].owner))
+                        {
+                            shadowstamps[pixel] = mark;
+                            bx1 = MIN(bx1, screenx);
+                            bx2 = MAX(bx2, screenx);
+                            by1 = MIN(by1, row);
+                            by2 = MAX(by2, row);
+                        }
+                        else
+                            shadowstamps[pixel] = mark + 1;
                     }
+                }
             }
+        }
+
+    for (int y = by1; y <= by2; y++)
+        for (int x = bx1; x <= bx2; x++)
+        {
+            const int   pixel = y * SCREENWIDTH + x;
+            int         weight = 0;
+            const byte  *edgetint;
+
+            if (shadowstamps[pixel] != mark)
+                continue;
+
+            for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    const int   nx = x + dx;
+                    const int   ny = y + dy;
+
+                    if (nx < 0 || nx >= viewwidth || ny < 0 || ny >= viewheight
+                        || shadowstamps[ny * SCREENWIDTH + nx] >= mark)
+                        weight += (2 - ABS(dx)) * (2 - ABS(dy));
+                }
+
+            if (weight >= 14)
+                edgetint = tint;
+            else if (weight >= 10)
+                edgetint = softtints[0];
+            else if (weight >= 6)
+                edgetint = softtints[1];
+            else
+                edgetint = softtints[2];
+
+            if (edgetint)
+                dest[pixel] = edgetint[dest[pixel]];
         }
 }
 

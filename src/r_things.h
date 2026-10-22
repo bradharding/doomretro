@@ -120,6 +120,8 @@ void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fix
 void R_DrawMasked(void);
 void R_AddNearbySprites(sector_t *sec);
 void R_DrawNearbySprites(void);
+void R_GetShadowTints(const mobj_t *mobj, const bool fullbright, const byte black,
+    const byte **tint, const byte **softtints);
 bool R_PrepareShadows(void);
 void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth,
     const fixed_t planez, const shadowswirl_t *swirl);

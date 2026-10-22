@@ -1043,6 +1043,39 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
 }
 
 //
+// R_GetShadowTints
+//
+void R_GetShadowTints(const mobj_t *mobj, const bool fullbright, const byte black,
+    const byte **tint, const byte **softtints)
+{
+    if (!r_shadows_translucency)
+    {
+        *tint = NULL;
+        softtints[0] = softtints[1] = softtints[2] = NULL;
+    }
+    else if (mobj->flags & MF_FUZZ)
+    {
+        *tint = &tinttab15[black << 8];
+        softtints[0] = softtints[1] = &tinttab10[black << 8];
+        softtints[2] = NULL;
+    }
+    else if (fullbright || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
+    {
+        *tint = &tinttab25[black << 8];
+        softtints[0] = &tinttab20[black << 8];
+        softtints[1] = &tinttab15[black << 8];
+        softtints[2] = &tinttab10[black << 8];
+    }
+    else
+    {
+        *tint = &tinttab40[black << 8];
+        softtints[0] = &tinttab30[black << 8];
+        softtints[1] = &tinttab20[black << 8];
+        softtints[2] = &tinttab10[black << 8];
+    }
+}
+
+//
 // R_PrepareShadows
 //
 bool R_PrepareShadows(void)
@@ -1142,32 +1175,7 @@ bool R_PrepareShadows(void)
         shadowmindepth = MIN(shadowmindepth, vis->tz - FixedMul(ABS(tilt), halfwidth));
         mobj = vis->mobj;
 
-        if (!r_shadows_translucency)
-        {
-            caster->tint = NULL;
-            caster->softtints[0] = caster->softtints[1] = caster->softtints[2] = NULL;
-        }
-        else if (mobj->flags & MF_FUZZ)
-        {
-            caster->tint = &tinttab15[caster->black << 8];
-            caster->softtints[0] = caster->softtints[1] = &tinttab10[caster->black << 8];
-            caster->softtints[2] = NULL;
-        }
-        else if (vis->fullbright
-            || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
-        {
-            caster->tint = &tinttab25[caster->black << 8];
-            caster->softtints[0] = &tinttab20[caster->black << 8];
-            caster->softtints[1] = &tinttab15[caster->black << 8];
-            caster->softtints[2] = &tinttab10[caster->black << 8];
-        }
-        else
-        {
-            caster->tint = &tinttab40[caster->black << 8];
-            caster->softtints[0] = &tinttab30[caster->black << 8];
-            caster->softtints[1] = &tinttab20[caster->black << 8];
-            caster->softtints[2] = &tinttab10[caster->black << 8];
-        }
+        R_GetShadowTints(mobj, vis->fullbright, caster->black, &caster->tint, caster->softtints);
 
         numshadowcasters++;
     }
