@@ -130,8 +130,8 @@ CONSTATTR static inline int64_t FixedMul64(int64_t a, int64_t b)
 
 CONSTATTR static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-    const int64_t   aa = (a < 0 ? -(int64_t)a : a);
-    const int64_t   ab = (b < 0 ? -(int64_t)b : b);
+    const int64_t   aa = ABS64(a);
+    const int64_t   ab = ABS64(b);
 
     if ((aa >> 15) >= ab)
         return (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX);

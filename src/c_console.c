@@ -1220,9 +1220,9 @@ static void C_ScrollOutputDown(void)
     C_UpdateScrollOffset(oldtoprow);
 }
 
-static void C_ScrollOutput(const int lines)
+static void C_ScrollOutput(const int scrolllines)
 {
-    if (!lines)
+    if (!scrolllines)
         return;
 
     if (smoothtransitions && consoleactive && !dragconsolescrollbaractive)
@@ -1237,8 +1237,7 @@ static void C_ScrollOutput(const int lines)
             const int   pos = BETWEEN(0, (autoscrolling ? autoscrollpos :
                                 (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset), maxpos);
 
-            base = (lines < 0 ? pos / CONSOLELINEHEIGHT : (pos + CONSOLELINEHEIGHT - 1) / CONSOLELINEHEIGHT)
-                * CONSOLELINEHEIGHT;
+            base = (scrolllines < 0 ? pos : (pos + CONSOLELINEHEIGHT - 1) / CONSOLELINEHEIGHT) * CONSOLELINEHEIGHT;
 
             if (!autoscrolling)
             {
@@ -1247,19 +1246,19 @@ static void C_ScrollOutput(const int lines)
             }
         }
 
-        autoscrolltargetpos = BETWEEN(0, base + lines * CONSOLELINEHEIGHT, maxpos);
+        autoscrolltargetpos = BETWEEN(0, base + scrolllines * CONSOLELINEHEIGHT, maxpos);
         autoscrolltargeted = true;
         autoscrolltotop = false;
         autoscrolling = true;
     }
-    else if (lines < 0)
+    else if (scrolllines < 0)
     {
-        for (int i = 0; i < -lines && !topofconsole; i++)
+        for (int i = 0; i < -scrolllines && !topofconsole; i++)
             C_ScrollOutputUp();
     }
     else
     {
-        for (int i = 0; i < lines; i++)
+        for (int i = 0; i < scrolllines; i++)
             C_ScrollOutputDown();
     }
 }
