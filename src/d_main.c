@@ -2727,16 +2727,12 @@ static void D_DoomMainSetup(void)
                 {
                     char    buffer[256];
 
-#if defined(_WIN32)
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.\n",
-                        (!*wad ? wad : "any IWADs"));
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n"));
 
+#if defined(_WIN32)
                     if (previouswad)
                         wad = GetCorrectCase(M_StringDuplicate(previouswad));
-#else
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n");
 #endif
-
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
                 }
             } while (!choseniwad);
