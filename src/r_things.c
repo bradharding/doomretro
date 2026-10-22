@@ -1136,6 +1136,7 @@ bool R_PrepareShadows(void)
         caster->squash = squash;
         caster->invsquash = 1.0f / squash;
         caster->flipped = vis->flipped;
+        caster->soft = (r_shadows_soft && vis->tz < SHADOWSOFTDISTANCE);
         caster->black = vis->colormap[nearestblack];
 
         shadowmindepth = MIN(shadowmindepth, vis->tz - FixedMul(ABS(tilt), halfwidth));
@@ -1202,7 +1203,7 @@ static inline void R_DrawCasterShadowPixel(const shadowcaster_t *caster, const i
     const float fy = fv - r0;
     float       coverage = 0.0f;
 
-    if (!r_shadows_soft)
+    if (!caster->soft)
     {
         const int       c = BETWEEN(0, (int)u, caster->width - 1);
         const rcolumn_t *column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];

@@ -38,6 +38,7 @@
 #define SHADOWHEIGHTPERDEPTH    (FRACUNIT * 2)
 #define SHADOWSKEW              (r_radiallighting ? FRACUNIT * 3 / 2 : FRACUNIT)
 #define SHADOWSWIRLSLACK        (FRACUNIT * 6)
+#define SHADOWSOFTDISTANCE      (512 * FRACUNIT)
 
 typedef struct
 {
@@ -82,6 +83,7 @@ typedef struct
     float                   squash;
     float                   invsquash;
     bool                    flipped;
+    bool                    soft;
     byte                    black;
 } shadowcaster_t;
 
