@@ -2542,7 +2542,7 @@ static void M_DrawOptions(void)
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
-        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
+        (r_screensize == r_screensize_max - 1 ? I_GetWidescreenTarget() : 1 + !r_hud)));
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
         + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
@@ -2972,6 +2972,9 @@ static bool M_HandleScreenSizeControl(int choice)
 
 static void M_SizeDisplay(int choice)
 {
+    if (keepwidescreenduringanim)
+        return;
+
     if (!choice)
     {
         if (r_screensize == r_screensize_max && !r_hud)

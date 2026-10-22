@@ -1273,6 +1273,11 @@ int I_GetOverlayTextX(void)
     return (vid_widescreen ? wide : nonwide);
 }
 
+bool I_GetWidescreenTarget(void)
+{
+    return (keepwidescreenduringanim ? !expandingpillarboxes : vid_widescreen);
+}
+
 void I_CompletePillarboxTransition(void)
 {
     if (needsmoderestart)
