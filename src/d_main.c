@@ -2729,7 +2729,7 @@ static void D_DoomMainSetup(void)
 
 #if defined(_WIN32)
                     M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.\n",
-                        (*wad ? wad : "any IWADs"));
+                        (!*wad ? wad : "any IWADs"));
 
                     if (previouswad)
                         wad = GetCorrectCase(M_StringDuplicate(previouswad));
