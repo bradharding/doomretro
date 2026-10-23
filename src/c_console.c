@@ -155,6 +155,7 @@ static bool             topofconsole;
 static bool             cheatsequence;
 static bool             cheatmask[255];
 bool                    dontrestoremousepointeronshow;
+bool                    consoleignoreleftbutton;
 
 static int              suckswidth;
 static int              timerwidth;
@@ -1558,6 +1559,8 @@ void C_HideConsole(void)
 #elif defined(X11)
         SetCapsLockState(true);
 #endif
+
+    consoleignoreleftbutton = false;
 
     SDL_StopTextInput();
 
@@ -4281,7 +4284,7 @@ bool C_Responder(event_t *ev)
         static int  consoleedgedragstart;
         static int  consoleedgedragdirection;
 
-        if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
+        if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse && !consoleignoreleftbutton)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
@@ -4577,6 +4580,8 @@ bool C_Responder(event_t *ev)
             // left button released: stop mouse selection
             if (!(ev->data1 & MOUSE_LEFTBUTTON))
             {
+                consoleignoreleftbutton = false;
+
                 if (draggingconsoleedge)
                 {
                     const int   halfheight = CONSOLEHALFHEIGHT;

@@ -2715,6 +2715,7 @@ static void M_Console(int choice)
     consoleoverlaymenu = true;
     dontrestoremousepointeronshow = true;
     C_ShowConsole(true);
+    consoleignoreleftbutton = menuitemactivatedwithmouse;
     D_FadeScreen(false);
     S_StartSound(NULL, sfx_pistol);
 }

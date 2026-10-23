@@ -250,6 +250,7 @@ extern bool             consoleparmsquoted;
 extern int              outputhistory;
 
 extern bool             dontrestoremousepointeronshow;
+extern bool             consoleignoreleftbutton;
 
 extern bool             gotoverlaytextcolors;
 
