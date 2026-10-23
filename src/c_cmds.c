@@ -10037,7 +10037,8 @@ static void spawnfunc2(char *cmd, char *parms)
 
                         if (flags & MF_NOGRAVITY)
                         {
-                            thing->z = thing->floorz + 32 * FRACUNIT;
+                            thing->z = BETWEEN(thing->floorz, thing->floorz + 32 * FRACUNIT,
+                                thing->ceilingz - thing->height);
                             thing->flags2 &= ~MF2_FEETARECLIPPED;
                         }
 
