@@ -106,6 +106,57 @@ jobs:
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
 
+  build-windows-mingw:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-pkgconf
+            mingw-w64-ucrt-x86_64-SDL2
+            mingw-w64-ucrt-x86_64-SDL2_mixer
+
+      - name: Extract version
+        id: version
+        run: |
+          version=$(awk -F'"' '/#define DOOMRETRO_VERSIONSTRING/ { print $2; exit }' src/version.h)
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+
+      - name: Configure
+        run: |
+          cmake -G Ninja -S . -B build-mingw \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DDOOMRETRO_STATIC=ON
+
+      - name: Build
+        run: cmake --build build-mingw
+
+      - name: Check that only system DLLs are required
+        run: |
+          objdump -p build-mingw/doomretro.exe | grep 'DLL Name'
+          ! objdump -p build-mingw/doomretro.exe | grep -iE 'SDL2|libgcc|libstdc|libwinpthread|mingw'
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: doomretro-v${{ steps.version.outputs.VERSION }}-win64-static
+          path: |
+            build-mingw/doomretro.exe
+            build-mingw/doomretro.wad
+
   build-linux:
     runs-on: ubuntu-latest
 
