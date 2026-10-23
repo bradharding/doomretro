@@ -465,40 +465,55 @@ static void AddCVARNames(const cvarfilter_t filter, const bool more)
     }
 }
 
-// Offers wildcards such as "r_*" or "vid_window*" for CVAR prefixes shared by at least two CVARs.
-static void AddCVARWildcards(void)
+static void AddWildcard(const char *name, const int len)
+{
+    char    pattern[WORDLEN];
+
+    if (len < 1 || len + 2 > WORDLEN)
+        return;
+
+    memcpy(pattern, name, len);
+    pattern[len] = '*';
+    pattern[len + 1] = '\0';
+    AddCandidate(pattern, 1, false, false);
+}
+
+static void AddWildcards(const cmdtype_t type)
 {
     for (int i = 0; *consolecmds[i].name; i++)
     {
-        const char  *name;
+        const char  *name1;
+        int         len1;
 
-        if (consolecmds[i].type != CT_CVAR)
+        if (consolecmds[i].type != type)
             continue;
 
-        name = CmdName(&consolecmds[i]);
+        name1 = CmdName(&consolecmds[i]);
+        len1 = (int)strlen(name1);
 
-        for (const char *underscore = strchr(name, '_'); underscore; underscore = strchr(underscore + 1, '_'))
+        for (int j = 0; *consolecmds[j].name; j++)
         {
-            const int   len = (int)(underscore - name) + 1;
-            char        pattern[WORDLEN];
-            int         count = 0;
+            const char  *name2;
+            int         common = 0;
+            bool        underscore = false;
 
-            if (len + 2 > WORDLEN)
-                break;
-
-            memcpy(pattern, name, len);
-            pattern[len] = '*';
-            pattern[len + 1] = '\0';
-
-            if (!M_StringStartsWith(pattern, partialtext) || HasCandidate(pattern))
+            if (i == j || consolecmds[j].type != type)
                 continue;
 
-            for (int j = 0; *consolecmds[j].name && count < 2; j++)
-                if (consolecmds[j].type == CT_CVAR && !strncasecmp(CmdName(&consolecmds[j]), name, len))
-                    count++;
+            name2 = CmdName(&consolecmds[j]);
 
-            if (count >= 2)
-                AddCandidate(pattern, 1, false, false);
+            while (common < len1 && tolower((unsigned char)name1[common]) == tolower((unsigned char)name2[common]))
+                if (name1[common++] == '_')
+                {
+                    underscore = true;
+                    AddWildcard(name1, common);
+                }
+
+            if (!common)
+                continue;
+
+            if (common == len1 || (type == CT_CCMD && !underscore && common >= 4))
+                AddWildcard(name1, common);
         }
     }
 }
@@ -1239,7 +1254,7 @@ static void ResolveArguments(const consolecmd_t *cmd, const char (*w)[WORDLEN], 
         {
             AddWord("all", 0, false);
             AddCVARNames(CVARS_WRITABLE, false);
-            AddCVARWildcards();
+            AddWildcards(CT_CVAR);
         }
     }
     else if (M_StringCompare(name, "print"))
@@ -1247,7 +1262,12 @@ static void ResolveArguments(const consolecmd_t *cmd, const char (*w)[WORDLEN], 
     else if (M_StringCompare(name, "cvarlist"))
     {
         if (!a)
-            AddCVARWildcards();
+            AddWildcards(CT_CVAR);
+    }
+    else if (M_StringCompare(name, "cmdlist"))
+    {
+        if (!a)
+            AddWildcards(CT_CCMD);
     }
     else if (M_StringCompare(name, "exec"))
     {
