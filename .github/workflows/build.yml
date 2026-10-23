@@ -147,7 +147,7 @@ jobs:
       - name: Check that only system DLLs are required
         run: |
           objdump -p build-mingw/doomretro.exe | grep 'DLL Name'
-          ! objdump -p build-mingw/doomretro.exe | grep -iE 'SDL2|libgcc|libstdc|libwinpthread|mingw'
+          ! objdump -p build-mingw/doomretro.exe | grep 'DLL Name' | grep -iE 'SDL2|libgcc|libstdc|libwinpthread|mingw|libogg|libopus|libxmp|libvorbis|libFLAC|libmpg123'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
