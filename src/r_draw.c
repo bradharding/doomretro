@@ -150,20 +150,6 @@ void R_DrawColumn(void)
     *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
 }
 
-void R_CopyColumn(void)
-{
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
-    byte    *src = dest - 1;
-
-    while (count--)
-    {
-        *dest = *src;
-        dest += SCREENWIDTH;
-        src += SCREENWIDTH;
-    }
-}
-
 void R_DrawColumnWithBrightmap(void)
 {
     int     count = dc_yh - dc_yl + 1;
