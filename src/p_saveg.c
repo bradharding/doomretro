@@ -136,7 +136,7 @@ char *P_SaveGameFile(int slot)
     }
 
     if (slot == AUTOSAVESLOT)
-        M_snprintf(filename, filename_size, "%s" DOOMRETRO_AUTOSAVE, savegamefolder);
+        M_snprintf(filename, filename_size, "%s" DOOMRETRO_AUTOSAVEGAME, savegamefolder);
     else
         M_snprintf(filename, filename_size, "%s" DOOMRETRO_SAVEGAME, savegamefolder, slot - 1);
 

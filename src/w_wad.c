@@ -446,7 +446,7 @@ static void W_MergeID24RESWAD(const char *filename)
 
     for (int i = 0; i < 2 && !path; i++)
     {
-        char    *temp = M_StringJoin(folders[i], DIR_SEPARATOR_S, DOOMRETRO_ID24RESWAD, NULL);
+        char    *temp = M_StringJoin(folders[i], DIR_SEPARATOR_S, "id24res.wad", NULL);
 
         if (M_FileExists(temp))
             path = temp;
@@ -458,7 +458,7 @@ static void W_MergeID24RESWAD(const char *filename)
     free(folders[1]);
 
     if (!path)
-        path = D_FindWADByName(DOOMRETRO_ID24RESWAD);
+        path = D_FindWADByName("id24res.wad");
 
     if (path && W_MergeFile(path, true))
     {

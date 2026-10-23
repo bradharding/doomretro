@@ -1026,7 +1026,7 @@ gamemission_t D_GetGameMissionForExpansion(void)
 
 bool D_IsID24RESWAD(char *filename)
 {
-    return M_StringCompare(leafname(filename), DOOMRETRO_ID24RESWAD);
+    return M_StringCompare(leafname(filename), "id24res.wad");
 }
 
 bool D_IsResourceWAD(char *filename)
