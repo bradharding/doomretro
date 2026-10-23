@@ -51,6 +51,6 @@ void P_AddBonus(mobj_t *special);
 void P_UpdateAmmoStat(const ammotype_t ammotype, const int num);
 void P_UpdateArmorStat(const int num);
 void P_UpdateHealthStat(const int num);
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool telefragged);
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool telefragged, const bool crushed);
 
 extern int  cardsfound;

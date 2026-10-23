@@ -4486,7 +4486,7 @@ static void killfunc2(char *cmd, char *parms)
 
             viewplayer->mo->flags2 |= MF2_MASSACRE;
             massacre = true;
-            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
+            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false, false);
             massacre = false;
 
             if (isdefaultplayername())
@@ -10443,7 +10443,7 @@ static void takefunc2(char *cmd, char *parms)
                         if (viewplayer->health <= 0)
                         {
                             healthcvar = true;
-                            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
+                            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false, false);
                             healthcvar = false;
                         }
 
@@ -12181,7 +12181,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
 
                             if (value <= 0)
                             {
-                                P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
+                                P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false, false);
                                 C_HideConsoleAndMenu();
                             }
                             else
