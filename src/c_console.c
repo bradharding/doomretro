@@ -4724,6 +4724,12 @@ bool C_Responder(event_t *ev)
 }
 
 #if defined(_WIN32)
+#if defined(_UCRT)
+#define MINGWRUNTIME    "UCRT"
+#else
+#define MINGWRUNTIME    "MSVCRT"
+#endif
+
 void C_PrintCompileDate(void)
 {
     char    shortmonthname[4] = "";
@@ -4756,9 +4762,17 @@ void C_PrintCompileDate(void)
 #elif defined(__clang__) && defined(__apple_build_version__)
     C_Output("It was compiled using Apple Clang v%i.%i.%i (build %i).",
         __clang_major__, __clang_minor__, __clang_patchlevel__, __apple_build_version__);
+#elif defined(__clang__) && defined(__MINGW64_VERSION_MAJOR)
+    C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i") " and " ITALICS("MinGW-w64 v%i.%i") " (%s).",
+        __clang_major__, __clang_minor__, __clang_patchlevel__,
+        __MINGW64_VERSION_MAJOR, __MINGW64_VERSION_MINOR, MINGWRUNTIME);
 #elif defined(__clang__)
     C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."),
         __clang_major__, __clang_minor__, __clang_patchlevel__);
+#elif defined(__GNUC__) && defined(__MINGW64_VERSION_MAJOR)
+    C_Output("It was compiled using " ITALICS("GCC v%i.%i.%i") " and " ITALICS("MinGW-w64 v%i.%i") " (%s).",
+        __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__,
+        __MINGW64_VERSION_MAJOR, __MINGW64_VERSION_MINOR, MINGWRUNTIME);
 #elif defined(__GNUC__)
     C_Output("It was compiled using " ITALICS("GCC v%i.%i.%i."),
         __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
