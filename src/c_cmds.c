@@ -1737,7 +1737,7 @@ static void C_ShowWarning(int index)
         C_Warning(0, "It has no effect while the " BOLD("pistolstart") " CCMD is in use.");
 }
 
-static char *C_FormatColorValue(char *string, bool replaceauto)
+static char *C_FormatColorValue(char *string)
 {
     char    output[1024] = "";
     char    *src = string;
@@ -1745,7 +1745,7 @@ static char *C_FormatColorValue(char *string, bool replaceauto)
 
     while (*src)
     {
-        if (replaceauto && M_StringStartsWith(src, "auto"))
+        if (M_StringStartsWith(src, "auto"))
         {
             if ((src == string || !isalnum((unsigned char)src[-1]))
                 && !isalnum((unsigned char)src[4]))
@@ -3213,7 +3213,7 @@ static void cvarlistfunc2(char *cmd, char *parms)
 
                 if (consolecmds[i].flags & CF_COLOR)
                 {
-                    char    *temp2 = C_FormatColorValue(temp1, false);
+                    char    *temp2 = C_FormatColorValue(temp1);
 
                     if (value == consolecmds[i].defaultnumber)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp2, description);
@@ -8981,7 +8981,7 @@ static void resetfunc2(char *cmd, char *parms)
             else if (flags & CF_COLOR)
             {
                 char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                char    *temp2 = C_FormatColorValue(temp1, false);
+                char    *temp2 = C_FormatColorValue(temp1);
 
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
@@ -11170,7 +11170,7 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                char    *temp2 = C_FormatColorValue(temp1, false);
+                                char    *temp2 = C_FormatColorValue(temp1);
 
                                 if (value == (int)consolecmds[i].defaultnumber)
                                     C_Warning(0, CVARSAMEDEFAULTWARNING, consolecmds[i].name, temp2);
@@ -11208,8 +11208,8 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                char    *temp3 = C_FormatColorValue(temp1, false);
-                                char    *temp4 = C_FormatColorValue(temp2, false);
+                                char    *temp3 = C_FormatColorValue(temp1);
+                                char    *temp4 = C_FormatColorValue(temp2);
 
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                                     C_Output(CVARCHANGEDFROMDEFAULT,
@@ -11273,7 +11273,7 @@ static void intfunc2(char *cmd, char *parms)
 
                     if (consolecmds[i].flags & CF_COLOR)
                     {
-                        char    *temp3 = C_FormatColorValue(temp1, false);
+                        char    *temp3 = C_FormatColorValue(temp1);
                         int     *optionscolor = D_GetOptionsColor(cmd);
 
                         if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
@@ -11282,7 +11282,7 @@ static void intfunc2(char *cmd, char *parms)
                         {
                             char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
                                         consolecmds[i].aliases);
-                            char    *temp4 = C_FormatColorValue(temp2, false);
+                            char    *temp4 = C_FormatColorValue(temp2);
 
                             C_Output(CVARWITHDEFAULT, temp3, temp4);
                             free(temp2);
