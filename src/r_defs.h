@@ -1125,6 +1125,7 @@ typedef struct vissprite_s
     fixed_t             tz;
 
     bool                shadow;
+    bool                shadowonly;
     bool                flipped;
     bool                fullbright;
     int                 voxelindex;

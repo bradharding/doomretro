@@ -1415,6 +1415,8 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         topoffset;
     fixed_t         height;
     bool            fullbright;
+    bool            castshadow;
+    bool            shadowonly = false;
 
     if (thing->player && thing->player->mo == thing)
         return;
@@ -1450,10 +1452,16 @@ static void R_ProjectSprite(mobj_t *thing)
     if (tz < MINZ || tz > MAXZ)
         return;
 
+    xscale = FixedDiv(projection, tz);
+    castshadow = ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows);
+
     // too far off the side?
     // [ceski] [JN] Possibly use an extended value (fovtx) and prevent overflows (int64_t).
-    if ((int64_t)(ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) >> fovtx) > ((int64_t)tz << 2))
+    if ((int64_t)(ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) >> fovtx) > ((int64_t)tz << (castshadow ? 6 : 2)))
         return;
+
+    if (castshadow && (int64_t)(ABS(tx) >> fovtx) > ((int64_t)tz << 2))
+        shadowonly = true;
 
     // decide which patch to use for sprite relative to player
     frame = thing->frame;
@@ -1498,12 +1506,16 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 
     gzt = fz + topoffset;
-    xscale = FixedDiv(projection, tz);
 
     // [PN] Pitch-aware: distances from centery to top/bottom screen rows.
-    if (gzt < (int64_t)viewz - FixedDiv((viewheight - centery) << FRACBITS, xscale)
-        || (fz > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale)
-            && !((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)))
+    if (gzt < (int64_t)viewz - FixedDiv((viewheight - centery) << FRACBITS, xscale))
+    {
+        if (!castshadow)
+            return;
+
+        shadowonly = true;
+    }
+    else if (fz > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale) && !castshadow)
         return;
 
     // calculate edges of the shape
@@ -1512,11 +1524,21 @@ static void R_ProjectSprite(mobj_t *thing)
 
     // off the right side?
     if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
-        return;
+    {
+        if (!castshadow)
+            return;
+
+        shadowonly = true;
+    }
 
     // off the left side?
     if ((x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS)) < 0)
-        return;
+    {
+        if (!castshadow)
+            return;
+
+        shadowonly = true;
+    }
 
     // quickly reject sprites with bad x ranges
     if (x1 >= x2)
@@ -1562,7 +1584,8 @@ static void R_ProjectSprite(mobj_t *thing)
 
     vis->tz = tz;
     vis->tx = tx;
-    vis->shadow = ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows);
+    vis->shadow = castshadow;
+    vis->shadowonly = shadowonly;
     vis->drawfunc = &R_DrawVisSprite;
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
     vis->brightmap = (usebrightmaps ? (thing->state->brightmap ? thing->state->brightmap : spritebrightmap[lump]) : NULL);
@@ -2496,7 +2519,12 @@ void R_DrawMasked(void)
         for (int i = num_vissprite - 1; i >= 0; i--)
         {
             const vissprite_t       *spr = vissprite_ptrs[i];
-            const drawsegs_xrange_t *range = &drawsegs_xranges[R_GetDrawSegXRangeIndex(spr->x1, spr->x2)];
+            const drawsegs_xrange_t *range;
+
+            if (spr->shadowonly)
+                continue;
+
+            range = &drawsegs_xranges[R_GetDrawSegXRangeIndex(spr->x1, spr->x2)];
 
             drawsegs_xrange = range->items;
             drawsegs_xrange_count = range->count;
