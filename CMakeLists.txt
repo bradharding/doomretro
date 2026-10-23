@@ -40,6 +40,8 @@ PROJECT(doomretro C)
 INCLUDE(GNUInstallDirs)
 
 OPTION(DOOMRETRO_STATIC "Statically link SDL2 and SDL2_mixer into a single executable (Windows/MinGW)" OFF)
+OPTION(DOOMRETRO_OPTIMIZE "Optimize for speed as much as possible in Release builds (LTO, no errno from math functions, etc.)" OFF)
+SET(DOOMRETRO_MARCH "" CACHE STRING "Target CPU for optimized builds, such as x86-64-v2 or x86-64-v3 (empty for compiler default)")
 
 FILE(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
 FILE(GLOB RESOURCES LIST_DIRECTORIES false ${CMAKE_SOURCE_DIR}/res/*)
@@ -107,6 +109,30 @@ IF (UNIX OR MINGW)
 	CHECK_C_COMPILER_FLAG("-fno-common" HAS_NO_COMMON_FLAG)
 	IF (HAS_NO_COMMON_FLAG)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-common")
+	ENDIF()
+ENDIF()
+
+IF (DOOMRETRO_OPTIMIZE AND CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+	TARGET_COMPILE_OPTIONS(doomretro PRIVATE
+		-O3
+		-fno-math-errno
+		-fno-trapping-math
+		-fno-stack-protector
+		-ffunction-sections
+		-fdata-sections)
+
+	IF (DOOMRETRO_MARCH)
+		TARGET_COMPILE_OPTIONS(doomretro PRIVATE -march=${DOOMRETRO_MARCH})
+	ENDIF()
+
+	IF (NOT APPLE)
+		TARGET_LINK_OPTIONS(doomretro PRIVATE -Wl,--gc-sections)
+	ENDIF()
+
+	INCLUDE(CheckIPOSupported)
+	CHECK_IPO_SUPPORTED(RESULT HAS_IPO OUTPUT IPO_OUTPUT LANGUAGES C)
+	IF (HAS_IPO)
+		SET_PROPERTY(TARGET doomretro PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 	ENDIF()
 ENDIF()
 

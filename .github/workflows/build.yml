@@ -139,7 +139,9 @@ jobs:
         run: |
           cmake -G Ninja -S . -B build-mingw \
                 -DCMAKE_BUILD_TYPE=Release \
-                -DDOOMRETRO_STATIC=ON
+                -DDOOMRETRO_STATIC=ON \
+                -DDOOMRETRO_OPTIMIZE=ON \
+                -DDOOMRETRO_MARCH=x86-64-v2
 
       - name: Build
         run: cmake --build build-mingw

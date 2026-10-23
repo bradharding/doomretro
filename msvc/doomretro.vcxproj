@@ -390,6 +390,7 @@
     <None Include="..\src\Makefile.mingw" />
     <None Include="..\src\Makefile.osx" />
     <None Include="..\xcode\doomretroapp\Info.plist" />
+    <None Include="package-win64-static.ps1" />
     <None Include="package-win64.ps1" />
   </ItemGroup>
   <ItemGroup>

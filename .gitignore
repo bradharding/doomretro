@@ -151,3 +151,4 @@ src/doomretro
 *.db
 *.layout
 *.command
+/msvc/Release/doomretro-mingw-build
