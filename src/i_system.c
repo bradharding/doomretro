@@ -62,8 +62,13 @@
 #if defined(_WIN32)
 #pragma comment(lib, "Dbghelp.lib")
 
+#if !defined(PRODUCT_CORE)
 #define PRODUCT_CORE        0x00000065
+#endif
+
+#if !defined(PRODUCT_EDUCATION)
 #define PRODUCT_EDUCATION   0x00000079
+#endif
 
 typedef long    (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL    (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
