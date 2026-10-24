@@ -2216,7 +2216,7 @@ void M_SetWindowCaption(void)
                         mapnumandtitle, gamedescription, DOOMRETRO_NAME);
             }
             else if ((gamemission == doom2 && !nerve) || gamemission == pack_plut
-                || gamemission == pack_tnt || M_StringEndsWith(gamedescription, ".wad"))
+                || gamemission == pack_tnt || customgamedescription || M_StringEndsWith(gamedescription, ".wad"))
                 M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, DOOMRETRO_NAME);
             else

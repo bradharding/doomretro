@@ -39,6 +39,7 @@
 gamemode_t      gamemode = indetermined;
 gamemission_t   gamemission = doom;
 char            gamedescription[255];
+bool            customgamedescription = false;
 
 bool            sigil = false;
 bool            sigil2 = false;

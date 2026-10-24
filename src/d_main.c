@@ -132,6 +132,20 @@ static char *iwadsrequired[] =
     "doom2.wad"
 };
 
+static char *D_RequiredIWAD(const char *pwad, char *fallback)
+{
+    static char     iwad[MAX_PATH];
+    gameinfo_t      info;
+
+    if (pwad && W_ReadGameInfoFromFile(pwad, &info) && *info.iwad)
+    {
+        M_StringCopy(iwad, leafname(info.iwad), sizeof(iwad));
+        return iwad;
+    }
+
+    return fallback;
+}
+
 // Location where savegames are stored
 char        *savegamefolder;
 
@@ -1566,13 +1580,16 @@ static bool D_CheckParms(void)
         {
             gamemission_t   iwadrequired = IWADRequiredByPWAD(myargv[1]);
             char            fullpath[MAX_PATH];
+            char            *iwadname;
 
             if (iwadrequired == none)
                 iwadrequired = doom2;
 
-            // try the current folder first
-            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder,
+            iwadname = D_RequiredIWAD(myargv[1],
                 (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
+
+            // try the current folder first
+            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadname);
             D_IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
@@ -1606,20 +1623,17 @@ static bool D_CheckParms(void)
             {
                 // otherwise try the wadfolder CVAR
 #if defined(_WIN32) || defined(__OpenBSD__) || defined(__HAIKU__)
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder,
-                    (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadname);
 #else
                 wordexp_t   p;
 
                 if (!wordexp(wadfolder, &p, 0) && p.we_wordc > 0)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", p.we_wordv[0],
-                        (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", p.we_wordv[0], iwadname);
                     wordfree(&p);
                 }
                 else
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder,
-                        (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadname);
 #endif
 
                 D_IdentifyIWADByName(fullpath);
@@ -1653,8 +1667,7 @@ static bool D_CheckParms(void)
                 else
                 {
                     // still nothing? try some common installation folders
-                    if (W_AddFile(D_FindWADByName((M_StringCompare(leafname(myargv[1]), "chex2.wad") ?
-                        "chex.wad" : iwadsrequired[iwadrequired])), true))
+                    if (W_AddFile(D_FindWADByName(iwadname), true))
                     {
                         result = true;
                         D_CheckSupportedPWAD(myargv[1]);
@@ -1961,9 +1974,13 @@ static int D_OpenWADLauncher(void)
             {
                 gamemission_t   iwadrequired = IWADRequiredByPWAD(file);
                 char            fullpath[MAX_PATH];
+                char            *iwadname;
 
                 if (iwadrequired == none)
                     iwadrequired = doom2;
+
+                iwadname = D_RequiredIWAD(file,
+                    (M_StringCompare(leafname(file), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
 
 #if defined(_WIN32)
                 if (!guess)
@@ -1971,8 +1988,7 @@ static int D_OpenWADLauncher(void)
 #endif
 
                 // try the current folder first
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder,
-                    (M_StringCompare(leafname(file), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadname);
                 D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -2025,8 +2041,7 @@ static int D_OpenWADLauncher(void)
                 else
                 {
                     // otherwise try the wadfolder CVAR
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder,
-                        (M_StringCompare(leafname(file), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadname);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -2076,7 +2091,7 @@ static int D_OpenWADLauncher(void)
                     else
                     {
                         // still nothing? try some common installation folders
-                        if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
+                        if (W_AddFile(D_FindWADByName(iwadname), true))
                         {
                             iwadfound = 1;
                             wadfolder = M_StringDuplicate(folder);
@@ -2273,14 +2288,17 @@ static int D_OpenWADLauncher(void)
                     if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDEHFile(fullpath))
                     {
                         gamemission_t   iwadrequired = IWADRequiredByPWAD(fullpath);
+                        char            *iwadname = D_RequiredIWAD(fullpath, NULL);
 
-                        if (iwadrequired != none)
+                        if (!iwadname && iwadrequired != none)
+                            iwadname = iwadsrequired[iwadrequired];
+
+                        if (iwadname)
                         {
                             char    fullpath2[MAX_PATH];
 
                             // try the current folder first
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s",
-                                szFile, iwadsrequired[iwadrequired]);
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", szFile, iwadname);
                             D_IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
@@ -2291,8 +2309,7 @@ static int D_OpenWADLauncher(void)
                             else
                             {
                                 // otherwise try the wadfolder CVAR
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", wadfolder,
-                                    iwadsrequired[iwadrequired]);
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadname);
                                 D_IdentifyIWADByName(fullpath2);
 
                                 if (W_AddFile(fullpath2, true))
@@ -2300,7 +2317,7 @@ static int D_OpenWADLauncher(void)
                                 else
                                 {
                                     // still nothing? try some common installation folders
-                                    if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
+                                    if (W_AddFile(D_FindWADByName(iwadname), true))
                                         iwadfound = 1;
                                 }
                             }
@@ -2780,13 +2797,15 @@ static void D_DoomMainSetup(void)
                     gamemission_t   iwadrequired = IWADRequiredByPWAD(file);
                     char            fullpath[MAX_PATH];
                     char            *folder = M_ExtractFolder(file);
+                    char            *iwadname;
 
                     if (iwadrequired == none)
                         iwadrequired = doom2;
 
+                    iwadname = D_RequiredIWAD(file, iwadsrequired[iwadrequired]);
+
                     // try the current folder first
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s",
-                        folder, iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadname);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -2817,8 +2836,7 @@ static void D_DoomMainSetup(void)
                     else
                     {
                         // otherwise try the wadfolder CVAR
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s",
-                            wadfolder, iwadsrequired[iwadrequired]);
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadname);
                         D_IdentifyIWADByName(fullpath);
 
                         if (W_AddFile(fullpath, true))
@@ -2848,7 +2866,7 @@ static void D_DoomMainSetup(void)
                         else
                         {
                             // still nothing? try some common installation folders
-                            if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
+                            if (W_AddFile(D_FindWADByName(iwadname), true))
                             {
                                 iwadfile = M_StringDuplicate(fullpath);
                                 D_CheckSupportedPWAD(file);

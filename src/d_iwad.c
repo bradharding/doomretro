@@ -1059,6 +1059,17 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
+    gameinfo_t  info;
+
+    customgamedescription = false;
+
+    if (W_ReadLoadedGameInfo(&info) && *info.startuptitle)
+    {
+        M_StringCopy(gamedescription, info.startuptitle, sizeof(gamedescription));
+        customgamedescription = true;
+        return;
+    }
+
     SC_Open(W_CheckNumForName("DRCOMPAT"));
 
     while (SC_GetString())

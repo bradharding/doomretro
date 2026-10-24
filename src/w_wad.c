@@ -1126,6 +1126,180 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 }
 
 //
+// GAMEINFO
+//
+
+//
+// W_GameInfoToken
+//
+static bool W_GameInfoToken(const char **position, const char *end, char *token, const size_t size, bool *quoted)
+{
+    const char  *s = *position;
+    size_t      len = 0;
+
+    *quoted = false;
+
+    while (s < end)
+    {
+        if (isspace((unsigned char)*s))
+            s++;
+        else if (s + 1 < end && s[0] == '/' && s[1] == '/')
+        {
+            while (s < end && *s != '\n')
+                s++;
+        }
+        else if (s + 1 < end && s[0] == '/' && s[1] == '*')
+        {
+            for (s += 2; s + 1 < end && !(s[0] == '*' && s[1] == '/'); s++);
+
+            s = (s + 1 < end ? s + 2 : end);
+        }
+        else
+            break;
+    }
+
+    if (s >= end)
+    {
+        *position = s;
+        return false;
+    }
+
+    if (*s == '"')
+    {
+        *quoted = true;
+
+        for (s++; s < end && *s != '"'; s++)
+            if (len < size - 1)
+                token[len++] = (*s == '\\' && s + 1 < end && s[1] == '"' ? *++s : *s);
+
+        if (s < end)
+            s++;
+    }
+    else if (*s == '=' || *s == ',')
+        token[len++] = *s++;
+    else
+        for (; s < end && !isspace((unsigned char)*s) && *s != '=' && *s != ',' && *s != '"'; s++)
+            if (len < size - 1)
+                token[len++] = *s;
+
+    token[len] = '\0';
+    *position = s;
+
+    return true;
+}
+
+//
+// W_ParseGameInfo
+//
+static void W_ParseGameInfo(const char *text, const size_t length, gameinfo_t *info)
+{
+    const char  *position = text;
+    const char  *end = text + length;
+    char        token[MAX_PATH];
+    bool        quoted;
+
+    memset(info, 0, sizeof(*info));
+
+    while (W_GameInfoToken(&position, end, token, sizeof(token), &quoted))
+    {
+        const bool  iwad = (!quoted && M_StringCompare(token, "iwad"));
+        const bool  title = (!quoted && M_StringCompare(token, "startuptitle"));
+
+        if (!iwad && !title)
+            continue;
+
+        if (!W_GameInfoToken(&position, end, token, sizeof(token), &quoted) || quoted || strcmp(token, "="))
+            continue;
+
+        if (!W_GameInfoToken(&position, end, token, sizeof(token), &quoted))
+            break;
+
+        if (iwad)
+        {
+            M_StringCopy(info->iwad, token, sizeof(info->iwad));
+
+            if (*info->iwad && !M_StringEndsWith(info->iwad, ".wad"))
+                M_StringCopy(info->iwad + strlen(info->iwad), ".wad", sizeof(info->iwad) - strlen(info->iwad));
+        }
+        else
+            M_StringCopy(info->startuptitle, token, sizeof(info->startuptitle));
+    }
+}
+
+//
+// W_ReadGameInfoFromFile
+//
+bool W_ReadGameInfoFromFile(const char *filename, gameinfo_t *info)
+{
+    FILE    *fp;
+    bool    result = false;
+
+    memset(info, 0, sizeof(*info));
+
+    if (M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip")
+        || M_StringEndsWith(filename, ".lmp"))
+        return false;
+
+    if (!(fp = fopen(filename, "rb")))
+        return false;
+    else
+    {
+        wadinfo_t   header;
+
+        if (fread(&header, 1, sizeof(header), fp) == sizeof(header)
+            && (!strncmp(header.id, "IWAD", 4) || !strncmp(header.id, "PWAD", 4)))
+        {
+            filelump_t  lump = { 0 };
+
+            fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
+
+            for (int i = LITTLELONG(header.numlumps); i > 0 && fread(&lump, sizeof(lump), 1, fp); i--)
+                if (!strncasecmp(lump.name, "GAMEINFO", 8))
+                {
+                    const int   size = LITTLELONG(lump.size);
+
+                    if (size > 0 && size <= 65536)
+                    {
+                        char    *text = I_Malloc(size);
+
+                        if (!fseek(fp, LITTLELONG(lump.filepos), SEEK_SET)
+                            && fread(text, 1, size, fp) == (size_t)size)
+                        {
+                            W_ParseGameInfo(text, size, info);
+                            result = true;
+                        }
+
+                        free(text);
+                    }
+
+                    break;
+                }
+        }
+    }
+
+    fclose(fp);
+    return result;
+}
+
+//
+// W_ReadLoadedGameInfo
+//
+bool W_ReadLoadedGameInfo(gameinfo_t *info)
+{
+    memset(info, 0, sizeof(*info));
+
+    for (int i = numlumps - 1; i >= 0; i--)
+        if (!strncasecmp(lumpinfo[i]->name, "GAMEINFO", 8) && lumpinfo[i]->size > 0)
+        {
+            W_ParseGameInfo(W_CacheLumpNum(i), lumpinfo[i]->size, info);
+            W_ReleaseLumpNum(i);
+            return true;
+        }
+
+    return false;
+}
+
+//
 // W_WadType
 // Returns IWAD, PWAD or 0.
 //

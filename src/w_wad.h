@@ -84,6 +84,12 @@ typedef struct
     wadfile_t   *wadfile;
 } lumpinfo_t;
 
+typedef struct
+{
+    char        iwad[MAX_PATH];
+    char        startuptitle[255];
+} gameinfo_t;
+
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
 extern int          numvoxels;
@@ -141,3 +147,6 @@ bool W_NoPWADsLoaded(void);
 bool PWADHasMaps(char *pwadname);
 gamemission_t IWADRequiredByPWAD(char *pwadname);
 bool HasDehackedLump(const char *pwadname);
+
+bool W_ReadGameInfoFromFile(const char *filename, gameinfo_t *info);
+bool W_ReadLoadedGameInfo(gameinfo_t *info);
