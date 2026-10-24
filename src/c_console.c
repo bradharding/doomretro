@@ -4054,21 +4054,32 @@ bool C_Responder(event_t *ev)
 
             case KEY_TAB:
                 // autocomplete
-                if (consoleinput[0] != '\0' && caretpos == len)
+                if (consoleinput[0] != '\0' && caretpos > 0
+                    && (caretpos == len || !isalnum((unsigned char)consoleinput[caretpos])))
                 {
                     char    buffer[255];
+                    char    rest[255];
+                    char    *tail = rest;
                     int     newcaret;
 
-                    M_StringCopy(buffer, consoleinput, sizeof(buffer));
+                    M_StringCopy(buffer, consoleinput, MIN((size_t)caretpos + 1, sizeof(buffer)));
+                    M_StringCopy(rest, consoleinput + caretpos, sizeof(rest));
 
                     if (C_Autocomplete(buffer, sizeof(buffer), &newcaret, (modstate & KMOD_SHIFT)))
                     {
-                        C_AddToUndoHistory();
-                        M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
-                        caretpos = selectstart = selectend = newcaret;
-                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                        showcaret = true;
-                        return true;
+                        if (newcaret > 0 && buffer[newcaret - 1] == ' ' && *tail == ' ')
+                            tail++;
+
+                        if (newcaret + strlen(tail) < sizeof(consoleinput))
+                        {
+                            C_AddToUndoHistory();
+                            M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
+                            M_StringCopy(consoleinput + newcaret, tail, sizeof(consoleinput) - newcaret);
+                            caretpos = selectstart = selectend = newcaret;
+                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                            showcaret = true;
+                            return true;
+                        }
                     }
                 }
 
