@@ -433,6 +433,7 @@ static void AddCommandNames(void)
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CCMD || consolecmds[i].type == CT_CVAR)
             AddCandidate(CmdName(&consolecmds[i]), 0, false, consolecmds[i].parameters
+                && !(consolecmds[i].flags & CF_READONLY)
                 && !(consolecmds[i].format[0] == '[' && consolecmds[i].format[1] != '['));
 
     AddAliasNames();
