@@ -49,6 +49,7 @@
 #include "i_timer.h"
 #include "i_video.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "p_setup.h"
 #include "version.h"
@@ -123,8 +124,12 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize,
     {
         if (paused)
             M_StringCopy(details, "Paused", detailssize);
-        else if (menuactive || consoleactive)
+        else if (helpscreen)
+            M_StringCopy(details, "On help screen", detailssize);
+        else if (menuactive)
             M_StringCopy(details, "In menu", detailssize);
+        else if (consoleactive)
+            M_StringCopy(details, "In console", detailssize);
         else if (!windowfocused)
             M_StringCopy(details, "In background", detailssize);
         else
