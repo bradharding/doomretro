@@ -35,6 +35,7 @@
 
 #include <ctype.h>
 #include <limits.h>
+#include <math.h>
 
 #if defined(_WIN32)
 #include <Windows.h>
@@ -1689,6 +1690,33 @@ void C_DrawConsoleEdge(int y)
     }
 }
 
+#define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 36 : 0)
+
+static const int   brandedge[] = { 22, 19, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 3, 0, -18 };
+
+static int C_BrandDistance(const int gx, const int gy, int *vx, int *vy)
+{
+    int best = 325;
+
+    if (gx < -18 || gy < -18 || (gy >= 0 && gy < 17 && gx >= brandedge[gy]))
+        return 0;
+
+    for (int row = MAX(0, gy - 18); row < 18 && row <= gy + 18; row++)
+    {
+        const int   dx = MAX(0, brandedge[row] - gx);
+        const int   dy = row - gy;
+
+        if (dx * dx + dy * dy < best)
+        {
+            best = dx * dx + dy * dy;
+            *vx = dx;
+            *vy = dy;
+        }
+    }
+
+    return (best < 325 ? MAX(1, (int)(sqrtf((float)best) + 0.5f)) : 0);
+}
+
 static void C_DrawBackground(void)
 {
     const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
@@ -1697,12 +1725,16 @@ static void C_DrawBackground(void)
     static byte         noise[MAXSCREENAREA + 1];
     static int          noisecount;
     static unsigned int noiseseed = 666;
-    static const int    refraction[4] = { 3, 1, -1, -3 };
-    static const int    shading[4] = { -1, 2, 4, 7 };
+    static int          lensx[MAXWIDTH];
     static const int    dither[4] = { 0, 2, 3, 1 };
+    static const int    bayer[16] = { 0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5 };
+    static const int    grain[8] = { 0, 0, 0, 0, 1, 1, 2, 3 };
     const byte          *backcolor = (inverted ? consolebackcolor2 : consolebackcolor1);
-    const byte          *highlight = &tinttab5[nearestwhite << 8];
-    const int           glassheight = height - 3 * SCREENWIDTH;
+    const int           glassrows = consoleheight + 2;
+    const int           brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
+    const int           brandtop = consoleheight - brandheight + 2;
+    const int           white = nearestwhite << 8;
+    const byte          *rim[6] = { &tinttab10[white], &tinttab10[white], &tinttab5[white], &tinttab5[white], &tinttab4[white], &tinttab4[white] };
 
     for (; noisecount <= height && noisecount <= MAXSCREENAREA; noisecount++)
         noise[noisecount] = (byte)(((noiseseed = 214013 * noiseseed + 2531011) >> 16) & 7);
@@ -1741,42 +1773,49 @@ static void C_DrawBackground(void)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
-    // tint background
-    if (inverted)
-        for (int i = 0; i < height; i++)
-            screens[0][i] = consolebackcolor2[blurscreen[i]];
-    else
-        for (int i = 0; i < height; i++)
-            screens[0][i] = consolebackcolor1[blurscreen[i]];
+    for (int x = 0; x < SCREENWIDTH; x++)
+        lensx[x] = LENSOFFSET(x) - LENSOFFSET(SCREENWIDTH - 1 - x);
 
-    // apply corrugated glass effect to background
-    for (int y = 0, row = 0; y < height; y += SCREENWIDTH, row++)
+    // apply liquid glass effect to background
+    for (int row = 0; row < consoleheight + 5; row++)
     {
-        byte        *dest = &screens[0][y];
-        byte        *src = &blurscreen[y];
-        const int   gradient = row * 12 / SCREENHEIGHT;
+        byte    *dest = &screens[0][row * SCREENWIDTH];
 
-        if (y >= glassheight)
-        {
+        if (row >= glassrows)
             for (int x = 0; x < SCREENWIDTH; x++)
-                dest[x] = backcolor[src[x]];
-
-            continue;
-        }
-
-        for (int x = 0; x < SCREENWIDTH; x++)
+                dest[x] = colormaps[0][3 * 256 + backcolor[blurscreen[row * SCREENWIDTH + x]]];
+        else
         {
-            const int   phase = (x + row - consoleheight) & 3;
-            const int   sx = BETWEEN(0, x + refraction[phase], SCREENWIDTH - 1);
-            byte        color = backcolor[src[sx]];
-            int         shade = (gradient >> 2) + ((gradient & 3) > dither[(x & 1) | ((row & 1) << 1)]);
+            const int   fromedge = glassrows - 1 - row;
+            const int   rowsy = row - LENSOFFSET(fromedge);
+            const int   gradient = row * 12 / SCREENHEIGHT;
+            const byte  *grains = &noise[row * SCREENWIDTH];
 
-            if (shading[phase] < 0)
-                color = highlight[color];
-            else
-                shade += shading[phase];
+            for (int x = 0; x < SCREENWIDTH; x++)
+            {
+                int         ox = lensx[x];
+                int         oy = 0;
+                int         vx = 0;
+                int         vy = 0;
+                int         rimedge = 99;
+                const int   dist = C_BrandDistance(x - brandx, row - brandtop, &vx, &vy);
+                const int   shade = grain[grains[x]] + (gradient >> 2) + ((gradient & 3) > dither[(x & 1) | ((row & 1) << 1)]) + 3;
+                byte        color;
+                int         level;
 
-            dest[x] = (shade ? colormaps[0][MIN(shade, 31) * 256 + color] : color);
+                if (dist)
+                {
+                    ox -= LENSOFFSET(dist - 1) * vx / dist;
+                    oy = LENSOFFSET(dist - 1) * vy / dist;
+                    rimedge = dist - 1 + (ABS(vx) > ABS(vy) ? 2 : 0);
+                }
+
+                color = colormaps[0][MIN(shade, 31) * 256 + backcolor[blurscreen[BETWEEN(0, rowsy - oy, glassrows - 1) * SCREENWIDTH
+                    + BETWEEN(0, x + ox, SCREENWIDTH - 1)]]];
+                level = MAX(0, MIN(MIN(MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2, fromedge), rimedge)
+                    + (bayer[(x & 3) | ((row & 3) << 2)] >> 2) - 1);
+                dest[x] = (level < 6 ? rim[level][color] : color);
+            }
         }
     }
 
@@ -1833,9 +1872,20 @@ static void C_DrawBackground(void)
             screens[0][i] = consolebevelcolor1[screens[0][i]];
 
     // draw shadow
-    for (int i = SCREENWIDTH; i <= 4 * SCREENWIDTH; i += SCREENWIDTH)
-        for (int j = height; j < height + i && j < SCREENAREA; j++)
-            screens[0][j] = colormaps[0][4 * 256 + screens[0][j]];
+    for (int r = 0; r < 7 && height + (r + 1) * SCREENWIDTH <= SCREENAREA; r++)
+    {
+        byte        *dest = &screens[0][height + r * SCREENWIDTH];
+        const int   darkness = 16 * 16 * (7 - r) * (7 - r) / (7 * 7);
+        const int   y = (height / SCREENWIDTH + r) & 3;
+
+        for (int x = 0; x < SCREENWIDTH; x++)
+        {
+            const int   shade = (darkness >> 4) + ((darkness & 15) > bayer[(x & 3) | (y << 2)]);
+
+            if (shade)
+                dest[x] = colormaps[0][shade * 256 + dest[x]];
+        }
+    }
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
