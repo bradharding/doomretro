@@ -105,14 +105,15 @@ typedef enum
     MOBJS_SPAWN
 } mobjfilter_t;
 
-static candidate_t      *candidates;
-static int              numcandidates;
-static int              maxcandidates;
+static candidate_t          *candidates;
+static int                  numcandidates;
+static int                  maxcandidates;
 
-static char             partialtext[WORDLEN];
-static bool             sortalphabetically;
+static char                 partialtext[WORDLEN];
+static bool                 sortalphabetically;
 static const consolecmd_t   *valuecvar;
-static bool             morevalues;
+static const consolecmd_t   *cyclecvar;
+static bool                 morevalues;
 
 static struct
 {
@@ -576,6 +577,9 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
     sortalphabetically = false;
     valuecvar = (direct ? cvar : NULL);
     morevalues = more;
+
+    if (direct)
+        cyclecvar = cvar;
 
     if (M_StringCompare(cvar->name, "ammo"))
     {
@@ -1504,6 +1508,39 @@ static bool BuildOutput(const int index, char *output, const size_t size)
     return true;
 }
 
+static void Resolve(const parse_t *parse, const char *partial)
+{
+    M_StringCopy(partialtext, partial, sizeof(partialtext));
+    numcandidates = 0;
+    sortalphabetically = true;
+    valuecvar = NULL;
+    morevalues = false;
+    cyclecvar = NULL;
+
+    ResolveCommand((const char (*)[WORDLEN])parse->cmd.word, parse->cmd.count);
+}
+
+static bool SameValue(const consolecmd_t *cvar, const char *a, const char *b)
+{
+    const int   type = (cvar->variable == &r_gamma ? GAMMAVALUEALIAS : cvar->aliases);
+
+    if (M_StringCompare(a, b))
+        return true;
+
+    for (int i = 0; *valuealiases[i].text; i++)
+        if (valuealiases[i].type == type && M_StringCompare(valuealiases[i].text, a))
+        {
+            for (int j = 0; *valuealiases[j].text; j++)
+                if (valuealiases[j].type == type && valuealiases[j].value == valuealiases[i].value
+                    && M_StringCompare(valuealiases[j].text, b))
+                    return true;
+
+            break;
+        }
+
+    return false;
+}
+
 bool C_Autocomplete(char *input, const size_t size, int *caret, const bool reverse)
 {
     char    output[255];
@@ -1522,13 +1559,21 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
         if (!Parse(input, &parse))
             return false;
 
-        M_StringCopy(partialtext, parse.partial, sizeof(partialtext));
-        numcandidates = 0;
-        sortalphabetically = true;
-        valuecvar = NULL;
-        morevalues = false;
+        char                typed[WORDLEN];
+        const consolecmd_t  *cvar;
+        bool                cycle;
 
-        ResolveCommand((const char (*)[WORDLEN])parse.cmd.word, parse.cmd.count);
+        M_StringCopy(typed, parse.partial, sizeof(typed));
+        Resolve(&parse, parse.partial);
+
+        cvar = cyclecvar;
+        cycle = (*typed && cvar && numcandidates == 1 && M_StringCompare(candidates[0].text, typed));
+
+        if (cycle)
+        {
+            parse.partial[0] = '\0';
+            Resolve(&parse, "");
+        }
 
         if (!numcandidates)
             return false;
@@ -1540,16 +1585,26 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
         session.partialstart = parse.partialstart;
         session.index = (reverse ? numcandidates - 1 : 0);
 
-        for (int i = 0; i < numcandidates; i++)
+        if (cycle)
         {
-            const int   index = (reverse ? numcandidates - 1 - i : i);
-
-            if (!candidates[index].skipfirst)
-            {
-                session.index = index;
-                break;
-            }
+            for (int i = 0; i < numcandidates; i++)
+                if (SameValue(cvar, candidates[i].text, typed))
+                {
+                    session.index = (i + (reverse ? numcandidates - 1 : 1)) % numcandidates;
+                    break;
+                }
         }
+        else
+            for (int i = 0; i < numcandidates; i++)
+            {
+                const int   index = (reverse ? numcandidates - 1 - i : i);
+
+                if (!candidates[index].skipfirst)
+                {
+                    session.index = index;
+                    break;
+                }
+            }
     }
 
     if (!BuildOutput(session.index, output, sizeof(output)) || !strcmp(output, input))
