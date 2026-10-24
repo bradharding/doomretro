@@ -97,6 +97,7 @@ extern byte *tinttab90;
 
 extern byte *tranmap;
 extern byte *tinttabadditive;
+extern byte *tinttabsubtractive;
 extern byte *tinttabred;
 extern byte *tinttabredwhite1;
 extern byte *tinttabredwhite2;

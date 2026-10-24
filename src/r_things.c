@@ -500,7 +500,8 @@ static inline byte *R_ApplyVisSpriteTranmap(const vissprite_t *vis)
             colfunc = tl50bmapsegcolfunc;
         else if (colfunc == &R_DrawSolidColorColumn || colfunc == &R_DrawTranslucent50SolidColorColumn)
             colfunc = &R_DrawTranslucent50SolidColorColumn;
-        else if (colfunc != translatedcolfunc && colfunc != bloodcolfunc)
+        else if (colfunc != translatedcolfunc && colfunc != bloodcolfunc
+            && colfunc != &R_DrawSubtractiveSolidColorColumn)
             colfunc = tl50colfunc;
     }
 
@@ -2050,7 +2051,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
     if (invisibility)
     {
-        vis->colfunc = (r_textures ? psprcolfunc : &R_DrawTranslucent50SolidColorColumn);
+        vis->colfunc = (r_textures ? psprcolfunc : &R_DrawSubtractiveSolidColorColumn);
         vis->colormap = NULL;
         vis->sectorcolormap = nocolormap;
     }

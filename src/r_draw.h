@@ -106,6 +106,7 @@ void R_DrawDitheredTranslucent50ColumnWithBrightmap(void);
 void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void);
 void R_DrawCorrectedTranslucent50Column(void);
 void R_DrawTranslucent50SolidColorColumn(void);
+void R_DrawSubtractiveSolidColorColumn(void);
 void R_DrawLowResDitheredTranslucent50SolidColorColumn(void);
 void R_DrawDitheredTranslucent50SolidColorColumn(void);
 void R_DrawTranslucentRedSolidColorColumn(void);

@@ -599,8 +599,8 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
         }
         else if (r_sprites_translucency)
         {
-            mobj->colfunc = &R_DrawTranslucent50SolidColorColumn;
-            mobj->altcolfunc = &R_DrawTranslucent50SolidColorColumn;
+            mobj->colfunc = &R_DrawSubtractiveSolidColorColumn;
+            mobj->altcolfunc = &R_DrawSubtractiveSolidColorColumn;
         }
         else
         {
@@ -987,6 +987,7 @@ void R_InitColumnFunctions(void)
     }
 
     R_AddColumnTint(bloodcolfunc, tinttab33);
+    R_AddColumnTint(&R_DrawSubtractiveSolidColorColumn, tinttabsubtractive);
 
     for (mobjtype_t i = 0; i < nummobjtypes; i++)
     {
@@ -1003,8 +1004,8 @@ void R_InitColumnFunctions(void)
             }
             else if (r_sprites_translucency)
             {
-                info->colfunc = &R_DrawTranslucent50SolidColorColumn;
-                info->altcolfunc = &R_DrawTranslucent50SolidColorColumn;
+                info->colfunc = &R_DrawSubtractiveSolidColorColumn;
+                info->altcolfunc = &R_DrawSubtractiveSolidColorColumn;
             }
             else
             {

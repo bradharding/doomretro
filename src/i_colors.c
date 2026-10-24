@@ -92,6 +92,7 @@ byte        *tinttab90;
 byte        *tranmap;
 
 byte        *tinttabadditive;
+byte        *tinttabsubtractive;
 byte        *tinttabred;
 byte        *tinttabredwhite1;
 byte        *tinttabredwhite2;
@@ -381,6 +382,25 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
     return result;
 }
 
+static byte *GenerateSubtractiveTintTable(byte *palette, const int amount)
+{
+    byte    *result = I_Malloc(256 * 256 * sizeof(*result));
+
+    for (int background = 0; background < 256; background++)
+    {
+        const byte  *color = &palette[background * 3];
+        const byte  r = MAX(color[0] - amount, 0);
+        const byte  g = MAX(color[1] - amount, 0);
+        const byte  b = MAX(color[2] - amount, 0);
+        const byte  nearest = I_GetNearestColor(palette, r, g, b);
+
+        for (int foreground = 0; foreground < 256; foreground++)
+            result[(background << 8) + foreground] = nearest;
+    }
+
+    return result;
+}
+
 void I_InitTintTables(byte *palette)
 {
     const int   lump = W_CheckNumForName("TRANMAP");
@@ -406,6 +426,7 @@ void I_InitTintTables(byte *palette)
     tranmap = (lump != -1 ? W_CacheLumpNum(lump) : tinttab50);
 
     tinttabadditive = GenerateAdditiveTintTable(palette, ALL);
+    tinttabsubtractive = GenerateSubtractiveTintTable(palette, 64);
     tinttabred = GenerateAdditiveTintTable(palette, REDS);
     tinttabredwhite1 = GenerateAdditiveTintTable(palette, (REDS | WHITES));
     tinttabredwhite2 = GenerateAdditiveTintTable(palette, (REDS | WHITES | EXTRAS));

@@ -1020,6 +1020,20 @@ void R_DrawTranslucent50SolidColorColumn(void)
     *dest = dc_sectorcolormap[tranmap[color + *dest]];
 }
 
+void R_DrawSubtractiveSolidColorColumn(void)
+{
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
+
+    while (--count)
+    {
+        *dest = tinttabsubtractive[*dest << 8];
+        dest += SCREENWIDTH;
+    }
+
+    *dest = tinttabsubtractive[*dest << 8];
+}
+
 void R_DrawLowResDitheredTranslucent50SolidColorColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
