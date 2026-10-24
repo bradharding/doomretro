@@ -1516,7 +1516,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
         shadowonly = true;
     }
-    else if (fz > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale) && !castshadow)
+    else if (MIN(fz, gzt - height) > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale) && !castshadow)
         return;
 
     // calculate edges of the shape
