@@ -9801,9 +9801,9 @@ static void savefunc2(char *cmd, char *parms)
     if (strlen(parms) == 1 && parms[0] >= '1' && parms[0] <= '8')
     {
         M_snprintf(buffer, sizeof(buffer), "%s" DOOMRETRO_SAVEGAME, savegamefolder, parms[0] - '1');
-        G_SaveGame(parms[0] - '1', maptitle, buffer);
+        G_SaveGame(parms[0] - '0', maptitle, buffer);
     }
-    else
+    else if (!M_StringCompare(parms, DOOMRETRO_AUTOSAVEGAME))
     {
         M_snprintf(buffer, sizeof(buffer), "%s%s%s",
             (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder),
