@@ -11193,7 +11193,7 @@ static void intfunc2(char *cmd, char *parms)
                     {
                         char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                        if (!resettingcvar && !togglingvanilla)
+                        if (!resettingcvar && !togglingvanilla && !togglingcvar)
                         {
                             if (consolecmds[i].flags & CF_PERCENT)
                             {
