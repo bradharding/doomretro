@@ -3526,7 +3526,7 @@ void C_ExecuteInputString(const char *input)
 
     while (strings[j])
     {
-        if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
+        if (!C_ExecuteInput(trimleadingwhitespace(strings[j])))
             break;
 
         if (M_StringStartsWith(strings[j], "toggle"))
@@ -3541,7 +3541,74 @@ void C_ExecuteInputString(const char *input)
     free(string);
 }
 
-bool C_ValidateInput(char *input)
+bool C_ValidateInput(const char *input)
+{
+    const int   length = (int)strlen(input);
+
+    for (int i = 0; *consolecmds[i].name; i++)
+    {
+        char    cmd[128] = "";
+
+        if (consolecmds[i].type == CT_CHEAT)
+        {
+            if (consolecmds[i].parameters)
+            {
+                if (length >= 2 && isdigit((int)input[length - 2]) && isdigit((int)input[length - 1]))
+                {
+                    char    cheatparm[3] = { input[length - 2], input[length - 1], '\0' };
+
+                    M_StringCopy(cmd, input, sizeof(cmd));
+                    cmd[length - 2] = '\0';
+
+                    if (M_StringCompare(cmd, consolecmds[i].name)
+                        && length == strlen(cmd) + 2
+                        && consolecmds[i].func1(consolecmds[i].name, cheatparm))
+                        return true;
+                }
+            }
+            else if (M_StringCompare(input, consolecmds[i].name)
+                && consolecmds[i].func1(consolecmds[i].name, ""))
+                return true;
+        }
+        else
+        {
+            char    parms[255] = "";
+
+            if (sscanf(input, "%127s %254[^\n]", cmd, parms) > 0)
+            {
+                char            *temp = M_StringDuplicate(parms);
+                const size_t    parmslength = strlen(temp);
+                bool            valid;
+
+                if (!(parmslength == 2 && temp[0] == '"' && temp[1] == '"')
+                    && !M_StringCompare(consolecmds[i].name, "print"))
+                    M_StripQuotes(temp);
+
+                valid = ((M_StringCompare(cmd, consolecmds[i].name)
+                    || M_StringCompare(cmd, consolecmds[i].altspelling)
+                    || M_StringCompare(cmd, consolecmds[i].alternate))
+                    && consolecmds[i].func1(consolecmds[i].name, temp)
+                    && (consolecmds[i].parameters || !*temp));
+
+                free(temp);
+
+                if (valid)
+                    return true;
+            }
+        }
+    }
+
+    if (C_AliasExists(input))
+        return true;
+
+    for (int i = 0; *actions[i].action; i++)
+        if (M_StringCompare(input, actions[i].action))
+            return true;
+
+    return false;
+}
+
+bool C_ExecuteInput(char *input)
 {
     const int   length = (int)strlen(input);
 
@@ -3799,7 +3866,7 @@ bool C_Responder(event_t *ev)
                         || M_StringStartsWith(consoleinput, "unbind ")
                         || M_StringStartsWith(consoleinput, "alias "))
                     {
-                        if (C_ValidateInput(consoleinput))
+                        if (C_ExecuteInput(consoleinput))
                             result = true;
                     }
                     else
@@ -3814,7 +3881,7 @@ bool C_Responder(event_t *ev)
                         {
                             char    *temp = trimleadingwhitespace(strings[i]);
 
-                            if (C_ValidateInput(temp))
+                            if (C_ExecuteInput(temp))
                                 result = true;
 
                             strings[++i] = strtok(NULL, ";");

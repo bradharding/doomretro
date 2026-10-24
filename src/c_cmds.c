@@ -2038,6 +2038,16 @@ static bool nullfunc1(char *cmd, char *parms)
 //
 // alias CCMD
 //
+bool C_AliasExists(const char *alias)
+{
+    if (!executingalias)
+        for (int i = 0; i < MAXALIASES; i++)
+            if (M_StringCompare(alias, aliases[i].name))
+                return true;
+
+    return false;
+}
+
 bool C_ExecuteAlias(const char *alias)
 {
     if (!executingalias)
@@ -2053,7 +2063,7 @@ bool C_ExecuteAlias(const char *alias)
 
                 while (strings[j])
                 {
-                    if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
+                    if (!C_ExecuteInput(trimleadingwhitespace(strings[j])))
                         break;
 
                     strings[++j] = strtok(NULL, ";");
@@ -3392,7 +3402,7 @@ void execfunc2(char *cmd, char *parms)
             if (strparm[0] == ';')
                 continue;
 
-            if (C_ValidateInput(strparm))
+            if (C_ExecuteInput(strparm))
                 linecount++;
         }
 
@@ -4073,7 +4083,7 @@ static void runcommands(char *commands)
         if (end)
             *end = '\0';
 
-        if (!C_ValidateInput(trimleadingwhitespace(command)))
+        if (!C_ExecuteInput(trimleadingwhitespace(command)))
             break;
 
         command = (end ? end + 1 : NULL);
@@ -8967,7 +8977,7 @@ static void resetfunc2(char *cmd, char *parms)
                     char    *temp2 = uncommify(temp1);
                     char    *temp3 = M_StringJoin(name, " ", temp2, NULL);
 
-                    C_ValidateInput(temp3);
+                    C_ExecuteInput(temp3);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default of " BOLD("%s") ".",
                         name, temp1);
                     free(temp2);
@@ -8987,7 +8997,7 @@ static void resetfunc2(char *cmd, char *parms)
                 {
                     char    *temp3 = M_StringJoin(name, " ", temp2, NULL);
 
-                    C_ValidateInput(temp3);
+                    C_ExecuteInput(temp3);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default of %s.",
                         name, temp1);
 
@@ -9011,7 +9021,7 @@ static void resetfunc2(char *cmd, char *parms)
                     char    *temp2 = uncommify(temp1);
                     char    *temp3 = M_StringJoin(name, " ", temp2, NULL);
 
-                    C_ValidateInput(temp3);
+                    C_ExecuteInput(temp3);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default of " BOLD("%s%%") ".",
                         name, temp1);
                     free(temp2);
@@ -9031,7 +9041,7 @@ static void resetfunc2(char *cmd, char *parms)
                     char    *temp2 = uncommify(temp1);
                     char    *temp3 = M_StringJoin(name, " ", temp2, NULL);
 
-                    C_ValidateInput(temp3);
+                    C_ExecuteInput(temp3);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default of " BOLD("%s") ".",
                         name, temp1);
                     free(temp2);
@@ -9050,7 +9060,7 @@ static void resetfunc2(char *cmd, char *parms)
                 {
                     char    *temp2 = M_StringJoin(name, " ", temp1, NULL);
 
-                    C_ValidateInput(temp2);
+                    C_ExecuteInput(temp2);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default of " BOLD("%s") ".",
                         name, temp1);
                     free(temp2);
@@ -9067,7 +9077,7 @@ static void resetfunc2(char *cmd, char *parms)
 
                 if (!M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                 {
-                    C_ValidateInput(temp);
+                    C_ExecuteInput(temp);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default of " BOLD("\"%s\"") ".",
                         name, consolecmds[i].defaultstring);
                     free(temp);
@@ -10787,7 +10797,7 @@ static void togglefunc2(char *cmd, char *parms)
 
             temp2 = M_StringJoin(parms, " ", temp1, NULL);
 
-            C_ValidateInput(temp2);
+            C_ExecuteInput(temp2);
             C_Output("The " BOLD("%s") " CVAR has been toggled " BOLD("%s") ".", parms, temp1);
             free(temp1);
             free(temp2);
@@ -10857,7 +10867,7 @@ static void vanillafunc2(char *cmd, char *parms)
 
             SC_GetString();
             temp2 = M_StringJoin(temp1, " ", sc_String, NULL);
-            C_ValidateInput(temp2);
+            C_ExecuteInput(temp2);
             free(temp1);
             free(temp2);
         }

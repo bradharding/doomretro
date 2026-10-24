@@ -1427,7 +1427,7 @@ void M_LoadCVARs(const char *filename)
             char    *temp1 = uncommify(value);
             char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
 
-            C_ValidateInput(temp2);
+            C_ExecuteInput(temp2);
             free(temp1);
             free(temp2);
             continue;

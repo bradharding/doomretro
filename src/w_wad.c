@@ -837,7 +837,7 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
                     if (strparm[0] == ';')
                         continue;
 
-                    if (C_ValidateInput(strparm))
+                    if (C_ExecuteInput(strparm))
                         linecount++;
                 }
 
@@ -927,7 +927,7 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
                     if (strparm[0] == ';')
                         continue;
 
-                    if (C_ValidateInput(strparm))
+                    if (C_ExecuteInput(strparm))
                         linecount++;
                 }
 
