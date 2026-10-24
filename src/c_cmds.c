@@ -2576,7 +2576,7 @@ void bindfunc2(char *cmd, char *parms)
                                 parm2, controls[i].control);
 								
 						if (!C_ValidateInput(trimleadingwhitespace(parm2)))
-							C_Warning(0, BOLD("\"%s\"") "is not a valid action.", parm2);
+							C_Warning(0, BOLD("\"%s\"") " is not a valid action.", parm2);
                     }
                 }
                 else if (controls[i].type == mousecontrol)
