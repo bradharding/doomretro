@@ -1677,7 +1677,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters, const bool
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
-    if ((flags & MF_SPECIAL) && numvoxels > 0
+    if (!(flags & MF_SHOOTABLE) && numvoxels > 0
         && !(anglefixed && r_voxels_pickupangles == r_voxels_pickupangles_smart))
     {
         angle_t angle;

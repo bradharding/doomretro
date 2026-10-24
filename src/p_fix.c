@@ -1646,9 +1646,6 @@ thingfix_t thingfix[] =
 {
    // mission,    episode, map, thing, type,                      oldx,    oldy,    newx,    newy,   angle, options
 
-    { doom,             1,   1,    61, Candelabra,                3088,   -4528,    3088,   -4528,      90, DEFAULT                            },
-    { doom,             1,   1,    62, Candelabra,                2928,   -4528,    2928,   -4528,      90, DEFAULT                            },
-
     { doom,             1,   6,    16, Demon,                      800,    -704,     800,    -688, DEFAULT, DEFAULT                            },
     { doom,             1,   6,   403, Spectre,                  -2016,    2096,   -2016,    2080, DEFAULT, DEFAULT                            },
 
@@ -1695,8 +1692,6 @@ thingfix_t thingfix[] =
     { doom,             5,   1,    18, EvilEye,                   -176,    1112,    -176,    1112,     270, DEFAULT                            },
     { doom,             5,   1,    33, EvilEye,                    440,     496,     440,     496,     112, DEFAULT                            },
     { doom,             5,   1,    47, EvilEye,                    544,     432,     544,     432,      67, DEFAULT                            },
-    { doom,             5,   1,   101, Candelabra,                1440,     -64,    1440,     -64,     180, DEFAULT                            },
-    { doom,             5,   1,   102, Candelabra,                1440,    -192,    1440,    -192,     180, DEFAULT                            },
 
     { doom,             5,   2,    12, EvilEye,                   -248,   -1032,    -248,   -1032,     180, DEFAULT                            },
     { doom,             5,   2,   105, FloatingSkullRock,          840,    -672,     840,    -672,     180, DEFAULT                            },
@@ -1756,8 +1751,6 @@ thingfix_t thingfix[] =
     { doom,             6,   3,    73, EvilEye,                    112,   -1044,     112,   -1044,       0, DEFAULT                            },
     { doom,             6,   3,    94, EvilEye,                    -22,   -1312,     -22,   -1312,       0, DEFAULT                            },
     { doom,             6,   3,   145, EvilEye,                  -1404,    -185,   -1404,    -185,      45, DEFAULT                            },
-    { doom,             6,   3,   161, Candelabra,                1184,     928,    1184,     928,     180, DEFAULT                            },
-    { doom,             6,   3,   162, Candelabra,                1184,     672,    1184,     672,     180, DEFAULT                            },
     { doom,             6,   3,   278, EvilEye,                   1372,     184,    1372,     184,      90, DEFAULT                            },
 
     { doom,             6,   4,     2, EvilEye,                   -804,    -212,    -804,    -212,      67, DEFAULT                            },
@@ -1767,13 +1760,10 @@ thingfix_t thingfix[] =
 
     { doom,             6,   5,     6, EvilEye,                   -320,      24,    -320,      24,     180, DEFAULT                            },
     { doom,             6,   5,   121, EvilEye,                  -1216,    -960,   -1216,    -960,      90, DEFAULT                            },
-    { doom,             6,   5,   141, Candelabra,               -1376,    1632,   -1376,    1632,      90, DEFAULT                            },
     { doom,             6,   5,   152, EvilEye,                   -992,    2158,    -992,    2158,      45, DEFAULT                            },
     { doom,             6,   5,   195, EvilEye,                   -584,    1056,    -584,    1056,     292, DEFAULT                            },
     { doom,             6,   5,   196, EvilEye,                   -132,     412,    -132,     412,     315, DEFAULT                            },
     { doom,             6,   5,   197, EvilEye,                    124,     680,     124,     680,      45, DEFAULT                            },
-    { doom,             6,   5,   342, Candelabra,                -768,     792,    -768,     792,      45, DEFAULT                            },
-    { doom,             6,   5,   343, Candelabra,                -600,     960,    -600,     960,     225, DEFAULT                            },
 
     { doom,             6,   6,    54, EvilEye,                    160,    1316,     160,    1316,     180, DEFAULT                            },
     { doom,             6,   6,   158, FloatingSkullRock,         1600,     576,    1600,     576,      90, DEFAULT                            },
