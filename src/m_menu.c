@@ -3582,16 +3582,22 @@ static void M_TakeScreenshot(bool flash)
     }
 }
 
+static bool M_IsAutomapMousePanning(void)
+{
+    return (gamestate == GS_LEVEL && automapactive && !am_followmode && am_mousepanning && m_pointer
+        && !mapwindow && !menuactive);
+}
+
 static bool M_CanOpenConsoleWithMouseDrag(void)
 {
     return (smoothtransitions && m_pointer && usingmouse && !usingcontroller && !consoleheight
-        && !messagetoprint && (gamestate != GS_LEVEL || menuactive));
+        && !messagetoprint && (gamestate != GS_LEVEL || menuactive || M_IsAutomapMousePanning()));
 }
 
 void M_UpdateOpenConsoleEdge(int y)
 {
     openconsoleedgewait = (smoothtransitions && m_pointer && usingmouse && !usingcontroller
-        && !messagetoprint && (gamestate != GS_LEVEL || menuactive) ? y : -1);
+        && !messagetoprint && (gamestate != GS_LEVEL || menuactive || M_IsAutomapMousePanning()) ? y : -1);
 }
 
 static bool M_CanDrawOpenConsoleEdge(void)
@@ -3790,8 +3796,10 @@ bool M_Responder(event_t *ev)
         static int      consoleopendragpagetic;
         const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
         const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
+        const int       mousey = ((gamestate == GS_LEVEL && automapactive && !am_followmode && !menuactive
+                            && !consoleactive && !(messagetoprint && messagebuttonsactive)) ? ev->data5 : ev->data3);
 
-        M_UpdateOpenConsoleEdge(ev->data3);
+        M_UpdateOpenConsoleEdge(mousey);
 
         if (draggingconsole)
         {
@@ -3817,7 +3825,7 @@ bool M_Responder(event_t *ev)
             {
                 const int   oldconsoleheight = consoleheight;
 
-                C_UpdateOpenConsoleDrag(ev->data3 * 2);
+                C_UpdateOpenConsoleDrag(mousey * 2);
 
                 if (consoleheight > oldconsoleheight)
                     consoleopendragdirection = 1;
@@ -3829,7 +3837,7 @@ bool M_Responder(event_t *ev)
             return true;
         }
 
-        if (newleftbuttonpress && M_CanOpenConsoleWithMouseDrag() && ev->data3 <= CONSOLEDRAGZONE
+        if (newleftbuttonpress && M_CanOpenConsoleWithMouseDrag() && mousey <= CONSOLEDRAGZONE
             && !splashscreen && !keydown && !savestringenter)
         {
             draggingconsole = true;
@@ -3837,7 +3845,7 @@ bool M_Responder(event_t *ev)
             consoleopendragpagetic = pagetic;
             consoleoverlaymenu = (menuactive || messagetoprint);
             C_BeginOpenConsoleDrag();
-            C_UpdateOpenConsoleDrag(ev->data3 * 2);
+            C_UpdateOpenConsoleDrag(mousey * 2);
             leftbuttondown = true;
             return true;
         }

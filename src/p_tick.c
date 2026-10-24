@@ -209,6 +209,9 @@ void P_Ticker(void)
     if ((consoleactive && !menuactive) || (helpscreen && !palettescreen))
         return;
 
+    if (consoleheight && !consoledirection && !menuactive)
+        return;
+
     if (menuactive && !(viewplayer->cheats & CF_FREEZE))
     {
         if (!(gametime & 2))
