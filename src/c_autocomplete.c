@@ -145,7 +145,7 @@ static const char *const removekeywords[] =
 };
 static const char *const resurrectkeywords[] =
 {
-    "player", "monsters", "friends" 
+    "player", "monsters", "friends"
 };
 
 static const char *const mapkeywords[] =
