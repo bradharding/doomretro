@@ -69,7 +69,7 @@ typedef enum
     savegameversion_5_7_1,
     savegameversion_5_7_2,
     savegameversion_6_0,
-    savegameversion_6_4
+    savegameversion_7_0
 } savegameversion_t;
 
 FILE                        *save_stream;
@@ -98,8 +98,8 @@ static savegameversion_t P_SaveGameVersionFromString(const char *id)
         return savegameversion_5_7_2;
     else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_6_0))
         return savegameversion_6_0;
-    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_6_4))
-        return savegameversion_6_4;
+    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_7_0))
+        return savegameversion_7_0;
     else
         return savegameversion_unknown;
 }
@@ -717,7 +717,7 @@ static void saveg_read_player_t(void)
     viewplayer->shotsfired_incinerator = saveg_read32();
     viewplayer->shotsfired_calamityblade = saveg_read32();
     viewplayer->itemspickedup_ammo_fuel = saveg_read32();
-    viewplayer->lastweapon = (P_SaveGameVersionAtLeast(savegameversion_6_4) ?
+    viewplayer->lastweapon = (P_SaveGameVersionAtLeast(savegameversion_7_0) ?
         (weapontype_t)saveg_read_enum() : wp_nochange);
     G_ResetQuickMelee();
 }
@@ -1428,7 +1428,7 @@ void P_UnarchiveWorld(void)
             sector->ceilingrotation = saveg_read32();
         }
 
-        if (P_SaveGameVersionAtLeast(savegameversion_6_4))
+        if (P_SaveGameVersionAtLeast(savegameversion_7_0))
             sector->secretdiscovered = saveg_read_bool();
     }
 
