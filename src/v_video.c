@@ -1414,48 +1414,57 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
 
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
-    byte        *desttop;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    int         top;
+    int         screenx;
 
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
     y -= LITTLESHORT(patch->topoffset);
 
-    desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    top = (y * DY) >> FRACBITS;
+    screenx = (x * DX) >> FRACBITS;
 
-    for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
+    for (int col = 0, i = 0; col < width; col += DXI, i++)
     {
+        const int   currentx = screenx + i;
+
+        if (currentx >= SCREENWIDTH)
+            break;
+
+        if (currentx + 2 < 0)
+            continue;
+
         column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
             const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
+            int         currenty = top + ((column->topdelta * DY) >> FRACBITS);
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count-- > 0)
+            while (count-- > 0 && currenty < SCREENHEIGHT)
             {
-                const int   height = (((y + column->topdelta + length) * DY) >> FRACBITS) - count;
-
-                if (height > 0)
+                if (currenty >= 0 && currentx >= 0)
                 {
                     const byte  dot = source[srccol >> FRACBITS];
+                    byte        *dest = &screens[0][currenty * SCREENWIDTH + currentx];
 
                     *dest = V_GetMenuHighlightColor(dot, highlight);
                 }
 
-                dest += SCREENWIDTH;
-
-                if (height + 2 > 0 && menushadow)
+                if (menushadow && i <= shadowwidth && currenty + 2 >= 0 && currenty + 2 < SCREENHEIGHT
+                    && currentx + 2 < SCREENWIDTH)
                 {
-                    byte    *dot = dest + SCREENWIDTH + 2;
+                    byte    *dot = &screens[0][(currenty + 2) * SCREENWIDTH + currentx + 2];
 
-                    if (i <= shadowwidth && *dot != BROWN1 && *dot != BROWN2)
+                    if (*dot != BROWN1 && *dot != BROWN2)
                         *dot = black40[*dot];
                 }
 
+                currenty++;
                 srccol += DYI;
             }
 
