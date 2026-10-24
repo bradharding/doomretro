@@ -2943,6 +2943,9 @@ void P_MapName(int ep, int map)
 
         M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
     }
+
+    mapnumandtitle[0] = (char)toupper((unsigned char)mapnumandtitle[0]);
+    automaptitle[0] = (char)toupper((unsigned char)automaptitle[0]);
 }
 
 static nodeformat_t P_CheckNodeFormat(int lumpnum)
