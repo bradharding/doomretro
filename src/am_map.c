@@ -1237,7 +1237,7 @@ bool AM_Responder(const event_t *ev)
                         int dx = ev->data2;
                         int dy = ev->data3;
 
-                        if (ev->data5 >= MAPHEIGHT / 2)
+                        if (ev->data5 / 32 >= MAPHEIGHT / 2)
                             return false;
 
                         if (am_correctaspectratio)

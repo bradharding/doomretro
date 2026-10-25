@@ -3797,7 +3797,8 @@ bool M_Responder(event_t *ev)
         const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
         const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
         const int       mousey = ((gamestate == GS_LEVEL && automapactive && !am_followmode && !menuactive
-                            && !consoleactive && !(messagetoprint && messagebuttonsactive)) ? ev->data5 : ev->data3);
+                            && !consoleactive && !(messagetoprint && messagebuttonsactive)) ? ev->data5 / 32 : ev->data3);
+        const int       mousey16 = (ev->data5 ? ev->data5 : mousey * 32);
 
         M_UpdateOpenConsoleEdge(mousey);
 
@@ -3825,7 +3826,7 @@ bool M_Responder(event_t *ev)
             {
                 const int   oldconsoleheight = consoleheight;
 
-                C_UpdateOpenConsoleDrag(mousey * 2);
+                C_UpdateOpenConsoleDrag(mousey16 / 16);
 
                 if (consoleheight > oldconsoleheight)
                     consoleopendragdirection = 1;
@@ -3845,7 +3846,7 @@ bool M_Responder(event_t *ev)
             consoleopendragpagetic = pagetic;
             consoleoverlaymenu = (menuactive || messagetoprint);
             C_BeginOpenConsoleDrag();
-            C_UpdateOpenConsoleDrag(mousey * 2);
+            C_UpdateOpenConsoleDrag(mousey16 / 16);
             leftbuttondown = true;
             return true;
         }

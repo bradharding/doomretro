@@ -4464,7 +4464,7 @@ bool C_Responder(event_t *ev)
             {
                 const int   oldconsoleheight = consoleheight;
 
-                C_UpdateOpenConsoleDrag(y - consoleedgedragoffset + CONSOLEDRAGDELTA);
+                C_UpdateOpenConsoleDrag(ysub / 16 - consoleedgedragoffset + CONSOLEDRAGDELTA);
 
                 if (consoleheight > oldconsoleheight)
                     consoleedgedragdirection = 1;
@@ -4532,7 +4532,7 @@ bool C_Responder(event_t *ev)
                 draggingconsoleedge = true;
                 consoleedgedragstart = consoleheight;
                 consoleedgedragdirection = 0;
-                consoleedgedragoffset = y - consoleheight;
+                consoleedgedragoffset = ysub / 16 - consoleheight;
                 consoledirection = 0;
                 return true;
             }
