@@ -389,6 +389,82 @@ void R_DrawDitheredSolidColorColumn(void)
     *dest = dc_sectorcolormap[colormap[dither[yphase]][NOTEXTURECOLOR]];
 }
 
+static inline void R_DrawSolidColorColumnWithBrightmapCore(const bool wall, const bool dithered,
+    const int pixelwidth, const int pixelrows)
+{
+    static const byte   nodither[DITHERSIZE];
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = (wall ? dc_texturemid + (dc_yl - centery) * dc_iscale : dc_texturefrac);
+    const int           mask = dc_texheight - 1;
+    const fixed_t       height = dc_texheight << FRACBITS;
+    const bool          wrap = (wall && (dc_texheight & mask));
+    const byte          full = dc_sectorcolormap[fullcolormap[NOTEXTURECOLOR]];
+    const byte          colors[2][2] = { { dc_sectorcolormap[dc_colormap[0][NOTEXTURECOLOR]],
+                                           dc_sectorcolormap[dc_nextcolormap[0][NOTEXTURECOLOR]] },
+                                         { full, full } };
+    const byte          *dither = (dithered ? dithercolumn[((dc_x + ditherxoffset) / pixelwidth) & DITHERMASK][dc_z] : nodither);
+    int                 yphase = (dc_yl / pixelrows) & DITHERMASK;
+    int                 lowy = dc_yl % pixelrows;
+
+    if (wrap)
+    {
+        if (frac < 0)
+            while ((frac += height) < 0);
+        else
+            while (frac >= height)
+                frac -= height;
+    }
+
+    while (count--)
+    {
+        const byte  dot = dc_source[(wall && !wrap ? (frac >> FRACBITS) & mask : frac >> FRACBITS)];
+
+        *dest = colors[dc_brightmap[dot]][dither[yphase]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+
+        if (wrap && frac >= height)
+            frac -= height;
+
+        if (++lowy == pixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+    }
+}
+
+void R_DrawSolidColorColumnWithBrightmap(void)
+{
+    R_DrawSolidColorColumnWithBrightmapCore(false, false, 1, 1);
+}
+
+void R_DrawLowResDitheredSolidColorColumnWithBrightmap(void)
+{
+    R_DrawSolidColorColumnWithBrightmapCore(false, true, lowpixelwidth, lowpixelrows);
+}
+
+void R_DrawDitheredSolidColorColumnWithBrightmap(void)
+{
+    R_DrawSolidColorColumnWithBrightmapCore(false, true, 1, 1);
+}
+
+void R_DrawSolidColorWallColumnWithBrightmap(void)
+{
+    R_DrawSolidColorColumnWithBrightmapCore(true, false, 1, 1);
+}
+
+void R_DrawLowResDitheredSolidColorWallColumnWithBrightmap(void)
+{
+    R_DrawSolidColorColumnWithBrightmapCore(true, true, lowpixelwidth, lowpixelrows);
+}
+
+void R_DrawDitheredSolidColorWallColumnWithBrightmap(void)
+{
+    R_DrawSolidColorColumnWithBrightmapCore(true, true, 1, 1);
+}
+
 void R_DrawShadowPixel(const int x, const int y, const byte *tint, const byte black)
 {
     byte    *dest = ylookup0[y] + x;
