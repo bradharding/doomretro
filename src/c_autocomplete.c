@@ -1318,7 +1318,36 @@ static void ResolveCommand(const char (*w)[WORDLEN], const int n)
     }
 
     if (!(cmd = FindCmd(w[0])))
+    {
+        static words_t  expanded;
+        char            string[sizeof(aliases[0].string)] = "";
+        char            *p;
+
+        for (int i = 0; i < MAXALIASES; i++)
+            if (*aliases[i].name && M_StringCompare(w[0], aliases[i].name))
+            {
+                M_StringCopy(string, aliases[i].string, sizeof(string));
+                break;
+            }
+
+        if (!*string)
+            return;
+
+        p = (strrchr(string, ';') ? strrchr(string, ';') + 1 : string);
+        expanded.count = 0;
+
+        for (p = strtok(p, " \t"); p && expanded.count < MAXWORDS; p = strtok(NULL, " \t"))
+            M_StringCopy(expanded.word[expanded.count++], p, WORDLEN);
+
+        if (!expanded.count || !FindCmd(expanded.word[0]) || expanded.count + n - 1 > MAXWORDS)
+            return;
+
+        for (int i = 1; i < n; i++)
+            M_StringCopy(expanded.word[expanded.count++], w[i], WORDLEN);
+
+        ResolveCommand((const char (*)[WORDLEN])expanded.word, expanded.count);
         return;
+    }
 
     if (cmd->type == CT_CVAR)
     {

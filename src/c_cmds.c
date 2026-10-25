@@ -2038,43 +2038,79 @@ static bool nullfunc1(char *cmd, char *parms)
 //
 // alias CCMD
 //
+static int C_FindAlias(const char *input, const char **args)
+{
+    char        name[128] = "";
+    size_t      length = 0;
+    const char  *space = strchr(input, ' ');
+
+    if (executingalias)
+        return -1;
+
+    length = (space ? (size_t)(space - input) : strlen(input));
+
+    if (!length || length >= sizeof(name))
+        return -1;
+
+    M_StringCopy(name, input, length + 1);
+
+    for (int i = 0; i < MAXALIASES; i++)
+        if (*aliases[i].name && M_StringCompare(name, aliases[i].name))
+        {
+            if (args)
+            {
+                for (input += length; *input == ' '; input++);
+
+                *args = input;
+            }
+
+            return i;
+        }
+
+    return -1;
+}
+
 bool C_AliasExists(const char *alias)
 {
-    if (!executingalias)
-        for (int i = 0; i < MAXALIASES; i++)
-            if (M_StringCompare(alias, aliases[i].name))
-                return true;
-
-    return false;
+    return (C_FindAlias(alias, NULL) >= 0);
 }
 
 bool C_ExecuteAlias(const char *alias)
 {
-    if (!executingalias)
-        for (int i = 0; i < MAXALIASES; i++)
-            if (M_StringCompare(alias, aliases[i].name))
+    const char  *args = "";
+    const int   i = C_FindAlias(alias, &args);
+
+    if (i >= 0)
+    {
+        char    *string = M_StringDuplicate(aliases[i].string);
+        char    *segment = strtok(string, ";");
+
+        C_Input("%s", alias);
+        executingalias = true;
+
+        while (segment)
+        {
+            char    *next = strtok(NULL, ";");
+            char    *input = trimleadingwhitespace(segment);
+            char    buffer[255];
+
+            if (!next && *args)
             {
-                char    *string = M_StringDuplicate(aliases[i].string);
-                char    *strings[255] = { "" };
-                int     j = 0;
-
-                strings[0] = strtok(string, ";");
-                executingalias = true;
-
-                while (strings[j])
-                {
-                    if (!C_ExecuteInput(trimleadingwhitespace(strings[j])))
-                        break;
-
-                    strings[++j] = strtok(NULL, ";");
-                }
-
-                executingalias = false;
-                C_Input("%s", alias);
-                free(string);
-
-                return true;
+                M_snprintf(buffer, sizeof(buffer), "%s %s", input, args);
+                input = buffer;
             }
+
+            if (!C_ExecuteInput(input))
+                break;
+
+            segment = next;
+        }
+
+        executingalias = false;
+        free(string);
+
+        return true;
+    }
 
     return false;
 }
