@@ -2593,12 +2593,6 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
-    for (int i = 0; i < MAXALIASES; i++)
-    {
-        aliases[i].name[0] = '\0';
-        aliases[i].string[0] = '\0';
-    }
-
     if (M_StringCompare(wadfolder, wadfolder_default) || !M_FolderExists(wadfolder))
         D_InitWADfolder();
 

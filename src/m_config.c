@@ -1353,11 +1353,12 @@ void M_LoadCVARs(const char *filename)
         return;
     }
 
-    for (int i = 0; i < MAXALIASES; i++)
-    {
-        aliases[i].name[0] = '\0';
-        aliases[i].string[0] = '\0';
-    }
+    if (isconfigfile && !togglingvanilla)
+        for (int i = 0; i < MAXALIASES; i++)
+        {
+            aliases[i].name[0] = '\0';
+            aliases[i].string[0] = '\0';
+        }
 
     // Clear all default controls before reading them from config file
     if (isconfigfile && (!togglingvanilla || !vanilla))
