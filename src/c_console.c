@@ -1759,7 +1759,7 @@ static void C_DrawBackground(void)
     static int          lensx[MAXWIDTH];
     static byte         dither[1024];
     static bool         ditherready;
-    static const int    grain[8] = { 0, 0, 0, 0, 1, 1, 2, 3 };
+    static const int    grain[8] = { 0, 0, 1, 1, 2, 3, 4, 5 };
     const byte          *backcolor = (inverted ? consolebackcolor2 : consolebackcolor1);
     const int           glassrows = consoleheight + 2;
     const int           brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
@@ -1836,7 +1836,7 @@ static void C_DrawBackground(void)
                 int         vy = 0;
                 int         rimedge = 99;
                 const int   dist = C_BrandDistance(x - brandx, row - brandtop, &vx, &vy);
-                const int   shade = grain[grains[x]] + (gradient >> 2) + (((gradient & 3) << 2) > dither[(x & 31) | ((row & 31) << 5)]) + 3;
+                const int   shade = grain[grains[x]] + (gradient >> 2) + (((gradient & 3) << 2) > dither[(x & 31) | ((row & 31) << 5)]) + 2;
                 byte        color;
                 int         level;
 
