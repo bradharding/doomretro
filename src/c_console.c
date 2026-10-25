@@ -1824,14 +1824,13 @@ static void C_DrawBackground(void)
         else
         {
             const int   fromedge = glassrows - 1 - row;
-            const int   rowsy = row - LENSOFFSET(fromedge);
             const int   gradient = row * 12 / SCREENHEIGHT;
             const byte  *grains = &noise[row * SCREENWIDTH];
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
                 int         ox = lensx[x];
-                int         oy = 0;
+                int         oy = LENSOFFSET(fromedge);
                 int         vx = 0;
                 int         vy = 0;
                 int         rimedge = 99;
@@ -1847,7 +1846,7 @@ static void C_DrawBackground(void)
                     rimedge = dist - 1 + (ABS(vx) > ABS(vy) ? 2 : 0);
                 }
 
-                color = colormaps[0][MIN(shade, 31) * 256 + backcolor[blurscreen[BETWEEN(0, rowsy - oy, glassrows - 1) * SCREENWIDTH
+                color = colormaps[0][MIN(shade, 31) * 256 + backcolor[blurscreen[BETWEEN(0, row - oy, glassrows - 1) * SCREENWIDTH
                     + BETWEEN(0, x + ox, SCREENWIDTH - 1)]]];
                 level = MAX(0, MIN(MIN(MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2, fromedge), rimedge)
                     + (dither[(x & 31) | ((row & 31) << 5)] >> 2) - 1);
