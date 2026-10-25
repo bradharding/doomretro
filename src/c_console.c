@@ -1717,6 +1717,37 @@ static int C_BrandDistance(const int gx, const int gy, int *vx, int *vy)
     return (best < 325 ? MAX(1, (int)(sqrtf((float)best) + 0.5f)) : 0);
 }
 
+static void C_BuildDither(byte *map)
+{
+    float           energy[1024];
+    float           kernel[1024];
+    unsigned int    seed = 1;
+
+    for (int i = 0; i < 1024; i++)
+    {
+        const int   dx = MIN(i & 31, 32 - (i & 31));
+        const int   dy = MIN(i >> 5, 32 - (i >> 5));
+
+        kernel[i] = expf(-(float)(dx * dx + dy * dy) / 4.5f);
+        energy[i] = (float)(((seed = 214013 * seed + 2531011) >> 16) & 255) * 1e-6f;
+    }
+
+    for (int rank = 0; rank < 1024; rank++)
+    {
+        int best = 0;
+
+        for (int i = 1; i < 1024; i++)
+            if (energy[i] < energy[best])
+                best = i;
+
+        map[best] = (byte)(rank >> 6);
+        energy[best] = 1e9f;
+
+        for (int i = 0; i < 1024; i++)
+            energy[i] += kernel[((((i >> 5) - (best >> 5)) & 31) << 5) | (((i & 31) - (best & 31)) & 31)];
+    }
+}
+
 static void C_DrawBackground(void)
 {
     const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
@@ -1726,8 +1757,8 @@ static void C_DrawBackground(void)
     static int          noisecount;
     static unsigned int noiseseed = 666;
     static int          lensx[MAXWIDTH];
-    static const int    dither[4] = { 0, 2, 3, 1 };
-    static const int    bayer[16] = { 0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5 };
+    static byte         dither[1024];
+    static bool         ditherready;
     static const int    grain[8] = { 0, 0, 0, 0, 1, 1, 2, 3 };
     const byte          *backcolor = (inverted ? consolebackcolor2 : consolebackcolor1);
     const int           glassrows = consoleheight + 2;
@@ -1735,6 +1766,12 @@ static void C_DrawBackground(void)
     const int           brandtop = consoleheight - brandheight + 2;
     const int           white = nearestwhite << 8;
     const byte          *rim[6] = { &tinttab10[white], &tinttab10[white], &tinttab5[white], &tinttab5[white], &tinttab4[white], &tinttab4[white] };
+
+    if (!ditherready)
+    {
+        C_BuildDither(dither);
+        ditherready = true;
+    }
 
     for (; noisecount <= height && noisecount <= MAXSCREENAREA; noisecount++)
         noise[noisecount] = (byte)(((noiseseed = 214013 * noiseseed + 2531011) >> 16) & 7);
@@ -1799,7 +1836,7 @@ static void C_DrawBackground(void)
                 int         vy = 0;
                 int         rimedge = 99;
                 const int   dist = C_BrandDistance(x - brandx, row - brandtop, &vx, &vy);
-                const int   shade = grain[grains[x]] + (gradient >> 2) + ((gradient & 3) > dither[(x & 1) | ((row & 1) << 1)]) + 3;
+                const int   shade = grain[grains[x]] + (gradient >> 2) + (((gradient & 3) << 2) > dither[(x & 31) | ((row & 31) << 5)]) + 3;
                 byte        color;
                 int         level;
 
@@ -1813,7 +1850,7 @@ static void C_DrawBackground(void)
                 color = colormaps[0][MIN(shade, 31) * 256 + backcolor[blurscreen[BETWEEN(0, rowsy - oy, glassrows - 1) * SCREENWIDTH
                     + BETWEEN(0, x + ox, SCREENWIDTH - 1)]]];
                 level = MAX(0, MIN(MIN(MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2, fromedge), rimedge)
-                    + (bayer[(x & 3) | ((row & 3) << 2)] >> 2) - 1);
+                    + (dither[(x & 31) | ((row & 31) << 5)] >> 2) - 1);
                 dest[x] = (level < 6 ? rim[level][color] : color);
             }
         }
@@ -1876,11 +1913,11 @@ static void C_DrawBackground(void)
     {
         byte        *dest = &screens[0][height + r * SCREENWIDTH];
         const int   darkness = 16 * 16 * (7 - r) * (7 - r) / (7 * 7);
-        const int   y = (height / SCREENWIDTH + r) & 3;
+        const int   y = (height / SCREENWIDTH + r) & 31;
 
         for (int x = 0; x < SCREENWIDTH; x++)
         {
-            const int   shade = (darkness >> 4) + ((darkness & 15) > bayer[(x & 3) | (y << 2)]);
+            const int   shade = (darkness >> 4) + ((darkness & 15) > dither[(x & 31) | (y << 5)]);
 
             if (shade)
                 dest[x] = colormaps[0][shade * 256 + dest[x]];
@@ -1890,9 +1927,9 @@ static void C_DrawBackground(void)
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
     const int boldcolor, const byte *tinttab, const int tabs[MAXTABS], const bool formatting,
-    const bool kerning, const int index, unsigned char prevletter,
-    unsigned char prevletter2, const int inputoffset, void consoletextfunc(const int, const int,
-    const patch_t *, const int, const int, const int, const bool, const byte *))
+    const bool kerning, const int index, unsigned char prevletter, unsigned char prevletter2,
+    const int inputoffset, void consoletextfunc(const int, const int, const patch_t *, const int,
+    const int, const int, const bool, const byte *))
 {
     bool                bold = false;
     bool                bolder = false;
