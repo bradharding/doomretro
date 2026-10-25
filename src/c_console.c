@@ -107,6 +107,7 @@ static patch_t          *fps;
 static patch_t          *ampm[2];
 static patch_t          *colorback;
 
+patch_t                 *aliaslist;
 patch_t                 *bindlist;
 patch_t                 *cmdlist;
 patch_t                 *cvarlist;
@@ -1466,6 +1467,7 @@ void C_Init(void)
     ampm[1] = W_CacheLastLumpName("DRFONPM");
     colorback = W_CacheLastLumpName("DRCOLOR1");
 
+    aliaslist = W_CacheLastLumpName("DRALSLST");
     bindlist = W_CacheLastLumpName("DRBNDLST");
     cmdlist = W_CacheLastLumpName("DRCMDLST");
     cvarlist = W_CacheLastLumpName("DRCVRLST");

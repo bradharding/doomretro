@@ -80,6 +80,7 @@
 
 #define ALIASFORMAT                     BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
                                         BOLDITALICS("command") "..." BOLD("\"") "]]"
+#define ALIASLISTFORMAT                 "[" BOLDITALICS("searchstring") "]"
 #define BINDFORMAT                      BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
                                         BOLD(";") " " BOLDITALICS("command") "..." BOLD("\"") "]]"
 #define CMDLISTFORMAT                   "[" BOLDITALICS("searchstring") "]"
@@ -457,6 +458,7 @@ static bool ingamecvarfunc1(char *cmd, char *parms);
 static bool nightmarefunc1(char *cmd, char *parms);
 static bool nullfunc1(char *cmd, char *parms);
 
+static void aliaslistfunc2(char *cmd, char *parms);
 static void bindlistfunc2(char *cmd, char *parms);
 static void clearfunc2(char *cmd, char *parms);
 static void cmdlistfunc2(char *cmd, char *parms);
@@ -667,6 +669,8 @@ consolecmd_t consolecmds[] =
 {
     CCMD(alias, "", "", nullfunc1, aliasfunc2, true, ALIASFORMAT,
         "Creates an " BOLDITALICS("alias") " that executes a string of " BOLDITALICS("commands") "."),
+    CCMD(aliaslist, "", "", nullfunc1, aliaslistfunc2, true, ALIASLISTFORMAT,
+        "Lists all aliases and the commands they execute."),
     BOOLCVAR(alwaysrun, "", "", boolfunc1, alwaysrunfunc2, 0,
         "Toggles you to always run instead of walk."),
     COLORCVAR(am_allmapcdwallcolor, am_allmapcdwallcolour,
@@ -2178,6 +2182,32 @@ void aliasfunc2(char *cmd, char *parms)
         }
 }
 
+//
+// aliaslist CCMD
+//
+static void aliaslistfunc2(char *cmd, char *parms)
+{
+    const int   tabs[MAXTABS] = { 130 };
+    int         count = 0;
+
+    for (int i = 0; i < MAXALIASES; i++)
+        if (*aliases[i].name && (!*parms || wildcard(aliases[i].name, parms)))
+        {
+            if (++count == 1)
+                C_Header(tabs, aliaslist, ALIASLISTHEADER);
+
+            C_TabbedOutput(tabs, "%s\t%s", aliases[i].name, aliases[i].string);
+        }
+
+    if (!count)
+    {
+        if (*parms)
+            C_Warning(0, "There are no aliases that match " BOLD("\"%s\"") ".", parms);
+        else
+            C_Warning(0, "There are no aliases.");
+    }
+}
+
 bool IsControlBound(const controltype_t type, const int control, const bool automaponly)
 {
     if (type == keyboardcontrol && *keyactionlist[control])
@@ -2620,9 +2650,9 @@ void bindfunc2(char *cmd, char *parms)
                         else
                             C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " control.",
                                 parm2, controls[i].control);
-								
-						if (!C_ValidateInput(trimleadingwhitespace(parm2)))
-							C_Warning(0, BOLD("\"%s\"") " is not a valid action.", parm2);
+
+                        if (!C_ValidateInput(trimleadingwhitespace(parm2)))
+                            C_Warning(0, BOLD("\"%s\"") " is not a valid action.", parm2);
                     }
                 }
                 else if (controls[i].type == mousecontrol)

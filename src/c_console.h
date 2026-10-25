@@ -156,6 +156,7 @@
 #define MAXTABS                             10
 
 #define BINDLISTHEADER                      "CONTROL\t+ACTION/COMMAND(S)"
+#define ALIASLISTHEADER                     "ALIAS\tCOMMAND(S)"
 #define CMDLISTHEADER                       "CCMD\tDESCRIPTION"
 #define CVARLISTHEADER                      "CVAR\tVALUE\tDESCRIPTION"
 #define MAPLISTHEADER                       "\tMAP\tTITLE\tAUTHOR\tWAD"
@@ -215,6 +216,7 @@ extern patch_t          *unknownchar;
 extern patch_t          *altunderscores;
 extern patch_t          *altbuddha;
 
+extern patch_t          *aliaslist;
 extern patch_t          *bindlist;
 extern patch_t          *cmdlist;
 extern patch_t          *cvarlist;
