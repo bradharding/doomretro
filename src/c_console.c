@@ -1642,7 +1642,7 @@ void C_UpdateOpenConsoleDrag(int y)
 {
     const int   dragheight = BETWEEN(0, y - 4, SCREENHEIGHT - 5);
 
-    consolefullscreen = (dragheight > CONSOLEHALFHEIGHT + CONSOLEDRAGDELTA);
+    consolefullscreen = true;
     consoleheight = dragheight;
 }
 
@@ -4593,6 +4593,7 @@ bool C_Responder(event_t *ev)
         static bool doubleclickselection;
         static int  consoleedgedragstart;
         static int  consoleedgedragdirection;
+        static bool consoleedgedragfullscreen;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse && !consoleignoreleftbutton)
         {
@@ -4676,6 +4677,7 @@ bool C_Responder(event_t *ev)
             {
                 draggingconsoleedge = true;
                 consoleedgedragstart = consoleheight;
+                consoleedgedragfullscreen = consolefullscreen;
                 consoleedgedragdirection = 0;
                 consoleedgedragoffset = ysub / 16 - consoleheight;
                 consoledirection = 0;
@@ -4912,6 +4914,8 @@ bool C_Responder(event_t *ev)
                             caretwait = 0;
                             S_StartSound(viewplayer->mo, sfx_consol);
                         }
+                        else
+                            consolefullscreen = consoleedgedragfullscreen;
                     }
                     else if (consoleedgedragdirection < 0)
                     {
