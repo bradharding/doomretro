@@ -1922,7 +1922,7 @@ static void C_DrawBackground(void)
     static byte         dither[1024];
     static bool         ditherready;
     const float         tintamount = (inverted ? 0.6f : 0.5f);
-    const int           glassrows = consoleheight + 2;
+    const int           glassrows = consoleheight + 4;
     const int           brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
     const int           brandtop = consoleheight - brandheight + 2;
     const int           white = nearestwhite << 8;
