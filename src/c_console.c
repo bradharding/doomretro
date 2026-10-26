@@ -165,8 +165,6 @@ static int              timewidth;
 static int              zerowidth;
 
 static byte             *consoleautomapbevelcolor;
-static byte             *consolebackcolor1;
-static byte             *consolebackcolor2;
 static byte             *consolebevelcolor1;
 static byte             *consolebevelcolor2;
 static int              consoleboldcolor;
@@ -1414,8 +1412,6 @@ void C_Init(void)
     }
 
     consoleautomapbevelcolor = &tinttab50[nearestcolors[CONSOLEAUTOMAPBEVELCOLOR] << 8];
-    consolebackcolor1 = &tinttab50[nearestcolors[CONSOLEBACKCOLOR] << 8];
-    consolebackcolor2 = &tinttab60[nearestblack << 8];
     consolebevelcolor1 = &tinttab50[nearestcolors[CONSOLEBEVELCOLOR] << 8];
     consolebevelcolor2 = &tinttab20[nearestcolors[CONSOLEBEVELCOLOR] << 8];
     consoleboldcolor = nearestcolors[CONSOLEBOLDCOLOR];
@@ -1692,9 +1688,172 @@ void C_DrawConsoleEdge(int y)
     }
 }
 
-#define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 36 : 0)
+#define BLURRADIUS      5
+#define BLURSIGMA       2.0f
+#define BLURWINDOW      (BLURRADIUS * 2 + 1)
+#define BLURTILE        32
+#define DITHERNOISE     4.0f
+#define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 22 : 0)
+#define SAMETILE(a, b)  (((a) & ~(BLURTILE - 1)) == ((b) & ~(BLURTILE - 1)))
 
-static const int   brandedge[] = { 22, 19, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 3, 0, -18 };
+static float            blurkernel[BLURRADIUS + 1];
+static float            blurpalette[256][3];
+static unsigned short   blurnearest[64 * 64 * 64];
+
+static const int        brandedge[] = { 22, 19, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 3, 0, -18 };
+
+static void C_InitBlur(void)
+{
+    static bool ready;
+    float       sum = 0.0f;
+
+    if (ready)
+        return;
+
+    ready = true;
+
+    for (int i = 0; i <= BLURRADIUS; i++)
+    {
+        blurkernel[i] = expf(-(float)(i * i) / (2.0f * BLURSIGMA * BLURSIGMA));
+        sum += blurkernel[i] * (i ? 2.0f : 1.0f);
+    }
+
+    for (int i = 0; i <= BLURRADIUS; i++)
+        blurkernel[i] /= sum;
+
+    for (int i = 0; i < 256; i++)
+        for (int c = 0; c < 3; c++)
+            blurpalette[i][c] = PLAYPAL[i * 3 + c];
+
+    memset(blurnearest, 0xFF, sizeof(blurnearest));
+}
+
+static byte C_NearestColor(const int r, const int g, const int b)
+{
+    const int   index = (((r >> 2) << 12) | ((g >> 2) << 6) | (b >> 2));
+
+    if (blurnearest[index] == 0xFFFF)
+        blurnearest[index] = (unsigned short)I_GetNearestColor(PLAYPAL, (byte)(((r >> 2) << 2) | 2),
+            (byte)(((g >> 2) << 2) | 2), (byte)(((b >> 2) << 2) | 2));
+
+    return (byte)blurnearest[index];
+}
+
+static void C_DitherRow(const float *rgb, byte *dest, const int y)
+{
+    static float    errors[2][(MAXWIDTH + 2) * 3];
+    static float    *current = errors[0];
+    static float    *next = errors[1];
+    const bool      reverse = (y & 1);
+    const int       dir = (reverse ? -1 : 1);
+    float           *temp;
+
+    if (!(y & (BLURTILE - 1)))
+        memset(current, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
+
+    memset(next, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
+
+    for (int n = 0; n < SCREENWIDTH; n++)
+    {
+        const int       x = (reverse ? SCREENWIDTH - 1 - n : n);
+        const float     forward = (SAMETILE(x, x + dir) ? 1.0f : 0.0f);
+        const float     behind = (SAMETILE(x, x - dir) ? 1.0f : 0.0f);
+        float           *e = &current[(x + 1) * 3];
+        unsigned int    hash = (unsigned int)x * 374761393u + (unsigned int)y * 668265263u;
+        float           noise;
+        float           v[3];
+        byte            color;
+
+        hash = (hash ^ (hash >> 13)) * 1274126177u;
+        noise = ((float)((hash >> 16) & 255) - 127.5f) * (DITHERNOISE / 127.5f);
+
+        for (int c = 0; c < 3; c++)
+            v[c] = fminf(fmaxf(rgb[x * 3 + c] + e[c], 0.0f), 255.0f);
+
+        color = C_NearestColor(BETWEEN(0, (int)(v[0] + noise), 255), BETWEEN(0, (int)(v[1] + noise), 255),
+            BETWEEN(0, (int)(v[2] + noise), 255));
+        dest[x] = color;
+
+        for (int c = 0; c < 3; c++)
+        {
+            const float err = v[c] - blurpalette[color][c];
+
+            e[dir * 3 + c] += err * (7.0f / 16.0f) * forward;
+            next[(x + 1 - dir) * 3 + c] += err * (3.0f / 16.0f) * behind;
+            next[(x + 1) * 3 + c] += err * (5.0f / 16.0f);
+            next[(x + 1 + dir) * 3 + c] += err * (1.0f / 16.0f) * forward;
+        }
+    }
+
+    temp = current;
+    current = next;
+    next = temp;
+}
+
+static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, const float tintamount)
+{
+    static float    window[BLURWINDOW][MAXWIDTH * 3];
+    byte            line[MAXWIDTH + BLURRADIUS * 2];
+    int             computed = 0;
+
+    for (int y = 0; y < rows; y++)
+    {
+        const int   last = MIN(y + BLURRADIUS, rows - 1);
+        const float *center = window[y % BLURWINDOW];
+        float       *row = &blurrgb[y * SCREENWIDTH * 3];
+
+        for (; computed <= last; computed++)
+        {
+            const byte  *src = &screens[0][computed * SCREENWIDTH];
+            float       *dest = window[computed % BLURWINDOW];
+
+            for (int i = 0; i < BLURRADIUS; i++)
+            {
+                line[i] = src[0];
+                line[BLURRADIUS + SCREENWIDTH + i] = src[SCREENWIDTH - 1];
+            }
+
+            memcpy(&line[BLURRADIUS], src, SCREENWIDTH);
+
+            for (int x = 0; x < SCREENWIDTH; x++)
+            {
+                const byte  *p = &line[x + BLURRADIUS];
+                float       r = blurpalette[*p][0] * blurkernel[0];
+                float       g = blurpalette[*p][1] * blurkernel[0];
+                float       b = blurpalette[*p][2] * blurkernel[0];
+
+                for (int k = 1; k <= BLURRADIUS; k++)
+                {
+                    const float *c1 = blurpalette[p[-k]];
+                    const float *c2 = blurpalette[p[k]];
+
+                    r += (c1[0] + c2[0]) * blurkernel[k];
+                    g += (c1[1] + c2[1]) * blurkernel[k];
+                    b += (c1[2] + c2[2]) * blurkernel[k];
+                }
+
+                dest[x * 3] = r;
+                dest[x * 3 + 1] = g;
+                dest[x * 3 + 2] = b;
+            }
+        }
+
+        for (int i = 0; i < SCREENWIDTH * 3; i++)
+            row[i] = center[i] * blurkernel[0];
+
+        for (int k = 1; k <= BLURRADIUS; k++)
+        {
+            const float *above = window[MAX(y - k, 0) % BLURWINDOW];
+            const float *below = window[MIN(y + k, rows - 1) % BLURWINDOW];
+
+            for (int i = 0; i < SCREENWIDTH * 3; i++)
+                row[i] += (above[i] + below[i]) * blurkernel[k];
+        }
+
+        for (int i = 0; i < SCREENWIDTH * 3; i++)
+            row[i] = row[i] * (1.0f - tintamount) + tint[i % 3] * tintamount;
+    }
+}
 
 static int C_BrandDistance(const int gx, const int gy, int *vx, int *vy)
 {
@@ -1753,16 +1912,16 @@ static void C_BuildDither(byte *map)
 static void C_DrawBackground(void)
 {
     const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
-    const int           height = (consoleheight + 5) * SCREENWIDTH;
-    static byte         blurscreen[MAXSCREENAREA];
-    static byte         noise[MAXSCREENAREA + 1];
-    static int          noisecount;
-    static unsigned int noiseseed = 666;
+    const int           rows = consoleheight + 5;
+    const int           height = rows * SCREENWIDTH;
+    static float        *blurrgb;
+    static int          blurrgbsize;
+    static float        linergb[MAXWIDTH * 3];
+    static byte         levels[MAXWIDTH];
     static int          lensx[MAXWIDTH];
     static byte         dither[1024];
     static bool         ditherready;
-    static const int    grain[8] = { 0, 0, 1, 1, 2, 3, 4, 5 };
-    const byte          *backcolor = (inverted ? consolebackcolor2 : consolebackcolor1);
+    const float         tintamount = (inverted ? 0.6f : 0.5f);
     const int           glassrows = consoleheight + 2;
     const int           brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
     const int           brandtop = consoleheight - brandheight + 2;
@@ -1775,59 +1934,39 @@ static void C_DrawBackground(void)
         ditherready = true;
     }
 
-    for (; noisecount <= height && noisecount <= MAXSCREENAREA; noisecount++)
-        noise[noisecount] = (byte)(((noiseseed = 214013 * noiseseed + 2531011) >> 16) & 7);
+    C_InitBlur();
 
-    for (int i = 0; i < height; i++)
-        blurscreen[i] = colormaps[0][noise[height - i] * 256 + screens[0][i]];
+    if (height * 3 > blurrgbsize)
+    {
+        blurrgbsize = height * 3;
+        blurrgb = I_Realloc(blurrgb, blurrgbsize * sizeof(float));
+    }
 
-    screens[0][height] = colormaps[0][noise[0] * 256 + screens[0][height]];
-
-    // blur background
-    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
-
-    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 2; x > y; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
-
-    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH - 1] << 8) + blurscreen[x]];
-
-    for (int y = 0; y <= height - 2 * SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH] << 8) + blurscreen[x]];
-
-    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH] << 8) + blurscreen[x]];
-
-    for (int y = 0; y <= height - 2 * SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH - 1] << 8) + blurscreen[x]];
-
-    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
+    C_BlurBackground(blurrgb, rows, blurpalette[inverted ? nearestblack : nearestcolors[CONSOLEBACKCOLOR]], tintamount);
 
     for (int x = 0; x < SCREENWIDTH; x++)
         lensx[x] = LENSOFFSET(x) - LENSOFFSET(SCREENWIDTH - 1 - x);
 
     // apply liquid glass effect to background
-    for (int row = 0; row < consoleheight + 5; row++)
+    for (int row = 0; row < rows; row++)
     {
         byte    *dest = &screens[0][row * SCREENWIDTH];
 
         if (row >= glassrows)
-            for (int x = 0; x < SCREENWIDTH; x++)
-                dest[x] = colormaps[0][3 * 256 + backcolor[blurscreen[row * SCREENWIDTH + x]]];
+        {
+            const float *src = &blurrgb[row * SCREENWIDTH * 3];
+            const float factor = (32 - 4) / 32.0f;
+
+            for (int i = 0; i < SCREENWIDTH * 3; i++)
+                linergb[i] = src[i] * factor;
+
+            memset(levels, 6, SCREENWIDTH);
+        }
         else
         {
             const int   fromedge = glassrows - 1 - row;
             const int   gradient = row * 12 / SCREENHEIGHT;
-            const byte  *grains = &noise[row * SCREENWIDTH];
+            const float factor = (32 - fminf(5 + gradient * 0.25f, 31.0f)) / 32.0f;
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
@@ -1837,9 +1976,7 @@ static void C_DrawBackground(void)
                 int         vy = 0;
                 int         rimedge = 99;
                 const int   dist = C_BrandDistance(x - brandx, row - brandtop, &vx, &vy);
-                const int   shade = grain[grains[x]] + (gradient >> 2) + (((gradient & 3) << 2) > dither[(x & 31) | ((row & 31) << 5)]) + 2;
-                byte        color;
-                int         level;
+                const float *src;
 
                 if (dist)
                 {
@@ -1848,20 +1985,28 @@ static void C_DrawBackground(void)
                     rimedge = dist - 1 + (ABS(vx) > ABS(vy) ? 2 : 0);
                 }
 
-                color = colormaps[0][MIN(shade, 31) * 256 + backcolor[blurscreen[BETWEEN(0, row - oy, glassrows - 1) * SCREENWIDTH
-                    + BETWEEN(0, x + ox, SCREENWIDTH - 1)]]];
-                level = MAX(0, MIN(MIN(MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2, fromedge), rimedge)
+                src = &blurrgb[(BETWEEN(0, row - oy, glassrows - 1) * SCREENWIDTH + BETWEEN(0, x + ox, SCREENWIDTH - 1)) * 3];
+
+                for (int c = 0; c < 3; c++)
+                    linergb[x * 3 + c] = src[c] * factor;
+
+                levels[x] = (byte)MAX(0, MIN(MIN(MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2, fromedge), rimedge)
                     + (dither[(x & 31) | ((row & 31) << 5)] >> 2) - 1);
-                dest[x] = (level < 6 ? rim[level][color] : color);
             }
         }
+
+        C_DitherRow(linergb, dest, row);
+
+        if (row < glassrows)
+            for (int x = 0; x < SCREENWIDTH; x++)
+                if (levels[x] < 6)
+                    dest[x] = rim[levels[x]][dest[x]];
     }
 
     // draw bottom edge
     if (con_edgecolor == con_edgecolor_auto)
     {
-        V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
-            consoleheight - brandheight + 2, brand, consoleedgecolor1, consoleedgecolor2,
+        V_DrawConsoleBrandingPatch(brandx, brandtop, brand, consoleedgecolor1, consoleedgecolor2,
             I_GetContrastingColor(consoleedgecolor1 >> 8));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
@@ -1872,8 +2017,7 @@ static void C_DrawBackground(void)
         const int   color1 = nearestcolors[con_edgecolor] << 8;
         const int   color2 = black25[color1 >> 8] << 8;
 
-        V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
-            consoleheight - brandheight + 2, brand, color1, color2, I_GetContrastingColor(color1 >> 8));
+        V_DrawConsoleBrandingPatch(brandx, brandtop, brand, color1, color2, I_GetContrastingColor(color1 >> 8));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[color1 + screens[0][i]];
