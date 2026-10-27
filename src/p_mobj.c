@@ -1255,6 +1255,15 @@ static bool P_IsWall(const line_t *line)
                 <= MAX(line->frontsector->floorheight, line->backsector->floorheight)));
 }
 
+// Returns true if a line is a solid wall or a closed door, which looks just like a wall
+static bool P_IsSolid(const line_t *line)
+{
+    return (line->sidenum[1] == NO_INDEX
+        || (line->frontsector && line->backsector
+            && MIN(line->frontsector->ceilingheight, line->backsector->ceilingheight)
+                <= MAX(line->frontsector->floorheight, line->backsector->floorheight)));
+}
+
 // Returns the distance (in map units) from a thing to the nearest wall in the direction (dx, dy),
 // up to MAXWALLDISTANCE, and the wall hit (NULL if none). A wall is either a solid wall, or a
 // two-sided line whose far sector has a higher floor or lower ceiling than the sector the thing is
@@ -1365,11 +1374,90 @@ static int P_WallRise(const sector_t *sector, const fixed_t x, const fixed_t y, 
 {
     const sector_t  *othersector;
 
-    if (P_IsWall(line))
+    if (P_IsSolid(line))
         return INT_MAX;
 
     othersector = (P_PointOnLineSide(x, y, line) ? line->frontsector : line->backsector);
     return (othersector ? (othersector->floorheight - sector->floorheight) / FRACUNIT : 0);
+}
+
+static double P_WallHeight(const sector_t *sector, const fixed_t x, const fixed_t y, const line_t *line)
+{
+    double  height;
+
+    if (P_IsSolid(line))
+        height = (double)(sector->ceilingheight - sector->floorheight) / FRACUNIT;
+    else
+    {
+        const sector_t  *othersector = (P_PointOnLineSide(x, y, line) ? line->frontsector : line->backsector);
+
+        height = (othersector ? (double)MAX(othersector->floorheight - sector->floorheight,
+            sector->ceilingheight - othersector->ceilingheight) / FRACUNIT : 0.0);
+    }
+
+    return fmin(fmax(height, 1.0), WALLMAXHEIGHT);
+}
+
+static double P_WallLength(const line_t *line)
+{
+    const double    ox = (double)line->v1->x / FRACUNIT;
+    const double    oy = (double)line->v1->y / FRACUNIT;
+    const double    dx = (double)line->dx / FRACUNIT;
+    const double    dy = (double)line->dy / FRACUNIT;
+    const double    length = sqrt(dx * dx + dy * dy);
+    const bool      solid = P_IsSolid(line);
+    double          tmin = 0.0;
+    double          tmax = length;
+    bool            extended = true;
+
+    if (length <= 0.0)
+        return 1.0;
+
+    for (int pass = 0; extended && pass < 16 && tmax - tmin < WALLMAXLENGTH; pass++)
+    {
+        extended = false;
+
+        for (int i = 0; i < numlines; i++)
+        {
+            const line_t    *other = &lines[i];
+            const double    ex = (double)other->dx / FRACUNIT;
+            const double    ey = (double)other->dy / FRACUNIT;
+            const double    fx = (double)other->v1->x / FRACUNIT - ox;
+            const double    fy = (double)other->v1->y / FRACUNIT - oy;
+            double          t1, t2;
+
+            if (other == line || P_IsSolid(other) != solid || dx * ey - dy * ex != 0.0 || dx * fy - dy * fx != 0.0)
+                continue;
+
+            t1 = (fx * dx + fy * dy) / length;
+            t2 = t1 + (ex * dx + ey * dy) / length;
+
+            if (t1 > t2)
+            {
+                const double    temp = t1;
+
+                t1 = t2;
+                t2 = temp;
+            }
+
+            if (t2 < tmin || t1 > tmax)
+                continue;
+
+            if (t1 < tmin)
+            {
+                tmin = t1;
+                extended = true;
+            }
+
+            if (t2 > tmax)
+            {
+                tmax = t2;
+                extended = true;
+            }
+        }
+    }
+
+    return fmin(tmax - tmin, WALLMAXLENGTH);
 }
 
 // Looks for walls east, north, west and south of a position (and, if tall is true, also those that are
@@ -1390,7 +1478,6 @@ static int P_FindNearbyWalls(const sector_t *sector, const fixed_t x, const fixe
         distance[i] = P_DistanceToWall(sector, x, y, dx, dy, WALLMODE_ANY, &wall);
         count = P_AddUniqueWall(unique, uniquedistance, count, wall, distance[i]);
 
-        // a window or ledge can hide a solid wall behind it, so look for both
         walldistance = P_DistanceToWall(sector, x, y, dx, dy, WALLMODE_SOLID, &wall);
         count = P_AddUniqueWall(unique, uniquedistance, count, wall, walldistance);
 
@@ -1423,20 +1510,11 @@ static int P_FindNearbyWalls(const sector_t *sector, const fixed_t x, const fixe
     return count;
 }
 
-// Measures the distance to walls east, north, west and south of a position, and chooses an angle:
-//  1 or more walls nearby: face away from them by adding together the normals of the walls, weighted
-//                          so that closer walls, and solid and tall walls, count for more. So 1 wall
-//                          faces perpendicular to it, and 2 equally distant walls face equally away
-//                          from both. If the closest solid wall is much closer than any other, face
-//                          directly away from just that
-//  otherwise (none, opposite, all) and a wall is fairly close:
-//                          face the direction with the most open space
-// If the only walls found are small steps or lips (such as the edges of a shallow, curved recess),
-// look again for taller walls in the diagonals too.
 static bool P_AngleFromWalls(const sector_t *sector, const fixed_t x, const fixed_t y, angle_t *angle)
 {
     double          distance[4];
     double          uniquedistance[12];
+    double          score[12];
     const line_t    *unique[12];
     double          nearest = MAXWALLDISTANCE;
     int             count;
@@ -1461,18 +1539,22 @@ static bool P_AngleFromWalls(const sector_t *sector, const fixed_t x, const fixe
         int     closest = -1;
         bool    dominant = true;
 
-        // find the closest solid wall, and whether it's much closer than any other solid wall
         for (int i = 0; i < count; i++)
-            if (P_IsWall(unique[i]) && (closest < 0 || uniquedistance[i] < uniquedistance[closest]))
+        {
+            const double    dist = (uniquedistance[i] < 1.0 ? 1.0 : uniquedistance[i]);
+
+            score[i] = P_WallHeight(sector, x, y, unique[i]) * P_WallLength(unique[i]) / (dist * dist);
+        }
+
+        for (int i = 0; i < count; i++)
+            if (P_IsSolid(unique[i]) && (closest < 0 || score[i] > score[closest]))
                 closest = i;
 
         if (closest >= 0)
             for (int i = 0; i < count; i++)
-                if (i != closest && P_IsWall(unique[i])
-                    && uniquedistance[i] < uniquedistance[closest] * 2.0)
+                if (i != closest && P_IsSolid(unique[i]) && score[i] * 4.0 > score[closest])
                     dominant = false;
 
-        // if so, face directly away from it
         if (closest >= 0 && dominant)
         {
             P_AddWallNormal(x, y, unique[closest], 1.0, &nx, &ny);
@@ -1482,14 +1564,10 @@ static bool P_AngleFromWalls(const sector_t *sector, const fixed_t x, const fixe
 
         for (int i = 0; i < count; i++)
         {
-            const double    dist = (uniquedistance[i] < 1.0 ? 1.0 : uniquedistance[i]);
-            const double    weight = (P_WallRise(sector, x, y, unique[i]) >= WALLTALLRISE ? 1.0 : 0.1) / (dist * dist);
-
-            P_AddWallNormal(x, y, unique[i], weight, &nx, &ny);
-            totalweight += weight;
+            P_AddWallNormal(x, y, unique[i], score[i], &nx, &ny);
+            totalweight += score[i];
         }
 
-        // opposite walls of equal weight cancel each other out
         if (nx * nx + ny * ny > 0.0625 * totalweight * totalweight)
         {
             *angle = R_PointToAngle2(0, 0, (fixed_t)(nx / totalweight * FRACUNIT),
