@@ -1300,7 +1300,9 @@ static void C_DrawScrollbar(void)
         scrollbardrawn = false;
     else
     {
-        const int   gripstart = (scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2) * SCREENWIDTH;
+        const int   gripstart = MIN(scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2,
+                        scrollbarfaceend - 7) * SCREENWIDTH;
+        const int   gripmin = MAX(0, scrollbarfacestart) * SCREENWIDTH;
         const int   gripend = gripstart + 6 * SCREENWIDTH;
         const int   trackend = scrollbarheight * SCREENWIDTH;
         const int   faceend = scrollbarfaceend * SCREENWIDTH;
@@ -1316,7 +1318,7 @@ static void C_DrawScrollbar(void)
 
         // init scrollbar grip
         for (int y = gripstart; y < gripend; y += 2 * SCREENWIDTH)
-            if (y >= 0)
+            if (y >= gripmin)
                 for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                     tempscreen[y + x] = screens[0][y + x];
 
@@ -1328,7 +1330,7 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar grip
         for (int y = gripstart; y < gripend; y += 2 * SCREENWIDTH)
-            if (y >= 0)
+            if (y >= gripmin)
                 for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                     screens[0][y + x] = tempscreen[y + x];
 
@@ -1971,7 +1973,7 @@ static void C_DrawBackground(void)
             for (int x = 0; x < SCREENWIDTH; x++)
             {
                 int         ox = lensx[x];
-                int         oy = LENSOFFSET(fromedge);
+                int         oy = LENSOFFSET(MAX(0, fromedge - 3));
                 int         vx = 0;
                 int         vy = 0;
                 int         rimedge = 99;
