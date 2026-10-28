@@ -1954,7 +1954,7 @@ static void C_DrawBackground(void)
     C_BlurBackground(blurrgb, rows, blurpalette[inverted ? nearestblack : nearestcolors[CONSOLEBACKCOLOR]], tintamount);
 
     for (int x = 0; x < SCREENWIDTH; x++)
-        lensx[x] = LENSOFFSET(x) - LENSOFFSET(SCREENWIDTH - 1 - x);
+        lensx[x] = (smoothtransitions ? LENSOFFSET(x) - LENSOFFSET(SCREENWIDTH - 1 - x) : 0);
 
     // apply liquid glass effect to background
     for (int row = 0; row < rows; row++)
@@ -1980,7 +1980,7 @@ static void C_DrawBackground(void)
             for (int x = 0; x < SCREENWIDTH; x++)
             {
                 int         ox = lensx[x];
-                int         oy = LENSOFFSET(MAX(0, fromedge - 3));
+                int         oy = (smoothtransitions ? LENSOFFSET(MAX(0, fromedge - 3)) : 0);
                 int         vx = 0;
                 int         vy = 0;
                 int         rimedge = 99;
@@ -1989,8 +1989,12 @@ static void C_DrawBackground(void)
 
                 if (dist)
                 {
-                    ox -= LENSOFFSET(dist - 1) * vx / dist;
-                    oy = LENSOFFSET(dist - 1) * vy / dist;
+                    if (smoothtransitions)
+                    {
+                        ox -= LENSOFFSET(dist - 1) * vx / dist;
+                        oy = LENSOFFSET(dist - 1) * vy / dist;
+                    }
+
                     rimedge = dist - 1 + (ABS(vx) > ABS(vy) ? 2 : 0);
                 }
 
