@@ -1141,7 +1141,7 @@ static int C_GetCurrentTopRow(void)
         C_GetVisibleRowForHistoryPosition(outputhistory, outputhistoryoffset));
 }
 
-static int C_GetScrollbarRows(void)
+static int C_GetScrollbarPixels(void)
 {
     static bool fromhalf;
     const int   halfheight = CONSOLEHALFHEIGHT;
@@ -1152,9 +1152,15 @@ static int C_GetScrollbarRows(void)
         fromhalf = false;
 
     if (consolefullscreen && !fromhalf && !consoleshrinktohalf)
-        return 27;
+        return (27 * CONSOLELINEHEIGHT);
 
-    return (13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4));
+    return (13 * CONSOLELINEHEIGHT + 14 * CONSOLELINEHEIGHT
+        * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4));
+}
+
+static int C_GetScrollbarRows(void)
+{
+    return (C_GetScrollbarPixels() / CONSOLELINEHEIGHT);
 }
 
 static bool C_CanScrollOutput(void)
@@ -1268,11 +1274,12 @@ static void C_ScrollOutput(const int scrolllines)
 static void C_DrawScrollbar(void)
 {
     const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
-    const int   scrollbarrows = C_GetScrollbarRows();
-    const int   visiblerows = MIN(scrollbarrows, totalrows);
-    const int   scrollrange = MAX(0, totalrows - visiblerows);
+    const int   scrollbarpixels = C_GetScrollbarPixels();
+    const int   totalpixels = totalrows * CONSOLELINEHEIGHT;
+    const int   visiblepixels = MIN(scrollbarpixels, totalpixels);
+    const int   scrollrange = MAX(0, totalrows - MIN(C_GetScrollbarRows(), totalrows));
     const int   scrollbarheight = MAX(0, consoleheight - 22 - CONSOLEOUTPUTGAP);
-    const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, scrollbarheight * visiblerows / totalrows);
+    const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, scrollbarheight * visiblepixels / totalpixels);
     const int   facetravel = MAX(0, scrollbarheight - faceheight);
 
     scrollbartrackheight = scrollbarheight;
@@ -1286,9 +1293,9 @@ static void C_DrawScrollbar(void)
     }
     else
     {
-        const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
-        const int   position = (outputhistory == -1 ? maxposition : MAX(0, C_GetCurrentTopRow() + CONSOLELINES
-                        - scrollbarrows + (numvisibleconsolerows > 0)) * CONSOLELINEHEIGHT);
+        const int   maxposition = totalpixels - visiblepixels;
+        const int   position = (outputhistory == -1 ? maxposition : MAX(0, (C_GetCurrentTopRow() + CONSOLELINES
+                        + (numvisibleconsolerows > 0)) * CONSOLELINEHEIGHT - scrollbarpixels));
 
         scrollbarfacestart = (maxposition > 0 ? (int)((int64_t)facetravel
             * BETWEEN(0, position - scrolloffset, maxposition) / maxposition) : 0);
@@ -1296,7 +1303,7 @@ static void C_DrawScrollbar(void)
 
     scrollbarfaceend = MIN(scrollbarfacestart + faceheight, scrollbarheight);
 
-    if (visiblerows == totalrows)
+    if (visiblepixels == totalpixels)
         scrollbardrawn = false;
     else
     {
