@@ -5309,7 +5309,7 @@ void M_OpenMainMenu(void)
         {
             playerangle = viewplayer->mo->angle;
             playerviewz = viewplayer->viewz;
-            menuspinspeed = 0;
+            menuspinspeed = (smoothtransitions ? 0 : 512);
 
             playerpitch = viewplayer->pitch;
             viewplayer->pitch = MENUPITCH;
