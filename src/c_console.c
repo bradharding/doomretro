@@ -1143,6 +1143,14 @@ static int C_GetCurrentTopRow(void)
 
 static int C_GetScrollbarPixels(void)
 {
+    const int   halfheight = CONSOLEHALFHEIGHT;
+    const int   range = SCREENHEIGHT / 2 - 4;
+
+    return MAX(0, 13 * CONSOLELINEHEIGHT + 14 * CONSOLELINEHEIGHT * MIN(consoleheight - halfheight, range) / range);
+}
+
+static int C_GetScrollbarRows(void)
+{
     static bool fromhalf;
     const int   halfheight = CONSOLEHALFHEIGHT;
 
@@ -1152,15 +1160,9 @@ static int C_GetScrollbarPixels(void)
         fromhalf = false;
 
     if (consolefullscreen && !fromhalf && !consoleshrinktohalf)
-        return (27 * CONSOLELINEHEIGHT);
+        return 27;
 
-    return (13 * CONSOLELINEHEIGHT + 14 * CONSOLELINEHEIGHT
-        * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4));
-}
-
-static int C_GetScrollbarRows(void)
-{
-    return (C_GetScrollbarPixels() / CONSOLELINEHEIGHT);
+    return (13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4));
 }
 
 static bool C_CanScrollOutput(void)
