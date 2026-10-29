@@ -283,6 +283,8 @@ static void D_UpdateQuitMenuSpecials(void)
     }
 }
 
+static bool quitfadeactive;
+
 //
 // D_FadeScreenToBlack
 //
@@ -291,6 +293,8 @@ void D_FadeScreenToBlack(void)
     byte        *palette = &PLAYPAL[(menuactive ? 0 : st_palette * 768)];
     const float startbrightness = brightness;
     uint64_t    quitwait = I_GetTimeMS() + 3000;
+
+    quitfadeactive = true;
 
     while (I_AnySoundStillPlaying() && I_GetTimeMS() < quitwait)
     {
@@ -305,7 +309,10 @@ void D_FadeScreenToBlack(void)
     }
 
     if (!smoothtransitions)
+    {
+        quitfadeactive = false;
         return;
+    }
 
     for (int i = 19; i >= 0; i--)
     {
@@ -323,6 +330,7 @@ void D_FadeScreenToBlack(void)
     memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
     I_RenderPresent();
+    quitfadeactive = false;
 }
 
 //
@@ -568,6 +576,9 @@ void D_Display(void)
         I_RenderPresent();
 
         mapblitfunc();
+
+        if (quitfadeactive)
+            return;
 
         if (consoleactive)
         {
