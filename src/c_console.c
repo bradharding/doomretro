@@ -1503,6 +1503,8 @@ void C_ShowConsole(bool reset)
 
     pagetic = PAGETICS;
 
+    D_RefreshConsoleSnapshot();
+
     if (smoothtransitions)
     {
         consoleheight = MAX(1, consoleheight);
@@ -3858,6 +3860,8 @@ bool C_ValidateInput(const char *input)
 bool C_ExecuteInput(char *input)
 {
     const int   length = (int)strlen(input);
+
+    D_RefreshConsoleSnapshot();
 
     for (int i = 0; *consolecmds[i].name; i++)
     {

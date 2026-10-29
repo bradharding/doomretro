@@ -333,6 +333,48 @@ void D_FadeScreenToBlack(void)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t wipegamestate = GS_TITLESCREEN;
 
+static byte *consolesnapshot;
+static int  consolesnapshotarea;
+static bool consolesnapshotvalid;
+
+void D_RefreshConsoleSnapshot(void)
+{
+    consolesnapshotvalid = false;
+}
+
+static void D_RenderPlayerView(void)
+{
+    const bool  usesnapshot = (consoleactive && !menuactive && !messagetoprint && !dowipe);
+
+    if (usesnapshot && consolesnapshotvalid && consolesnapshotarea == SCREENAREA)
+    {
+        memcpy(screens[0], consolesnapshot, SCREENAREA);
+        return;
+    }
+
+    updateswirl = (r_liquid_swirl && !(consoleactive || helpscreen || paused || (viewplayer->cheats & CF_FREEZE)));
+
+    // draw the view directly
+    R_RenderPlayerView();
+
+    if (mapwindow || automapactive)
+        AM_Drawer();
+
+    if (usesnapshot)
+    {
+        if (consolesnapshotarea != SCREENAREA)
+        {
+            consolesnapshot = I_Realloc(consolesnapshot, SCREENAREA);
+            consolesnapshotarea = SCREENAREA;
+        }
+
+        memcpy(consolesnapshot, screens[0], SCREENAREA);
+        consolesnapshotvalid = true;
+    }
+    else
+        consolesnapshotvalid = false;
+}
+
 void D_Display(void)
 {
     static gamestate_t  oldgamestate = GS_NONE;
@@ -349,6 +391,7 @@ void D_Display(void)
     // change the view size if needed
     if (setsizeneeded)
     {
+        consolesnapshotvalid = false;
         R_ExecuteSetViewSize();
         oldgamestate = GS_NONE; // force background redraw
     }
@@ -379,6 +422,8 @@ void D_Display(void)
 
     if (gamestate != GS_LEVEL)
     {
+        consolesnapshotvalid = false;
+
         if (gamestate != oldgamestate)
         {
             r_bloodsplats_visible = 0;
@@ -408,13 +453,7 @@ void D_Display(void)
     {
         HU_Erase();
 
-        updateswirl = (r_liquid_swirl && !(consoleactive || helpscreen || paused || (viewplayer->cheats & CF_FREEZE)));
-
-        // draw the view directly
-        R_RenderPlayerView();
-
-        if (mapwindow || automapactive)
-            AM_Drawer();
+        D_RenderPlayerView();
 
         {
             const bool  drawstatusbar = !menuactive;

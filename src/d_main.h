@@ -62,6 +62,7 @@ extern char     *previouswad;
 #endif
 
 void D_Display(void);
+void D_RefreshConsoleSnapshot(void);
 
 //
 // D_DoomMain()
