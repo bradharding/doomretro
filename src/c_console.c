@@ -3870,8 +3870,6 @@ void C_Drawer(void)
                     selectend, &V_DrawConsoleTextPatch);
         }
     }
-
-    I_Sleep(1);
 }
 
 void C_ExecuteInputString(const char *input)
