@@ -569,8 +569,14 @@ void D_Display(void)
 
         mapblitfunc();
 
-        if ((!vid_capfps || vid_capfps > 60 || (vid_vsync && refreshrate > 60))
-            && (gamestate != GS_LEVEL || menuactive || consoleactive || paused))
+        if (consoleactive)
+        {
+            const int   cap = (refreshrate > 0 ? refreshrate : 60);
+
+            I_CapFPS(vid_capfps ? MIN(vid_capfps, cap) : cap);
+        }
+        else if ((!vid_capfps || vid_capfps > 60 || (vid_vsync && refreshrate > 60))
+            && (gamestate != GS_LEVEL || menuactive || paused))
             I_CapFPS(60);
         else if (vid_capfps >= TICRATE && !vid_vsync)
             I_CapFPS(vid_capfps);
