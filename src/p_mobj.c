@@ -40,12 +40,14 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
+#include "r_voxels.h"
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "v_video.h"
@@ -1264,6 +1266,55 @@ static bool P_IsSolid(const line_t *line)
                 <= MAX(line->frontsector->floorheight, line->backsector->floorheight)));
 }
 
+static void P_CheckWallLine(const line_t *line, const sector_t *sector, const fixed_t thingx,
+    const fixed_t thingy, const double px, const double py, const wallmode_t mode, double *nearest,
+    const line_t **hit)
+{
+    double  ex, ey;
+    double  fx, fy;
+    double  denom;
+    double  t;
+    double  u;
+
+    if (!P_IsWall(line))
+    {
+        sector_t  *othersector;
+
+        if (mode == WALLMODE_SOLID
+            || !(othersector = (P_PointOnLineSide(thingx, thingy, line) ? line->frontsector : line->backsector)))
+            return;
+
+        if (mode == WALLMODE_TALL)
+        {
+            if (othersector->floorheight - sector->floorheight < WALLTALLRISE * FRACUNIT)
+                return;
+        }
+        else if (othersector->floorheight <= sector->floorheight
+            && othersector->ceilingheight >= sector->ceilingheight)
+            return;
+    }
+
+    ex = (double)line->dx;
+    ey = (double)line->dy;
+
+    if (!(denom = px * ey - py * ex))
+        return;
+
+    fx = (double)line->v1->x - (double)thingx;
+    fy = (double)line->v1->y - (double)thingy;
+    t = (fx * ey - fy * ex) / denom;
+    u = (fx * py - fy * px) / denom;
+
+    if (t >= 0.0 && u >= 0.0 && u <= 1.0 && (t < *nearest || (t == *nearest && *hit && line < *hit)))
+    {
+        if (!P_IsWall(line) && t * MAXWALLDISTANCE < WALLIGNOREDISTANCE)
+            return;
+
+        *nearest = t;
+        *hit = line;
+    }
+}
+
 // Returns the distance (in map units) from a thing to the nearest wall in the direction (dx, dy),
 // up to MAXWALLDISTANCE, and the wall hit (NULL if none). A wall is either a solid wall, or a
 // two-sided line whose far sector has a higher floor or lower ceiling than the sector the thing is
@@ -1273,67 +1324,67 @@ static bool P_IsSolid(const line_t *line)
 static double P_DistanceToWall(const sector_t *sector, const fixed_t thingx, const fixed_t thingy,
     const int dx, const int dy, const wallmode_t mode, const line_t **hit)
 {
-    const double    x = (double)thingx;
-    const double    y = (double)thingy;
     const double    px = (double)dx * MAXWALLDISTANCE * FRACUNIT;
     const double    py = (double)dy * MAXWALLDISTANCE * FRACUNIT;
     double          nearest = 1.0;
 
     *hit = NULL;
 
-    for (int i = 0; i < numlines; i++)
+    if (!blockmap || !blockmaplump)
     {
-        const line_t    *line = &lines[i];
-        double          ex, ey;
-        double          fx, fy;
-        double          denom;
-        double          t;
-        double          u;
+        for (int i = 0; i < numlines; i++)
+            P_CheckWallLine(&lines[i], sector, thingx, thingy, px, py, mode, &nearest, hit);
+    }
+    else
+    {
+        const int       chunks = MAXWALLDISTANCE / MAPBLOCKUNITS;
+        const int64_t   ox = (int64_t)thingx - bmaporgx;
+        const int64_t   oy = (int64_t)thingy - bmaporgy;
 
-        if (!P_IsWall(line))
+        validcount++;
+
+        for (int chunk = 0; chunk < chunks; chunk++)
         {
-            sector_t  *othersector;
+            const int64_t   start = (int64_t)chunk * MAPBLOCKSIZE;
+            const int64_t   end = start + MAPBLOCKSIZE;
+            const int64_t   x1 = ox + dx * start;
+            const int64_t   x2 = ox + dx * end;
+            const int64_t   y1 = oy + dy * start;
+            const int64_t   y2 = oy + dy * end;
+            const int64_t   bx1 = MAX64(0, (MIN64(x1, x2) - FRACUNIT) >> MAPBLOCKSHIFT);
+            const int64_t   bx2 = MIN64(bmapwidth - 1, (MAX64(x1, x2) + FRACUNIT) >> MAPBLOCKSHIFT);
+            const int64_t   by1 = MAX64(0, (MIN64(y1, y2) - FRACUNIT) >> MAPBLOCKSHIFT);
+            const int64_t   by2 = MIN64(bmapheight - 1, (MAX64(y1, y2) + FRACUNIT) >> MAPBLOCKSHIFT);
 
-            if (mode == WALLMODE_SOLID
-                || !(othersector = (P_PointOnLineSide(thingx, thingy, line) ? line->frontsector : line->backsector)))
-                continue;
+            for (int64_t by = by1; by <= by2; by++)
+                for (int64_t bx = bx1; bx <= bx2; bx++)
+                {
+                    const int   *list = &blockmaplump[blockmap[by * bmapwidth + bx]];
 
-            if (mode == WALLMODE_TALL)
-            {
-                if (othersector->floorheight - sector->floorheight < WALLTALLRISE * FRACUNIT)
-                    continue;
-            }
-            else if (othersector->floorheight <= sector->floorheight
-                && othersector->ceilingheight >= sector->ceilingheight)
-                continue;
-        }
+                    if (skipblstart)
+                        list++;
 
-        ex = (double)line->dx;
-        ey = (double)line->dy;
+                    for (; *list != -1; list++)
+                    {
+                        line_t  *line = lines + *list;
 
-        if (!(denom = px * ey - py * ex))
-            continue;
+                        if (line->validcount == validcount)
+                            continue;
 
-        fx = (double)line->v1->x - x;
-        fy = (double)line->v1->y - y;
-        t = (fx * ey - fy * ex) / denom;
-        u = (fx * py - fy * px) / denom;
+                        line->validcount = validcount;
+                        P_CheckWallLine(line, sector, thingx, thingy, px, py, mode, &nearest, hit);
+                    }
+                }
 
-        if (t >= 0.0 && t < nearest && u >= 0.0 && u <= 1.0)
-        {
-            if (!P_IsWall(line) && t * MAXWALLDISTANCE < WALLIGNOREDISTANCE)
-                continue;
-
-            nearest = t;
-            *hit = line;
+            if (nearest <= (double)(chunk + 1) / chunks)
+                break;
         }
     }
 
     return (nearest * MAXWALLDISTANCE);
 }
 
-// Adds the unit normal of a line, pointing towards the side of the line a thing is on, to (*nx, *ny)
-// scaled by weight
+// Adds the unit normal scaled by weight
 static void P_AddWallNormal(const fixed_t thingx, const fixed_t thingy, const line_t *line,
     const double weight, double *nx, double *ny)
 {
@@ -1398,7 +1449,7 @@ static double P_WallHeight(const sector_t *sector, const fixed_t x, const fixed_
     return fmin(fmax(height, 1.0), WALLMAXHEIGHT);
 }
 
-static double P_WallLength(const line_t *line)
+static double P_CalcWallLength(const line_t *line)
 {
     const double    ox = (double)line->v1->x / FRACUNIT;
     const double    oy = (double)line->v1->y / FRACUNIT;
@@ -1458,6 +1509,42 @@ static double P_WallLength(const line_t *line)
     }
 
     return fmin(tmax - tmin, WALLMAXLENGTH);
+}
+
+static double   *walllengths;
+static int      numwalllengths;
+static bool     walllengthcache;
+
+void P_StartWallLengthCache(void)
+{
+    if (numwalllengths < numlines)
+    {
+        walllengths = I_Realloc(walllengths, numlines * sizeof(*walllengths));
+        numwalllengths = numlines;
+    }
+
+    for (int i = 0; i < numlines; i++)
+        walllengths[i] = -1.0;
+
+    walllengthcache = true;
+}
+
+void P_EndWallLengthCache(void)
+{
+    walllengthcache = false;
+}
+
+static double P_WallLength(const line_t *line)
+{
+    double  *length;
+
+    if (!walllengthcache)
+        return P_CalcWallLength(line);
+
+    if (*(length = &walllengths[line - lines]) < 0.0)
+        *length = P_CalcWallLength(line);
+
+    return *length;
 }
 
 // Looks for walls east, north, west and south of a position (and, if tall is true, also those that are
@@ -1611,6 +1698,11 @@ static bool P_AngleFromNearbyWalls(const sector_t *sector, const fixed_t x, cons
     return result;
 }
 
+static angle_t P_MapThingAngle(const short angle)
+{
+    return ((angle % 45) ? angle * (ANG45 / 45) : ANG45 * (angle / 45));
+}
+
 //
 // P_SpawnMapThing
 // The fields of the mapthing should already be in host byte order.
@@ -1753,9 +1845,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters, const bool
     if (mobj->tics > 0)
         mobj->tics = M_BigRandom() % mobj->tics + 1;
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+    mobj->angle = P_MapThingAngle(mthing->angle);
+    mobj->anglefixed = anglefixed;
 
-    if (!(flags & MF_SHOOTABLE) && numvoxels > 0
+    if (!(flags & MF_SHOOTABLE) && VX_SpriteHasVoxels(mobj->sprite)
         && !(anglefixed && r_voxels_pickupangles == r_voxels_pickupangles_smart))
     {
         angle_t angle;
@@ -1844,6 +1937,36 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters, const bool
     }
 
     return mobj;
+}
+
+//
+// P_UpdateVoxelAngles
+//
+void P_UpdateVoxelAngles(void)
+{
+    if (gamestate != GS_LEVEL)
+        return;
+
+    P_StartWallLengthCache();
+
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t          *mobj = (mobj_t *)th;
+        const fixed_t   x = mobj->spawnpoint.x << FRACBITS;
+        const fixed_t   y = mobj->spawnpoint.y << FRACBITS;
+        angle_t         angle;
+
+        if ((mobj->flags & MF_SHOOTABLE) || mobj->player || !mobj->spawnpoint.type
+            || !VX_SpriteHasVoxels(mobj->sprite)
+            || (mobj->anglefixed && r_voxels_pickupangles == r_voxels_pickupangles_smart)
+            || mobj->angle != P_MapThingAngle(mobj->spawnpoint.angle))
+            continue;
+
+        if (P_AngleFromNearbyWalls(R_PointInSubsector(x, y)->sector, x, y, &angle))
+            mobj->angle = mobj->oldangle = angle;
+    }
+
+    P_EndWallLengthCache();
 }
 
 //

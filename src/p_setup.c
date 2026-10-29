@@ -1640,6 +1640,8 @@ static void P_LoadThings(int map, int lump)
     prevthingy = 0;
     prevthingbob = 0;
 
+    P_StartWallLengthCache();
+
     for (thingid = 0; thingid < numthings; thingid++)
     {
         mapthing_t  mt = data[thingid];
@@ -1669,6 +1671,8 @@ static void P_LoadThings(int map, int lump)
             }
         }
     }
+
+    P_EndWallLengthCache();
 
     M_Seed((unsigned int)time(NULL));
     M_BigSeed((unsigned int)time(NULL));

@@ -13050,7 +13050,10 @@ static void r_voxelsfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (r_voxels != r_voxels_old)
+    {
         VX_Init();
+        P_UpdateVoxelAngles();
+    }
 }
 
 //

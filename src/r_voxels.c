@@ -598,6 +598,18 @@ void VX_Init(void)
     }
 }
 
+bool VX_SpriteHasVoxels(const int spr)
+{
+    if (!bindings || spr < 0 || spr >= numsprites)
+        return false;
+
+    for (int frame = 0; frame < VX_MAXFRAMES; frame++)
+        if (bindings[spr * VX_MAXFRAMES + frame])
+            return true;
+
+    return false;
+}
+
 void VX_ClearVoxels(void)
 {
     numvisvoxels = 0;

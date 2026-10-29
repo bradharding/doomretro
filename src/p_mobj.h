@@ -563,6 +563,8 @@ typedef struct mobj_s
     int                 id;
     int                 musicid;
 
+    bool                anglefixed;
+
     char                name[33];
 
     bool                madesound;
