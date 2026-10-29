@@ -907,26 +907,48 @@ static inline void CalculateFPS(void)
 void I_CapFPS(const int cap)
 {
     const uint64_t  targettime = 1000000 / cap;
+    static int      previouscap;
     static uint64_t startingtime;
+    static uint64_t fraction;
+    static uint64_t sleepmargin = 200;
+    uint64_t        currenttime = I_GetTimeUS();
+    uint64_t        deadline;
 
-    while (true)
+    if (cap != previouscap)
     {
-        const uint64_t  currenttime = I_GetTimeUS();
-        const uint64_t  elapsedtime = currenttime - startingtime;
+        previouscap = cap;
+        startingtime = currenttime;
+        fraction = 0;
+        return;
+    }
 
-        if (elapsedtime >= targettime)
+    deadline = startingtime + targettime;
+    fraction += 1000000 % cap;
+    deadline += fraction / cap;
+    fraction %= cap;
+
+    while (currenttime < deadline)
+    {
+        const uint64_t  remainingtime = deadline - currenttime;
+
+        if (remainingtime >= sleepmargin + 1000)
         {
-            startingtime = currenttime;
-            break;
+            const int       sleeptime = (int)((remainingtime - sleepmargin) / 1000);
+            const uint64_t  before = currenttime;
+            uint64_t        overshoot;
+
+            I_Sleep(sleeptime);
+            currenttime = I_GetTimeUS();
+            overshoot = currenttime - before;
+            overshoot = (overshoot > (uint64_t)sleeptime * 1000 ? overshoot - (uint64_t)sleeptime * 1000 : 0);
+
+            sleepmargin = MIN64(2000, (sleepmargin * 7 + MIN64(overshoot, 2000) + 200) / 8);
         }
         else
-        {
-            const uint64_t  remainingtime = targettime - elapsedtime;
-
-            if (remainingtime > 1000)
-                I_Sleep(((int)remainingtime - 1000) / 1000);
-        }
+            currenttime = I_GetTimeUS();
     }
+
+    startingtime = (currenttime - deadline < targettime ? deadline : currenttime);
 }
 
 static inline void I_DrawPillarboxes(void)
