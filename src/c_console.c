@@ -1551,6 +1551,16 @@ void C_ShowConsole(bool reset)
 
     D_RefreshConsoleSnapshot();
 
+    if (!consoleactive
+        && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons))
+    {
+        restoredrumblestrength = idlechainsawrumblestrength;
+        idlechainsawrumblestrength = 0;
+        I_ControllerRumble(0, 0);
+    }
+
+    consoleactive = true;
+
     if (smoothtransitions)
     {
         consoleheight = MAX(1, consoleheight);
@@ -1560,7 +1570,6 @@ void C_ShowConsole(bool reset)
     {
         consoleheight = CONSOLEHEIGHT;
         consoledirection = 0;
-        consoleactive = true;
     }
 
     ST_UpdateBerserkEffect(!smoothtransitions);
@@ -1691,10 +1700,10 @@ void C_HideConsoleFast(void)
 
 void C_BeginOpenConsoleDrag(void)
 {
+    dontrestoremousepointeronshow = true;
+    C_ShowConsole(false);
     consoleheight = 0;
     consoledirection = 0;
-    consoleactive = false;
-    ST_UpdateBerserkEffect(!smoothtransitions);
 }
 
 void C_UpdateOpenConsoleDrag(int y)
@@ -1707,6 +1716,7 @@ void C_UpdateOpenConsoleDrag(int y)
 
 void C_EndOpenConsoleDrag(void)
 {
+    C_HideConsole();
     consolefullscreen = false;
     consoledirection = -1;
     consoleactive = false;
@@ -3610,7 +3620,7 @@ void C_Drawer(void)
         consoleanimlastheight = consoleheight;
 
         if (consoledirection == 1)
-            consoleactive = (consoleheight * 2 >= consoleanimtarget);
+            consoleactive = true;
         else
         {
             consoleactive = (consoleheight * 2 > CONSOLEHEIGHT);
