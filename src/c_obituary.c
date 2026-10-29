@@ -773,6 +773,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
         && C_SameObituary(&console[i].obituary, &obituary))
     {
         console[i].obituary = obituary;
+        C_InvalidateConsoleHistoryIndexFrom(i);
         C_CreateTimeStamp(i);
         console[i].count++;
         outputhistory = -1;

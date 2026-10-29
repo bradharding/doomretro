@@ -201,7 +201,40 @@ static int64_t          dragconsolescrolltargetposition;
 
 static byte             tempscreen2[MAXSCREENAREA];
 
+static int              *historyrowstarts;
+static int              *historyentryrows;
+static bool             *historyentryvisible;
+static size_t           historyindexcapacity;
+static int              historyindexcount;
+static int              historyindexdirtyfrom;
+static int              historyfirstvisible;
+static bool             historyindexvalid;
+static int              historyindexwidth;
+static int              historyindexwarninglevel;
+static bool             historyindexdevparm;
+static bool             historyindexobituaries;
+static bool             historyindexdefaultplayername;
+static bool             historyindexberserkactive;
+static int              historyindexenglish;
+static int              historyindexplayergender;
+static char             historyindexplayername[CONSOLETEXTMAXLENGTH];
+static char             historyindexkilled[CONSOLETEXTMAXLENGTH];
+static char             historyindexgibbed[CONSOLETEXTMAXLENGTH];
+static char             historyindexberserk[64];
+
 static int C_GetCurrentTopRow(void);
+static int C_EnsureHistoryIndex(void);
+
+void C_InvalidateConsoleHistoryIndexFrom(const int index)
+{
+    const int   dirtyfrom = MAX(0, index);
+
+    if (!historyindexvalid || dirtyfrom >= historyindexcount)
+        return;
+
+    if (historyindexdirtyfrom < 0 || dirtyfrom < historyindexdirtyfrom)
+        historyindexdirtyfrom = dirtyfrom;
+}
 
 void C_CreateTimeStamp(const int index)
 {
@@ -367,7 +400,13 @@ void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value)
     M_snprintf(buffer, sizeof(buffer), "%s %s", cvar, temp);
 
     if (numconsolestrings && M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+    {
         M_StringCopy(console[numconsolestrings - 1].string, buffer, sizeof(console[0].string));
+        memset(console[numconsolestrings - 1].wrap, 0, sizeof(console[0].wrap));
+        console[numconsolestrings - 1].wrapwidth = 0;
+
+        C_InvalidateConsoleHistoryIndexFrom(numconsolestrings - 1);
+    }
     else
         C_Input("%s", buffer);
 
@@ -569,6 +608,8 @@ char *C_GetPlayerName(void)
 
 void C_ResetWrappedLines(void)
 {
+    C_InvalidateConsoleHistoryIndexFrom(0);
+
     for (int i = 0; i < numconsolestrings; i++)
     {
         memset(console[i].wrap, 0, sizeof(console[0].wrap));
@@ -1063,71 +1104,72 @@ static int C_GetConsoleDisplayRows(const int index)
     return (arrlen(wraps) + 1);
 }
 
+static int C_FindHistoryEntryForRow(const int row)
+{
+    int low = 0;
+    int high = historyindexcount;
+
+    while (low < high)
+    {
+        const int   middle = low + (high - low) / 2;
+        const int   endrow = historyrowstarts[middle] + historyentryrows[middle];
+
+        if (endrow <= row)
+            low = middle + 1;
+        else
+            high = middle;
+    }
+
+    return low;
+}
+
 static int C_GetVisibleRowForHistoryPosition(const int arrayindex, const int offset)
 {
-    int visiblecount = 0;
+    C_EnsureHistoryIndex();
 
     if (offset < 0)
         return -1;
 
-    for (int i = 0; i < numconsolestrings; i++)
-    {
-        if (!C_IsVisibleConsoleString(i))
-            continue;
-
-        if (console[i].stringtype == obituarystring || console[i].stringtype == playerobituarystring)
-            C_BuildObituaryString(i);
-
-        if (i == arrayindex)
-            return (visiblecount + MIN(offset, C_GetConsoleDisplayRows(i) - 1));
-
-        visiblecount += C_GetConsoleDisplayRows(i);
-    }
+    if (arrayindex >= 0 && arrayindex < historyindexcount && historyentryvisible[arrayindex])
+        return (historyentryrows[arrayindex] > 0 ?
+            historyrowstarts[arrayindex] + MIN(offset, historyentryrows[arrayindex] - 1) :
+            historyrowstarts[arrayindex] - 1);
 
     return 0;
 }
 
 static void C_GetHistoryPositionForVisibleRow(int row, int *arrayindex, int *offset)
 {
-    int visiblecount = 0;
+    int index;
+
+    C_EnsureHistoryIndex();
 
     if ((row = MAX(-1, MIN(row, MAX(0, numvisibleconsolerows - 1)))) < 0)
     {
-        for (int i = 0; i < numconsolestrings; i++)
-            if (C_IsVisibleConsoleString(i))
-            {
-                *arrayindex = i;
-                *offset = -1;
-                return;
-            }
+        if (historyfirstvisible < historyindexcount)
+        {
+            *arrayindex = historyfirstvisible;
+            *offset = -1;
+        }
+        else
+        {
+            *arrayindex = 0;
+            *offset = 0;
+        }
 
-        *arrayindex = 0;
-        *offset = 0;
         return;
     }
 
-    for (int i = 0, rows; i < numconsolestrings; i++)
+    if ((index = C_FindHistoryEntryForRow(row)) < historyindexcount)
     {
-        if (!C_IsVisibleConsoleString(i))
-            continue;
-
-        if (console[i].stringtype == obituarystring || console[i].stringtype == playerobituarystring)
-            C_BuildObituaryString(i);
-
-        rows = C_GetConsoleDisplayRows(i);
-
-        if (row < visiblecount + rows)
-        {
-            *arrayindex = i;
-            *offset = row - visiblecount;
-            return;
-        }
-
-        visiblecount += rows;
+        *arrayindex = index;
+        *offset = row - historyrowstarts[index];
     }
-
-    *arrayindex = 1;
-    *offset = 0;
+    else
+    {
+        *arrayindex = 1;
+        *offset = 0;
+    }
 }
 
 static int C_GetTopRowForDisplay(void)
@@ -1358,6 +1400,8 @@ static void C_DrawScrollbar(void)
 
 void C_ClearConsole(void)
 {
+    C_InvalidateConsoleHistoryIndexFrom(0);
+
     numconsolestrings = 0;
     consolestringsmax = CONSOLESTRINGSMAX;
     console = I_Realloc(console, consolestringsmax * sizeof(*console));
@@ -1411,6 +1455,8 @@ void C_Init(void)
     char    *appdatafolder = M_GetAppDataFolder();
     char    consolefolder[MAX_PATH];
     char    buffer[9];
+
+    C_InvalidateConsoleHistoryIndexFrom(0);
 
     M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
     M_MakeDirectory(consolefolder);
@@ -3074,22 +3120,103 @@ static void UpdateCheatMask(const char *input)
         }
 }
 
-static int C_CountVisibleRows(void)
+static bool C_HistoryIndexSettingsChanged(void)
 {
-    int count = 0;
+    const int   width = CONSOLETEXTPIXELWIDTH;
+    const bool  defaultplayername = isdefaultplayername();
+    const bool  berserkactive = (viewplayer && viewplayer->powers[pw_strength]);
+    const char  *name = (playername ? playername : "");
+    const char  *killed = (s_KILLED ? s_KILLED : "");
+    const char  *gibbed = (s_GIBBED ? s_GIBBED : "");
+    const bool  changed = (!historyindexvalid || width != historyindexwidth
+                    || con_warninglevel != historyindexwarninglevel || devparm != historyindexdevparm
+                    || obituaries != historyindexobituaries || defaultplayername != historyindexdefaultplayername
+                    || berserkactive != historyindexberserkactive || english != historyindexenglish
+                    || playergender != historyindexplayergender
+                    || strcmp(name, historyindexplayername) || strcmp(killed, historyindexkilled)
+                    || strcmp(gibbed, historyindexgibbed) || strcmp(berserk, historyindexberserk));
 
-    for (int i = 0; i < numconsolestrings; i++)
+    if (changed)
     {
-        if (!C_IsVisibleConsoleString(i))
-            continue;
-
-        if (console[i].stringtype == obituarystring || console[i].stringtype == playerobituarystring)
-            C_BuildObituaryString(i);
-
-        count += C_GetConsoleDisplayRows(i);
+        historyindexwidth = width;
+        historyindexwarninglevel = con_warninglevel;
+        historyindexdevparm = devparm;
+        historyindexobituaries = obituaries;
+        historyindexdefaultplayername = defaultplayername;
+        historyindexberserkactive = berserkactive;
+        historyindexenglish = english;
+        historyindexplayergender = playergender;
+        M_StringCopy(historyindexplayername, name, sizeof(historyindexplayername));
+        M_StringCopy(historyindexkilled, killed, sizeof(historyindexkilled));
+        M_StringCopy(historyindexgibbed, gibbed, sizeof(historyindexgibbed));
+        M_StringCopy(historyindexberserk, berserk, sizeof(historyindexberserk));
     }
 
-    return count;
+    return changed;
+}
+
+static int C_EnsureHistoryIndex(void)
+{
+    int start;
+    int row;
+
+    if (C_HistoryIndexSettingsChanged())
+        historyindexdirtyfrom = 0;
+
+    if (numconsolestrings < historyindexcount)
+        historyindexdirtyfrom = 0;
+
+    if ((size_t)numconsolestrings > historyindexcapacity)
+    {
+        size_t  capacity = (historyindexcapacity ? historyindexcapacity : CONSOLESTRINGSMAX);
+
+        while (capacity < (size_t)numconsolestrings)
+            capacity *= 2;
+
+        historyrowstarts = I_Realloc(historyrowstarts, capacity * sizeof(*historyrowstarts));
+        historyentryrows = I_Realloc(historyentryrows, capacity * sizeof(*historyentryrows));
+        historyentryvisible = I_Realloc(historyentryvisible, capacity * sizeof(*historyentryvisible));
+        historyindexcapacity = capacity;
+    }
+
+    start = (historyindexdirtyfrom < 0 ? historyindexcount : MIN(historyindexdirtyfrom, historyindexcount));
+    start = MIN(start, numconsolestrings);
+    row = (start ? historyrowstarts[start - 1] + historyentryrows[start - 1] : 0);
+
+    if (!start || historyfirstvisible >= start)
+        historyfirstvisible = numconsolestrings;
+
+    for (int i = start; i < numconsolestrings; i++)
+    {
+        const bool  visible = C_IsVisibleConsoleString(i);
+        int         rows = 0;
+
+        historyrowstarts[i] = row;
+        historyentryvisible[i] = visible;
+
+        if (visible)
+        {
+            if (historyfirstvisible == numconsolestrings)
+                historyfirstvisible = i;
+
+            rows = C_GetConsoleDisplayRows(i);
+        }
+
+        historyentryrows[i] = rows;
+        row += rows;
+    }
+
+    historyindexcount = numconsolestrings;
+    historyindexdirtyfrom = -1;
+    historyindexvalid = true;
+    numvisibleconsolerows = row;
+
+    return row;
+}
+
+static int C_CountVisibleRows(void)
+{
+    return C_EnsureHistoryIndex();
 }
 
 static char *C_GetWrappedTextSegment(const int index, const int start, const int end)
@@ -3550,27 +3677,13 @@ void C_Drawer(void)
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
     // draw console text
-    for (i = 0, len = 0; i < numconsolestrings; i++)
+    for (i = C_FindHistoryEntryForRow(MAX(0, toprow - (scrolloffset > 0))); i < historyindexcount;
+        i = C_FindHistoryEntryForRow(len + historyentryrows[i]))
     {
-        int                 rows;
         const stringtype_t  stringtype = console[i].stringtype;
 
-        if (!C_IsVisibleConsoleString(i))
-            continue;
-
-        if (stringtype == obituarystring || stringtype == playerobituarystring)
-            C_BuildObituaryString(i);
-
-        rows = C_GetConsoleDisplayRows(i);
-
-        if (len > drawbottomrow)
+        if ((len = historyrowstarts[i]) > drawbottomrow)
             break;
-
-        if (len + rows - 1 < toprow - (scrolloffset > 0))
-        {
-            len += rows;
-            continue;
-        }
 
         if (stringtype == dividerstring)
         {
@@ -3604,8 +3717,6 @@ void C_Drawer(void)
         }
         else if (strlen(console[i].string))
             C_DrawConsoleStringParts(i, len, toprow, drawbottomrow, outputyoffset, notabs);
-
-        len += rows;
     }
 
     if (quitcmd)

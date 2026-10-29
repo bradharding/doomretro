@@ -275,6 +275,7 @@ void C_PlayerMessage(const char *string, ...);
 void C_PlayerMessageAsIs(const char *string, ...);
 void C_PlayerWarning(const char *string, ...);
 char *C_GetPlayerName(void);
+void C_InvalidateConsoleHistoryIndexFrom(int index);
 void C_ResetWrappedLines(void);
 void C_AddConsoleDivider(void);
 void C_ClearConsole(void);
