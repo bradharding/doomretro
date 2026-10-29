@@ -2594,6 +2594,7 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_CENTER, "0", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_SCALING, "0", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_IME_INTERNAL_EDITING, "0", SDL_HINT_OVERRIDE);
 
 #if defined(_WIN32)
     I_BeginStartupFade();
