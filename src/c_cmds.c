@@ -1773,14 +1773,18 @@ static char *C_FormatColorValue(char *cvar, char *string)
 
     if (M_StringCompare(src, "auto"))
     {
+        int value = 0;
+
         if (M_StringCompare(cvar, stringize(con_edgecolor)))
-            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", consoleedgecolor1 >> 8);
+            value = consoleedgecolor1 >> 8;
         else if (M_StringCompare(cvar, stringize(weaponcarouselbordercolor)))
-            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", carouselbordercolor);
+            value = carouselbordercolor;
         else if (M_StringCompare(cvar, stringize(weaponcarouselcolor)))
-            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", carouselcolor);
+            value = carouselcolor;
         else if (M_StringCompare(cvar, stringize(weaponcarouselhighlightcolor)))
-            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", carouselhighlightedbordercolor);
+            value = carouselhighlightedbordercolor;
+
+        M_snprintf(output, sizeof(output), "auto ({%d})", value);
     }
     else
     {
