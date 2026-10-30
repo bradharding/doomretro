@@ -2671,15 +2671,44 @@ void bindfunc2(char *cmd, char *parms)
 
                     if (!nobindoutput)
                     {
-                        if (strlen(controls[i].control) == 1)
+                        char    *validation = M_StringDuplicate(parm2);
+                        char    *command = validation;
+                        bool    valid = true;
+                        bool    inquotes = false;
+
+                        for (char *p = validation; ; p++)
+                        {
+                            if (*p == '"')
+                                inquotes = !inquotes;
+
+                            if (!*p || (*p == ';' && !inquotes))
+                            {
+                                const char  end = *p;
+                                char *trimmed;
+
+                                *p = '\0';
+                                trimmed = trimleadingwhitespace(command);
+
+                                if (*trimmed && !C_ValidateInput(trimmed))
+                                    valid = false;
+
+                                if (!end || !valid)
+                                    break;
+
+                                command = p + 1;
+                            }
+                        }
+
+                        free(validation);
+
+                        if (!valid)
+                            C_Warning(0, BOLD("\"%s\"") " isn't valid!", parm2);
+                        else if (strlen(controls[i].control) == 1)
                             C_Output(BOLD("\"%s\"") " was bound to the " BOLD("\x91%s\x92") " key.",
                                 parm2, controls[i].control);
                         else
                             C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " control.",
                                 parm2, controls[i].control);
-
-                        if (!C_ValidateInput(trimleadingwhitespace(parm2)))
-                            C_Warning(0, BOLD("\"%s\"") " is not a valid action.", parm2);
                     }
                 }
                 else if (controls[i].type == mousecontrol)
