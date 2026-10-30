@@ -219,6 +219,8 @@ static int  armortype;
 static int  health;
 static int  weapon;
 
+static char *oldcolorvalue;
+
 static int  mapcmdepisode;
 static int  mapcmdmap;
 static char mapcmdlump[7];
@@ -1327,7 +1329,7 @@ consolecmd_t consolecmds[] =
         intfunc1, weaponcarouselcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
         "The color the weapon carousel is tinted (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     INTCVAR(weaponcarouselhighlightcolor, weaponcarouselhighlightcolour, "",
-    intfunc1, weaponcarouselhighlightcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
+        intfunc1, weaponcarouselhighlightcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
         "The color the weapon carousel highlight is tinted (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(weaponrecoil, "", "", boolfunc1, weaponrecoilfunc2, 0,
         "Toggles the recoil of your weapon when you fire it."),
@@ -3350,7 +3352,7 @@ static void cvarlistfunc2(char *cmd, char *parms)
                 const int   value = *(int *)consolecmds[i].variable;
                 char        *temp1 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                if (consolecmds[i].variable == &r_voxels && r_voxels == r_voxels_auto)
+                if (M_StringCompare(consolecmds[i].name, stringize(r_voxels)) && r_voxels == r_voxels_auto)
                 {
                     bool    enabled = false;
                     char    *temp2;
@@ -11310,7 +11312,7 @@ static void intfunc2(char *cmd, char *parms)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                    if (consolecmds[i].variable == &r_voxels && r_voxels == r_voxels_auto)
+                    if (M_StringCompare(consolecmds[i].name, stringize(r_voxels)) && r_voxels == r_voxels_auto)
                     {
                         bool    enabled = false;
                         char    *temp2;
@@ -11374,8 +11376,34 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                char    *temp3 = C_FormatColorValue(consolecmds[i].name, temp1);
-                                char    *temp4 = C_FormatColorValue(consolecmds[i].name, temp2);
+                                char    *temp3;
+                                char    *temp4;
+
+                                if (M_StringCompare(consolecmds[i].name, stringize(weaponcarouselbordercolor)))
+                                {
+                                    temp3 = C_FormatColorValue(consolecmds[i].name, oldcolorvalue);
+                                    weaponcarouselbordercolor = value;
+                                    weaponcarouselbordercolor_options = -1;
+                                    ST_SetCarouselColors();
+                                }
+                                else if (M_StringCompare(consolecmds[i].name, stringize(weaponcarouselcolor)))
+                                {
+                                    temp3 = C_FormatColorValue(consolecmds[i].name, oldcolorvalue);
+                                    weaponcarouselcolor = value;
+                                    weaponcarouselcolor_options = -1;
+                                    ST_SetCarouselColors();
+                                }
+                                else if (M_StringCompare(consolecmds[i].name, stringize(weaponcarouselhighlightcolor)))
+                                {
+                                    temp3 = C_FormatColorValue(consolecmds[i].name, oldcolorvalue);
+                                    weaponcarouselhighlightcolor = value;
+                                    weaponcarouselhighlightcolor_options = -1;
+                                    ST_SetCarouselColors();
+                                }
+                                else
+                                    temp3 = C_FormatColorValue(consolecmds[i].name, temp1);
+
+                                temp4 = C_FormatColorValue(consolecmds[i].name, temp2);
 
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                                     C_Output(CVARCHANGEDFROMDEFAULT,
@@ -11393,7 +11421,7 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else
                             {
-                                if (consolecmds[i].variable == &r_voxels)
+                                if (M_StringCompare(consolecmds[i].name, stringize(r_voxels)))
                                 {
                                     bool    enabled = false;
                                     char    *temp3;
@@ -11462,7 +11490,7 @@ static void intfunc2(char *cmd, char *parms)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                    if (consolecmds[i].variable == &r_voxels && r_voxels == r_voxels_auto)
+                    if (M_StringCompare(consolecmds[i].name, stringize(r_voxels)) && r_voxels == r_voxels_auto)
                     {
                         bool    enabled = false;
                         char    *temp2;
@@ -14011,15 +14039,8 @@ static void weaponfunc2(char *cmd, char *parms)
 //
 static void weaponcarouselbordercolorfunc2(char *cmd, char *parms)
 {
-    const int   weaponcarouselbordercolor_old = weaponcarouselbordercolor;
-
+    oldcolorvalue = C_LookupAliasFromValue(weaponcarouselbordercolor, CAROUSELCOLORVALUEALIAS);
     intfunc2(cmd, parms);
-
-    if (weaponcarouselbordercolor != weaponcarouselbordercolor_old)
-    {
-        weaponcarouselbordercolor_options = -1;
-        ST_SetCarouselColors();
-    }
 }
 
 //
@@ -14027,15 +14048,8 @@ static void weaponcarouselbordercolorfunc2(char *cmd, char *parms)
 //
 static void weaponcarouselcolorfunc2(char *cmd, char *parms)
 {
-    const int   weaponcarouselcolor_old = weaponcarouselcolor;
-
+    oldcolorvalue = C_LookupAliasFromValue(weaponcarouselcolor, CAROUSELCOLORVALUEALIAS);
     intfunc2(cmd, parms);
-
-    if (weaponcarouselcolor != weaponcarouselcolor_old)
-    {
-        weaponcarouselcolor_options = -1;
-        ST_SetCarouselColors();
-    }
 }
 
 //
@@ -14043,15 +14057,8 @@ static void weaponcarouselcolorfunc2(char *cmd, char *parms)
 //
 static void weaponcarouselhighlightcolorfunc2(char *cmd, char *parms)
 {
-    const int   weaponcarouselhighlightcolor_old = weaponcarouselhighlightcolor;
-
+    oldcolorvalue = C_LookupAliasFromValue(weaponcarouselhighlightcolor, CAROUSELCOLORVALUEALIAS);
     intfunc2(cmd, parms);
-
-    if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_old)
-    {
-        weaponcarouselhighlightcolor_options = -1;
-        ST_SetCarouselColors();
-    }
 }
 
 //
