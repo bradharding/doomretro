@@ -626,7 +626,7 @@ static void CreateTextureCompositePatch(const int id)
                 count = oldcolumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (nopwadsloaded)
+                if (nopwadsloaded && !FREEDOOM)
                 {
                     if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || id == STEP2)
                         oy = 0;
