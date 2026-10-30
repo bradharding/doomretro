@@ -11849,7 +11849,9 @@ static void am_rotatemodefunc2(char *cmd, char *parms)
 //
 static bool armortypefunc1(char *cmd, char *parms)
 {
-    return (!*parms || (C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS) != INT_MIN && gamestate == GS_LEVEL));
+    const int   value = C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS);
+
+    return (!*parms || (value != INT_MIN && gamestate == GS_LEVEL && (viewplayer->armor || value != armortype_blue)));
 }
 
 static void armortypefunc2(char *cmd, char *parms)
@@ -11860,6 +11862,8 @@ static void armortypefunc2(char *cmd, char *parms)
 
     if (armortype != armortype_old)
     {
+        viewplayer->armortype = armortype;
+
         if (viewplayer->armortype == armortype_none)
         {
             P_AnimateArmor(viewplayer->armor);
