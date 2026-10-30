@@ -169,7 +169,7 @@ static byte             *consolebevelcolor1;
 static byte             *consolebevelcolor2;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
-static int              consoleedgecolor1;
+int                     consoleedgecolor1;
 static int              consoleedgecolor2;
 static int              consolecaretcolor;
 static int              consoledividercolor;

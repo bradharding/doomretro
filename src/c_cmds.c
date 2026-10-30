@@ -1765,55 +1765,58 @@ static void C_ShowWarning(int index)
         C_Warning(0, "It has no effect while the " BOLD("pistolstart") " CCMD is in use.");
 }
 
-static char *C_FormatColorValue(char *string)
+static char *C_FormatColorValue(char *cvar, char *string)
 {
     char    output[1024] = "";
     char    *src = string;
     char    *dst = output;
 
-    while (*src)
+    if (M_StringCompare(src, "auto"))
     {
-        if (M_StringStartsWith(src, "auto"))
-        {
-            if ((src == string || !isalnum((unsigned char)src[-1]))
-                && !isalnum((unsigned char)src[4]))
-            {
-                M_StringCopy(dst, "{auto}", sizeof(output) - (size_t)(dst - output));
-                dst += 6;
-                src += 4;
-                continue;
-            }
-        }
-
-        if (isdigit((unsigned char)*src))
-        {
-            char    numstr[4] = "";
-            int     num;
-            int     len = 0;
-
-            while (len < 3 && isdigit((unsigned char)src[len]))
-            {
-                numstr[len] = src[len];
-                len++;
-            }
-
-            numstr[len] = '\0';
-            num = atoi(numstr);
-
-            if (num >= 0 && num <= 255
-                && (src == string || !isalnum((unsigned char)src[-1]))
-                && !isalnum((unsigned char)src[len]))
-            {
-                dst += sprintf(dst, "{%d}", num);
-                src += len;
-                continue;
-            }
-        }
-
-        *dst++ = *src++;
+        if (M_StringCompare(cvar, stringize(con_edgecolor)))
+            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", consoleedgecolor1 >> 8);
+        else if (M_StringCompare(cvar, stringize(weaponcarouselbordercolor)))
+            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", carouselbordercolor);
+        else if (M_StringCompare(cvar, stringize(weaponcarouselcolor)))
+            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", carouselcolor);
+        else if (M_StringCompare(cvar, stringize(weaponcarouselhighlightcolor)))
+            M_snprintf(output, sizeof(output), BOLD("auto") " ({%d})", carouselhighlightedbordercolor);
     }
+    else
+    {
+        while (*src)
+        {
+            if (isdigit((unsigned char)*src))
+            {
+                char    numstr[4] = "";
+                int     num;
+                int     len = 0;
 
-    *dst = '\0';
+                while (len < 3 && isdigit((unsigned char)src[len]))
+                {
+                    numstr[len] = src[len];
+                    len++;
+                }
+
+                numstr[len] = '\0';
+                num = atoi(numstr);
+
+                if (num >= 0 && num <= 255
+                    && (src == string || !isalnum((unsigned char)src[-1]))
+                    && !isalnum((unsigned char)src[len]))
+                {
+                    dst += sprintf(dst, "{%d}", num);
+                    src += len;
+                    continue;
+                }
+            }
+
+            *dst++ = *src++;
+        }
+
+        *dst = '\0';
+
+    }
 
     return M_StringDuplicate(output);
 }
@@ -3314,9 +3317,22 @@ static void cvarlistfunc2(char *cmd, char *parms)
                 const int   value = *(int *)consolecmds[i].variable;
                 char        *temp1 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
+                if (consolecmds[i].variable == &r_voxels && r_voxels == r_voxels_auto)
+                {
+                    bool    enabled = false;
+                    char    *temp2;
+
+                    for (int spr = 0; spr < numsprites && !enabled; spr++)
+                        enabled = VX_SpriteHasVoxels(spr);
+
+                    temp2 = M_StringJoin(temp1, (enabled ? NOBOLD(" (on)") : NOBOLD(" (off)")), NULL);
+                    free(temp1);
+                    temp1 = temp2;
+                }
+
                 if (consolecmds[i].flags & CF_COLOR)
                 {
-                    char    *temp2 = C_FormatColorValue(temp1);
+                    char    *temp2 = C_FormatColorValue(consolecmds[i].name, temp1);
 
                     if (value == consolecmds[i].defaultnumber)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp2, description);
@@ -9084,7 +9100,7 @@ static void resetfunc2(char *cmd, char *parms)
             else if (flags & CF_COLOR)
             {
                 char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                char    *temp2 = C_FormatColorValue(temp1);
+                char    *temp2 = C_FormatColorValue(consolecmds[i].name, temp1);
 
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
@@ -11261,6 +11277,19 @@ static void intfunc2(char *cmd, char *parms)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
+                    if (consolecmds[i].variable == &r_voxels && r_voxels == r_voxels_auto)
+                    {
+                        bool    enabled = false;
+                        char    *temp2;
+
+                        for (int spr = 0; spr < numsprites && !enabled; spr++)
+                            enabled = VX_SpriteHasVoxels(spr);
+
+                        temp2 = M_StringJoin(temp1, (enabled ? NOBOLD(" (on)") : NOBOLD(" (off)")), NULL);
+                        free(temp1);
+                        temp1 = temp2;
+                    }
+
                     if (value == *(int *)consolecmds[i].variable)
                     {
                         if (!resettingcvar && !togglingvanilla)
@@ -11274,7 +11303,7 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                char    *temp2 = C_FormatColorValue(temp1);
+                                char    *temp2 = C_FormatColorValue(consolecmds[i].name, temp1);
 
                                 if (value == (int)consolecmds[i].defaultnumber)
                                     C_Warning(0, CVARSAMEDEFAULTWARNING, consolecmds[i].name, temp2);
@@ -11312,8 +11341,8 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                char    *temp3 = C_FormatColorValue(temp1);
-                                char    *temp4 = C_FormatColorValue(temp2);
+                                char    *temp3 = C_FormatColorValue(consolecmds[i].name, temp1);
+                                char    *temp4 = C_FormatColorValue(consolecmds[i].name, temp2);
 
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                                     C_Output(CVARCHANGEDFROMDEFAULT,
@@ -11331,6 +11360,31 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else
                             {
+                                if (consolecmds[i].variable == &r_voxels)
+                                {
+                                    bool    enabled = false;
+                                    char    *temp3;
+
+                                    for (int spr = 0; spr < numsprites && !enabled; spr++)
+                                        enabled = VX_SpriteHasVoxels(spr);
+
+                                    if (r_voxels == r_voxels_auto)
+                                    {
+                                        temp3 = M_StringJoin(temp1, (enabled ? NOBOLD( " (on)") : NOBOLD(" (off)")),
+                                            NULL);
+                                        free(temp1);
+                                        temp1 = temp3;
+                                    }
+                                    else if (value == r_voxels_auto)
+                                    {
+                                        temp3 = M_StringJoin(temp2, (enabled ? NOBOLD( " (on)") : NOBOLD(" (off)")),
+                                            NULL);
+                                        free(temp2);
+                                        temp2 = temp3;
+                                    }
+                                }
+
+
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                                     C_Output(CVARCHANGEDFROMDEFAULT,
                                         C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
@@ -11375,9 +11429,22 @@ static void intfunc2(char *cmd, char *parms)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
+                    if (consolecmds[i].variable == &r_voxels && r_voxels == r_voxels_auto)
+                    {
+                        bool    enabled = false;
+                        char    *temp2;
+
+                        for (int spr = 0; spr < numsprites && !enabled; spr++)
+                            enabled = VX_SpriteHasVoxels(spr);
+
+                        temp2 = M_StringJoin(temp1, (enabled ? NOBOLD(" (on)") : NOBOLD(" (off)")), NULL);
+                        free(temp1);
+                        temp1 = temp2;
+                    }
+
                     if (consolecmds[i].flags & CF_COLOR)
                     {
-                        char    *temp3 = C_FormatColorValue(temp1);
+                        char    *temp3 = C_FormatColorValue(consolecmds[i].name, temp1);
                         int     *optionscolor = D_GetOptionsColor(cmd);
 
                         if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
@@ -11386,7 +11453,7 @@ static void intfunc2(char *cmd, char *parms)
                         {
                             char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
                                         consolecmds[i].aliases);
-                            char    *temp4 = C_FormatColorValue(temp2);
+                            char    *temp4 = C_FormatColorValue(consolecmds[i].name, temp2);
 
                             C_Output(CVARWITHDEFAULT, temp3, temp4);
                             free(temp2);

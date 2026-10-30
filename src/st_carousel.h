@@ -35,8 +35,14 @@
 
 #pragma once
 
+#include "doomtype.h"
+
 #define ST_CAROUSEL_X   (VANILLAWIDTH / 2)
 #define ST_CAROUSEL_Y   34
+
+extern byte carouselcolor;
+extern byte carouselbordercolor;
+extern byte carouselhighlightedbordercolor;
 
 void ST_SyncCarouselWeapons(void);
 void ST_ResetCarousel(void);

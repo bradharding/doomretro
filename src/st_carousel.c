@@ -65,6 +65,11 @@ typedef struct
     bool            available;
 } weaponicon_t;
 
+byte                carouselcolor;
+byte                carouselbordercolor;
+byte                carouselhighlightedbordercolor;
+static byte         carouselunavailablebordercolor;
+
 static weaponicon_t *weaponicons;
 static weapontype_t carouselweapons[NUMWEAPONS];
 static patch_t      *pickuppatches[NUMWEAPONS];
@@ -77,9 +82,6 @@ static byte         pickupdarktint[256];
 static int          selectedindex = 0;
 static int          tallestcompressedheight;
 static bool         usingcarouselicons;
-static byte         bordercolor;
-static byte         unavailablebordercolor;
-static byte         highlightedbordercolor;
 
 static int          lastindex = -1;
 static uint64_t     lasttime;
@@ -110,50 +112,48 @@ static void ST_SetCarouselTintColors(int tintcolor)
 static void ST_SetCarouselBorderColors(int tintcolor)
 {
     if (weaponcarouselhighlightcolor_options >= 0)
-        highlightedbordercolor = weaponcarouselhighlightcolor_options;
+        carouselhighlightedbordercolor = weaponcarouselhighlightcolor_options;
     else if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_auto)
-        highlightedbordercolor = weaponcarouselhighlightcolor;
+        carouselhighlightedbordercolor = weaponcarouselhighlightcolor;
     else if (tintcolor == ST_CAROUSEL_COLOR)
-        highlightedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
+        carouselhighlightedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
     else
-        highlightedbordercolor = white5[tintcolor];
+        carouselhighlightedbordercolor = white5[tintcolor];
 
     if (weaponcarouselbordercolor_options >= 0)
     {
-        bordercolor = weaponcarouselbordercolor_options;
-        unavailablebordercolor = black10[bordercolor << 8];
+        carouselbordercolor = weaponcarouselbordercolor_options;
+        carouselunavailablebordercolor = black10[carouselbordercolor << 8];
     }
     else if (weaponcarouselbordercolor != weaponcarouselbordercolor_auto)
     {
-        bordercolor = weaponcarouselbordercolor;
-        unavailablebordercolor = black10[bordercolor << 8];
+        carouselbordercolor = weaponcarouselbordercolor;
+        carouselunavailablebordercolor = black10[carouselbordercolor << 8];
     }
     else
     {
-        bordercolor = black25[tintcolor << 8];
-        unavailablebordercolor = black10[tintcolor << 8];
+        carouselbordercolor = black25[tintcolor << 8];
+        carouselunavailablebordercolor = black10[tintcolor << 8];
     }
 }
 
 void ST_SetCarouselColors(void)
 {
-    int tintcolor;
-
     if (weaponcarouselcolor_options >= 0)
-        tintcolor = weaponcarouselcolor_options;
+        carouselcolor = weaponcarouselcolor_options;
     else if (weaponcarouselcolor != weaponcarouselcolor_auto)
-        tintcolor = weaponcarouselcolor;
+        carouselcolor = weaponcarouselcolor;
     else
     {
-        tintcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
+        carouselcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
 
-        if (W_GetNumLumps("STCFN065") == 1 || tintcolor == nearestwhite)
-            tintcolor = (W_GetNumLumps("STTNUM0") == 1 ? ST_CAROUSEL_COLOR :
+        if (W_GetNumLumps("STCFN065") == 1 || carouselcolor == nearestwhite)
+            carouselcolor = (W_GetNumLumps("STTNUM0") == 1 ? ST_CAROUSEL_COLOR :
                 FindBrightDominantColor(W_CacheLumpName("STTNUM0")));
     }
 
-    ST_SetCarouselTintColors(tintcolor);
-    ST_SetCarouselBorderColors(tintcolor);
+    ST_SetCarouselTintColors(carouselcolor);
+    ST_SetCarouselBorderColors(carouselcolor);
 }
 
 static bool ST_IsHexString(const char *string, const int length)
@@ -296,6 +296,8 @@ void ST_InitCarousel(void)
             }
     }
 
+    ST_SetCarouselColors();
+
     if (usingcarouselicons)
         return;
 
@@ -332,8 +334,6 @@ void ST_InitCarousel(void)
             else
                 pickupyoffset[i] -= 4;
         }
-
-    ST_SetCarouselColors();
 }
 
 void ST_SyncCarouselWeapons(void)
@@ -493,8 +493,8 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
     else if ((patch = pickuppatches[weapon]))
     {
-        const byte  border = (selected ? highlightedbordercolor :
-                        (available ? bordercolor : unavailablebordercolor));
+        const byte  border = (selected ? carouselhighlightedbordercolor :
+                        (available ? carouselbordercolor : carouselunavailablebordercolor));
         int         left, top, right, bottom;
 
         x += pickupxoffset[weapon];

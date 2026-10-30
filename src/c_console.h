@@ -137,6 +137,7 @@
 #define MONOSPACEDOFFCHAR                   '\x1F'
 
 #define BOLD(text)                          BOLDON text BOLDOFF
+#define NOBOLD(text)                        BOLDOFF text BOLDON
 #define BOLDER(text)                        BOLDON BOLDON text BOLDOFF BOLDOFF
 #define ITALICS(text)                       ITALICSON text ITALICSOFF
 #define BOLDITALICS(text)                   ITALICS(BOLD(text))
@@ -235,6 +236,7 @@ extern bool             consolefullscreen;
 extern bool             consoleopenedbyconsolekey;
 extern bool             ignoreconsolekey;
 extern uint64_t         consolekeydowntime;
+extern int              consoleedgecolor1;
 
 extern char             consoleinput[255];
 extern int              numconsolestrings;
