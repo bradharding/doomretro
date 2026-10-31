@@ -2,26 +2,31 @@
 
 ### DOOM Retro v7.0
 
-* *DOOM Retro* is now built using v18.11.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now distributed as a statically linked executable, and is therefore no longer accompanied by any DLLs.
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The console’s background now shows a dithered, Gaussian blur, rather than a corrugated glass effect.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
+  * A liquid glass effect is now applied to the console’s background.
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
-  * The text in the console now scrolls up and down smoothly.
+  * Scrolling in the console, using either the mouse wheel, the scroll bar, or the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, is now smooth.
   * The crosshair that is displayed when the `crosshair` CVAR is a value other than `none`, now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
+* The spin of the player’s view in the menu’s background no longer decelerates when the `smoothtransitions` CVAR is `off`.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
 * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
-* Improvements have been made to wrapping long lines of text in the console.
+* Improvements have been made to wrapping and truncating text in the console.
 * A new `+quickmelee` action has been added that, while held down, switches to the player’s chainsaw (or fists if they don’t have one) and attacks with it, and then switches back to the weapon they had equipped once released. It is unbound by default, but can be bound to a control using the `bind` CCMD.
+* A new `+quickswitch` action has been added that, when pressed, switches to the last weapon the player had equipped. It is unbound by default, but can be bound to a control using the `bind` CCMD.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.
 * Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be overwritten by a manual save.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * The white flash when taking a screenshot no longer interferes when taking multiple screenshots in quick succession.
+* Screenshots are no longer compressed by default. Compression can be enabled using the new `compressscreenshots` CVAR.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack now isn’t so loud.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
@@ -39,7 +44,10 @@
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
 * The correct credits screen now appears when [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) has been loaded.
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
-* [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
+* These changes have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24):
+  * Flats may now be used as wall textures, and wall textures as flats.
+  * If found, `id24res.wad` is now loaded automatically, allowing *ID24*-compatible things to be spawned.
+  * Line specials 2,082 to 2,086 are now supported.
 * A weapon carousel is now displayed when the player changes their weapon:
   * This carousel can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
@@ -55,6 +63,7 @@
     * `Obituary`, `Melee Obituary` and `Self Obituary` in thing definitions.
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
   * Custom monsters now always bleed red blood unless `Blood color` is specified.
+  * `Initial health`, `Max health` and `Max armor` are no longer capped.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * Things now also rock slightly from side to side, as they bob up and down in liquid sectors, when the new `r_liquid_rocksprites` CVAR is `on`, which is `on` by default and `off` when vanilla mode is enabled. The player’s view will also rock slightly when they die in a liquid sector and this CVAR is `on`.
 * Sectors with animated flats containing the text “SEA” in their name are now treated as liquid sectors.
@@ -64,7 +73,9 @@
   * Visual anomalies no longer appear when the player is halfway submerged and the `r_liquid_bob` CVAR is `on`.
   * The player’s view no longer bobs up and down when they are dead in deep water.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
-* Obituaries that involve barrels have been either simplified or removed when the `obituaries` CVAR is `on`.
+* When the `obituaries` CVAR is `on`
+  * Obituaries that involve barrels have been either simplified or removed.
+  * Obituaries that refer to a monster’s projectile have been simplified to refer to the monster itself.
 * Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
 * All sound effects are now paused when the menu or console are opened, and resume when they are closed.
 * The menu’s skull cursor now stops animating when the console is open over the menu.
@@ -95,8 +106,56 @@
 * As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
 * A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* if the [*No Rest For The Living*](https://doomwiki.org/wiki/No_Rest_for_the_Living) and/or [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) expansions were also loaded.
-* When the player or a monster walks over a corpse and the `r_corpses_nudge` CVAR is `on`, the corpse is now nudged in the same general direction the player or monster is going, rather than in a completely random direction.
-
+* These changes have been made when the `r_corpses_nudge` CVAR is `on`:
+  * When the player or a monster walks over a corpse, the corpse is now nudged in the same general direction the player or monster is going, rather than in a completely random direction.
+  * Corpses can no longer nudge other corpses.
+* The `armortype` CVAR can now be used to successfully change the type of armor the player has. If the player has no armor, the `armortype` CVAR can’t be set to `blue`.
+* CVARs that can have a value of `auto` now also show the actual value used.
+* A bug is fixed whereby any aliases in `doomretro.cfg` would be erased at startup.
+* A list of all aliases created using the `alias` CCMD can now be displayed in the console using the new `aliaslist` CCMD.
+* Lost souls no longer spawn blood splats when they are killed while on the floor and the `r_corpses_smearblood` CVAR is `on`.
+* Voxels, such as [Cheello’s *Voxel Doom II*](https://www.moddb.com/mods/voxel-doom-ii), are now supported. When loaded, they can be toggled on and off using the new`r_voxels` CVAR, which can be `face`, `smart` or `spin`. When this CVAR is `auto`, a voxel won’t replace a sprite if that sprite is from a PWAD.
+* The angles of things rendered as voxels can be changed using the new `r_voxelangles` CVAR, which can be `face`, `smart` or `spin`. When this CVAR is `face`, all voxels face the player like sprites do. When this CVAR is `smart` (the default), voxels face away from the nearest wall. When this CVAR is `spin`, pickup voxels spin around their vertical axis.
+* The following improvements have been made when the `r_textures` CVAR is `off`:
+  * Brightmaps are now displayed if the `r_brightmaps` CVAR is `on`.
+  * The player’s weapon now isn’t always translucent.
+  * A subtractive translucency effect is now applied to the fuzz effect of spectres and the player’s partial invisibility power-up.
+  * Rocket trails and dogs no longer appear with textures.
+  * Partially translucent sprites now appear correctly.
+* Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key is now more context-aware.
+* Partial support has been added for the `GAMEINFO` lump:
+  * If `iwad` is specified, it will be used to determine the IWAD to load.
+  * If `startuptitle` is specified, it will be used as the title in the window caption, as well as the title used in *Discord* when the `discordpresence` CVAR is `on`.
+* The console can now be opened in the automap by dragging it from the top of the screen downwards with the mouse, when follow mode is off and the `m_pointer` CVAR is `on`.
+* Blood splats are a slightly darker shade of red.
+* Blood splats now move accurately when on scrolling floors.
+* These changes have been made to shadows cast by sprites when the `r_shadows` CVAR is `on`:
+  * Shadows are now cast better being sprites, accurately from their bases, directly onto the sectors behind them.
+  * Shadows are cast outwards slightly from the center of the player’s view if the `r_radiallighting` CVAR is `on`.
+  * Shadows are now cast by monster projectiles.
+  * Shadows are now cast by all decorations.
+  * Shadows are now cast by all things that have entries in a `DEHACKED` lump.
+  * The edges of shadows are now softened. This can be disabled using the new `r_shadows_soft` CVAR, which is `on` by default.
+  * Shadows now swirl along with the liquid when cast in liquid sectors if the `r_liquid_swirl` CVAR is also `on`.
+* A bug is fixed whereby adjusting the screen size in the options menu using the mouse would sometimes be difficult.
+* The `if` CCMD can now have an `is not` clause, an `else` clause, and be chained together.
+* The `print` CCMD can now be used to print the value of a CVAR as a player message.
+* The <kbd><b>ESC</b></kbd> can now be held down slightly longer in the menu to close it completely, rather than just returning to the previous menu.
+* A bug is fixed whereby the mouse would disappear during the confirmation message for the `resetall` CCMD.
+* Fake contrast has been improved when the `r_fakecontrast` CVAR is set to `smooth`, allowing better contrast between walls at different angles.
+* If the effect applied to the player’s view when they have an invulnerability power-up isn't bright, overlay test won't be inverted.
+* The console now opens at startup with a warning, rather than *DOOM Retro* exiting with an error, if a PWAD that is attempting to load is invalid.
+* The values of the `con_warninglevel` CVAR have been changed from `0`, `1` and `2` to `low`, `medium` and `high`.
+* The current time can be displayed in the top right corner of the screen using the new `clock` CVAR. This CVAR is `off` by default and when vanilla mode is enabled.
+* The `con_timestampformat` CVAR has been renamed `timeformat` and affects the clock displayed by the new `clock` CVAR.
+* The nodes of all maps from the official IWADs are now rebuilt using the built-in[*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder, eliminating many [slime trails](https://doomwiki.org/wiki/Slime_trail).
+* These additional keyboard shortcuts are now available in the console:
+  * <kbd><b>CTRL</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> moves the caret to the previous/next word.
+  * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> extends the selection to the previous/next word.
+  * <kbd><b>CTRL</b></kbd> + <kbd><b>BACKSPACE</b></kbd> deletes the word to the left of the caret.
+  * <kbd><b>CTRL</b></kbd> + <kbd><b>DEL</b></kbd> deletes the word to the right of the caret.
+  * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>Z</b></kbd> redoes the last undone action (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>).
+  * <kbd><b>CTRL</b></kbd> + <kbd><b>INS</b></kbd>, <kbd><b>SHIFT</b></kbd> + <kbd><b>INS</b></kbd> and <kbd><b>SHIFT</b></kbd> + <kbd><b>DEL</b></kbd> copies, cuts and pastes text to and from the clipboard (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>C</b></kbd>, <kbd><b>CTRL</b></kbd> + <kbd><b>X</b></kbd> and <kbd><b>CTRL</b></kbd> + <kbd><b>V</b></kbd>).
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 8, 2026
