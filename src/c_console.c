@@ -1364,7 +1364,11 @@ static void C_DrawScrollbar(void)
             {
                 byte    *dot = *screens + y + x;
 
-                *dot = tinttab50[*dot + consolescrollbartrackcolor];
+                if (y == trackend - SCREENWIDTH
+                    && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1))
+                    continue;
+
+                *dot = tinttab30[*dot + consolescrollbartrackcolor];
             }
 
         // init scrollbar grip
@@ -1377,7 +1381,16 @@ static void C_DrawScrollbar(void)
         for (int y = scrollbarfacestart * SCREENWIDTH; y < faceend; y += SCREENWIDTH)
             if (y >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][y + x] = consolescrollbarfacecolor;
+                {
+                    byte    *dot = *screens + y + x;
+
+                    if ((y == scrollbarfacestart * SCREENWIDTH && scrollbarfacestart > 0
+                            || y == faceend - SCREENWIDTH)
+                        && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1))
+                        continue;
+
+                    *dot = tinttab70[*dot + consolescrollbarfacecolor];
+                }
 
         // draw scrollbar grip
         for (int y = gripstart; y < gripend; y += 2 * SCREENWIDTH)
@@ -1387,12 +1400,20 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar face shadow
         if (scrollbarfaceend >= 0)
-            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-            {
-                byte    *dot = *screens + scrollbarfaceend + x;
+        {
+            byte    *dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX;
 
-                *dot = tinttab10[*dot];
+            *dot = tinttab25[*dot];
+
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
+            {
+                dot = *screens + scrollbarfaceend * SCREENWIDTH + x;
+                *dot = tinttab25[*dot];
             }
+
+            dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1;
+            *dot = tinttab25[*dot];
+        }
 
         scrollbardrawn = true;
     }
@@ -1478,7 +1499,7 @@ void C_Init(void)
     consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
     consoleplayermessagecolor = (harmony ? 226 : nearestcolors[CONSOLEPLAYERMESSAGECOLOR]);
-    consolescrollbarfacecolor = nearestcolors[CONSOLESCROLLBARFACECOLOR];
+    consolescrollbarfacecolor = nearestcolors[CONSOLESCROLLBARFACECOLOR] << 8;
     consolescrollbartrackcolor = nearestcolors[CONSOLESCROLLBARTRACKCOLOR] << 8;
     consoleselectedinputbackgroundcolor = nearestcolors[CONSOLESELECTEDINPUTBACKGROUNDCOLOR];
     consoleselectedinputcolor = nearestcolors[CONSOLESELECTEDINPUTCOLOR];
