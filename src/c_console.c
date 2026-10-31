@@ -1403,16 +1403,16 @@ static void C_DrawScrollbar(void)
         {
             byte    *dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX;
 
-            *dot = tinttab25[*dot];
+            *dot = tinttab20[*dot];
 
             for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
             {
                 dot = *screens + scrollbarfaceend * SCREENWIDTH + x;
-                *dot = tinttab25[*dot];
+                *dot = tinttab20[*dot];
             }
 
             dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1;
-            *dot = tinttab25[*dot];
+            *dot = tinttab20[*dot];
         }
 
         scrollbardrawn = true;
@@ -1882,20 +1882,20 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
 
 static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, const float tintamount)
 {
-    static float    window[BLURWINDOW][MAXWIDTH * 3];
+    static float    blurwindow[BLURWINDOW][MAXWIDTH * 3];
     byte            line[MAXWIDTH + BLURRADIUS * 2];
     int             computed = 0;
 
     for (int y = 0; y < rows; y++)
     {
         const int   last = MIN(y + BLURRADIUS, rows - 1);
-        const float *center = window[y % BLURWINDOW];
+        const float *center = blurwindow[y % BLURWINDOW];
         float       *row = &blurrgb[y * SCREENWIDTH * 3];
 
         for (; computed <= last; computed++)
         {
             const byte  *src = &screens[0][computed * SCREENWIDTH];
-            float       *dest = window[computed % BLURWINDOW];
+            float       *dest = blurwindow[computed % BLURWINDOW];
 
             for (int i = 0; i < BLURRADIUS; i++)
             {
@@ -1933,8 +1933,8 @@ static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, 
 
         for (int k = 1; k <= BLURRADIUS; k++)
         {
-            const float *above = window[MAX(y - k, 0) % BLURWINDOW];
-            const float *below = window[MIN(y + k, rows - 1) % BLURWINDOW];
+            const float *above = blurwindow[MAX(y - k, 0) % BLURWINDOW];
+            const float *below = blurwindow[MIN(y + k, rows - 1) % BLURWINDOW];
 
             for (int i = 0; i < SCREENWIDTH * 3; i++)
                 row[i] += (above[i] + below[i]) * blurkernel[k];
@@ -1972,7 +1972,7 @@ static void C_BuildDither(byte *map)
 {
     float           energy[1024];
     float           kernel[1024];
-    unsigned int    seed = 1;
+    unsigned int    ditherseed = 1;
 
     for (int i = 0; i < 1024; i++)
     {
@@ -1980,7 +1980,7 @@ static void C_BuildDither(byte *map)
         const int   dy = MIN(i >> 5, 32 - (i >> 5));
 
         kernel[i] = expf(-(float)(dx * dx + dy * dy) / 4.5f);
-        energy[i] = (float)(((seed = 214013 * seed + 2531011) >> 16) & 255) * 1e-6f;
+        energy[i] = (float)(((ditherseed = 214013 * ditherseed + 2531011) >> 16) & 255) * 1e-6f;
     }
 
     for (int rank = 0; rank < 1024; rank++)

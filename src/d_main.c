@@ -134,11 +134,12 @@ static char *iwadsrequired[] =
 
 static char *D_RequiredIWAD(const char *pwad, char *fallback)
 {
-    static char     iwad[MAX_PATH];
-    gameinfo_t      info;
+    gameinfo_t  info;
 
     if (pwad && W_ReadGameInfoFromFile(pwad, &info) && *info.iwad)
     {
+        static char iwad[MAX_PATH];
+
         M_StringCopy(iwad, leafname(info.iwad), sizeof(iwad));
         return iwad;
     }
