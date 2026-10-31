@@ -1786,10 +1786,9 @@ void C_DrawConsoleEdge(int y)
 #define BLURRADIUS      5
 #define BLURSIGMA       2.0f
 #define BLURWINDOW      (BLURRADIUS * 2 + 1)
-#define BLURTILE        32
 #define DITHERNOISE     4.0f
+#define DITHERMAXERROR  24.0f
 #define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 22 : 0)
-#define SAMETILE(a, b)  (((a) & ~(BLURTILE - 1)) == ((b) & ~(BLURTILE - 1)))
 
 static float            blurkernel[BLURRADIUS + 1];
 static float            blurpalette[256][3];
@@ -1843,7 +1842,7 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
     const int       dir = (reverse ? -1 : 1);
     float           *temp;
 
-    if (!(y & (BLURTILE - 1)))
+    if (!y)
         memset(current, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
 
     memset(next, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
@@ -1851,8 +1850,8 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
     for (int n = 0; n < SCREENWIDTH; n++)
     {
         const int       x = (reverse ? SCREENWIDTH - 1 - n : n);
-        const float     forward = (SAMETILE(x, x + dir) ? 1.0f : 0.0f);
-        const float     behind = (SAMETILE(x, x - dir) ? 1.0f : 0.0f);
+        const float     forward = (x + dir >= 0 && x + dir < SCREENWIDTH ? 1.0f : 0.0f);
+        const float     behind = (x - dir >= 0 && x - dir < SCREENWIDTH ? 1.0f : 0.0f);
         float           *e = &current[(x + 1) * 3];
         unsigned int    hash = (unsigned int)x * 374761393u + (unsigned int)y * 668265263u;
         float           noise;
@@ -1871,7 +1870,7 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
 
         for (int c = 0; c < 3; c++)
         {
-            const float err = v[c] - blurpalette[color][c];
+            const float err = BETWEENF(-DITHERMAXERROR, v[c] - blurpalette[color][c], DITHERMAXERROR);
 
             e[dir * 3 + c] += err * (7.0f / 16.0f) * forward;
             next[(x + 1 - dir) * 3 + c] += err * (3.0f / 16.0f) * behind;
