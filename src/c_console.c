@@ -1185,10 +1185,10 @@ static int C_GetCurrentTopRow(void)
 
 static int C_GetScrollbarPixels(void)
 {
-    const int   halfheight = CONSOLEHALFHEIGHT;
     const int   range = SCREENHEIGHT / 2 - 4;
 
-    return MAX(0, 13 * CONSOLELINEHEIGHT + 14 * CONSOLELINEHEIGHT * MIN(consoleheight - halfheight, range) / range);
+    return (13 * CONSOLELINEHEIGHT + 14 * CONSOLELINEHEIGHT
+        * BETWEEN(0, consoleheight - CONSOLEHALFHEIGHT, range) / range);
 }
 
 static int C_GetScrollbarRows(void)
