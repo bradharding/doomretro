@@ -161,6 +161,7 @@ static int      functionkey;
 static int      openconsoleedgewait = -1;
 static int      openconsoleedgey = -CONSOLEEDGEHEIGHT;
 static uint64_t openconsoleedgeanimtic;
+static bool     draggingconsole;
 
 // current menudef
 menu_t          *currentmenu;
@@ -3632,7 +3633,7 @@ bool M_Responder(event_t *ev)
     if (idclevtics)
         return false;
 
-    if (consoleoverlaymenu && consoleheight && (consoledirection || consoleactive))
+    if (consoleoverlaymenu && consoleheight && (consoledirection || consoleactive) && !draggingconsole)
         return false;
 
     if (ev->type != ev_mouse)
@@ -3790,7 +3791,6 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        static bool     draggingconsole;
         static bool     leftbuttondown;
         static int      consoleopendragdirection;
         static int      consoleopendragpagetic;
