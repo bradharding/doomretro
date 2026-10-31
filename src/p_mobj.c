@@ -1849,7 +1849,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters, const bool
     mobj->anglefixed = anglefixed;
 
     if (!(flags & MF_SHOOTABLE) && VX_SpriteHasVoxels(mobj->sprite)
-        && !(anglefixed && r_voxels_pickupangles == r_voxels_pickupangles_smart))
+        && !(anglefixed && r_voxelangles == r_voxelangles_smart))
     {
         angle_t angle;
 
@@ -1958,7 +1958,7 @@ void P_UpdateVoxelAngles(void)
 
         if ((mobj->flags & MF_SHOOTABLE) || mobj->player || !mobj->spawnpoint.type
             || !VX_SpriteHasVoxels(mobj->sprite)
-            || (mobj->anglefixed && r_voxels_pickupangles == r_voxels_pickupangles_smart)
+            || (mobj->anglefixed && r_voxelangles == r_voxelangles_smart)
             || mobj->angle != P_MapThingAngle(mobj->spawnpoint.angle))
             continue;
 

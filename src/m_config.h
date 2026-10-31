@@ -205,8 +205,8 @@ extern int      r_skyprojection;
 extern bool     r_sprites_tilt;
 extern bool     r_sprites_translucency;
 extern bool     r_teleportzoom;
+extern int      r_voxelangles;
 extern int      r_voxels;
-extern int      r_voxels_pickupangles;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
 extern int      s_channels;
@@ -403,9 +403,9 @@ enum
 
 enum
 {
-    r_voxels_pickupangles_face,
-    r_voxels_pickupangles_smart,
-    r_voxels_pickupangles_spin
+    r_voxelangles_face,
+    r_voxelangles_smart,
+    r_voxelangles_spin
 };
 
 enum
@@ -916,17 +916,17 @@ enum
 
 #define r_teleportzoom_default                  true
 
-#define r_voxels_min                            r_voxels_off
-#define r_voxels_default                        r_voxels_auto
-#define r_voxels_max                            r_voxels_on
-
-#define r_voxels_pickupangles_min               r_voxels_pickupangles_face
-#define r_voxels_pickupangles_default           r_voxels_pickupangles_smart
-#define r_voxels_pickupangles_max               r_voxels_pickupangles_spin
-
 #define r_textures_default                      true
 
 #define r_textures_translucency_default         true
+
+#define r_voxelangles_min                       r_voxelangles_face
+#define r_voxelangles_default                   r_voxelangles_smart
+#define r_voxelangles_max                       r_voxelangles_spin
+
+#define r_voxels_min                            r_voxels_off
+#define r_voxels_default                        r_voxels_auto
+#define r_voxels_max                            r_voxels_on
 
 #define s_channels_min                          8
 #define s_channels_default                      32
@@ -1371,7 +1371,7 @@ typedef enum
     SUCKTIMEVALUEALIAS,
     TIMEFORMATVALUEALIAS,
     UNITSVALUEALIAS,
-    VOXELPICKUPSVALUEALIAS,
+    VOXELANGLESVALUEALIAS,
     VOXELSVALUEALIAS,
     VSYNCVALUEALIAS,
     WARNINGLEVELVALUEALIAS,

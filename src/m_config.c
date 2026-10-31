@@ -217,8 +217,8 @@ int         r_skyprojection = r_skyprojection_default;
 bool        r_sprites_tilt = r_sprites_tilt_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_teleportzoom = r_teleportzoom_default;
+int         r_voxelangles = r_voxelangles_default;
 int         r_voxels = r_voxels_default;
-int         r_voxels_pickupangles = r_voxels_pickupangles_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
@@ -503,10 +503,10 @@ static default_t cvars[] =
     CVAR_BOOL         (r_sprites_tilt,                   r_sprites_tilt,                        r_sprites_tilt,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,                BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_teleportzoom,                   r_teleportzoom,                        r_teleportzoom,                        BOOLVALUEALIAS         ),
-    CVAR_INT          (r_voxels,                         r_voxels,                              r_voxels,                              VOXELSVALUEALIAS       ),
-    CVAR_INT          (r_voxels_pickupangles,            r_voxels_pickupangles,                 r_voxels_pickupangles,                 VOXELPICKUPSVALUEALIAS ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,               BOOLVALUEALIAS         ),
+    CVAR_INT          (r_voxelangles,                    r_voxelangles,                         r_voxelangles,                         VOXELANGLESVALUEALIAS  ),
+    CVAR_INT          (r_voxels,                         r_voxels,                              r_voxels,                              VOXELSVALUEALIAS       ),
     CVAR_INT          (s_channels,                       s_channels,                            s_channels,                            0                      ),
     CVAR_BOOL         (s_fullsfx,                        s_fullsfx,                             s_fullsfx,                             BOOLVALUEALIAS         ),
     CVAR_BOOL         (s_lowermenumusic,                 s_lowermenumusic,                      s_lowermenumusic,                      BOOLVALUEALIAS         ),
@@ -719,9 +719,9 @@ valuealias_t valuealiases[] =
     { "standard",          timeformat_standard,                       TIMEFORMATVALUEALIAS    },
     { "imperial",          units_imperial,                            UNITSVALUEALIAS         },
     { "metric",            units_metric,                              UNITSVALUEALIAS         },
-    { "face",              r_voxels_pickupangles_face,                VOXELPICKUPSVALUEALIAS  },
-    { "smart",             r_voxels_pickupangles_smart,               VOXELPICKUPSVALUEALIAS  },
-    { "spin",              r_voxels_pickupangles_spin,                VOXELPICKUPSVALUEALIAS  },
+    { "face",              r_voxelangles_face,                        VOXELANGLESVALUEALIAS   },
+    { "smart",             r_voxelangles_smart,                       VOXELANGLESVALUEALIAS   },
+    { "spin",              r_voxelangles_spin,                        VOXELANGLESVALUEALIAS   },
     { "off",               r_voxels_off,                              VOXELSVALUEALIAS        },
     { "auto",              r_voxels_auto,                             VOXELSVALUEALIAS        },
     { "on",                r_voxels_on,                               VOXELSVALUEALIAS        },

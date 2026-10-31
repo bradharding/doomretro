@@ -687,7 +687,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
         if (spr == SPR_PINV || spr == SPR_PINS || spr == SPR_SOUL || spr == SPR_MEGA)
             angle = R_PointToAngle(gx, gy) + ANG180;
-        else if (r_voxels_pickupangles == r_voxels_pickupangles_spin)
+        else if (r_voxelangles == r_voxelangles_spin)
         {
             const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
                                 + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
@@ -698,7 +698,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
             gz += MAX(0, VX_HOVERZ - lift);
             spin = true;
         }
-        else if (r_voxels_pickupangles == r_voxels_pickupangles_face)
+        else if (r_voxelangles == r_voxelangles_face)
             angle = viewangle + ANG180;
         else
             angle = thing->angle;
