@@ -143,7 +143,7 @@
 * The <kbd><b>ESC</b></kbd> can now be held down slightly longer in the menu to close it completely, rather than just returning to the previous menu.
 * A bug is fixed whereby the mouse would disappear during the confirmation message for the `resetall` CCMD.
 * Fake contrast has been improved when the `r_fakecontrast` CVAR is set to `smooth`, allowing better contrast between walls at different angles.
-* If the effect applied to the player’s view when they have an invulnerability power-up isn't bright, overlay test won't be inverted.
+* If the effect applied to the player’s view when they have an invulnerability power-up isn’t bright, overlay test won’t be inverted.
 * The console now opens at startup with a warning, rather than *DOOM Retro* exiting with an error, if a PWAD that is attempting to load is invalid.
 * The values of the `con_warninglevel` CVAR have been changed from `0`, `1` and `2` to `low`, `medium` and `high`.
 * The current time can be displayed in the top right corner of the screen using the new `clock` CVAR. This CVAR is `off` by default and when vanilla mode is enabled.
@@ -197,7 +197,7 @@
 * The sky projection is now cylindrical rather than planar. This can be disabled using the new `r_skyprojection` CVAR, which can be either `vanilla`, `linear` or `cylindrical`, is `cylindrical` by default, and is `vanilla` when vanilla mode is enabled.
 * The `r_linearskies` CVAR has been deprecated. The new `r_skyprojection` CVAR can be set to `linear` instead to achieve the same effect.
 * A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
-* You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
+* You may now click anywhere to the right of *DOOM Retro’s* logo on the console’s edge and drag upwards to close the console.
 * The crosshair no longer snaps to spectres, or any target in full darkness, when the `snapcrosshair` CVAR is `on`.
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby if the console was open over the menu and the `s_lowermenumusic` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
