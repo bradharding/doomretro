@@ -1353,7 +1353,7 @@ static void C_DrawScrollbar(void)
     {
         const int   gripstart = MIN(scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2,
                         scrollbarfaceend - 7) * SCREENWIDTH;
-        const int   gripmin = MAX(0, scrollbarfacestart) * SCREENWIDTH;
+        const int   gripmin = MAX(0, scrollbarfacestart * SCREENWIDTH);
         const int   gripend = gripstart + 6 * SCREENWIDTH;
         const int   trackend = scrollbarheight * SCREENWIDTH;
         const int   faceend = scrollbarfaceend * SCREENWIDTH;
@@ -1361,12 +1361,12 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar track
         for (int y = 0; y < trackend; y += SCREENWIDTH)
-            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARRIGHT; x++)
             {
                 dot = *screens + y + x;
 
                 if (y == trackend - SCREENWIDTH
-                    && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1))
+                    && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARRIGHT - 1))
                     continue;
 
                 *dot = tinttab30[*dot + consolescrollbartrackcolor];
@@ -1375,24 +1375,24 @@ static void C_DrawScrollbar(void)
         // draw scrollbar track highlight
         for (int y = 0; y < trackend - SCREENWIDTH; y += SCREENWIDTH)
             {
-                dot = *screens + y + CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1;
+                dot = *screens + y + CONSOLESCROLLBARRIGHT - 1;
                 *dot = white5[*dot];
             }
 
-        dot = *screens + trackend - SCREENWIDTH + CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 2;
+        dot = *screens + trackend - SCREENWIDTH + CONSOLESCROLLBARRIGHT - 2;
         *dot = white5[*dot];
 
         // init scrollbar grip
         for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
-            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
                 tempscreen[y + x] = screens[0][y + x];
 
         // draw scrollbar face
-        for (int y = MAX(0, scrollbarfacestart * SCREENWIDTH); y < faceend; y += SCREENWIDTH)
-            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+        for (int y = gripmin; y < faceend; y += SCREENWIDTH)
+            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARRIGHT; x++)
             {
                 if ((y == scrollbarfacestart * SCREENWIDTH && scrollbarfacestart > 0 || y == faceend - SCREENWIDTH)
-                    && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1))
+                    && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARRIGHT - 1))
                     continue;
 
                 dot = *screens + y + x;
@@ -1401,7 +1401,7 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar grip
         for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
-            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
                 screens[0][y + x] = tempscreen[y + x];
 
         // draw scrollbar face shadow
@@ -1410,13 +1410,13 @@ static void C_DrawScrollbar(void)
             dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX;
             *dot = tinttab20[*dot];
 
-            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
             {
                 dot = *screens + scrollbarfaceend * SCREENWIDTH + x;
                 *dot = tinttab20[*dot];
             }
 
-            dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1;
+            dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARRIGHT - 1;
             *dot = tinttab20[*dot];
         }
 
