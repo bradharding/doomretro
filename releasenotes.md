@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now distributed as a statically linked executable, and is therefore no longer accompanied by any DLLs.
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The console’s background now shows a dithered, Gaussian blur, rather than a corrugated glass effect.
+* The console’s background now shows a dithered, Gaussian blur, rather than a corrugated glass effect, and the scrollbar and dividers have been redesigned.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
   * A liquid glass effect is now applied to the console’s background.
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
@@ -155,6 +155,7 @@
   * <kbd><b>CTRL</b></kbd> + <kbd><b>DEL</b></kbd> deletes the word to the right of the caret.
   * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>Z</b></kbd> redoes the last undone action (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>).
   * <kbd><b>CTRL</b></kbd> + <kbd><b>INS</b></kbd>, <kbd><b>SHIFT</b></kbd> + <kbd><b>INS</b></kbd> and <kbd><b>SHIFT</b></kbd> + <kbd><b>DEL</b></kbd> copies, cuts and pastes text to and from the clipboard (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>C</b></kbd>, <kbd><b>CTRL</b></kbd> + <kbd><b>X</b></kbd> and <kbd><b>CTRL</b></kbd> + <kbd><b>V</b></kbd>).
+* All non-printable characters are now removed before pasting text into the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
