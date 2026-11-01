@@ -1359,6 +1359,11 @@ static void C_DrawScrollbar(void)
         const int   faceend = scrollbarfaceend * SCREENWIDTH;
         byte        *dot;
 
+        // init scrollbar grip
+        for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
+                tempscreen[y + x] = screens[0][y + x];
+
         // draw scrollbar track
         for (int y = 0; y <= trackend; y += SCREENWIDTH)
             for (int x = CONSOLESCROLLBARX - 1; x <= CONSOLESCROLLBARRIGHT; x++)
@@ -1391,11 +1396,6 @@ static void C_DrawScrollbar(void)
             dot = *screens + y + CONSOLESCROLLBARX - 1;
             *dot = black5[*dot];
         }
-
-        // init scrollbar grip
-        for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
-            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
-                tempscreen[y + x] = screens[0][y + x];
 
         // draw scrollbar face
         for (int y = gripmin; y < faceend; y += SCREENWIDTH)
