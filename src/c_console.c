@@ -1383,7 +1383,6 @@ static void C_DrawScrollbar(void)
                 *dot = white5[*dot];
             }
 
-
         for (int x = CONSOLESCROLLBARX; x <= CONSOLESCROLLBARRIGHT - 1; x++)
         {
             dot = *screens + trackend + x;

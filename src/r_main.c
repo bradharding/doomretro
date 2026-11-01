@@ -477,7 +477,7 @@ void R_ExecuteSetViewSize(void)
 
     for (int i = 0; i < (inmenu ? SCREENHEIGHT : viewheight); i++)
     {
-        const int   center = (inmenu ? SCREENHEIGHT / 2 : viewheight / 2);
+        const int   center = (inmenu ? SCREENHEIGHT : viewheight) / 2;
 
         for (int j = 0; j < PITCHES; j++)
         {

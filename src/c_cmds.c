@@ -11445,7 +11445,6 @@ static void intfunc2(char *cmd, char *parms)
                                     }
                                 }
 
-
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                                     C_Output(CVARCHANGEDFROMDEFAULT,
                                         C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
