@@ -141,7 +141,7 @@ static void R_MapPlane(const int y, const int x1)
 
     if (planeheight != cachedheight[y] || rotation != cachedangle[y] || centery != cachedcentery[y])
     {
-        const fixed_t   dy = ABS(centery - y) << FRACBITS;
+        const fixed_t   dy = MAX(1, ABS(centery - y)) << FRACBITS;
 
         cachedheight[y] = planeheight;
         cachedangle[y] = rotation;
