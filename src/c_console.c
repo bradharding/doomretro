@@ -1360,27 +1360,36 @@ static void C_DrawScrollbar(void)
         byte        *dot;
 
         // draw scrollbar track
-        for (int y = 0; y < trackend; y += SCREENWIDTH)
-            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARRIGHT; x++)
+        for (int y = 0; y <= trackend; y += SCREENWIDTH)
+            for (int x = CONSOLESCROLLBARX - 1; x <= CONSOLESCROLLBARRIGHT; x++)
             {
                 dot = *screens + y + x;
 
-                if (y == trackend - SCREENWIDTH
-                    && (x == CONSOLESCROLLBARX || x == CONSOLESCROLLBARRIGHT - 1))
+                if (y == trackend && (x == CONSOLESCROLLBARX - 1 || x == CONSOLESCROLLBARRIGHT))
                     continue;
 
                 *dot = tinttab30[*dot + consolescrollbartrackcolor];
             }
 
         // draw scrollbar track highlight
-        for (int y = 0; y < trackend - SCREENWIDTH; y += SCREENWIDTH)
+        for (int y = 0; y < trackend; y += SCREENWIDTH)
             {
-                dot = *screens + y + CONSOLESCROLLBARRIGHT - 1;
+                dot = *screens + y + CONSOLESCROLLBARRIGHT;
                 *dot = white5[*dot];
             }
 
-        dot = *screens + trackend - SCREENWIDTH + CONSOLESCROLLBARRIGHT - 2;
+        dot = *screens + trackend + CONSOLESCROLLBARRIGHT - 1;
         *dot = white5[*dot];
+
+        // draw scrollbar track lowlight
+        for (int y = 0; y < trackend; y += SCREENWIDTH)
+        {
+            dot = *screens + y + CONSOLESCROLLBARX - 1;
+            *dot = black5[*dot];
+        }
+
+        dot = *screens + trackend + CONSOLESCROLLBARX;
+        *dot = black5[*dot];
 
         // init scrollbar grip
         for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
@@ -1396,13 +1405,40 @@ static void C_DrawScrollbar(void)
                     continue;
 
                 dot = *screens + y + x;
-                *dot = tinttab70[*dot + consolescrollbarfacecolor];
+                *dot = tinttab40[*dot + consolescrollbarfacecolor];
             }
 
         // draw scrollbar grip
         for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
             for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
                 screens[0][y + x] = tempscreen[y + x];
+
+        // draw scrollbar face highlight
+        for (int y = scrollbarfacestart + 1; y < scrollbarfaceend - 1; y++)
+        {
+            dot = *screens + y * SCREENWIDTH + CONSOLESCROLLBARX;
+            *dot = white5[*dot];
+        }
+
+        if (scrollbarfacestart > 0)
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
+            {
+                dot = *screens + scrollbarfacestart * SCREENWIDTH + x;
+                *dot = white5[*dot];
+            }
+
+        // draw scrollbar face lowlight
+        for (int y = scrollbarfacestart + 1; y < scrollbarfaceend - 1; y++)
+        {
+            dot = *screens + y * SCREENWIDTH + CONSOLESCROLLBARRIGHT - 1;
+            *dot = black5[*dot];
+        }
+
+        for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
+        {
+            dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + x;
+            *dot = black5[*dot];
+        }
 
         // draw scrollbar face shadow
         if (scrollbarfaceend >= 0)
@@ -5019,7 +5055,7 @@ bool C_Responder(event_t *ev)
                 selectend = i;
                 selectingwithmouse = true;
             }
-            else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
+            else if (scrollbardrawn && x >= CONSOLESCROLLBARX - 1 && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
             {
                 // click inside scrollbar: start dragging if on face
                 if (y >= scrollbarfacestart && y <= scrollbarfaceend)
@@ -5049,7 +5085,7 @@ bool C_Responder(event_t *ev)
                         C_ScrollOutput(-scrollspeed / TICRATE);
 
                     // scroll output down
-                    else if (y > scrollbarfaceend && y < scrollbartrackheight)
+                    else if (y > scrollbarfaceend && y <= scrollbartrackheight)
                         C_ScrollOutput(scrollspeed / TICRATE);
                 }
             }

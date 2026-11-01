@@ -122,6 +122,7 @@ byte        nearestred;
 byte        nearestwhite;
 byte        nearestwhite2;
 
+byte        *black5;
 byte        *black10;
 byte        *black25;
 byte        *black40;
@@ -211,6 +212,7 @@ void I_InitColors(byte *palette)
     nearestwhite = nearestcolors[WHITE];
     nearestwhite2 = nearestcolors[WHITE2];
 
+    black5 = &tinttab5[nearestblack << 8];
     black10 = &tinttab10[nearestblack << 8];
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
