@@ -1440,22 +1440,6 @@ static void C_DrawScrollbar(void)
             *dot = black5[*dot];
         }
 
-        // draw scrollbar face shadow
-        if (scrollbarfaceend >= 0)
-        {
-            dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARX;
-            *dot = tinttab20[*dot];
-
-            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
-            {
-                dot = *screens + scrollbarfaceend * SCREENWIDTH + x;
-                *dot = tinttab20[*dot];
-            }
-
-            dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + CONSOLESCROLLBARRIGHT - 1;
-            *dot = tinttab20[*dot];
-        }
-
         scrollbardrawn = true;
     }
 }
