@@ -1396,6 +1396,7 @@ static void R_ProjectSprite(mobj_t *thing)
 {
     fixed_t         tx;
     fixed_t         xscale;
+    fixed_t         iscale;
     int             x1;
     int             x2;
     spriteframe_t   *sprframe;
@@ -1454,6 +1455,7 @@ static void R_ProjectSprite(mobj_t *thing)
         return;
 
     xscale = FixedDiv(projection, tz);
+    iscale = FixedDiv(FRACUNIT, xscale);
     castshadow = ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows);
 
     // too far off the side?
@@ -1509,14 +1511,15 @@ static void R_ProjectSprite(mobj_t *thing)
     gzt = fz + topoffset;
 
     // [PN] Pitch-aware: distances from centery to top/bottom screen rows.
-    if (gzt < (int64_t)viewz - FixedDiv((viewheight - centery) << FRACBITS, xscale))
+    // [Alaux] Use multiplications by the inverse scale instead of divisions.
+    if (gzt < (int64_t)viewz - FixedMul64(bottomydeltafrac, iscale))
     {
         if (!castshadow)
             return;
 
         shadowonly = true;
     }
-    else if (MIN(fz, gzt - height) > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale) && !castshadow)
+    else if (MIN(fz, gzt - height) > (int64_t)viewz + FixedMul64(centeryfrac, iscale) && !castshadow)
         return;
 
     // calculate edges of the shape
@@ -1625,7 +1628,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
     if (flip)
     {
-        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
+        vis->xiscale = -iscale;
 
         if (x1 < 0)
         {
@@ -1640,7 +1643,7 @@ static void R_ProjectSprite(mobj_t *thing)
     }
     else
     {
-        vis->xiscale = FixedDiv(FRACUNIT, xscale);
+        vis->xiscale = iscale;
 
         if (x1 < 0)
         {

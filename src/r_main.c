@@ -79,7 +79,7 @@ angle_t             viewangle;
 fixed_t             viewcos;
 fixed_t             viewsin;
 
-fixed_t             viewheightfrac;
+fixed_t             bottomydeltafrac;
 
 player_t            *viewplayer = NULL;
 
@@ -440,7 +440,6 @@ void R_ExecuteSetViewSize(void)
 
     fovtx = (vid_aspectratio >= vid_aspectratio_21_9 && r_fov >= 90 ? 4 : 2);
     projection = FixedDiv(centerxfrac, fovscale);
-    viewheightfrac = viewheight << (FRACBITS + 2);
 
     R_InitBuffer();
     R_InitTextureMapping();
@@ -1283,6 +1282,7 @@ static void R_SetupFrame(void)
     extralight = (viewplayer->extralight << 2) + r_extralighting / 3;
 
     centeryfrac = centery << FRACBITS;
+    bottomydeltafrac = (viewheight - centery) << FRACBITS;
     yslope = yslopes[PITCHMAX + pitchi];
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
