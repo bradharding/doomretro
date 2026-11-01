@@ -468,8 +468,12 @@ void R_ExecuteSetViewSize(void)
         const int   center = (inmenu ? SCREENHEIGHT / 2 : viewheight / 2);
 
         for (int j = 0; j < PITCHES; j++)
-            yslopes[j][i] = FixedDiv(planenum, ABS(((i - (center + (j - PITCHMAX) * 2
-                * (inmenu ? 11 : setblocks) / 10)) << FRACBITS) + FRACUNIT / 2));
+        {
+            const fixed_t   dy = ABS(((i - (center + (j - PITCHMAX) * 2
+                                * (inmenu ? 11 : setblocks) / 10)) << FRACBITS));
+
+            yslopes[j][i] = FixedDiv(planenum, (!dy ? 1 : dy));
+        }
     }
 
     yslope = yslopes[PITCHMAX];

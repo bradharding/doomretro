@@ -141,10 +141,7 @@ static void R_MapPlane(const int y, const int x1)
 
     if (planeheight != cachedheight[y] || rotation != cachedangle[y] || centery != cachedcentery[y])
     {
-        // SoM: because centery is an actual row of pixels (and it isn't really the
-        // center row because there are an even number of rows) some corrections need
-        // to be made depending on where the row lies relative to the centery row.
-        const fixed_t   dy = (ABS(centery - y) << FRACBITS) + (y < centery ? -FRACUNIT : FRACUNIT) / 2;
+        const fixed_t   dy = ABS(centery - y) << FRACBITS;
 
         cachedheight[y] = planeheight;
         cachedangle[y] = rotation;

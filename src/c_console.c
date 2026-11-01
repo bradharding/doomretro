@@ -1788,6 +1788,7 @@ void C_DrawConsoleEdge(int y)
 #define BLURWINDOW      (BLURRADIUS * 2 + 1)
 #define DITHERNOISE     4.0f
 #define DITHERMAXERROR  24.0f
+#define DITHERROWS      6
 #define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 22 : 0)
 
 static float            blurkernel[BLURRADIUS + 1];
@@ -1842,7 +1843,7 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
     const int       dir = (reverse ? -1 : 1);
     float           *temp;
 
-    if (!y)
+    if (!(y % DITHERROWS))
         memset(current, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
 
     memset(next, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
@@ -2083,7 +2084,8 @@ static void C_DrawBackground(void)
                     rimedge = dist - 1 + (ABS(vx) > ABS(vy) ? 2 : 0);
                 }
 
-                src = &blurrgb[(BETWEEN(0, row - oy, glassrows - 1) * SCREENWIDTH + BETWEEN(0, x + ox, SCREENWIDTH - 1)) * 3];
+                src = &blurrgb[(BETWEEN(0, row - oy, glassrows - 1) * SCREENWIDTH
+                    + BETWEEN(0, x + ox, SCREENWIDTH - 1)) * 3];
 
                 for (int c = 0; c < 3; c++)
                     linergb[x * 3 + c] = src[c] * factor;
