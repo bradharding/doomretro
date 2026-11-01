@@ -4625,6 +4625,13 @@ bool C_Responder(event_t *ev)
                     char    *temp1 = M_SubString(consoleinput, 0, selectstart);
                     char    *temp2 = M_SubString(consoleinput, selectend, (size_t)len - selectend);
                     char    *clipboard = SDL_GetClipboardText();
+                    char    *dest = clipboard;
+
+                    for (const char *src = clipboard; *src; src++)
+                        if ((unsigned char)*src >= CONSOLEFONTSTART && *src != 127)
+                            *dest++ = *src;
+
+                    *dest = '\0';
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, clipboard, temp2);
                     M_StringReplaceAll(buffer, "(null)", "", true);
