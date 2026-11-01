@@ -1378,8 +1378,12 @@ static void C_DrawScrollbar(void)
                 *dot = white5[*dot];
             }
 
-        dot = *screens + trackend + CONSOLESCROLLBARRIGHT - 1;
-        *dot = white5[*dot];
+
+        for (int x = CONSOLESCROLLBARX; x <= CONSOLESCROLLBARRIGHT - 1; x++)
+        {
+            dot = *screens + trackend + x;
+            *dot = white5[*dot];
+        }
 
         // draw scrollbar track lowlight
         for (int y = 0; y < trackend; y += SCREENWIDTH)
@@ -1387,9 +1391,6 @@ static void C_DrawScrollbar(void)
             dot = *screens + y + CONSOLESCROLLBARX - 1;
             *dot = black5[*dot];
         }
-
-        dot = *screens + trackend + CONSOLESCROLLBARX;
-        *dot = black5[*dot];
 
         // init scrollbar grip
         for (int y = MAX(gripmin, gripstart); y < gripend; y += 2 * SCREENWIDTH)
