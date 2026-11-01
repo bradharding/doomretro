@@ -381,6 +381,17 @@ void R_SetViewSize(int blocks)
     setblocks = blocks + 3;
 }
 
+static float R_PitchBlocks(const bool inmenu)
+{
+    if (inmenu)
+        return 11.0f;
+
+    if (st_statusbarvisible != st_statusbartarget && setblocks >= 10)
+        return (11.0f - (float)st_statusbarvisible / SBARHEIGHT);
+
+    return (float)setblocks;
+}
+
 //
 // R_ExecuteSetViewSize
 //
@@ -388,6 +399,7 @@ void R_ExecuteSetViewSize(void)
 {
     int     fov;
     bool    inmenu;
+    float   pitchblocks;
 
     setsizeneeded = false;
 
@@ -460,6 +472,7 @@ void R_ExecuteSetViewSize(void)
 
     // planes
     inmenu = (menuactive && !helpscreen && menuspin);
+    pitchblocks = R_PitchBlocks(inmenu);
     planenum = FixedMul(FixedDiv(FRACUNIT, fovscale), (inmenu ? SCREENWIDTH : viewwidth) * FRACUNIT / 2);
 
     for (int i = 0; i < (inmenu ? SCREENHEIGHT : viewheight); i++)
@@ -468,10 +481,9 @@ void R_ExecuteSetViewSize(void)
 
         for (int j = 0; j < PITCHES; j++)
         {
-            const fixed_t   dy = ABS(((i - (center + (j - PITCHMAX) * 2
-                                * (inmenu ? 11 : setblocks) / 10)) << FRACBITS));
+            const fixed_t   dy = ABS((i - (center + (int)((j - PITCHMAX) * 2 * pitchblocks / 10.0f))) << FRACBITS);
 
-            yslopes[j][i] = FixedDiv(planenum, (!dy ? 1 : dy));
+            yslopes[j][i] = FixedDiv(planenum, (dy ? dy : 1));
         }
     }
 
@@ -1277,7 +1289,7 @@ static void R_SetupFrame(void)
     centery = viewheight / 2;
 
     if (pitchf)
-        centery += (int)(pitchf * 2.0f * (menuactive && !helpscreen && menuspin ? 11 : (r_screensize + 3)) / 10.0f);
+        centery += (int)(pitchf * 2.0f * R_PitchBlocks(menuactive && !helpscreen && menuspin) / 10.0f);
 
     extralight = (viewplayer->extralight << 2) + r_extralighting / 3;
 
