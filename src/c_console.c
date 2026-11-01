@@ -2027,7 +2027,7 @@ static void C_BuildDither(byte *map)
     }
 }
 
-static void C_DrawBackground(void)
+static void C_RenderBackground(void)
 {
     const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
     const int           rows = consoleheight + 5;
@@ -2191,6 +2191,65 @@ static void C_DrawBackground(void)
                 dest[x] = colormaps[0][shade * 256 + dest[x]];
         }
     }
+}
+
+typedef struct
+{
+    int     consoleheight;
+    int     screenwidth;
+    int     screenheight;
+    int     edgecolor;
+    int     edgecolor1;
+    int     edgecolor2;
+    bool    inverted;
+    bool    smoothtransitions;
+    bool    widescreen;
+    bool    automapbevel;
+} backgroundkey_t;
+
+static void C_DrawBackground(void)
+{
+    static byte             *cachedinput;
+    static byte             *cachedoutput;
+    static int              cachedarea;
+    static int              cachedspan;
+    static backgroundkey_t  cachedkey;
+    static bool             cachevalid;
+    backgroundkey_t         key;
+    const int               span = MIN((consoleheight + 5 + 7) * SCREENWIDTH, SCREENAREA);
+
+    memset(&key, 0, sizeof(key));
+    key.consoleheight = consoleheight;
+    key.screenwidth = SCREENWIDTH;
+    key.screenheight = SCREENHEIGHT;
+    key.edgecolor = con_edgecolor;
+    key.edgecolor1 = consoleedgecolor1;
+    key.edgecolor2 = consoleedgecolor2;
+    key.inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
+    key.smoothtransitions = smoothtransitions;
+    key.widescreen = vid_widescreen;
+    key.automapbevel = (automapactive && am_backcolor == am_backcolor_default);
+
+    if (cachevalid && span == cachedspan && !memcmp(&key, &cachedkey, sizeof(key))
+        && !memcmp(screens[0], cachedinput, span))
+    {
+        memcpy(screens[0], cachedoutput, span);
+        return;
+    }
+
+    if (cachedarea < SCREENAREA)
+    {
+        cachedinput = I_Realloc(cachedinput, SCREENAREA);
+        cachedoutput = I_Realloc(cachedoutput, SCREENAREA);
+        cachedarea = SCREENAREA;
+    }
+
+    memcpy(cachedinput, screens[0], span);
+    C_RenderBackground();
+    memcpy(cachedoutput, screens[0], span);
+    cachedspan = span;
+    cachedkey = key;
+    cachevalid = true;
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,

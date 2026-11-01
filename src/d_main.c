@@ -340,11 +340,14 @@ void D_FadeScreenToBlack(void)
 //
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
-gamestate_t wipegamestate = GS_TITLESCREEN;
+gamestate_t             wipegamestate = GS_TITLESCREEN;
 
-static byte *consolesnapshot;
-static int  consolesnapshotarea;
-static bool consolesnapshotvalid;
+static byte             *consolesnapshot;
+static int              consolesnapshotarea;
+static bool             consolesnapshotvalid;
+static const patch_t    *consolesnapshotpage;
+
+static patch_t          *pagelump;
 
 void D_RefreshConsoleSnapshot(void)
 {
@@ -379,6 +382,34 @@ static void D_RenderPlayerView(void)
         }
 
         memcpy(consolesnapshot, screens[0], SCREENAREA);
+        consolesnapshotvalid = true;
+    }
+    else
+        consolesnapshotvalid = false;
+}
+
+static void D_DrawTitlePage(void)
+{
+    const bool  usesnapshot = (consoleactive && !menuactive && !messagetoprint && !dowipe);
+
+    if (usesnapshot && consolesnapshotvalid && consolesnapshotarea == SCREENAREA && consolesnapshotpage == pagelump)
+    {
+        memcpy(screens[0], consolesnapshot, SCREENAREA);
+        return;
+    }
+
+    D_PageDrawer();
+
+    if (usesnapshot)
+    {
+        if (consolesnapshotarea != SCREENAREA)
+        {
+            consolesnapshot = I_Realloc(consolesnapshot, SCREENAREA);
+            consolesnapshotarea = SCREENAREA;
+        }
+
+        memcpy(consolesnapshot, screens[0], SCREENAREA);
+        consolesnapshotpage = pagelump;
         consolesnapshotvalid = true;
     }
     else
@@ -432,7 +463,8 @@ void D_Display(void)
 
     if (gamestate != GS_LEVEL)
     {
-        consolesnapshotvalid = false;
+        if (gamestate != GS_TITLESCREEN)
+            consolesnapshotvalid = false;
 
         if (gamestate != oldgamestate)
         {
@@ -452,7 +484,7 @@ void D_Display(void)
                 break;
 
             case GS_TITLESCREEN:
-                D_PageDrawer();
+                D_DrawTitlePage();
                 break;
 
             default:
