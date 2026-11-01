@@ -53,7 +53,6 @@
   * The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
   * If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (their default), or `0` to `255`.
   * These colors can also be specified by an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
-  * They can also be specified by a `CAROUSEL` lump in a PWAD. Each line of this new lump contains a WAD name, wildcard expression, or MD5 or SHA-1 hash, followed by the tint, border and highlight colors (each `0` to `255`), separated by spaces. If a match is found, the relevant CVARs are overridden.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
 * Sprites now tilt slightly to face the center of the player’s view. This can be disabled using the new `r_sprites_tilt` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the support of `DEHACKED` lumps:
