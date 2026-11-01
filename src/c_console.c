@@ -1788,7 +1788,7 @@ void C_DrawConsoleEdge(int y)
 #define BLURWINDOW      (BLURRADIUS * 2 + 1)
 #define DITHERNOISE     4.0f
 #define DITHERMAXERROR  24.0f
-#define DITHERROWS      6
+#define DITHERRESETMASK 7
 #define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 22 : 0)
 
 static float            blurkernel[BLURRADIUS + 1];
@@ -1843,7 +1843,7 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
     const int       dir = (reverse ? -1 : 1);
     float           *temp;
 
-    if (!(y % DITHERROWS))
+    if (!y)
         memset(current, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
 
     memset(next, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
@@ -1856,14 +1856,16 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
         float           *e = &current[(x + 1) * 3];
         unsigned int    hash = (unsigned int)x * 374761393u + (unsigned int)y * 668265263u;
         float           noise;
+        bool            reset;
         float           v[3];
         byte            color;
 
         hash = (hash ^ (hash >> 13)) * 1274126177u;
         noise = ((float)((hash >> 16) & 255) - 127.5f) * (DITHERNOISE / 127.5f);
+        reset = !((hash >> 24) & DITHERRESETMASK);
 
         for (int c = 0; c < 3; c++)
-            v[c] = fminf(fmaxf(rgb[x * 3 + c] + e[c], 0.0f), 255.0f);
+            v[c] = fminf(fmaxf(rgb[x * 3 + c] + (reset ? 0.0f : e[c]), 0.0f), 255.0f);
 
         color = C_NearestColor(BETWEEN(0, (int)(v[0] + noise), 255), BETWEEN(0, (int)(v[1] + noise), 255),
             BETWEEN(0, (int)(v[2] + noise), 255));
