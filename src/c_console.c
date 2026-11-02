@@ -1347,7 +1347,7 @@ static void C_DrawScrollbar(void)
 
     scrollbarfaceend = MIN(scrollbarfacestart + faceheight, scrollbarheight);
 
-    if (visiblepixels == totalpixels)
+    if (visiblepixels == totalpixels || scrollbarheight <= 0)
         scrollbardrawn = false;
     else
     {
