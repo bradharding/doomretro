@@ -234,6 +234,7 @@ bool        quitcmd = false;
 bool        resettingcvar = false;
 bool        togglingcvar = false;
 bool        togglingvanilla = false;
+bool        validatinginput = false;
 bool        vanilla = false;
 
 const control_t controls[] =
@@ -1829,6 +1830,9 @@ static char *C_FormatColorValue(char *cvar, char *string)
 
 static bool alivefunc1(char *cmd, char *parms)
 {
+    if (validatinginput)
+        return true;
+
     if (gamestate != GS_LEVEL)
         return ingameccmdfunc1(cmd, parms);
     else if (viewplayer->health > 0)
@@ -1894,7 +1898,7 @@ static bool cheatfunc1(char *cmd, char *parms)
             && (gamemission != pack_masterlevels || mapcmdmap <= 21)
             && (!BTSX || W_GetNumLumps(mapcmdmapnum) > 1));
 
-        if (gamestate == GS_LEVEL)
+        if (gamestate == GS_LEVEL || validatinginput)
             return result;
         else if (result)
         {
@@ -1914,6 +1918,9 @@ static bool cheatfunc1(char *cmd, char *parms)
             const int   ep = (gamemode == commercial ? gameepisode : parms[0] - '0');
             const int   map = (gamemode == commercial ? (parms[0] - '0') * 10 + parms[1] - '0' : parms[1] - '0');
             musicnum_t  musnum = mus_none;
+
+            if (validatinginput)
+                return true;
 
             if (S_ChangeMapMusic(ep, map, true, true, &musnum))
             {
@@ -1940,7 +1947,7 @@ static bool cheatfunc1(char *cmd, char *parms)
         return false;
     }
     else if (gamestate != GS_LEVEL)
-        return false;
+        return validatinginput;
     else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_ammonokey.sequence))
@@ -1977,7 +1984,7 @@ static bool cheatfunc1(char *cmd, char *parms)
 
 static bool ingameccmdfunc1(char *cmd, char *parms)
 {
-    if (gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL || validatinginput)
         return true;
 
     if (!togglingvanilla)
@@ -1999,7 +2006,7 @@ static bool ingameccmdfunc1(char *cmd, char *parms)
 
 static bool inaftergameccmdfunc1(char *cmd, char *parms)
 {
-    if (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION)
+    if (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION || validatinginput)
         return true;
 
     if (!togglingvanilla)
@@ -2021,7 +2028,7 @@ static bool inaftergameccmdfunc1(char *cmd, char *parms)
 
 static bool ingamecvarfunc1(char *cmd, char *parms)
 {
-    if (gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL || validatinginput)
         return true;
 
     if (!togglingvanilla)
@@ -2044,6 +2051,9 @@ static bool ingamecvarfunc1(char *cmd, char *parms)
 static bool nightmarefunc1(char *cmd, char *parms)
 {
     char    *nightmare = *skilllevels[sk_nightmare];
+
+    if (validatinginput)
+        return true;
 
     if (gamestate != GS_LEVEL)
         return ingameccmdfunc1(cmd, parms);
@@ -12118,7 +12128,7 @@ static void joy_sensitivitycvarsfunc2(char *cmd, char *parms)
 //
 static bool playercvarsfunc1(char *cmd, char *parms)
 {
-    if (!*parms)
+    if (!*parms || validatinginput)
         return true;
 
     if (gamestate != GS_LEVEL)
@@ -13881,7 +13891,7 @@ static void vid_windowsizefunc2(char *cmd, char *parms)
 //
 static bool weaponfunc1(char *cmd, char *parms)
 {
-    if (!*parms)
+    if (!*parms || validatinginput)
         return true;
     else if (gamestate != GS_LEVEL || viewplayer->pendingweapon != wp_nochange || viewplayer->health <= 0)
         return false;

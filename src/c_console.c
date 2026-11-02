@@ -4017,7 +4017,7 @@ void C_ExecuteInputString(const char *input)
     free(string);
 }
 
-bool C_ValidateInput(const char *input)
+static bool C_ValidateInputCommand(const char *input)
 {
     const int   length = (int)strlen(input);
 
@@ -4082,6 +4082,16 @@ bool C_ValidateInput(const char *input)
             return true;
 
     return false;
+}
+
+bool C_ValidateInput(const char *input)
+{
+    bool    result;
+
+    validatinginput = true;
+    result = C_ValidateInputCommand(input);
+    validatinginput = false;
+    return result;
 }
 
 bool C_ExecuteInput(char *input)

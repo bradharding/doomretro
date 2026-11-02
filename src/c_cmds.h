@@ -139,6 +139,7 @@ extern bool             quitcmd;
 extern bool             resettingcvar;
 extern bool             togglingcvar;
 extern bool             togglingvanilla;
+extern bool             validatinginput;
 extern bool             vanilla;
 
 void aliasfunc2(char *cmd, char *parms);
