@@ -46,6 +46,7 @@
 #include "d_main.h"
 #include "d_options.h"
 #include "doomstat.h"
+#include "i_system.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
