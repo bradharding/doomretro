@@ -140,7 +140,7 @@ int D_OpenWADLauncher(void)
     ofn.lpstrInitialDir = wadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
 
-    if (!WideCharToMultiByte(CP_ACP, 0, L"Where\u2019s All the Data?", -1, title, sizeof(title), NULL, NULL))
+    if (WideCharToMultiByte(CP_ACP, 0, L"Where\u2019s All the Data?", -1, title, sizeof(title), NULL, NULL))
         ofn.lpstrTitle = title;
     else
         ofn.lpstrTitle = "Where's All the Data?";

@@ -2028,22 +2028,22 @@ static void C_BuildDither(byte *map)
 
 static void C_RenderBackground(void)
 {
-    const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
-    const int           rows = consoleheight + 5;
-    const int           height = rows * SCREENWIDTH;
-    static float        *blurrgb;
-    static int          blurrgbsize;
-    static float        linergb[MAXWIDTH * 3];
-    static byte         levels[MAXWIDTH];
-    static int          lensx[MAXWIDTH];
-    static byte         dither[1024];
-    static bool         ditherready;
-    const float         tintamount = (inverted ? 0.6f : 0.5f);
-    const int           glassrows = consoleheight + 4;
-    const int           brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
-    const int           brandtop = consoleheight - brandheight + 2;
-    const int           white = nearestwhite << 8;
-    const byte          *rim[6] = { &tinttab10[white], &tinttab10[white], &tinttab5[white], &tinttab5[white], &tinttab4[white], &tinttab4[white] };
+    const bool      inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
+    const int       rows = consoleheight + 5;
+    const int       height = rows * SCREENWIDTH;
+    static float    *blurrgb;
+    static int      blurrgbsize;
+    static float    linergb[MAXWIDTH * 3];
+    static byte     levels[MAXWIDTH];
+    static int      lensx[MAXWIDTH];
+    static byte     dither[1024];
+    static bool     ditherready;
+    const float     tintamount = (inverted ? 0.6f : 0.5f);
+    const int       glassrows = consoleheight + 4;
+    const int       brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
+    const int       brandtop = consoleheight - brandheight + 2;
+    const int       white = nearestwhite << 8;
+    const byte      *rim[6] = { &tinttab10[white], &tinttab10[white], &tinttab5[white], &tinttab5[white], &tinttab4[white], &tinttab4[white] };
 
     if (!ditherready)
     {
