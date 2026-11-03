@@ -101,6 +101,7 @@ int D_OpenWADLauncher(void)
 #if defined(_WIN32)
     OPENFILENAME    ofn;
     char            szFile[4096] = "";
+    char            title[64];
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -138,7 +139,11 @@ int D_OpenWADLauncher(void)
     ofn.nFilterIndex = 1;
     ofn.lpstrInitialDir = wadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
-    ofn.lpstrTitle = "Where\u2019s All the Data?\0";
+
+    if (!WideCharToMultiByte(CP_ACP, 0, L"Where\u2019s All the Data?", -1, title, sizeof(title), NULL, NULL))
+        ofn.lpstrTitle = title;
+    else
+        ofn.lpstrTitle = "Where's All the Data?";
 
     fileopenedok = GetOpenFileName(&ofn);
 #elif defined(__APPLE__)
