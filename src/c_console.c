@@ -1383,7 +1383,7 @@ static void C_DrawScrollbar(void)
                 *dot = white5[*dot];
             }
 
-        for (int x = CONSOLESCROLLBARX; x <= CONSOLESCROLLBARRIGHT - 1; x++)
+        for (int x = CONSOLESCROLLBARX + 3; x <= CONSOLESCROLLBARRIGHT - 1; x++)
         {
             dot = *screens + trackend + x;
             *dot = white5[*dot];
@@ -1421,7 +1421,7 @@ static void C_DrawScrollbar(void)
         }
 
         if (scrollbarfacestart > 0)
-            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
+            for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 3; x++)
             {
                 dot = *screens + scrollbarfacestart * SCREENWIDTH + x;
                 *dot = white5[*dot];
@@ -1434,7 +1434,7 @@ static void C_DrawScrollbar(void)
             *dot = black10[*dot];
         }
 
-        for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARRIGHT - 1; x++)
+        for (int x = CONSOLESCROLLBARX + 3; x < CONSOLESCROLLBARRIGHT - 1; x++)
         {
             dot = *screens + (scrollbarfaceend - 1) * SCREENWIDTH + x;
             *dot = black10[*dot];
