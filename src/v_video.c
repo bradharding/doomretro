@@ -1108,26 +1108,36 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
     }
 }
 
+static int V_ConsoleHeaderEdge(const int color, const int x, const int row, const int width, const int height)
+{
+    return (!row ? white5[color] : (row == height - 1 ? black10[color] :
+        (!x ? white5[color] : (x == width - 1 ? black10[color] : color))));
+}
+
 void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, const int color1,
     const int color2)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   width = MIN(LITTLESHORT(patch->width), maxwidth);
+    const int   patchwidth = MIN(LITTLESHORT(patch->width), maxwidth);
+    const int   patchheight = LITTLESHORT(patch->height);
 
-    for (int col = 0; col < width; col++, desttop++)
+    for (int col = 0; col < patchwidth; col++, desttop++)
     {
         const column_t  *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col]));
         byte            *source = (byte *)column + 3;
         byte            *dest = desttop;
         int             count = column->length;
         int             height = y + 1;
+        int             row = column->topdelta;
 
         while (count-- > 0)
         {
             if (height > 0 && height < consoleoutputclipy)
             {
-                const int   color = (*source == WHITE ? (color2 == nearestblack ?
-                                tinttab20[color1 + nearestblack] : color2) : tinttab60[color1 + *dest]);
+                int color = (*source == WHITE ? (color2 == nearestblack ?
+                                tinttab20[color1 + nearestblack] : color2) : tinttab40[color1 + *dest]);
+
+                color = V_ConsoleHeaderEdge(color, col, row, maxwidth, patchheight);
 
                 if (height == consoleoutputclipy - 1)
                     *dest = tinttab25[(color << 8) + *dest];
@@ -1147,11 +1157,13 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
                         *dest = tinttab10[*dest];
                 }
 
-                if (col == width - 1)
-                    for (int xx = 1; xx <= maxwidth - width; xx++)
+                if (col == patchwidth - 1)
+                    for (int xx = 1; xx <= maxwidth - patchwidth; xx++)
                     {
-                        byte        *dot = dest + xx;
-                        const int   dotcolor = tinttab60[color1 + *dot];
+                        byte    *dot = dest + xx;
+                        int     dotcolor = tinttab40[color1 + *dot];
+
+                        dotcolor = V_ConsoleHeaderEdge(dotcolor, col + xx, row, maxwidth, patchheight);
 
                         if (height == consoleoutputclipy - 1)
                             *dot = tinttab25[(dotcolor << 8) + *dot];
@@ -1176,6 +1188,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
             source++;
             dest += SCREENWIDTH;
             height++;
+            row++;
         }
     }
 }
