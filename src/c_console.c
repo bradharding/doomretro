@@ -3807,29 +3807,26 @@ void C_Drawer(void)
         {
             const int   y = CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 5 + outputyoffset;
             const int   clipy = consoleoutputclipy - 6;
-            int         yy = (y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
-            if (y < clipy && yy >= 0)
+            for (int row = 0; row < 3; row++)
             {
-                const byte  *tinttab = (y == clipy - 1 ? tinttab15 : tinttab40);
+                const int   rowy = y + row;
+                const int   yy = (rowy - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
+                const byte  *tinttab = (rowy == clipy - 1 ? tinttab15 : tinttab40);
 
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
+                if (rowy >= clipy || yy < 0)
+                    continue;
+
+                for (int x = 0; x < CONSOLEDIVIDERWIDTH; x++)
                 {
-                    byte    *dest = &screens[0][xx];
+                    byte    *dest = &screens[0][yy + CONSOLETEXTX + x];
 
                     *dest = tinttab[consoledividercolor + *dest];
-                }
-            }
 
-            if ((yy += SCREENWIDTH) >= 0 && y + 1 < clipy)
-            {
-                const byte  *tinttab = (y + 1 == clipy - 1 ? tinttab15 : tinttab40);
-
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
-                {
-                    byte    *dest = &screens[0][xx];
-
-                    *dest = white5[tinttab[consoledividercolor + *dest]];
+                    if (row == 0 || (row == 1 && x == 0))
+                        *dest = white5[*dest];
+                    else if (row == 2 || x == CONSOLEDIVIDERWIDTH - 1)
+                        *dest = black10[*dest];
                 }
             }
         }
