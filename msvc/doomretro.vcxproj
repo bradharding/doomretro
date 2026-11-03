@@ -180,6 +180,7 @@
     <ClInclude Include="..\src\d_event.h" />
     <ClInclude Include="..\src\d_items.h" />
     <ClInclude Include="..\src\d_iwad.h" />
+    <ClInclude Include="..\src\d_launcher.h" />
     <ClInclude Include="..\src\d_loop.h" />
     <ClInclude Include="..\src\d_main.h" />
     <ClInclude Include="..\src\d_options.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="..\src\d_deh.c" />
     <ClCompile Include="..\src\d_items.c" />
     <ClCompile Include="..\src\d_iwad.c" />
+    <ClCompile Include="..\src\d_launcher.c" />
     <ClCompile Include="..\src\d_loop.c" />
     <ClCompile Include="..\src\d_main.c" />
     <ClCompile Include="..\src\d_options.c" />
