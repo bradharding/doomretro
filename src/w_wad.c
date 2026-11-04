@@ -59,28 +59,6 @@
 
 #define MAXWADS 16
 
-#if defined(_MSC_VER) || defined(__GNUC__)
-#pragma pack(push, 1)
-#endif
-
-typedef struct
-{
-    char    id[4];  // Should be "IWAD" or "PWAD"
-    int     numlumps;
-    int     infotableofs;
-} PACKEDATTR wadinfo_t;
-
-typedef struct
-{
-    int     filepos;
-    int     size;
-    char    name[8];
-} PACKEDATTR filelump_t;
-
-#if defined(_MSC_VER) || defined(__GNUC__)
-#pragma pack(pop)
-#endif
-
 // Location of each lump on disk.
 lumpinfo_t          **lumpinfo;
 
@@ -932,50 +910,6 @@ bool HasDehackedLump(const char *pwadname)
 
     fclose(fp);
     return result;
-}
-
-bool PWADHasMaps(char *pwadname)
-{
-    FILE    *fp;
-
-    if (M_StringEndsWith(pwadname, ".pk3") || M_StringEndsWith(pwadname, ".zip")
-        || M_StringEndsWith(pwadname, ".lmp"))
-        return false;
-
-    if (!(fp = fopen(pwadname, "rb")))
-        I_Error("Can't open PWAD: %s", pwadname);
-    else
-    {
-        wadinfo_t   header;
-
-        if (fread(&header, 1, sizeof(header), fp) != sizeof(header)
-            || (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4)))
-        {
-            fclose(fp);
-            I_Error("%s doesn't have an IWAD or PWAD id.", pwadname);
-        }
-        else
-        {
-            filelump_t  lump = { 0 };
-            const char  *n = lump.name;
-
-            fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
-
-            for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
-                if ((n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
-                    || (n[0] == 'M' && n[1] == 'A' && n[2] == 'P'
-                        && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0'))
-                    break;
-
-            fclose(fp);
-
-            return (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
-                || (n[0] == 'M' && n[1] == 'A' && n[2] == 'P'
-                    && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0');
-        }
-    }
-
-    return false;
 }
 
 gamemission_t IWADRequiredByPWAD(char *pwadname)

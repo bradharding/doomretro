@@ -46,6 +46,7 @@
 #include "d_main.h"
 #include "d_options.h"
 #include "doomstat.h"
+#include "i_swap.h"
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_config.h"
@@ -62,6 +63,127 @@
 static char *invalidwad;
 static char *collected_wads = NULL;
 static int  numcollectedwads;
+
+static bool IsWADListSpace(const char c)
+{
+    return (c == ' ' || c == '\t' || c == '\r' || c == '\n');
+}
+
+static int SplitWADList(const char *list, char **tokens, const int maxtokens)
+{
+    int count = 0;
+
+    while (*list && count < maxtokens)
+    {
+        const char  *start;
+        size_t      length;
+
+        while (IsWADListSpace(*list))
+            list++;
+
+        if (!*list)
+            break;
+
+        if (*list == '"')
+        {
+            start = ++list;
+
+            while (*list && *list != '"')
+                list++;
+
+            length = (size_t)(list - start);
+
+            if (*list == '"')
+                list++;
+        }
+        else
+        {
+            start = list;
+
+            while (*list)
+            {
+                char    name[MAX_PATH];
+
+                while (*list && !IsWADListSpace(*list))
+                    list++;
+
+                length = (size_t)(list - start);
+
+                if (!*list || length >= sizeof(name))
+                    break;
+
+                memcpy(name, start, length);
+                name[length] = '\0';
+
+                if (D_IsWADFile(name) || D_IsDEHFile(name) || D_IsCFGFile(name))
+                    break;
+
+                while (IsWADListSpace(*list))
+                    list++;
+            }
+
+            length = (size_t)(list - start);
+        }
+
+        if (length)
+        {
+            char    *token = malloc(length + 1);
+
+            if (!token)
+                break;
+
+            memcpy(token, start, length);
+            token[length] = '\0';
+            tokens[count++] = token;
+        }
+    }
+
+    return count;
+}
+
+static bool PWADHasMaps(char *pwadname)
+{
+    FILE    *fp;
+
+    if (M_StringEndsWith(pwadname, ".pk3") || M_StringEndsWith(pwadname, ".zip")
+        || M_StringEndsWith(pwadname, ".lmp"))
+        return false;
+
+    if (!(fp = fopen(pwadname, "rb")))
+        I_Error("Can't open PWAD: %s", pwadname);
+    else
+    {
+        wadinfo_t   header;
+
+        if (fread(&header, 1, sizeof(header), fp) != sizeof(header)
+            || (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4)))
+        {
+            fclose(fp);
+            I_Error("%s doesn't have an IWAD or PWAD id.", pwadname);
+        }
+        else
+        {
+            filelump_t  lump = { 0 };
+            const char  *n = lump.name;
+
+            fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
+
+            for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
+                if ((n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
+                    || (n[0] == 'M' && n[1] == 'A' && n[2] == 'P'
+                        && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0'))
+                    break;
+
+            fclose(fp);
+
+            return ((n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
+                || (n[0] == 'M' && n[1] == 'A' && n[2] == 'P'
+                    && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0'));
+        }
+    }
+
+    return false;
+}
 
 static void AddToWadList(const char *filename)
 {
@@ -91,6 +213,28 @@ static void AddToWadList(const char *filename)
         free(wadname);
         collected_wads = temp;
     }
+}
+
+static bool IsMultiWADSelection(const char *filename)
+{
+    char    *tokens[100];
+    int     numtokens;
+    int     count = 0;
+
+    if (!filename || !*filename)
+        return false;
+
+    numtokens = SplitWADList(filename, tokens, 100);
+
+    for (int i = 0; i < numtokens; i++)
+    {
+        if (D_IsWADFile(tokens[i]) || D_IsDEHFile(tokens[i]) || D_IsCFGFile(tokens[i]))
+            count++;
+
+        free(tokens[i]);
+    }
+
+    return (count > 1);
 }
 
 #if defined(_WIN32)
@@ -127,7 +271,7 @@ static int LevenshteinDistance(const char *string1, const char *string2)
     return result;
 }
 
-char *GuessFilename(char *path, const char *string)
+static char *GuessFilename(char *path, const char *string)
 {
     WIN32_FIND_DATA FindFileData;
     char            *file = M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL);
@@ -188,7 +332,7 @@ int D_OpenWADLauncher(void)
     else if (wad)
     {
         char    *tokens[100];
-        int     numtokens = D_SplitWADList(wad, tokens, 100);
+        int     numtokens = SplitWADList(wad, tokens, 100);
 
         for (int i = 0; i < numtokens; i++)
         {
@@ -253,11 +397,11 @@ int D_OpenWADLauncher(void)
         D_SetString(&wad, "");
 
         if ((onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
-            && D_IsMultiWADSelection(ofn.lpstrFile))
+            && IsMultiWADSelection(ofn.lpstrFile))
         {
             char    tempbuf[4096];
             char    *filenames[100];
-            int     filecount = D_SplitWADList(ofn.lpstrFile, filenames, 100);
+            int     filecount = SplitWADList(ofn.lpstrFile, filenames, 100);
 
             if (filecount > 1)
             {

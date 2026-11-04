@@ -111,8 +111,6 @@ bool D_IsUnsupportedWAD(char *filename);
 bool D_IsWADFile(const char *filename);
 bool D_IsCFGFile(const char *filename);
 bool D_IsDEHFile(const char *filename);
-int D_SplitWADList(const char *list, char **tokens, const int maxtokens);
-bool D_IsMultiWADSelection(const char *filename);
 bool D_IsUnsupportedPWAD(char *filename);
 void D_AutoloadExtrasWAD(void);
 void D_AutoloadSIGILWAD(void);

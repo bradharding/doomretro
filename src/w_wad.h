@@ -50,6 +50,28 @@
 #define PWAD    2
 #define LUMP    3
 
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
+#endif
+
+typedef struct
+{
+    char    id[4];  // Should be "IWAD" or "PWAD"
+    int     numlumps;
+    int     infotableofs;
+} PACKEDATTR wadinfo_t;
+
+typedef struct
+{
+    int     filepos;
+    int     size;
+    char    name[8];
+} PACKEDATTR filelump_t;
+
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(pop)
+#endif
+
 #define W_CacheLumpName(name)                   W_CacheLumpNum(W_GetNumForName(name))
 #define W_CacheLastLumpName(name)               W_CacheLumpNum(W_GetLastNumForName(name))
 #define W_CacheXLumpName(name, x)               W_CacheLumpNum(W_GetXNumForName(name, x))
@@ -140,7 +162,6 @@ void W_CloseFiles(void);
 
 bool W_NoPWADsLoaded(void);
 
-bool PWADHasMaps(char *pwadname);
 gamemission_t IWADRequiredByPWAD(char *pwadname);
 bool HasDehackedLump(const char *pwadname);
 
