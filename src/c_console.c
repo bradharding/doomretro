@@ -3825,8 +3825,8 @@ void C_Drawer(void)
 
             for (int row = 0; row < 3; row++)
             {
-                const int   rowy = y + row;
-                const int   yy = (rowy - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
+                const int   rowy = y + row - (CONSOLEHEIGHT - consoleheight);
+                const int   yy = rowy * SCREENWIDTH;
                 const byte  *tinttab = (rowy == clipy - 1 ? tinttab15 : tinttab40);
 
                 if (rowy >= clipy || yy < 0)
