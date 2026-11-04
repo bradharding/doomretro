@@ -1319,7 +1319,7 @@ static void C_ScrollOutput(const int scrolllines)
     }
 }
 
-static void C_DrawScrollbar(void)
+static void C_DrawScrollbar(const bool topanchored)
 {
     const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
     const int   scrollbarpixels = C_GetScrollbarPixels();
@@ -1341,9 +1341,10 @@ static void C_DrawScrollbar(void)
     }
     else
     {
-        const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
-        const int   position = (outputhistory == -1 ? maxposition :
-                        (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset);
+        const int   maxposition = totalpixels - visiblepixels;
+        const int   position = (outputhistory == -1 ? maxposition : MAX(0, (C_GetCurrentTopRow()
+                        + (numvisibleconsolerows > 0)) * CONSOLELINEHEIGHT - scrolloffset
+                        + (topanchored ? 0 : CONSOLELINES * CONSOLELINEHEIGHT - scrollbarpixels)));
 
         scrollbarfacestart = (maxposition > 0 ? (int)((int64_t)facetravel
             * BETWEEN(0, position, maxposition) / maxposition) : 0);
@@ -3592,6 +3593,12 @@ void C_Drawer(void)
                 C_ScrollToBottom();
             else
                 C_SetTopRow(newtoprow);
+
+            if (scrolloffsetheld)
+            {
+                scrolloffsetheldhistory = outputhistory;
+                scrolloffsetheldoffset = outputhistoryoffset;
+            }
         }
     }
     else if (prevconsolelines != CONSOLELINES)
@@ -3749,8 +3756,8 @@ void C_Drawer(void)
     if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
         I_SetMotionBlur(0);
 
-    if (consoletopanchored && consolefullscreen && consoledirection >= 0 && !consoleshrinktohalf
-        && consoleheight < CONSOLEHEIGHT)
+    if (consoletopanchored && consolefullscreen && !consoleshrinktohalf && consoleheight < CONSOLEHEIGHT
+        && (consoledirection >= 0 || numvisibleconsolerows >= toprow + CONSOLELINES))
     {
         topanchored = true;
         bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
@@ -3795,7 +3802,7 @@ void C_Drawer(void)
     C_DrawBackground();
 
     // draw the scrollbar
-    C_DrawScrollbar();
+    C_DrawScrollbar(topanchored);
 
     topofconsole = (toprow < 0);
     consoleoutputclipy = (scrolloffset || topanchored || (outputhistory != -1 && dragconsolescrollbarmoved) ?
