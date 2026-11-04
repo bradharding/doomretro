@@ -76,7 +76,7 @@
 
 #define CONSOLEDOWNSIZE                     28
 
-#define CONSOLEDRAGZONE                     3
+#define CONSOLEDRAGZONE                     4
 #define CONSOLEDRAGDELTA                    4
 #define CONSOLEEDGEHEIGHT                   7
 #define CONSOLEEDGEHOTSPOTHEIGHT            10

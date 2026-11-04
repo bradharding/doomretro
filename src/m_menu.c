@@ -3848,7 +3848,7 @@ bool M_Responder(event_t *ev)
             return true;
         }
 
-        if (newleftbuttonpress && M_CanOpenConsoleWithMouseDrag() && mousey <= CONSOLEDRAGZONE
+        if (newleftbuttonpress && M_CanOpenConsoleWithMouseDrag() && mousey16 / 16 < CONSOLEDRAGZONE
             && !splashscreen && !keydown && !savestringenter)
         {
             draggingconsole = true;
@@ -5361,9 +5361,18 @@ static void M_DrawNightmare(bool highlight)
 void M_Drawer(void)
 {
     static short    x, y;
+    static int      prevconsoleheight;
     bool            drawopenconsolehint;
     const int       targetopenconsoleedgey = (M_CanDrawOpenConsoleEdge() ? 0 : -CONSOLEEDGEHEIGHT);
     const uint64_t  tics = I_GetTime();
+
+    if (prevconsoleheight > 0 && !consoleheight && !consoledirection && M_CanDrawOpenConsoleEdge())
+    {
+        openconsoleedgey = 0;
+        openconsoleedgeanimtic = tics;
+    }
+
+    prevconsoleheight = consoleheight;
 
     if (showconsoleedgeonclose)
     {
