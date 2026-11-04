@@ -2715,6 +2715,7 @@ void M_EndGame(int choice)
 static void M_Console(int choice)
 {
     consoleoverlaymenu = true;
+    consolefullscreen = true;
     dontrestoremousepointeronshow = true;
     C_ShowConsole(true);
     consoleignoreleftbutton = menuitemactivatedwithmouse;
