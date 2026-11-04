@@ -79,6 +79,7 @@
 #define CONSOLEDRAGZONE                     4
 #define CONSOLEDRAGDELTA                    4
 #define CONSOLEEDGEHEIGHT                   7
+#define CONSOLEEDGEY                        2
 #define CONSOLEEDGEHOTSPOTHEIGHT            10
 #define CONSOLEFULLSCREENTHRESHOLD          500
 
@@ -232,6 +233,8 @@ extern console_t        *console;
 extern bool             consoleactive;
 extern bool             consoleoverlaymenu;
 extern int              consoleheight;
+extern int              consoledragheight;
+extern bool             draggingconsoleedge;
 extern int              consoledirection;
 extern bool             consolefullscreen;
 extern bool             consoleopenedbyconsolekey;
@@ -288,7 +291,7 @@ void C_HideConsole(void);
 void C_HideConsoleAndMenu(void);
 void C_HideConsoleFast(void);
 void C_BeginOpenConsoleDrag(void);
-void C_UpdateOpenConsoleDrag(int y);
+void C_UpdateOpenConsoleDrag(const int height);
 void C_EndOpenConsoleDrag(void);
 void C_DrawConsoleEdge(int y);
 void C_Drawer(void);

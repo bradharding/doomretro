@@ -74,6 +74,8 @@ console_t               *console = NULL;
 bool                    consoleactive = false;
 bool                    consoleoverlaymenu = false;
 int                     consoleheight = 0;
+int                     consoledragheight;
+bool                    draggingconsoleedge;
 int                     consoledirection = -1;
 bool                    consolefullscreen;
 static bool             consoleshrinktohalf;
@@ -1755,12 +1757,11 @@ void C_BeginOpenConsoleDrag(void)
     consoledirection = 0;
 }
 
-void C_UpdateOpenConsoleDrag(int y)
+void C_UpdateOpenConsoleDrag(const int height)
 {
-    const int   dragheight = BETWEEN(0, y - 4, SCREENHEIGHT - 5);
-
     consolefullscreen = true;
-    consoleheight = dragheight;
+    consoledragheight = height;
+    consoleheight = BETWEEN(0, height, SCREENHEIGHT - 5);
 }
 
 void C_EndOpenConsoleDrag(void)
@@ -4869,7 +4870,6 @@ bool C_Responder(event_t *ev)
     {
         static bool selectingwithmouse;
         static bool leftbuttondown;
-        static bool draggingconsoleedge;
         static bool doubleclickselection;
         static int  consoleedgedragstart;
         static int  consoleedgedragdirection;
@@ -4890,7 +4890,7 @@ bool C_Responder(event_t *ev)
             {
                 const int   oldconsoleheight = consoleheight;
 
-                C_UpdateOpenConsoleDrag(ysub / 16 - consoleedgedragoffset + CONSOLEDRAGDELTA);
+                C_UpdateOpenConsoleDrag(ysub / 16 - consoleedgedragoffset);
 
                 if (consoleheight > oldconsoleheight)
                     consoleedgedragdirection = 1;

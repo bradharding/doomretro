@@ -3802,6 +3802,7 @@ bool M_Responder(event_t *ev)
         static bool     leftbuttondown;
         static int      consoleopendragdirection;
         static int      consoleopendragpagetic;
+        static int      consoleopendragstarty;
         const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
         const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
         const int       mousey = ((gamestate == GS_LEVEL && automapactive && !am_followmode && !menuactive
@@ -3837,7 +3838,7 @@ bool M_Responder(event_t *ev)
             {
                 const int   oldconsoleheight = consoleheight;
 
-                C_UpdateOpenConsoleDrag(mousey16 / 16);
+                C_UpdateOpenConsoleDrag(mousey16 / 16 - consoleopendragstarty - CONSOLEEDGEY);
 
                 if (consoleheight > oldconsoleheight)
                     consoleopendragdirection = 1;
@@ -3855,9 +3856,10 @@ bool M_Responder(event_t *ev)
             draggingconsole = true;
             consoleopendragdirection = 0;
             consoleopendragpagetic = pagetic;
+            consoleopendragstarty = MAX(0, mousey16 / 16);
             consoleoverlaymenu = (menuactive || messagetoprint);
             C_BeginOpenConsoleDrag();
-            C_UpdateOpenConsoleDrag(mousey16 / 16);
+            C_UpdateOpenConsoleDrag(-CONSOLEEDGEY);
             leftbuttondown = true;
             return true;
         }
@@ -5364,12 +5366,14 @@ void M_Drawer(void)
     static short    x, y;
     static int      prevconsoleheight;
     bool            drawopenconsolehint;
-    const int       targetopenconsoleedgey = (M_CanDrawOpenConsoleEdge() ? 0 : -CONSOLEEDGEHEIGHT);
+    int             targetopenconsoleedgey = (M_CanDrawOpenConsoleEdge() ? 0 : -CONSOLEEDGEHEIGHT);
     const uint64_t  tics = I_GetTime();
 
     if (prevconsoleheight > 0 && !consoleheight && !consoledirection && M_CanDrawOpenConsoleEdge())
     {
-        openconsoleedgey = 0;
+        if (openconsoleedgey < 0)
+            openconsoleedgey = CONSOLEEDGEY;
+
         openconsoleedgeanimtic = tics;
     }
 
@@ -5383,12 +5387,20 @@ void M_Drawer(void)
 
             if (M_CanDrawOpenConsoleEdge())
             {
-                openconsoleedgey = 0;
+                if (openconsoleedgey < 0)
+                    openconsoleedgey = CONSOLEEDGEY;
+
                 openconsoleedgeanimtic = tics;
             }
         }
         else if (consoledirection > 0)
             showconsoleedgeonclose = false;
+    }
+
+    if ((draggingconsole || draggingconsoleedge) && !consoleheight)
+    {
+        targetopenconsoleedgey = BETWEEN(0, consoledragheight + CONSOLEEDGEY, CONSOLEEDGEY);
+        openconsoleedgey = targetopenconsoleedgey;
     }
 
     if (openconsoleedgey != targetopenconsoleedgey)
