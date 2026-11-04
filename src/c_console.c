@@ -81,6 +81,9 @@ bool                    consoleopenedbyconsolekey;
 bool                    ignoreconsolekey;
 uint64_t                consolekeydowntime;
 static int              scrolloffset;
+static bool             scrolloffsetheld;
+static int              scrolloffsetheldhistory;
+static int              scrolloffsetheldoffset;
 static int              scrollspeed = TICRATE;
 static bool             autoscrolling;
 static bool             autoscrolltotop;
@@ -275,6 +278,7 @@ static void C_ScrollToBottom(void)
     outputhistory = -1;
     outputhistoryoffset = 0;
     scrolloffset = 0;
+    scrolloffsetheld = false;
     autoscrolling = false;
 }
 
@@ -1337,12 +1341,12 @@ static void C_DrawScrollbar(void)
     }
     else
     {
-        const int   maxposition = totalpixels - visiblepixels;
-        const int   position = (outputhistory == -1 ? maxposition : MAX(0, (C_GetCurrentTopRow() + CONSOLELINES
-                        + (numvisibleconsolerows > 0)) * CONSOLELINEHEIGHT - scrollbarpixels));
+        const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
+        const int   position = (outputhistory == -1 ? maxposition :
+                        (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset);
 
         scrollbarfacestart = (maxposition > 0 ? (int)((int64_t)facetravel
-            * BETWEEN(0, position - scrolloffset, maxposition) / maxposition) : 0);
+            * BETWEEN(0, position, maxposition) / maxposition) : 0);
     }
 
     scrollbarfaceend = MIN(scrollbarfacestart + faceheight, scrollbarheight);
@@ -3667,7 +3671,11 @@ void C_Drawer(void)
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
         + scrolloffset;
 
-    if (!dragconsolescrollbaractive && !autoscrolling)
+    if (scrolloffsetheld && (autoscrolling || !scrolloffset || outputhistory != scrolloffsetheldhistory
+        || outputhistoryoffset != scrolloffsetheldoffset))
+        scrolloffsetheld = false;
+
+    if (!dragconsolescrollbaractive && !autoscrolling && !scrolloffsetheld)
     {
         if (scrolloffset > 0)
             scrolloffset = MAX(0, scrolloffset - MAX(2, scrolloffset / 4));
@@ -4904,15 +4912,8 @@ bool C_Responder(event_t *ev)
 
                     if (dragconsolescrollposition != dragconsolescrolltargetposition)
                     {
-                        const int64_t   dragdifference = dragconsolescrolltargetposition - dragconsolescrollposition;
-                        const int64_t   step = MAX64(1, ABS64(dragdifference) / 4);
-
                         dragconsolescrollbarmoved = true;
-
-                        if (dragdifference > 0)
-                            dragconsolescrollposition += MIN64(step, dragdifference);
-                        else
-                            dragconsolescrollposition -= MIN64(step, -dragdifference);
+                        dragconsolescrollposition = dragconsolescrolltargetposition;
                     }
 
                     dragconsolescrollposition = BETWEEN64(0, dragconsolescrollposition, maxposition);
@@ -5210,26 +5211,19 @@ bool C_Responder(event_t *ev)
                     const int       totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
                     const int       visiblerows = MIN(CONSOLELINES, totalrows);
                     const int       scrollrange = MAX(0, totalrows - visiblerows);
-                    const int64_t   remainder = dragconsolescrollposition % CONSOLELINEHEIGHT;
-                    int             position = (int)(dragconsolescrollposition / CONSOLELINEHEIGHT);
-
-                    if (dragconsolescrollbardirection > 0 && remainder)
-                        position++;
-
-                    position = MIN(position, scrollrange);
+                    const int       remainder = (int)(dragconsolescrolltargetposition % CONSOLELINEHEIGHT);
+                    const int       position = MIN((int)(dragconsolescrolltargetposition / CONSOLELINEHEIGHT),
+                                        scrollrange);
 
                     if (position >= scrollrange)
                         C_ScrollToBottom();
                     else
                     {
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
-
-                        if (dragconsolescrollbardirection > 0 && remainder)
-                            scrolloffset = (int)(CONSOLELINEHEIGHT - remainder);
-                        else if (dragconsolescrollbardirection < 0 && remainder)
-                            scrolloffset = -(int)remainder;
-                        else
-                            scrolloffset = 0;
+                        scrolloffset = -remainder;
+                        scrolloffsetheld = (remainder != 0);
+                        scrolloffsetheldhistory = outputhistory;
+                        scrolloffsetheldoffset = outputhistoryoffset;
                     }
                 }
 
