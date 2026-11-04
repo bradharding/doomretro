@@ -44,6 +44,7 @@
 #endif
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -52,6 +53,7 @@
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_controller.h"
+#include "i_obslink.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_config.h"
@@ -1122,6 +1124,18 @@ void G_DoLoadLevel(void)
 
     if (r_screensize == r_screensize_max && animatedstats)
         P_AnimateAllStatsFromStart();
+
+    {
+        char    linkmapnum[64];
+        char    linkauthor[256];
+
+        I_OBSLinkEscape(mapnum, linkmapnum, sizeof(linkmapnum));
+        I_OBSLinkEscape(C_GetCurrentMapAuthor(), linkauthor, sizeof(linkauthor));
+        I_OBSLinkMap(linkmapnum, maptitle, linkauthor);
+        I_OBSLinkEvent("level_start", maptitle,
+            "\"mapnum\":\"%s\",\"author\":\"%s\",\"skill\":%i,\"totalkills\":%i,\"totalitems\":%i,\"totalsecrets\":%i",
+            linkmapnum, linkauthor, gameskill + 1, totalkills, totalitems, totalsecrets);
+    }
 }
 
 void G_ToggleAlwaysRun(evtype_t type)
@@ -1813,6 +1827,9 @@ static void G_DoCompleted(void)
 {
     const int   nextmap = P_GetMapNext(gameepisode, gamemap);
     const int   secretnextmap = P_GetMapSecretNext(gameepisode, gamemap);
+
+    I_OBSLinkEvent("level_end", maptitle, "\"kills\":%i,\"totalkills\":%i,\"items\":%i,\"totalitems\":%i,\"secrets\":%i,\"totalsecrets\":%i,\"seconds\":%i",
+        viewplayer->killcount, totalkills, viewplayer->itemcount, totalitems, viewplayer->secretcount, totalsecrets, maptime / TICRATE);
 
     P_LookForFriends();
 

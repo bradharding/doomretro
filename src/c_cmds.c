@@ -5888,6 +5888,28 @@ static const char *GetAuthor(int ep, int map, bool replaced, gamemission_t missi
     return "\x96";
 }
 
+const char *C_GetCurrentMapAuthor(void)
+{
+    const char  *author = P_GetMapAuthor(gameepisode, gamemap);
+
+    if (*author)
+        return author;
+
+    if (gamemission == doom)
+    {
+        if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
+            return s_AUTHOR_ROMERO;
+        else if (canmodify && gameepisode * 10 + gamemap < arrlen(authors) && authors[gameepisode * 10 + gamemap][gamemission])
+            return authors[gameepisode * 10 + gamemap][gamemission];
+        else if (REKKR)
+            return "Matthew Little";
+    }
+    else if (canmodify && gamemap < arrlen(authors) && authors[gamemap][gamemission])
+        return authors[gamemap][gamemission];
+
+    return "";
+}
+
 static const char *TruncateMaplistText(char *dest, size_t destsize, const char *src)
 {
     M_TruncateWithEllipsis(dest, destsize, src, 195, false);

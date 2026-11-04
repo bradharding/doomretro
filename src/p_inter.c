@@ -42,6 +42,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_controller.h"
+#include "i_obslink.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -1634,6 +1635,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         stat_itemspickedup = SafeAdd(stat_itemspickedup, 1);
     }
 
+    if (stat && !duplicate)
+        I_OBSLinkEvent("pickup", info->name1, "\"items\":%i,\"totalitems\":%i", viewplayer->itemcount, totalitems);
+
     if (sound != prevsound || gametime != prevtic)
     {
         prevsound = sound;
@@ -2038,6 +2042,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
                 viewplayer->monsterskilled[type]++;
                 stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
             }
+
+            if (!massacre)
+                I_OBSLinkEvent("kill", info->name1, "\"kills\":%i,\"totalkills\":%i", viewplayer->killcount, totalkills);
         }
         else
         {
@@ -2079,6 +2086,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
             viewplayer->deaths++;
             stat_deaths = SafeAdd(stat_deaths, 1);
         }
+
+        I_OBSLinkEvent("death", (source && !source->player ? source->info->name1 : NULL),
+            "\"suicide\":%i", (source && source->player ? 1 : 0));
     }
     else
     {
@@ -2372,6 +2382,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 stat_damagereceived = SafeAdd(stat_damagereceived, damage);
                 P_AnimateHealth(damage);
             }
+
+            if (damage > 0)
+                I_OBSLinkEvent("damage", (source && !source->player ? source->info->name1 : NULL), "\"amount\":%i", damage);
         }
 
         if (tplayer->mo == target)

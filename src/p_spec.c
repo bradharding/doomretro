@@ -38,6 +38,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_obslink.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_argv.h"
@@ -2536,6 +2537,8 @@ static void P_SecretFound(void)
 
     viewplayer->secretcount++;
     stat_secretsfound = SafeAdd(stat_secretsfound, 1);
+
+    I_OBSLinkEvent("secret", NULL, "\"secrets\":%i,\"totalsecrets\":%i", viewplayer->secretcount, totalsecrets);
 }
 
 //

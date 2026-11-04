@@ -51,6 +51,7 @@
 #include "doomstat.h"
 #include "i_controller.h"
 #include "i_discord.h"
+#include "i_obslink.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -672,6 +673,7 @@ void I_Quit(bool shutdown)
         SDL_StopTextInput();
 
         I_ShutdownDiscordRPC();
+        I_ShutdownOBSLink();
 
 #if defined(_WIN32)
         I_ShutdownWindows();
@@ -711,6 +713,7 @@ void I_Error(const char *error, ...)
     S_Shutdown();
 
     I_ShutdownDiscordRPC();
+    I_ShutdownOBSLink();
 
 #if defined(_WIN32)
     if (previouswad && gamestate <= GS_TITLESCREEN)

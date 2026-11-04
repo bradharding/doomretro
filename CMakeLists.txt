@@ -162,7 +162,7 @@ TARGET_LINK_LIBRARIES(
 )
 
 IF (WIN32)
-	TARGET_LINK_LIBRARIES(doomretro winhttp dbghelp winmm)
+	TARGET_LINK_LIBRARIES(doomretro winhttp dbghelp winmm bcrypt)
 ENDIF()
 
 IF (APPLE)

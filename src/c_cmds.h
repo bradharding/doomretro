@@ -152,3 +152,4 @@ int C_GetIndex(const char *cmd);
 bool C_AliasExists(const char *alias);
 bool C_ExecuteAlias(const char *alias);
 char *C_DistanceTraveled(double feet, bool allowzero);
+const char *C_GetCurrentMapAuthor(void);

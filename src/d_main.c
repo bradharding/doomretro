@@ -57,6 +57,7 @@
 #include "i_colors.h"
 #include "i_controller.h"
 #include "i_discord.h"
+#include "i_obslink.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -665,6 +666,8 @@ static void D_DoomLoop(void)
 
     while (true)
     {
+        I_PollOBSLink();
+
         TryRunTics();       // will run at least one tic
 
         if (splashscreen)
@@ -1877,6 +1880,7 @@ static void D_DoomMainSetup(void)
     SDL_Init(SDL_INIT_EVERYTHING);
 
     I_InitDiscordRPC();
+    I_InitOBSLink();
 
     iwadfile = D_FindIWAD();
 
