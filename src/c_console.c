@@ -5172,7 +5172,10 @@ bool C_Responder(event_t *ev)
                     if (consoleedgedragstart <= halfheight + CONSOLEDRAGDELTA)
                     {
                         if (consoleedgedragdirection < 0 || consoleheight <= middlebandtop)
+                        {
                             C_HideConsole();
+                            M_ShowConsoleEdgeOnClose(ev->data3);
+                        }
                         else if (consoleedgedragdirection > 0)
                         {
                             consolefullscreen = true;
@@ -5198,7 +5201,10 @@ bool C_Responder(event_t *ev)
                             S_StartSound(viewplayer->mo, sfx_consol);
                         }
                         else
+                        {
                             C_HideConsole();
+                            M_ShowConsoleEdgeOnClose(ev->data3);
+                        }
                     }
                     else
                     {

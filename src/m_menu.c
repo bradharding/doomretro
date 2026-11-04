@@ -161,6 +161,7 @@ static int      functionkey;
 static int      openconsoleedgewait = -1;
 static int      openconsoleedgey = -CONSOLEEDGEHEIGHT;
 static uint64_t openconsoleedgeanimtic;
+static bool     showconsoleedgeonclose;
 static bool     draggingconsole;
 
 // current menudef
@@ -3607,6 +3608,12 @@ static bool M_CanDrawOpenConsoleEdge(void)
         && openconsoleedgewait <= CONSOLEEDGEHOTSPOTHEIGHT);
 }
 
+void M_ShowConsoleEdgeOnClose(const int y)
+{
+    M_UpdateOpenConsoleEdge(y);
+    showconsoleedgeonclose = true;
+}
+
 bool M_IsConsoleEdgeShown(void)
 {
     return (M_CanDrawOpenConsoleEdge() || openconsoleedgey > -CONSOLEEDGEHEIGHT);
@@ -3815,7 +3822,10 @@ bool M_Responder(event_t *ev)
                 draggingconsole = false;
 
                 if (movingup && !inbottomhalf)
+                {
                     C_EndOpenConsoleDrag();
+                    showconsoleedgeonclose = true;
+                }
                 else
                 {
                     consolefullscreen = (!allowhalf || (inbottomhalf && !movingup));
@@ -5354,6 +5364,22 @@ void M_Drawer(void)
     bool            drawopenconsolehint;
     const int       targetopenconsoleedgey = (M_CanDrawOpenConsoleEdge() ? 0 : -CONSOLEEDGEHEIGHT);
     const uint64_t  tics = I_GetTime();
+
+    if (showconsoleedgeonclose)
+    {
+        if (!consoleheight)
+        {
+            showconsoleedgeonclose = false;
+
+            if (M_CanDrawOpenConsoleEdge())
+            {
+                openconsoleedgey = 0;
+                openconsoleedgeanimtic = tics;
+            }
+        }
+        else if (consoledirection > 0)
+            showconsoleedgeonclose = false;
+    }
 
     if (openconsoleedgey != targetopenconsoleedgey)
     {
