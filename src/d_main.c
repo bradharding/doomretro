@@ -1834,6 +1834,23 @@ static void D_ProcessDehInWad(void)
         }
 }
 
+static bool D_HasDehackedLumpsFromDifferentPWADs(void)
+{
+    const char  *firstpwad = NULL;
+
+    for (int i = 0; i < numlumps; i++)
+        if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+            && !D_IsResourceWAD(lumpinfo[i]->wadfile->path))
+        {
+            if (!firstpwad)
+                firstpwad = lumpinfo[i]->wadfile->path;
+            else if (!M_StringCompare(firstpwad, lumpinfo[i]->wadfile->path))
+                return true;
+        }
+
+    return false;
+}
+
 //
 // D_DoomMainSetup
 //
@@ -2361,7 +2378,8 @@ static void D_DoomMainSetup(void)
             I_Error("Other files can’t be loaded with the shareware version of DOOM.");
         }
 
-        C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
+        if (D_HasDehackedLumpsFromDifferentPWADs())
+            C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
     }
 
     if (!autoloading)
