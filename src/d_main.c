@@ -1793,8 +1793,6 @@ static bool D_CheckParms(void)
     return result;
 }
 
-
-
 static void D_ProcessDehOnCmdLine(void)
 {
     int p = M_CheckParm("-deh");

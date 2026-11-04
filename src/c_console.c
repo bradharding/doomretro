@@ -198,8 +198,6 @@ static bool             dragconsolescrollbaractive;
 static bool             dragconsolescrollbarmoved;
 static int              dragconsolescrollbarpointeroffset;
 static int64_t          dragconsolescrollstartposition;
-static int              dragconsolescrollbardirection;
-static int64_t          dragconsolescrollposition;
 static int64_t          dragconsolescrolltargetposition;
 
 static byte             tempscreen2[MAXSCREENAREA];
@@ -4906,31 +4904,24 @@ bool C_Responder(event_t *ev)
                 if (C_CanScrollOutput())
                 {
                     const int64_t   maxposition = (int64_t)scrollrange * CONSOLELINEHEIGHT;
-                    const int64_t   targetposition = (facetravel > 0 ? dragconsolescrollstartposition
+                    int64_t         targetposition = (facetravel > 0 ? dragconsolescrollstartposition
                                         + (int64_t)(ysub - dragconsolescrollbarpointeroffset) * maxposition
                                         / (facetravel * 16) : 0);
-                    const int64_t   difference = targetposition - dragconsolescrolltargetposition;
                     int             position;
 
-                    if (difference)
-                        dragconsolescrollbardirection = (difference > 0 ? 1 : -1);
+                    targetposition = BETWEEN64(0, targetposition, maxposition);
 
-                    dragconsolescrolltargetposition = BETWEEN64(0, targetposition, maxposition);
-
-                    if (dragconsolescrollposition != dragconsolescrolltargetposition)
-                    {
+                    if (targetposition != dragconsolescrolltargetposition)
                         dragconsolescrollbarmoved = true;
-                        dragconsolescrollposition = dragconsolescrolltargetposition;
-                    }
 
-                    dragconsolescrollposition = BETWEEN64(0, dragconsolescrollposition, maxposition);
+                    dragconsolescrolltargetposition = targetposition;
 
-                    if ((position = (int)(dragconsolescrollposition / CONSOLELINEHEIGHT)) >= scrollrange)
+                    if ((position = (int)(targetposition / CONSOLELINEHEIGHT)) >= scrollrange)
                         C_ScrollToBottom();
                     else
                     {
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
-                        scrolloffset = -(int)(dragconsolescrollposition % CONSOLELINEHEIGHT);
+                        scrolloffset = -(int)(targetposition % CONSOLELINEHEIGHT);
                     }
                 }
 
@@ -5137,8 +5128,6 @@ bool C_Responder(event_t *ev)
                     autoscrolling = false;
                     dragconsolescrollbarpointeroffset = ysub;
                     dragconsolescrollstartposition = startposition;
-                    dragconsolescrollbardirection = 0;
-                    dragconsolescrollposition = startposition;
                     dragconsolescrolltargetposition = startposition;
 
                     return true;
@@ -5242,7 +5231,6 @@ bool C_Responder(event_t *ev)
 
                 dragconsolescrollbaractive = false;
                 dragconsolescrollbarmoved = false;
-                dragconsolescrollposition = 0;
                 dragconsolescrolltargetposition = 0;
                 doubleclickselection = false;
             }
