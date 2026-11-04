@@ -93,6 +93,82 @@ static void AddToWadList(const char *filename)
     }
 }
 
+#if defined(_WIN32)
+static int LevenshteinDistance(const char *string1, const char *string2)
+{
+    const size_t    length1 = strlen(string1);
+    const size_t    length2 = strlen(string2);
+    int             result = INT_MAX;
+
+    if (length1 > 0 && length2 > 0)
+    {
+        int *column = I_Malloc((length1 + 1) * sizeof(int));
+
+        for (int y = 1; (size_t)y <= length1; y++)
+            column[y] = y;
+
+        for (int x = 1; (size_t)x <= length2; x++)
+        {
+            column[0] = x;
+
+            for (int y = 1, lastdiagonal = x - 1, olddiagonal; (size_t)y <= length1; y++)
+            {
+                olddiagonal = column[y];
+                column[y] = MIN(MIN(column[y], column[y - 1]) + 1,
+                    lastdiagonal + (string1[y - 1] != string2[x - 1]));
+                lastdiagonal = olddiagonal;
+            }
+        }
+
+        result = column[length1];
+        free(column);
+    }
+
+    return result;
+}
+
+char *GuessFilename(char *path, const char *string)
+{
+    WIN32_FIND_DATA FindFileData;
+    char            *file = M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL);
+    HANDLE          handle = FindFirstFile(file, &FindFileData);
+    int             bestdistance = INT_MAX;
+    char            filename[MAX_PATH];
+    char            *string1;
+
+    free(file);
+
+    if (handle == INVALID_HANDLE_VALUE)
+        return path;
+
+    M_StringCopy(filename, string, sizeof(filename));
+    string1 = removeext(string);
+
+    do
+    {
+        if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+        {
+            char    *string2 = removeext(FindFileData.cFileName);
+            int     distance = LevenshteinDistance(string1, string2);
+
+            if (distance <= 2 && distance < bestdistance)
+            {
+                M_StringCopy(filename, FindFileData.cFileName, sizeof(filename));
+                bestdistance = distance;
+            }
+
+            free(string2);
+        }
+    } while (FindNextFile(handle, &FindFileData));
+
+    FindClose(handle);
+    free(string1);
+
+    return (bestdistance == INT_MAX ? NULL : M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL));
+}
+#endif
+
+
 int D_OpenWADLauncher(void)
 {
     int             iwadfound = -1;
@@ -257,7 +333,7 @@ int D_OpenWADLauncher(void)
             // if WAD doesn't exist, it was entered manually, there may be a typo, so guess what was intended
             if (!M_FileExists(file) && strlen(leafname(file)) > 2)
             {
-                char    *temp = W_GuessFilename(folder, leafname(file));
+                char    *temp = GuessFilename(folder, leafname(file));
 
                 if (temp)
                 {

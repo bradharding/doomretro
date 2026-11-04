@@ -99,10 +99,6 @@ bool IsUltimateDOOM(const char *iwadname);
 
 char *GetCorrectCase(char *path);
 
-#if defined(_WIN32)
-char *W_GuessFilename(char *path, const char *string);
-#endif
-
 bool W_AddFile(char *filename, bool autoloaded);
 bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpansions);
 bool W_AutoloadFiles(const char *folder, const bool noexpansions);
