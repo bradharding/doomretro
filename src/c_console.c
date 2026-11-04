@@ -3840,6 +3840,13 @@ void C_Drawer(void)
                         *dest = white5[*dest];
                     else if (row == 2 || x == CONSOLEDIVIDERWIDTH - 1)
                         *dest = black10[*dest];
+
+                    if (!rowy)
+                        *dest = tinttab40[*dest];
+                    else if (rowy == 1)
+                        *dest = tinttab20[*dest];
+                    else if (rowy == 2)
+                        *dest = tinttab10[*dest];
                 }
             }
         }
