@@ -616,7 +616,7 @@ enum
 
 #define compresssavegames_default               true
 
-#define compressscreenshots_default             false
+#define compressscreenshots_default             true
 
 #define con_edgecolor_auto                      -1
 #define con_edgecolor_min                       con_edgecolor_auto

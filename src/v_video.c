@@ -2856,7 +2856,7 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
             }
 
             if (mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize,
-                (compressscreenshots ? MZ_BEST_COMPRESSION : MZ_NO_COMPRESSION)) == MZ_OK)
+                (compressscreenshots ? MZ_UBER_COMPRESSION : MZ_NO_COMPRESSION)) == MZ_OK)
             {
                 FILE    *file = fopen(path, "wb");
 
