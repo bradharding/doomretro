@@ -3,21 +3,33 @@
 ### DOOM Retro v7.0
 
 * *DOOM Retro* is now distributed as a statically linked executable, and is therefore no longer accompanied by any DLLs.
-* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The console’s background now shows a dithered, Gaussian blur, rather than a corrugated glass effect, and the scrollbar and dividers have been redesigned.
+* Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* These changes have been made to the console:
+  * The corrugated glass effect of the console’s background has been replaced by a dithered, Gaussian blur.
+  * A liquid glass effect is also applied when the `smoothtransitions` CVAR is `on`.
+  * Headers, dividers and the scroll bar have been redesigned.
+  * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, or dragging the scroll bar using the mouse, is now smooth.
+  * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
+  * Several changes have been made to text that is output to the console.
+  * Improvements have been made to wrapping and truncating text in the console.
+  * Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key is now more context-aware.
+  * These additional keyboard shortcuts are now available in the console:
+    * <kbd><b>CTRL</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> moves the caret to the previous/next word.
+    * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> extends the selection to the previous/next word.
+    * <kbd><b>CTRL</b></kbd> + <kbd><b>BACKSPACE</b></kbd> deletes the word to the left of the caret.
+    * <kbd><b>CTRL</b></kbd> + <kbd><b>DEL</b></kbd> deletes the word to the right of the caret.
+    * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>Z</b></kbd> redoes the last undone action (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>).
+    * <kbd><b>CTRL</b></kbd> + <kbd><b>INS</b></kbd>, <kbd><b>SHIFT</b></kbd> + <kbd><b>INS</b></kbd> and <kbd><b>SHIFT</b></kbd> + <kbd><b>DEL</b></kbd> copies, cuts and pastes text to and from the clipboard (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>C</b></kbd>, <kbd><b>CTRL</b></kbd> + <kbd><b>X</b></kbd> and <kbd><b>CTRL</b></kbd> + <kbd><b>V</b></kbd>).
+  * All non-printable characters are now removed before pasting text into the console.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
-  * A liquid glass effect is now applied to the console’s background.
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
-  * Scrolling in the console, using either the mouse wheel, the scroll bar, or the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, is now smooth.
   * The crosshair that is displayed when the `crosshair` CVAR is a value other than `none`, now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
 * The spin of the player’s view in the menu’s background no longer decelerates when the `smoothtransitions` CVAR is `off`.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
-* When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
-* Improvements have been made to wrapping and truncating text in the console.
 * A new `+quickmelee` action has been added that, while held down, switches to the player’s chainsaw (or fists if they don’t have one) and attacks with it, and then switches back to the weapon they had equipped once released. It is unbound by default, but can be bound to a control using the `bind` CCMD.
 * A new `+quickswitch` action has been added that, when pressed, switches to the last weapon the player had equipped. It is unbound by default, but can be bound to a control using the `bind` CCMD.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
@@ -121,7 +133,6 @@
   * A subtractive translucency effect is now applied to the fuzz effect of spectres and the player’s partial invisibility power-up.
   * Rocket trails and dogs no longer appear with textures.
   * Partially translucent sprites now appear correctly.
-* Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key is now more context-aware.
 * Partial support has been added for the `GAMEINFO` lump:
   * If `iwad` is specified, it will be used to determine the IWAD to load.
   * If `startuptitle` is specified, it will be used as the title in the window caption, as well as the title used in *Discord* when the `discordpresence` CVAR is `on`.
@@ -147,15 +158,8 @@
 * The values of the `con_warninglevel` CVAR have been changed from `0`, `1` and `2` to `low`, `medium` and `high`.
 * The current time can be displayed in the top right corner of the screen using the new `clock` CVAR. This CVAR is `off` by default and when vanilla mode is enabled.
 * The `con_timestampformat` CVAR has been renamed `timeformat` and affects the clock displayed by the new `clock` CVAR.
-* The nodes of all maps from the official IWADs are now rebuilt using the built-in[*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder, eliminating many [slime trails](https://doomwiki.org/wiki/Slime_trail).
-* These additional keyboard shortcuts are now available in the console:
-  * <kbd><b>CTRL</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> moves the caret to the previous/next word.
-  * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> extends the selection to the previous/next word.
-  * <kbd><b>CTRL</b></kbd> + <kbd><b>BACKSPACE</b></kbd> deletes the word to the left of the caret.
-  * <kbd><b>CTRL</b></kbd> + <kbd><b>DEL</b></kbd> deletes the word to the right of the caret.
-  * <kbd><b>CTRL</b></kbd> + <kbd><b>SHIFT</b></kbd> + <kbd><b>Z</b></kbd> redoes the last undone action (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>).
-  * <kbd><b>CTRL</b></kbd> + <kbd><b>INS</b></kbd>, <kbd><b>SHIFT</b></kbd> + <kbd><b>INS</b></kbd> and <kbd><b>SHIFT</b></kbd> + <kbd><b>DEL</b></kbd> copies, cuts and pastes text to and from the clipboard (the same as <kbd><b>CTRL</b></kbd> + <kbd><b>C</b></kbd>, <kbd><b>CTRL</b></kbd> + <kbd><b>X</b></kbd> and <kbd><b>CTRL</b></kbd> + <kbd><b>V</b></kbd>).
-* All non-printable characters are now removed before pasting text into the console.
+* The nodes of all maps from the official IWADs are now rebuilt using the built-in [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder, eliminating many [slime trails](https://doomwiki.org/wiki/Slime_trail).
+* A bug is fixed whereby the effects of changing the `am_forcepalette` CVAR in the console wouldn’t be immediate unless the automap was open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
