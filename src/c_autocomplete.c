@@ -1515,10 +1515,22 @@ static bool BuildOutput(const int index, char *output, const size_t size)
     if (*session.partial && !candidate->keepcase)
     {
         // match the case of what was typed, keeping the typed characters as they are
-        if (isuppercase(session.partial))
+        bool    hasletter = false;
+
+        for (const char *p = session.partial; *p; p++)
+            if (isalpha((unsigned char)*p))
+            {
+                hasletter = true;
+                break;
+            }
+
+        if (!hasletter && GetCapsLockState())
             for (char *p = text; *p; p++)
                 *p = (char)toupper((unsigned char)*p);
-        else if (islowercase(session.partial))
+        else if (hasletter && isuppercase(session.partial))
+            for (char *p = text; *p; p++)
+                *p = (char)toupper((unsigned char)*p);
+        else if (hasletter && islowercase(session.partial))
             for (char *p = text; *p; p++)
                 *p = (char)tolower((unsigned char)*p);
 
