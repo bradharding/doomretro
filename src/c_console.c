@@ -1773,9 +1773,17 @@ void C_EndOpenConsoleDrag(void)
     ST_UpdateBerserkEffect(!smoothtransitions);
 }
 
+static void C_DrawBackground(const int backgroundheight);
+
 void C_DrawConsoleEdge(int y)
 {
     const int   color = (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : nearestcolors[con_edgecolor] << 8);
+
+    if (y > 0 && y <= CONSOLEEDGEY)
+    {
+        C_DrawBackground(y - CONSOLEEDGEY);
+        return;
+    }
 
     for (int yy = MAX(0, y); yy < MIN(y + 3, SCREENHEIGHT); yy++)
     {
@@ -2030,10 +2038,10 @@ static void C_BuildDither(byte *map)
     }
 }
 
-static void C_RenderBackground(void)
+static void C_RenderBackground(const int backgroundheight)
 {
     const bool      inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
-    const int       rows = consoleheight + 5;
+    const int       rows = backgroundheight + 5;
     const int       height = rows * SCREENWIDTH;
     static float    *blurrgb;
     static int      blurrgbsize;
@@ -2043,9 +2051,9 @@ static void C_RenderBackground(void)
     static byte     dither[1024];
     static bool     ditherready;
     const float     tintamount = (inverted ? 0.6f : 0.5f);
-    const int       glassrows = consoleheight + 4;
+    const int       glassrows = backgroundheight + 4;
     const int       brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
-    const int       brandtop = consoleheight - brandheight + 2;
+    const int       brandtop = backgroundheight - brandheight + 2;
     const int       white = nearestwhite << 8;
     const byte      *rim[6] = { &tinttab10[white], &tinttab10[white], &tinttab5[white], &tinttab5[white], &tinttab4[white], &tinttab4[white] };
 
@@ -2210,7 +2218,7 @@ typedef struct
     bool    automapbevel;
 } backgroundkey_t;
 
-static void C_DrawBackground(void)
+static void C_DrawBackground(const int backgroundheight)
 {
     static byte             *cachedinput;
     static byte             *cachedoutput;
@@ -2219,10 +2227,10 @@ static void C_DrawBackground(void)
     static backgroundkey_t  cachedkey;
     static bool             cachevalid;
     backgroundkey_t         key;
-    const int               span = MIN((consoleheight + 5 + 7) * SCREENWIDTH, SCREENAREA);
+    const int               span = MIN((backgroundheight + 5 + 7) * SCREENWIDTH, SCREENAREA);
 
     memset(&key, 0, sizeof(key));
-    key.consoleheight = consoleheight;
+    key.consoleheight = backgroundheight;
     key.screenwidth = SCREENWIDTH;
     key.screenheight = SCREENHEIGHT;
     key.edgecolor = con_edgecolor;
@@ -2248,7 +2256,7 @@ static void C_DrawBackground(void)
     }
 
     memcpy(cachedinput, screens[0], span);
-    C_RenderBackground();
+    C_RenderBackground(backgroundheight);
     memcpy(cachedoutput, screens[0], span);
     cachedspan = span;
     cachedkey = key;
@@ -3798,7 +3806,7 @@ void C_Drawer(void)
     I_UpdateBlitFunc(false);
 
     // draw background and bottom edge
-    C_DrawBackground();
+    C_DrawBackground(consoleheight);
 
     // draw the scrollbar
     C_DrawScrollbar(topanchored);
