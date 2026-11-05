@@ -55,6 +55,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 
 // Automap color priorities

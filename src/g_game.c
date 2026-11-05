@@ -65,6 +65,7 @@
 #include "s_sound.h"
 #include "st_carousel.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "wi_stuff.h"
 

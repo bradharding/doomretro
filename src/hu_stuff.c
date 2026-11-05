@@ -58,6 +58,7 @@
 #include "r_state.h"
 #include "st_carousel.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "w_wad.h"
 

@@ -69,6 +69,7 @@
 #include "s_sound.h"
 #include "st_carousel.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_merge.h"
@@ -422,6 +423,8 @@ void D_Display(void)
     bool                done;
 
     I_UpdateDiscordRPC();
+
+    V_UpdateScreenShot();
 
     if (vid_capfps != TICRATE && (realframe = (gametime > saved_gametime)))
         saved_gametime = gametime;

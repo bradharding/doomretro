@@ -48,6 +48,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "r_defs.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "w_wad.h"
 

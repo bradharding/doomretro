@@ -56,6 +56,7 @@
 #include "m_misc.h"
 #include "p_setup.h"
 #include "s_sound.h"
+#include "v_screenshots.h"
 #include "version.h"
 #include "w_wad.h"
 
@@ -657,6 +658,8 @@ void I_PrintSystemInfo(void)
 //
 void I_Quit(bool shutdown)
 {
+    V_FinishScreenShot(false);
+
     if (shutdown)
     {
         D_FadeScreenToBlack();

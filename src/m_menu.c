@@ -63,6 +63,7 @@
 #include "st_lib.h"
 #include "st_stuff.h"
 #include "v_data.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"

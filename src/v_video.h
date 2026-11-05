@@ -56,7 +56,6 @@ extern byte *screens[NUMSCREENS];
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
 extern int  lowpixelrows;
-extern bool takingcleancreenshot;
 
 extern int  consoleoutputclipy;
 
@@ -156,8 +155,6 @@ void V_LowGraphicDetail_2x2(byte *screen, int screenwidth, int left, int top,
 
 void GetPixelSize(void);
 void V_InvertScreen(void);
-
-bool V_ScreenShot(void);
 
 struct patch_s *V_LinearToTransPatch(const byte *data, int width, int height,
     int color_key);
