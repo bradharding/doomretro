@@ -127,10 +127,7 @@ static int SplitWADList(const char *list, char **tokens, const int maxtokens)
 
         if (length)
         {
-            char    *token = malloc(length + 1);
-
-            if (!token)
-                break;
+            char    *token = I_Malloc(length + 1);
 
             memcpy(token, start, length);
             token[length] = '\0';
@@ -317,7 +314,6 @@ int D_OpenWADLauncher(void)
 {
     int             iwadfound = -1;
     bool            fileopenedok;
-
 #if defined(_WIN32)
     OPENFILENAME    ofn;
     char            szFile[4096] = "";

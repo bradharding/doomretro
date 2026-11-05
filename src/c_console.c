@@ -3846,15 +3846,15 @@ void C_Drawer(void)
                 if (rowy >= clipy || yy < 0)
                     continue;
 
-                for (int x = 0; x < CONSOLEDIVIDERWIDTH; x++)
+                for (int xx = 0; xx < CONSOLEDIVIDERWIDTH; xx++)
                 {
-                    byte    *dest = &screens[0][yy + CONSOLETEXTX + x];
+                    byte    *dest = &screens[0][yy + CONSOLETEXTX + xx];
 
                     *dest = tinttab[consoledividercolor + *dest];
 
-                    if (row == 0 || (row == 1 && x == 0))
+                    if (!row || (row == 1 && !xx))
                         *dest = white5[*dest];
-                    else if (row == 2 || x == CONSOLEDIVIDERWIDTH - 1)
+                    else if (row == 2 || xx == CONSOLEDIVIDERWIDTH - 1)
                         *dest = black10[*dest];
 
                     if (!rowy)
