@@ -36,6 +36,7 @@
 #pragma once
 
 #include "doomtype.h"
+#include "w_file.h"
 
 extern bool takingcleancreenshot;
 extern char lbmname1[MAX_PATH];
