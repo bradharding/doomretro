@@ -84,6 +84,7 @@ bool                    ignoreconsolekey;
 uint64_t                consolekeydowntime;
 static int              scrolloffset;
 static bool             scrolloffsetheld;
+static bool             scrollbarshadowheld;
 static int              scrolloffsetheldhistory;
 static int              scrolloffsetheldoffset;
 static int              scrollspeed = TICRATE;
@@ -279,6 +280,7 @@ static void C_ScrollToBottom(void)
     outputhistoryoffset = 0;
     scrolloffset = 0;
     scrolloffsetheld = false;
+    scrollbarshadowheld = false;
     autoscrolling = false;
 }
 
@@ -1682,7 +1684,7 @@ void C_HideConsole(void)
 
     SDL_StopTextInput();
 
-    if (smoothtransitions)
+    if (smoothtransitions && consoleheight)
         consoledirection = -1;
     else
     {
@@ -1692,7 +1694,7 @@ void C_HideConsole(void)
         consoleoverlaymenu = false;
     }
 
-    ST_UpdateBerserkEffect(!smoothtransitions);
+    ST_UpdateBerserkEffect(!smoothtransitions || !consoleheight);
 
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
@@ -3601,7 +3603,7 @@ void C_Drawer(void)
             else
                 C_SetTopRow(newtoprow);
 
-            if (scrolloffsetheld)
+            if (scrolloffsetheld || scrollbarshadowheld)
             {
                 scrolloffsetheldhistory = outputhistory;
                 scrolloffsetheldoffset = outputhistoryoffset;
@@ -3688,6 +3690,10 @@ void C_Drawer(void)
     if (scrolloffsetheld && (autoscrolling || !scrolloffset || outputhistory != scrolloffsetheldhistory
         || outputhistoryoffset != scrolloffsetheldoffset))
         scrolloffsetheld = false;
+
+    if (scrollbarshadowheld && (autoscrolling || outputhistory == -1 || outputhistory != scrolloffsetheldhistory
+        || outputhistoryoffset != scrolloffsetheldoffset))
+        scrollbarshadowheld = false;
 
     if (!dragconsolescrollbaractive && !autoscrolling && !scrolloffsetheld)
     {
@@ -3812,7 +3818,8 @@ void C_Drawer(void)
     C_DrawScrollbar(topanchored);
 
     topofconsole = (toprow < 0);
-    consoleoutputclipy = (scrolloffset || topanchored || (outputhistory != -1 && dragconsolescrollbarmoved) ?
+    consoleoutputclipy = (scrolloffset || topanchored || scrollbarshadowheld
+        || (outputhistory != -1 && dragconsolescrollbarmoved) ?
         CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 - CONSOLEOUTPUTGAP : INT_MAX);
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
@@ -5239,6 +5246,7 @@ bool C_Responder(event_t *ev)
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
                         scrolloffset = -remainder;
                         scrolloffsetheld = (remainder != 0);
+                        scrollbarshadowheld = dragconsolescrollbarmoved;
                         scrolloffsetheldhistory = outputhistory;
                         scrolloffsetheldoffset = outputhistoryoffset;
                     }
