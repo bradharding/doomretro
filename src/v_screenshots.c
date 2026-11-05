@@ -52,6 +52,7 @@
 #include "p_setup.h"
 #include "v_screenshots.h"
 #include "v_video.h"
+#include "w_file.h"
 
 #define MAXSCREENSHOTS  2
 
