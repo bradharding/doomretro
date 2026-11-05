@@ -38,9 +38,11 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_iwad.h"
 #include "d_main.h"
 #include "doomstat.h"
+#include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -54,6 +56,7 @@
 #include "v_video.h"
 #include "w_file.h"
 
+#define CACHESIZE       65536
 #define MAXSCREENSHOTS  2
 
 typedef struct
@@ -67,10 +70,10 @@ typedef struct
 } screenshot_t;
 
 bool                takingcleancreenshot;
-char                lbmname1[MAX_PATH];
-char                lbmpath1[MAX_PATH];
-char                lbmpath2[MAX_PATH] = "";
 
+static char         lbmname1[MAX_PATH];
+static char         lbmpath1[MAX_PATH];
+static char         lbmpath2[MAX_PATH];
 static char         lbmname2[MAX_PATH];
 static screenshot_t screenshots[MAXSCREENSHOTS];
 static int          numscreenshots;
@@ -118,8 +121,6 @@ static bool V_CaptureScreenShot(SDL_Window *sdlwindow, const char *path)
 
         if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, pixels, pitch))
         {
-            enum { CACHESIZE = 65536 };
-
             static uint32_t cachekeys[CACHESIZE];
             static byte     cachecolors[CACHESIZE];
             screenshot_t    *screenshot = &screenshots[numscreenshots++];
@@ -128,6 +129,7 @@ static bool V_CaptureScreenShot(SDL_Window *sdlwindow, const char *path)
             byte            prevcolor = 0;
 
             M_StringCopy(screenshot->path, path, sizeof(screenshot->path));
+
             screenshot->width = pngwidth;
             screenshot->height = height;
             screenshot->raw = raw;
@@ -151,8 +153,8 @@ static bool V_CaptureScreenShot(SDL_Window *sdlwindow, const char *path)
 
                 for (int x = 0; x < pngwidth; x++, src += 3)
                 {
-                    const uint32_t  key = ((uint32_t)src[0] << 16) | ((uint32_t)src[1] << 8) | src[2];
-                    const uint32_t  slot = (key * 2654435761u) >> 16;
+                    const uint32_t  key = (((uint32_t)src[0] << 16) | ((uint32_t)src[1] << 8) | src[2]);
+                    const uint32_t  slot = ((key * 2654435761u) >> 16);
 
                     if (key != prevkey)
                     {
@@ -275,7 +277,7 @@ void V_UpdateScreenShot(void)
         V_FinishScreenShot(true);
 }
 
-bool V_ScreenShot(void)
+void V_ScreenShot(void)
 {
     bool    result;
     char    mapname[128];
@@ -285,6 +287,8 @@ bool V_ScreenShot(void)
     int     count = 0;
 
     V_FinishScreenShot(true);
+
+    lbmpath2[0] = '\0';
 
     if (consoleactive)
         M_StringCopy(mapname, "Console", sizeof(mapname));
@@ -424,5 +428,22 @@ bool V_ScreenShot(void)
     fadecount = 0;
     menuitemfadecount = 0;
 
-    return result;
+    if (result)
+    {
+        static char buffer[512];
+
+        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
+        HU_SetPlayerMessage(buffer, false, false);
+        message_dontfuckwithme = true;
+
+        C_Output(BOLD("%s") " was saved.", lbmpath1);
+
+        if (*lbmpath2)
+            C_Output(BOLD("%s") " was also saved.", lbmpath2);
+    }
+    else
+    {
+        C_ShowConsole(false);
+        C_Warning(0, "A screenshot couldn't be taken.");
+    }
 }

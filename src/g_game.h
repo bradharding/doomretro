@@ -93,8 +93,6 @@ bool G_Responder(const event_t *ev);
 
 void G_PlayerReborn(void);
 
-void G_ScreenShot(void);
-
 void G_SetFastParms(bool fast_pending);
 void G_SetMovementSpeed(int scale);
 void G_ToggleAlwaysRun(evtype_t type);

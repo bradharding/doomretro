@@ -3572,7 +3572,7 @@ bool        controllerpress = false;
 
 static void M_TakeScreenshot(bool flash)
 {
-    G_ScreenShot();
+    V_ScreenShot();
 
     if (flash)
     {
@@ -4379,7 +4379,7 @@ bool M_Responder(event_t *ev)
 
         if (key == keyboardscreenshot || key == keyboardscreenshot2)
         {
-            G_ScreenShot();
+            V_ScreenShot();
             return false;
         }
 
@@ -4535,7 +4535,7 @@ bool M_Responder(event_t *ev)
             && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL)
             && !consoleoverlaymenu)
         {
-            G_ScreenShot();
+            V_ScreenShot();
             return false;
         }
 
@@ -4798,7 +4798,7 @@ bool M_Responder(event_t *ev)
         && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL)
         && !consoleactive)
     {
-        G_ScreenShot();
+        V_ScreenShot();
         return false;
     }
 

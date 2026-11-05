@@ -74,6 +74,7 @@
 #include "st_carousel.h"
 #include "st_lib.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -1574,7 +1575,7 @@ static void rotatemodeactionfunc(void)
 
 static void screenshotactionfunc(void)
 {
-    G_ScreenShot();
+    V_ScreenShot();
     S_StartSound(NULL, sfx_scrsht);
     memset(screens[0], nearestwhite, SCREENAREA);
     D_FadeScreen(true);

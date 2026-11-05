@@ -39,10 +39,7 @@
 #include "w_file.h"
 
 extern bool takingcleancreenshot;
-extern char lbmname1[MAX_PATH];
-extern char lbmpath1[MAX_PATH];
-extern char lbmpath2[MAX_PATH];
 
-bool V_ScreenShot(void);
+void V_ScreenShot(void);
 void V_UpdateScreenShot(void);
 void V_FinishScreenShot(const bool report);

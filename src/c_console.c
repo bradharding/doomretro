@@ -65,6 +65,7 @@
 #include "p_spec.h"
 #include "s_sound.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -4272,7 +4273,7 @@ bool C_Responder(event_t *ev)
         if ((key == keyboardscreenshot || key == keyboardscreenshot2)
             && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL || consoleoverlaymenu))
         {
-            G_ScreenShot();
+            V_ScreenShot();
             return true;
         }
 

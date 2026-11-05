@@ -65,7 +65,6 @@
 #include "s_sound.h"
 #include "st_carousel.h"
 #include "st_stuff.h"
-#include "v_screenshots.h"
 #include "v_video.h"
 #include "wi_stuff.h"
 
@@ -1704,28 +1703,6 @@ static void G_DoReborn(void)
     }
     else
         G_RestartMap();
-}
-
-void G_ScreenShot(void)
-{
-    if (V_ScreenShot())
-    {
-        static char buffer[512];
-
-        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
-        HU_SetPlayerMessage(buffer, false, false);
-        message_dontfuckwithme = true;
-
-        C_Output(BOLD("%s") " was saved.", lbmpath1);
-
-        if (*lbmpath2)
-            C_Output(BOLD("%s") " was also saved.", lbmpath2);
-    }
-    else
-    {
-        C_ShowConsole(false);
-        C_Warning(0, "A screenshot couldn't be taken.");
-    }
 }
 
 bool    newpars = false;
