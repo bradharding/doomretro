@@ -11767,7 +11767,7 @@ static void am_forcepalettefunc2(char *cmd, char *parms)
 
     boolfunc2(cmd, parms);
 
-    if (automapactive && am_forcepalette != am_forcepalette_old)
+    if (am_forcepalette != am_forcepalette_old)
         AM_SetColors();
 }
 
