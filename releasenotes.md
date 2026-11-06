@@ -137,10 +137,10 @@
   * If `iwad` is specified, it will be used to determine the IWAD to load.
   * If `startuptitle` is specified, it will be used as the title in the window caption, as well as the title used in *Discord* when the `discordpresence` CVAR is `on`.
 * The console can now be opened in the automap by dragging it from the top of the screen downwards with the mouse, when follow mode is off and the `m_pointer` CVAR is `on`.
-* Blood splats are a slightly darker shade of red.
+* Red blood splats are now a slightly darker shade.
 * Blood splats now move accurately when on scrolling floors.
 * These changes have been made to shadows cast by sprites when the `r_shadows` CVAR is `on`:
-  * Shadows are now cast better being sprites, accurately from their bases, directly onto the sectors behind them.
+  * Shadows are now cast better behind sprites, accurately from their bases, directly onto the sectors behind them.
   * Shadows are cast outwards slightly from the center of the player’s view if the `r_radiallighting` CVAR is `on`.
   * Shadows are now cast by monster projectiles.
   * Shadows are now cast by all decorations.

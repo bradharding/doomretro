@@ -86,17 +86,17 @@ typedef struct
     int     next;
 } screenshotcounter_t;
 
-bool                    takingcleancreenshot;
+bool                        takingcleancreenshot;
 
-static char             lbmname1[MAX_PATH];
-static char             lbmpath1[MAX_PATH];
-static char             lbmpath2[MAX_PATH];
-static char             lbmname2[MAX_PATH];
-static screenshotjob_t  jobs[MAXJOBS];
+static char                 lbmname1[MAX_PATH];
+static char                 lbmpath1[MAX_PATH];
+static char                 lbmpath2[MAX_PATH];
+static char                 lbmname2[MAX_PATH];
+static screenshotjob_t      jobs[MAXJOBS];
 static screenshotcounter_t  maincounter;
 static screenshotcounter_t  mapcounter;
-static int              firstjob;
-static int              numjobs;
+static int                  firstjob;
+static int                  numjobs;
 
 static bool V_WritePNGChunk(FILE *file, const char *type, const byte *data, mz_uint32 length)
 {
@@ -360,6 +360,7 @@ static bool V_ScreenShotExists(const char *folder, const char *base, const int c
 
     V_FormatScreenShotName(name, sizeof(name), base, count);
     M_snprintf(path, sizeof(path), "%s%s", folder, name);
+
     return (M_FileExists(path) || V_ScreenShotPending(path));
 }
 
