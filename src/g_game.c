@@ -65,6 +65,7 @@
 #include "s_sound.h"
 #include "st_carousel.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "wi_stuff.h"
 
@@ -1226,8 +1227,7 @@ bool G_Responder(const event_t *ev)
             && (ev->data1 == keyboardscreenshot || ev->data1 == keyboardscreenshot2))
         {
             S_StartSound(NULL, sfx_scrsht);
-            memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen(true);
+            V_FlashScreen();
 
             return true;
         }

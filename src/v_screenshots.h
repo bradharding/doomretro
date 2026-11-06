@@ -41,5 +41,7 @@
 extern bool takingcleancreenshot;
 
 void V_ScreenShot(void);
+void V_FlashScreen(void);
+void V_ScreenShotSound(void);
 void V_UpdateScreenShot(void);
 void V_FinishScreenShot(const bool report);

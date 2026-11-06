@@ -3576,13 +3576,10 @@ static void M_TakeScreenshot(bool flash)
 
     if (flash)
     {
-        S_StartSound(NULL, sfx_scrsht);
+        V_ScreenShotSound();
 
         if (!splashscreen)
-        {
-            memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen(true);
-        }
+            V_FlashScreen();
     }
 }
 
@@ -4306,13 +4303,10 @@ bool M_Responder(event_t *ev)
         if ((ev->data1 == keyboardscreenshot || ev->data1 == keyboardscreenshot2)
             && (ev->data1 == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
         {
-            S_StartSound(NULL, sfx_scrsht);
+            V_ScreenShotSound();
 
             if (!splashscreen)
-            {
-                memset(screens[0], nearestwhite, SCREENAREA);
-                D_FadeScreen(true);
-            }
+                V_FlashScreen();
         }
 
         return false;

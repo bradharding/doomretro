@@ -1576,9 +1576,8 @@ static void rotatemodeactionfunc(void)
 static void screenshotactionfunc(void)
 {
     V_ScreenShot();
-    S_StartSound(NULL, sfx_scrsht);
-    memset(screens[0], nearestwhite, SCREENAREA);
-    D_FadeScreen(true);
+    V_ScreenShotSound();
+    V_FlashScreen();
 }
 
 static void shotgunactionfunc(void)

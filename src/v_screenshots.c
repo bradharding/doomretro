@@ -52,34 +52,51 @@
 #include "m_misc.h"
 #include "miniz/miniz.h"
 #include "p_setup.h"
+#include "s_sound.h"
 #include "v_screenshots.h"
 #include "v_video.h"
 #include "w_file.h"
 
 #define CACHESIZE       65536
 #define MAXSCREENSHOTS  2
+#define MAXJOBS         4
 
 typedef struct
 {
-    char    path[MAX_PATH];
-    int     width;
-    int     height;
-    byte    *raw;
-    size_t  rawsize;
-    byte    palette[256 * 3];
+    char            path[MAX_PATH];
+    int             width;
+    int             height;
+    byte            *raw;
+    size_t          rawsize;
+    byte            palette[256 * 3];
 } screenshot_t;
 
-bool                takingcleancreenshot;
+typedef struct
+{
+    screenshot_t    screenshots[MAXSCREENSHOTS];
+    int             numscreenshots;
+    SDL_Thread      *thread;
+    SDL_atomic_t    done;
+    SDL_atomic_t    failed;
+} screenshotjob_t;
 
-static char         lbmname1[MAX_PATH];
-static char         lbmpath1[MAX_PATH];
-static char         lbmpath2[MAX_PATH];
-static char         lbmname2[MAX_PATH];
-static screenshot_t screenshots[MAXSCREENSHOTS];
-static int          numscreenshots;
-static SDL_Thread   *screenshotthread;
-static SDL_atomic_t screenshotdone;
-static SDL_atomic_t screenshotfailed;
+typedef struct
+{
+    char    key[MAX_PATH * 2];
+    int     next;
+} screenshotcounter_t;
+
+bool                    takingcleancreenshot;
+
+static char             lbmname1[MAX_PATH];
+static char             lbmpath1[MAX_PATH];
+static char             lbmpath2[MAX_PATH];
+static char             lbmname2[MAX_PATH];
+static screenshotjob_t  jobs[MAXJOBS];
+static screenshotcounter_t  maincounter;
+static screenshotcounter_t  mapcounter;
+static int              firstjob;
+static int              numjobs;
 
 static bool V_WritePNGChunk(FILE *file, const char *type, const byte *data, mz_uint32 length)
 {
@@ -101,7 +118,7 @@ static bool V_WritePNGChunk(FILE *file, const char *type, const byte *data, mz_u
         && fwrite(crcbytes, 1, sizeof(crcbytes), file) == sizeof(crcbytes));
 }
 
-static bool V_CaptureScreenShot(SDL_Window *sdlwindow, const char *path)
+static bool V_CaptureScreenShot(screenshotjob_t *job, SDL_Window *sdlwindow, const char *path)
 {
     bool            result = false;
     int             width = 0;
@@ -112,7 +129,7 @@ static bool V_CaptureScreenShot(SDL_Window *sdlwindow, const char *path)
 
     blitfunc();
 
-    if (renderer && width > 0 && height > 0 && numscreenshots < MAXSCREENSHOTS)
+    if (renderer && width > 0 && height > 0 && job->numscreenshots < MAXSCREENSHOTS)
     {
         const int       pngwidth = (vid_widescreen ? width : height * 4 / 3);
         const int       pitch = pngwidth * 3;
@@ -123,7 +140,7 @@ static bool V_CaptureScreenShot(SDL_Window *sdlwindow, const char *path)
         {
             static uint32_t cachekeys[CACHESIZE];
             static byte     cachecolors[CACHESIZE];
-            screenshot_t    *screenshot = &screenshots[numscreenshots++];
+            screenshot_t    *screenshot = &job->screenshots[job->numscreenshots++];
             byte            *raw = I_Malloc(rawsize);
             uint32_t        prevkey = UINT32_MAX;
             byte            prevcolor = 0;
@@ -192,9 +209,12 @@ static bool V_WritePNG(const screenshot_t *screenshot)
     if (compressed && mz_compress2(compressed, &compressedsize, screenshot->raw, (mz_ulong)screenshot->rawsize,
         (compressscreenshots ? MZ_UBER_COMPRESSION : MZ_NO_COMPRESSION)) == MZ_OK)
     {
-        FILE    *file = fopen(screenshot->path, "wb");
+        char    temppath[MAX_PATH + 5];
+        FILE    *file;
 
-        if (file)
+        M_snprintf(temppath, sizeof(temppath), "%s.tmp", screenshot->path);
+
+        if ((file = fopen(temppath, "wb")))
         {
             byte        ihdr[13];
             mz_uint32   bigendian = BIGLONG((mz_uint32)screenshot->width);
@@ -217,6 +237,12 @@ static bool V_WritePNG(const screenshot_t *screenshot)
 
             if (fclose(file))
                 result = false;
+
+            if (result && rename(temppath, screenshot->path))
+                result = false;
+
+            if (!result)
+                remove(temppath);
         }
     }
 
@@ -226,67 +252,164 @@ static bool V_WritePNG(const screenshot_t *screenshot)
 
 static int SDLCALL V_ScreenShotThread(void *data)
 {
-    for (int i = 0; i < numscreenshots; i++)
-        if (!V_WritePNG(&screenshots[i]))
-            SDL_AtomicSet(&screenshotfailed, 1);
+    screenshotjob_t *job = (screenshotjob_t *)data;
 
-    SDL_AtomicSet(&screenshotdone, 1);
+    for (int i = 0; i < job->numscreenshots; i++)
+        if (!V_WritePNG(&job->screenshots[i]))
+            SDL_AtomicSet(&job->failed, 1);
+
+    SDL_AtomicSet(&job->done, 1);
     return 0;
 }
 
-static void V_StartScreenShotThread(void)
+static void V_StartScreenShotThread(screenshotjob_t *job)
 {
-    if (!numscreenshots)
-        return;
-
-    SDL_AtomicSet(&screenshotdone, 0);
-
-    if (!(screenshotthread = SDL_CreateThread(V_ScreenShotThread, "screenshot", NULL)))
-        V_ScreenShotThread(NULL);
+    if (!(job->thread = SDL_CreateThread(V_ScreenShotThread, "screenshot", job)))
+        V_ScreenShotThread(job);
 }
 
-void V_FinishScreenShot(const bool report)
+static void V_ReapScreenShot(const bool report)
 {
-    if (screenshotthread)
+    screenshotjob_t *job = &jobs[firstjob];
+
+    if (job->thread)
     {
-        SDL_WaitThread(screenshotthread, NULL);
-        screenshotthread = NULL;
+        SDL_WaitThread(job->thread, NULL);
+        job->thread = NULL;
     }
 
-    if (!numscreenshots)
-        return;
-
-    for (int i = 0; i < numscreenshots; i++)
+    for (int i = 0; i < job->numscreenshots; i++)
     {
-        free(screenshots[i].raw);
-        screenshots[i].raw = NULL;
+        free(job->screenshots[i].raw);
+        job->screenshots[i].raw = NULL;
     }
 
-    numscreenshots = 0;
+    job->numscreenshots = 0;
+    firstjob = (firstjob + 1) % MAXJOBS;
+    numjobs--;
 
-    if (SDL_AtomicSet(&screenshotfailed, 0) && report)
+    if (SDL_AtomicSet(&job->failed, 0) && report)
     {
         C_ShowConsole(false);
         C_Warning(0, "A screenshot couldn't be saved.");
     }
 }
 
+static bool V_ScreenShotPending(const char *path)
+{
+    for (int i = 0; i <= numjobs; i++)
+    {
+        const screenshotjob_t   *job = &jobs[(firstjob + i) % MAXJOBS];
+
+        for (int j = 0; j < job->numscreenshots; j++)
+            if (M_StringCompare(path, job->screenshots[j].path))
+                return true;
+    }
+
+    return false;
+}
+
+void V_FinishScreenShot(const bool report)
+{
+    while (numjobs)
+        V_ReapScreenShot(report);
+}
+
 void V_UpdateScreenShot(void)
 {
-    if (numscreenshots && (!screenshotthread || SDL_AtomicGet(&screenshotdone)))
-        V_FinishScreenShot(true);
+    while (numjobs && SDL_AtomicGet(&jobs[firstjob].done))
+        V_ReapScreenShot(true);
+}
+
+void V_FlashScreen(void)
+{
+    if (vanilla)
+        return;
+
+    memset(screens[0], nearestwhite, SCREENAREA);
+    D_FadeScreen(true);
+}
+
+void V_ScreenShotSound(void)
+{
+    if (!vanilla)
+        S_StartSound(NULL, sfx_scrsht);
+}
+
+static void V_FormatScreenShotName(char *name, const size_t size, const char *base, const int count)
+{
+    if (!count)
+        M_snprintf(name, (int)size, "%s.png", base);
+    else if (count < 1000)
+        M_snprintf(name, (int)size, "%s (%d).png", base, count);
+    else if (count < 1000000)
+        M_snprintf(name, (int)size, "%s (%d,%03d).png", base, count / 1000, count % 1000);
+    else
+    {
+        char    *temp = commify(count);
+
+        M_snprintf(name, (int)size, "%s (%s).png", base, temp);
+        free(temp);
+    }
+}
+
+static bool V_ScreenShotExists(const char *folder, const char *base, const int count)
+{
+    char    name[MAX_PATH];
+    char    path[MAX_PATH];
+
+    V_FormatScreenShotName(name, sizeof(name), base, count);
+    M_snprintf(path, sizeof(path), "%s%s", folder, name);
+    return (M_FileExists(path) || V_ScreenShotPending(path));
+}
+
+static void V_FindScreenShotName(const char *folder, const char *base, screenshotcounter_t *counter,
+    char *name, const size_t namesize, char *path, const size_t pathsize)
+{
+    char    key[MAX_PATH * 2];
+    int     count = 0;
+
+    M_snprintf(key, sizeof(key), "%s%s", folder, base);
+
+    while (V_ScreenShotExists(folder, base, count))
+    {
+        if (count)
+            count++;
+        else if (counter->next > 1 && M_StringCompare(key, counter->key)
+            && V_ScreenShotExists(folder, base, counter->next - 1))
+            count = counter->next;
+        else
+            count = 1;
+    }
+
+    V_FormatScreenShotName(name, namesize, base, count);
+    M_snprintf(path, (int)pathsize, "%s%s", folder, name);
+
+    M_StringCopy(counter->key, key, sizeof(counter->key));
+    counter->next = count + 1;
 }
 
 void V_ScreenShot(void)
 {
-    bool    result;
-    char    mapname[128];
-    char    *folder;
-    char    *temp1;
-    char    *temp2;
-    int     count = 0;
+    bool            result;
+    char            mapname[128];
+    char            *folder;
+    char            *temp1;
+    char            *temp2;
+    screenshotjob_t *job;
+    const bool      fading = (fadecount || menuitemfadecount);
 
-    V_FinishScreenShot(true);
+    V_UpdateScreenShot();
+
+    if (numjobs == MAXJOBS)
+        V_ReapScreenShot(true);
+
+    job = &jobs[(firstjob + numjobs) % MAXJOBS];
+    job->numscreenshots = 0;
+    job->thread = NULL;
+
+    SDL_AtomicSet(&job->done, 0);
+    SDL_AtomicSet(&job->failed, 0);
 
     lbmpath2[0] = '\0';
 
@@ -314,6 +437,8 @@ void V_ScreenShot(void)
             M_StringCopy(mapname, "Options Menu", sizeof(mapname));
         else if (currentmenu == &SoundDef)
             M_StringCopy(mapname, "Sound Volume Menu", sizeof(mapname));
+        else
+            M_StringCopy(mapname, "Menu", sizeof(mapname));
     }
     else if (automapactive)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
@@ -359,25 +484,7 @@ void V_ScreenShot(void)
     temp1 = makevalidfilename(mapname);
     folder = D_GetScreenshotFolder();
 
-    do
-    {
-        if (!count)
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", temp1);
-        else if (count < 1000)
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%d).png", temp1, count);
-        else if (count < 1000000)
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%d,%03d).png",
-                temp1, count / 1000, count % 1000);
-        else
-        {
-            temp2 = commify(count);
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", temp1, temp2);
-            free(temp2);
-        }
-
-        count++;
-        M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", folder, lbmname1);
-    } while (M_FileExists(lbmpath1));
+    V_FindScreenShotName(folder, temp1, &maincounter, lbmname1, sizeof(lbmname1), lbmpath1, sizeof(lbmpath1));
 
     free(temp1);
 
@@ -385,39 +492,25 @@ void V_ScreenShot(void)
     menuitemfadecount = 0;
 
     if (cleanscreenshots)
-    {
         takingcleancreenshot = true;
+
+    if (cleanscreenshots || fading)
         D_Display();
-    }
 
-    if ((result = V_CaptureScreenShot(window, lbmpath1)) && mapwindow && gamestate == GS_LEVEL)
+    if ((result = V_CaptureScreenShot(job, window, lbmpath1)) && mapwindow && gamestate == GS_LEVEL)
     {
-        count = 0;
+        V_FindScreenShotName(folder, "Automap", &mapcounter, lbmname2, sizeof(lbmname2),
+            lbmpath2, sizeof(lbmpath2));
 
-        do
-        {
-            if (!count)
-                M_StringCopy(lbmname2, "Automap.png", sizeof(lbmname2));
-            else if (count < 1000)
-                M_snprintf(lbmname2, sizeof(lbmname2), "Automap (%d).png", count);
-            else if (count < 1000000)
-                M_snprintf(lbmname2, sizeof(lbmname2), "Automap (%d,%03d).png",
-                    count / 1000, count % 1000);
-            else
-            {
-                temp2 = commify(count);
-                M_snprintf(lbmname2, sizeof(lbmname2), "Automap (%s).png", temp2);
-                free(temp2);
-            }
-
-            count++;
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s", folder, lbmname2);
-        } while (M_FileExists(lbmpath2));
-
-        V_CaptureScreenShot(mapwindow, lbmpath2);
+        if (!V_CaptureScreenShot(job, mapwindow, lbmpath2))
+            lbmpath2[0] = '\0';
     }
 
-    V_StartScreenShotThread();
+    if (job->numscreenshots)
+    {
+        numjobs++;
+        V_StartScreenShotThread(job);
+    }
 
     if (cleanscreenshots)
     {
