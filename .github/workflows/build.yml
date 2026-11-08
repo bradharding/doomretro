@@ -35,16 +35,30 @@
 
 name: DOOM Retro
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+    paths-ignore: ['**.md']
+  pull_request:
+    branches: [master]
+    paths-ignore: ['**.md']
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
 
 jobs:
   build-windows:
+    name: Build Windows MSVC
     runs-on: windows-2025-vs2026
 
     strategy:
+      fail-fast: false
       matrix:
         platform: [64-bit]
         configuration: [Release]
@@ -53,9 +67,6 @@ jobs:
             project-platform: x64
             output-dir: Release
             artifact-suffix: win64
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v7
@@ -107,6 +118,7 @@ jobs:
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
 
   build-windows-mingw:
+    name: Build Windows MinGW
     runs-on: windows-latest
 
     defaults:
@@ -160,14 +172,17 @@ jobs:
             build-mingw/doomretro.wad
 
   build-linux:
+    name: Build Linux ${{ matrix.label }}
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        compiler: [gcc, clang]
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        include:
+          - compiler: gcc
+            label: GCC
+          - compiler: clang
+            label: Clang
 
     steps:
       - uses: actions/checkout@v7
@@ -199,6 +214,7 @@ jobs:
           cd build
           cmake -DCMAKE_INSTALL_PREFIX=/usr \
                 -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_C_FLAGS=-Werror \
                 -DCMAKE_C_COMPILER=${{ matrix.compiler }} \
                 -DCMAKE_C_COMPILER_LAUNCHER=ccache \
                 ..
@@ -243,10 +259,8 @@ jobs:
           path: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64.AppImage
 
   clang-tidy:
+    name: Run Linux Clang-Tidy
     runs-on: ubuntu-latest
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v7
@@ -305,10 +319,8 @@ jobs:
           PY
 
   build-macos:
+    name: Build macOS Clang
     runs-on: macos-latest
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v7
