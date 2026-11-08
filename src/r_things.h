@@ -66,7 +66,7 @@ typedef struct
     const byte              *softtints[3];
     fixed_t                 top;
     fixed_t                 tz;
-    fixed_t                 shift;
+    fixed_t                 cliprow;
     fixed_t                 spread;
     int                     height;
     int                     width;
@@ -82,6 +82,7 @@ typedef struct
     float                   rowtilt;
     float                   squash;
     float                   invsquash;
+    bool                    clipped;
     bool                    flipped;
     bool                    soft;
     byte                    black;

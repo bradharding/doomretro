@@ -1074,23 +1074,13 @@ bool R_PrepareShadows(void)
         caster->width = patch->width;
         caster->rows = patch->height;
         caster->clipy = viewheight;
-        caster->shift = 0;
+        caster->cliprow = 0;
 
-        if (vis->drawfunc == &R_DrawVisSpriteClipped)
+        if ((caster->clipped = (vis->drawfunc == &R_DrawVisSpriteClipped)))
         {
-            const fixed_t   edge = (fixed_t)(((int64_t)centeryfrac - FixedMul(vis->texturemid, vis->scale)
-                                + vis->footclip) >> FRACBITS);
-
-            caster->clipy = edge;
-
-            if (edge > centery && vis->gz < viewz)
-            {
-                const fixed_t   floordepth = FixedDiv(FixedMul(projection, viewz - vis->gz),
-                                    (edge << FRACBITS) - centeryfrac);
-                const fixed_t   cutheight = vis->texturemid + viewz - FixedDiv(vis->footclip, vis->scale) - vis->gz;
-
-                caster->shift = MAX(floordepth - vis->tz - cutheight / 2, 0);
-            }
+            caster->clipy = (int)(((int64_t)centeryfrac - FixedMul(vis->texturemid, vis->scale)
+                + vis->footclip) >> FRACBITS);
+            caster->cliprow = FixedDiv(vis->footclip, vis->scale);
         }
 
         caster->center = (float)(vis->tx + halfwidth);
@@ -1107,7 +1097,8 @@ bool R_PrepareShadows(void)
         caster->soft = (r_shadows_soft && vis->tz < SHADOWSOFTDISTANCE);
         caster->black = vis->colormap[nearestblack];
 
-        shadowmindepth = MIN(shadowmindepth, vis->tz - FixedMul(ABS(tilt), halfwidth));
+        shadowmindepth = MIN(shadowmindepth, (caster->clipped && caster->clipy > centery ? 0 :
+            vis->tz - FixedMul(ABS(tilt), halfwidth)));
         mobj = vis->mobj;
 
         R_GetShadowTints(mobj, vis->fullbright, caster->black, &caster->tint, caster->softtints);
@@ -1211,9 +1202,12 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
     for (unsigned int i = 0; i < numshadowcasters; i++)
     {
         const shadowcaster_t    *caster = &shadowcasters[i];
-        const fixed_t           behind = depth - caster->tz - caster->shift;
+        const bool              clipped = (caster->clipped && caster->clipy > centery);
+        const fixed_t           basedepth = (clipped ? FixedDiv(FixedMul(planenum, viewz - planez),
+                                    (caster->clipy - centery) << FRACBITS) : caster->tz);
+        const fixed_t           behind = depth - basedepth;
         const int64_t           up = ((int64_t)behind * SHADOWHEIGHTPERDEPTH) >> FRACBITS;
-        const int64_t           reach = (int64_t)caster->top - planez;
+        const int64_t           reach = (clipped ? caster->cliprow : (int64_t)caster->top - planez);
         const float             halfwidth = caster->halfwidth;
         const float             origin = caster->center + (float)behind * caster->skew;
         const float             center = origin + caster->edgeshift;
