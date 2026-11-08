@@ -148,8 +148,11 @@
   * The edges of shadows are now softened. This can be disabled using the new `r_shadows_soft` CVAR, which is `on` by default.
   * Shadows now swirl along with the liquid when cast in liquid sectors if the `r_liquid_swirl` CVAR is also `on`.
 * A bug is fixed whereby adjusting the screen size in the options menu using the mouse would sometimes be difficult.
-* The `if` CCMD can now have an `is not` clause, an `else` clause, and be chained together.
-* The `print` CCMD can now be used to print the value of a CVAR as a player message.
+* These changes have been made to the `if` CCMD:
+  * `is not` (or `isn’t`) can now be used to execute commands if a CVAR doesn’t equal a value.
+  * An optional `else` clause can now follow the `then` clause, specifying commands to execute if the condition isn’t met.
+  * `if` CCMDs can now be chained together using `else if`.
+* The `print` CCMD can now also print the value of one or more CVARs as a player message, either on their own or mixed with quoted text (for example, `print “Gamma: ” r_gamma`).
 * The <kbd><b>ESC</b></kbd> can now be held down slightly longer in the menu to close it completely, rather than just returning to the previous menu.
 * A bug is fixed whereby the mouse would disappear during the confirmation message for the `resetall` CCMD.
 * Fake contrast has been improved when the `r_fakecontrast` CVAR is set to `smooth`, allowing better contrast between walls at different angles.

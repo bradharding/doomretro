@@ -1011,7 +1011,7 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", "", nullfunc1, playerstatsfunc2, false, "",
         "Shows stats about you."),
     CCMD(print, "", "", ingameccmdfunc1, printfunc2, true, PRINTFORMAT,
-        "Prints any combination of " BOLDITALICS("\"text\"") " and the values of " BOLDITALICS("CVARs")
+        "Prints any combination of quoted " BOLDITALICS("\"text\"") " and the values of " BOLDITALICS("CVARs")
         " as a player message."),
     CCMD(quit, "", exit, nullfunc1, quitfunc2, false, "",
         "Quits to the " DESKTOP "."),

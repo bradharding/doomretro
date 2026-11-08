@@ -1291,8 +1291,7 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
             if (behind < 0 || rowf < 0.0f || row >= caster->rows)
                 continue;
 
-            u = (((xa - centerx + 0.5f) * step - center) * caster->invsquash + halfwidth)
-                * (1.0f / FRACUNIT);
+            u = (((xa - centerx + 0.5f) * step - center) * caster->invsquash + halfwidth) * (1.0f / FRACUNIT);
 
             for (int x = xa; x <= xb; x++, u += du)
                 R_DrawCasterShadowPixel(caster, x, y, rowf, u);
