@@ -125,7 +125,7 @@
 * A bug is fixed whereby any aliases in `doomretro.cfg` would be erased at startup.
 * A list of all aliases created using the `alias` CCMD can now be displayed in the console using the new `aliaslist` CCMD.
 * Lost souls no longer spawn blood splats when they are killed while on the floor and the `r_corpses_smearblood` CVAR is `on`.
-* Voxels, such as [Cheello’s *Voxel Doom II*](https://www.moddb.com/mods/voxel-doom-ii), are now supported. When loaded, they can be toggled on and off using the new`r_voxels` CVAR, which can be `face`, `smart` or `spin`. When this CVAR is `auto`, a voxel won’t replace a sprite if that sprite is from a PWAD.
+* Voxels, such as [Cheello’s *Voxel Doom II*](https://www.moddb.com/mods/voxel-doom-ii), are now supported. When loaded (as a .pk3 or .zip file), they can be toggled on and off using the new `r_voxels` CVAR, which can be `on`, `off` or `auto`. When this CVAR is `auto`, a voxel won’t replace a sprite if that sprite is from a PWAD.
 * The angles of things rendered as voxels can be changed using the new `r_voxelangles` CVAR, which can be `face`, `smart` or `spin`. When this CVAR is `face`, all voxels face the player like sprites do. When this CVAR is `smart` (the default), voxels face away from the nearest wall. When this CVAR is `spin`, pickup voxels spin around their vertical axis.
 * The following improvements have been made when the `r_textures` CVAR is `off`:
   * Brightmaps are now displayed if the `r_brightmaps` CVAR is `on`.
