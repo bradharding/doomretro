@@ -3830,6 +3830,7 @@ bool M_Responder(event_t *ev)
                 {
                     consolefullscreen = (!allowhalf || (inbottomhalf && !movingup));
                     M_OpenConsole(true);
+                    C_PlayConsoleSound();
                 }
             }
             else

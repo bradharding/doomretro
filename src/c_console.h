@@ -286,6 +286,7 @@ void C_ResetWrappedLines(void);
 void C_AddConsoleDivider(void);
 void C_ClearConsole(void);
 void C_Init(void);
+void C_PlayConsoleSound(void);
 void C_ShowConsole(bool reset);
 void C_HideConsole(void);
 void C_HideConsoleAndMenu(void);

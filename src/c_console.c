@@ -203,6 +203,7 @@ static bool             dragconsolescrollbarmoved;
 static int              dragconsolescrollbarpointeroffset;
 static int64_t          dragconsolescrollstartposition;
 static int64_t          dragconsolescrolltargetposition;
+static bool             consolesoundmuted;
 
 static byte             tempscreen2[MAXSCREENAREA];
 
@@ -1596,8 +1597,15 @@ void C_Init(void)
     timewidth = C_OverlayWidth("00:00.00", true);
 }
 
+void C_PlayConsoleSound(void)
+{
+    S_StartSound(viewplayer->mo, sfx_consol);
+}
+
 void C_ShowConsole(bool reset)
 {
+    const bool  wasopen = (consoleactive && consoledirection != -1);
+
     if (!menuactive && !messagetoprint)
         consoleoverlaymenu = false;
 
@@ -1663,11 +1671,15 @@ void C_ShowConsole(bool reset)
     S_PauseSounds();
     S_LowerMusicVolume();
     SDL_StartTextInput();
-    S_StartSound(viewplayer->mo, sfx_consol);
+
+    if (!wasopen && !consolesoundmuted)
+        C_PlayConsoleSound();
 }
 
 void C_HideConsole(void)
 {
+    const bool  wasclosing = (consoledirection == -1);
+
     if (!consoleactive)
         return;
 
@@ -1703,7 +1715,8 @@ void C_HideConsole(void)
     if (!menuactive)
         S_ResumeSounds();
 
-    S_StartSound(viewplayer->mo, sfx_consol);
+    if (!wasclosing && !consolesoundmuted)
+        C_PlayConsoleSound();
 
     if (menuactive || messagetoprint)
         S_LowerMusicVolume();
@@ -1755,7 +1768,9 @@ void C_HideConsoleFast(void)
 void C_BeginOpenConsoleDrag(void)
 {
     dontrestoremousepointeronshow = true;
+    consolesoundmuted = true;
     C_ShowConsole(false);
+    consolesoundmuted = false;
     consoleheight = 0;
     consoledirection = 0;
 }
@@ -1769,7 +1784,15 @@ void C_UpdateOpenConsoleDrag(const int height)
 
 void C_EndOpenConsoleDrag(void)
 {
+    const bool  wasvisible = (consoleheight > 0);
+
+    consolesoundmuted = true;
     C_HideConsole();
+    consolesoundmuted = false;
+
+    if (wasvisible)
+        C_PlayConsoleSound();
+
     consolefullscreen = false;
     consoledirection = -1;
     consoleactive = false;
@@ -5195,7 +5218,7 @@ bool C_Responder(event_t *ev)
                             consoledirection = 1;
                             showcaret = true;
                             caretwait = 0;
-                            S_StartSound(viewplayer->mo, sfx_consol);
+                            C_PlayConsoleSound();
                         }
                         else
                             consolefullscreen = consoleedgedragfullscreen;
@@ -5210,7 +5233,7 @@ bool C_Responder(event_t *ev)
                             consoledirection = 1;
                             showcaret = true;
                             caretwait = 0;
-                            S_StartSound(viewplayer->mo, sfx_consol);
+                            C_PlayConsoleSound();
                         }
                         else
                         {
@@ -5225,6 +5248,9 @@ bool C_Responder(event_t *ev)
                         consoledirection = 1;
                         showcaret = true;
                         caretwait = 0;
+
+                        if (consoleedgedragdirection > 0)
+                            C_PlayConsoleSound();
                     }
                 }
 
