@@ -227,7 +227,8 @@ jobs:
       - name: Create AppImage
         if: matrix.compiler == 'gcc'
         run: |
-          wget -q https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          wget -q --tries=5 --waitretry=10 --retry-connrefused --retry-on-http-error=429,500,502,503,504 \
+               https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy-x86_64.AppImage
 
           mkdir -p AppDir/usr/bin
