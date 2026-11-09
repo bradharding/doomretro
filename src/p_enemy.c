@@ -1691,6 +1691,10 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!(fire = actor->tracer))
         return;
 
+    // [BH] if the vile changed targets since the fire was spawned, make the fire follow the actual target
+    if (fire->tracer != target)
+        P_SetTarget(&fire->tracer, target);
+
     // move the fire between the vile and the player
     an = actor->angle >> ANGLETOFINESHIFT;
     fire->x = target->x - FixedMul(24 * FRACUNIT, finecosine[an]);
