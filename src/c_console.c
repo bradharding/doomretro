@@ -1848,6 +1848,8 @@ void C_DrawConsoleEdge(int y)
 #define DITHERMAXERROR  24.0f
 #define DITHERRESETMASK 7
 #define LENSOFFSET(d)   ((d) < 18 ? (18 - (d)) * (18 - (d)) / 22 : 0)
+#define LENSOFFSETF(d)  ((d) < 18.0f ? (18.0f - (d)) * (18.0f - (d)) / 22.0f : 0.0f)
+#define BRANDRADIUS     19
 
 static float            blurkernel[BLURRADIUS + 1];
 static float            blurpalette[256][3];
@@ -2010,27 +2012,75 @@ static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, 
     }
 }
 
-static int C_BrandDistance(const int gx, const int gy, int *vx, int *vy)
+static float C_BrandDistance(const int gx, const int gy, float *vx, float *vy)
 {
-    int best = 325;
+    float   best = (float)(BRANDRADIUS * BRANDRADIUS);
+    float   dist;
 
-    if (gx < -18 || gy < -18 || (gy >= 0 && gy < 17 && gx >= brandedge[gy]))
-        return 0;
+    if (gx < -18 || gy < -BRANDRADIUS || gy >= 17 || (gy >= 0 && gx >= brandedge[gy]))
+        return 0.0f;
 
-    for (int row = MAX(0, gy - 18); row < 18 && row <= gy + 18; row++)
+    for (int row = 0; row < 17; row++)
     {
-        const int   dx = MAX(0, brandedge[row] - gx);
-        const int   dy = row - gy;
+        const float ax = (float)brandedge[row];
+        const float ex = (float)(brandedge[row + 1] - brandedge[row]);
+        const float t = fminf(fmaxf(((gx - ax) * ex + (gy - row)) / (ex * ex + 1.0f), 0.0f), 1.0f);
+        const float dx = ax + t * ex - gx;
+        const float dy = row + t - gy;
+        const float d = dx * dx + dy * dy;
 
-        if (dx * dx + dy * dy < best)
+        if (d < best)
         {
-            best = dx * dx + dy * dy;
+            best = d;
             *vx = dx;
             *vy = dy;
         }
     }
 
-    return (best < 325 ? MAX(1, (int)(sqrtf((float)best) + 0.5f)) : 0);
+    if (gy < 0)
+    {
+        const float dx = (float)MAX(0, brandedge[0] - gx);
+        const float d = dx * dx + (float)(gy * gy);
+
+        if (d < best)
+        {
+            best = d;
+            *vx = dx;
+            *vy = (float)-gy;
+        }
+    }
+
+    dist = sqrtf(best);
+
+    return (dist < 0.001f || dist >= BRANDRADIUS ? 0.0f : dist);
+}
+
+static void C_SampleBlur(const float *blurrgb, float fx, float fy, const int maxy, float *rgb)
+{
+    int         x0, y0, x1, y1;
+    float       tx, ty;
+    const float *p00, *p10, *p01, *p11;
+
+    fx = fminf(fmaxf(fx, 0.0f), (float)(SCREENWIDTH - 1));
+    fy = fminf(fmaxf(fy, 0.0f), (float)maxy);
+    x0 = (int)fx;
+    y0 = (int)fy;
+    x1 = MIN(x0 + 1, SCREENWIDTH - 1);
+    y1 = MIN(y0 + 1, maxy);
+    tx = fx - x0;
+    ty = fy - y0;
+    p00 = &blurrgb[(y0 * SCREENWIDTH + x0) * 3];
+    p10 = &blurrgb[(y0 * SCREENWIDTH + x1) * 3];
+    p01 = &blurrgb[(y1 * SCREENWIDTH + x0) * 3];
+    p11 = &blurrgb[(y1 * SCREENWIDTH + x1) * 3];
+
+    for (int c = 0; c < 3; c++)
+    {
+        const float top = p00[c] + (p10[c] - p00[c]) * tx;
+        const float bottom = p01[c] + (p11[c] - p01[c]) * tx;
+
+        rgb[c] = top + (bottom - top) * ty;
+    }
 }
 
 static void C_BuildDither(byte *map)
@@ -2125,33 +2175,50 @@ static void C_RenderBackground(const int backgroundheight)
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
-                int         ox = lensx[x];
-                int         oy = (smoothtransitions ? LENSOFFSET(MAX(0, fromedge - 3)) : 0);
-                int         vx = 0;
-                int         vy = 0;
-                int         rimedge = 99;
-                const int   dist = C_BrandDistance(x - brandx, row - brandtop, &vx, &vy);
-                const float *src;
+                float       ox = (float)lensx[x];
+                float       oy = (smoothtransitions ? (float)LENSOFFSET(MAX(0, fromedge - 3)) : 0.0f);
+                float       vx = 0.0f;
+                float       vy = 0.0f;
+                float       rimedge = 99.0f;
+                const float dist = C_BrandDistance(x - brandx, row - brandtop, &vx, &vy);
+                const byte  noise = dither[(x & 31) | ((row & 31) << 5)];
+                const int   edge = MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2;
 
-                if (dist)
+                if (dist > 0.0f)
                 {
+                    const float edgedist = fmaxf(dist - 1.0f, 0.0f);
+                    const float down = fmaxf(vy, 0.0f);
+
                     if (smoothtransitions)
                     {
-                        ox -= LENSOFFSET(dist - 1) * vx / dist;
-                        oy = LENSOFFSET(dist - 1) * vy / dist;
+                        const float lens = LENSOFFSETF(edgedist);
+                        const float lens2 = lens * lens;
+                        const float bottom2 = oy * oy;
+                        const float total = lens2 * lens2 + bottom2 * bottom2;
+                        const float weight = (total > 0.0f ? lens2 * lens2 / total : 0.0f);
+
+                        ox -= weight * lens * vx / dist;
+                        oy += weight * (lens * vy / dist - oy);
                     }
 
-                    rimedge = dist - 1 + (ABS(vx) > ABS(vy) ? 2 : 0);
+                    rimedge = edgedist + (2.0f * vx * vx + 3.0f * down * down) / (vx * vx + vy * vy);
+
+                    C_SampleBlur(blurrgb, x + ox, row - oy, glassrows - 1, &linergb[x * 3]);
+                }
+                else
+                {
+                    const float *src = &blurrgb[(BETWEEN(0, row - (int)oy, glassrows - 1) * SCREENWIDTH
+                        + BETWEEN(0, x + (int)ox, SCREENWIDTH - 1)) * 3];
+
+                    for (int c = 0; c < 3; c++)
+                        linergb[x * 3 + c] = src[c];
                 }
 
-                src = &blurrgb[(BETWEEN(0, row - oy, glassrows - 1) * SCREENWIDTH
-                    + BETWEEN(0, x + ox, SCREENWIDTH - 1)) * 3];
-
                 for (int c = 0; c < 3; c++)
-                    linergb[x * 3 + c] = src[c] * factor;
+                    linergb[x * 3 + c] *= factor;
 
-                levels[x] = (byte)MAX(0, MIN(MIN(MIN(MAX(x - 1, 0), SCREENWIDTH - x - 1) + 2, fromedge), rimedge)
-                    + (dither[(x & 31) | ((row & 31) << 5)] >> 2) - 1);
+                levels[x] = (byte)MAX(0, (int)floorf(fminf((float)MIN(edge, fromedge), rimedge)
+                    + ((noise & 3) + 0.5f) / 4.0f) + (noise >> 2) - 1);
             }
         }
 
