@@ -163,6 +163,7 @@
 * The `con_timestampformat` CVAR has been renamed `timeformat` and affects the clock displayed by the new `clock` CVAR.
 * The nodes of all maps from the official IWADs are now rebuilt using the built-in [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder, eliminating many [slime trails](https://doomwiki.org/wiki/Slime_trail).
 * A bug is fixed whereby the effects of changing the `am_forcepalette` CVAR in the console wouldn’t be immediate unless the automap was open.
+* When the `r_brightmaps` CVAR is `on`, brightmaps are no longer applied to textures, flats or sprites that have been replaced in a PWAD, unless that PWAD has defined the brightmaps itself in a `BRGHTMPS` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

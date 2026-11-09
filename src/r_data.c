@@ -347,21 +347,48 @@ static void R_InitTextures(void)
 }
 
 //
+// R_IsChangedByPWAD
+//
+static bool R_IsChangedByPWAD(const int lump, const wadfile_t *definedby)
+{
+    const wadfile_t *wadfile;
+
+    if (lump < 0 || lump >= numlumps)
+        return false;
+
+    wadfile = lumpinfo[lump]->wadfile;
+
+    return (wadfile->type != IWAD && wadfile != definedby && !D_IsResourceWAD(wadfile->path));
+}
+
+static bool R_IsTextureChangedByPWAD(const texture_t *texture, const wadfile_t *definedby)
+{
+    for (int i = 0; i < texture->patchcount; i++)
+        if (R_IsChangedByPWAD(texture->patches[i].patch, definedby))
+            return true;
+
+    return false;
+}
+
+//
 // R_InitBrightmaps
 //
 static void R_InitBrightmaps(void)
 {
-    int     nummasks = 0;
-    int     numbrightmaps = 0;
-    int     numflatbrightmaps = 0;
-    int     numspritebrightmaps = 0;
-    int     numstatebrightmaps = 0;
-    int     maxmasks = 16;
-    int     *texturemasks = I_Calloc((size_t)numtextures, sizeof(*texturemasks));
-    int     *flatmasks = I_Calloc((size_t)numflats, sizeof(*flatmasks));
-    int     *spritemasks = I_Calloc((size_t)numspritelumps, sizeof(*spritemasks));
-    bool    *noflatbrightmap = I_Calloc((size_t)numflats, sizeof(*noflatbrightmap));
-    bool    *nospritebrightmap = I_Calloc((size_t)numspritelumps, sizeof(*nospritebrightmap));
+    int         nummasks = 0;
+    int         numbrightmaps = 0;
+    int         numflatbrightmaps = 0;
+    int         numspritebrightmaps = 0;
+    int         numstatebrightmaps = 0;
+    int         maxmasks = 16;
+    int         *texturemasks = I_Calloc((size_t)numtextures, sizeof(*texturemasks));
+    int         *flatmasks = I_Calloc((size_t)numflats, sizeof(*flatmasks));
+    int         *spritemasks = I_Calloc((size_t)numspritelumps, sizeof(*spritemasks));
+    wadfile_t   **texturesources = I_Calloc((size_t)numtextures, sizeof(*texturesources));
+    wadfile_t   **flatsources = I_Calloc((size_t)numflats, sizeof(*flatsources));
+    wadfile_t   **spritesources = I_Calloc((size_t)numspritelumps, sizeof(*spritesources));
+    bool        *noflatbrightmap = I_Calloc((size_t)numflats, sizeof(*noflatbrightmap));
+    bool        *nospritebrightmap = I_Calloc((size_t)numspritelumps, sizeof(*nospritebrightmap));
 
     brightmap = Z_Calloc((size_t)numtextures, sizeof(*brightmap), PU_STATIC, NULL);
     flatbrightmap = Z_Calloc((size_t)numflats, sizeof(*flatbrightmap), PU_STATIC, NULL);
@@ -386,6 +413,9 @@ static void R_InitBrightmaps(void)
         free(texturemasks);
         free(flatmasks);
         free(spritemasks);
+        free(texturesources);
+        free(flatsources);
+        free(spritesources);
         free(noflatbrightmap);
         free(nospritebrightmap);
         return;
@@ -484,6 +514,7 @@ static void R_InitBrightmaps(void)
                                 if (M_StringCompare(maskname, masknames[j]))
                                 {
                                     texturemasks[texture] = j;
+                                    texturesources[texture] = lumpinfo[i]->wadfile;
                                     break;
                                 }
                     }
@@ -526,6 +557,7 @@ static void R_InitBrightmaps(void)
                                 if (M_StringCompare(maskname, masknames[j]))
                                 {
                                     flatmasks[flat] = j;
+                                    flatsources[flat] = lumpinfo[i]->wadfile;
                                     break;
                                 }
                     }
@@ -594,7 +626,10 @@ static void R_InitBrightmaps(void)
 
                                         if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
                                             || !strncasecmp(name, spritename, 8))
+                                        {
                                             spritemasks[k] = j;
+                                            spritesources[k] = lumpinfo[i]->wadfile;
+                                        }
                                     }
 
                                     break;
@@ -656,21 +691,21 @@ static void R_InitBrightmaps(void)
     SC_Close();
 
     for (int i = 0; i < numtextures; i++)
-        if (!nobrightmap[i] && texturemasks[i] >= 0)
+        if (!nobrightmap[i] && texturemasks[i] >= 0 && !R_IsTextureChangedByPWAD(textures[i], texturesources[i]))
         {
             brightmap[i] = masks[texturemasks[i]];
             numbrightmaps++;
         }
 
     for (int i = 0; i < numflats; i++)
-        if (!noflatbrightmap[i] && flatmasks[i] >= 0)
+        if (!noflatbrightmap[i] && flatmasks[i] >= 0 && !R_IsChangedByPWAD(firstflat + i, flatsources[i]))
         {
             flatbrightmap[i] = masks[flatmasks[i]];
             numflatbrightmaps++;
         }
 
     for (int i = 0; i < numspritelumps; i++)
-        if (!nospritebrightmap[i] && spritemasks[i] >= 0)
+        if (!nospritebrightmap[i] && spritemasks[i] >= 0 && !R_IsChangedByPWAD(firstspritelump + i, spritesources[i]))
         {
             spritebrightmap[i] = masks[spritemasks[i]];
             numspritebrightmaps++;
@@ -683,6 +718,9 @@ static void R_InitBrightmaps(void)
     free(texturemasks);
     free(flatmasks);
     free(spritemasks);
+    free(texturesources);
+    free(flatsources);
+    free(spritesources);
     free(noflatbrightmap);
     free(nospritebrightmap);
 
