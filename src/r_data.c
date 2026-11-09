@@ -351,7 +351,7 @@ static void R_InitTextures(void)
 //
 static bool R_IsChangedByPWAD(const int lump, const wadfile_t *definedby)
 {
-    const wadfile_t *wadfile;
+    wadfile_t   *wadfile;
 
     if (lump < 0 || lump >= numlumps)
         return false;
