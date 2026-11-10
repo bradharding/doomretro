@@ -101,6 +101,10 @@ void HU_DismissMessage(void);
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
 
+const byte *HU_HealthDigitsTranslation(const int health);
+const byte *HU_ArmorDigitsTranslation(const int armor);
+const byte *HU_AmmoDigitsTranslation(const int ammo, const ammotype_t ammotype);
+
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern patch_t  *minuspatch;
 extern patch_t  *buddha;

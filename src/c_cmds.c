@@ -832,6 +832,9 @@ consolecmd_t consolecmds[] =
         "Toggles showing the current time."),
     CCMD(cmdlist, "", ccmdlist, nullfunc1, cmdlistfunc2, true, CMDLISTFORMAT,
         "Lists all console commands."),
+    BOOLCVAR(coloredstats, colouredstats, "", boolfunc1, boolfunc2, 0,
+        "Toggles coloring your health, armor and ammo in the status bar and widescreen heads-up "
+        "display depending on their values."),
     BOOLCVAR(compresssavegames, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the compression of savegames."),
     BOOLCVAR(compressscreenshots, "", "", boolfunc1, boolfunc2, 0,

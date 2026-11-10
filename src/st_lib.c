@@ -124,19 +124,21 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
         return;
     else
     {
-        int         num = *n->num + ammodiff[weaponinfo[viewplayer->readyweapon].ammotype];
-        int         x = n->x + (num == 1);
-        const int   y = n->y;
-        const int   width = LITTLESHORT(n->p[0]->width);
+        const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+        int                 num = *n->num + ammodiff[ammotype];
+        int                 x = n->x + (num == 1);
+        const int           y = n->y;
+        const int           width = LITTLESHORT(n->p[0]->width);
+        const byte          *cr = HU_AmmoDigitsTranslation(num, ammotype);
 
         // in the special case of 0, you draw 0
         if (!num)
-            V_DrawPatch(x - width, y, 0, n->p[0]);
+            V_DrawTranslatedPatch(x - width, y, 0, n->p[0], cr);
         else
             // draw the new number
             while (num)
             {
-                V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
+                V_DrawTranslatedPatch((x -= width), y, 0, n->p[num % 10], cr);
 
                 if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                     x++;
@@ -150,15 +152,16 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
     int         x = n->x + (num == 1);
     const int   y = n->y;
     const int   width = LITTLESHORT(n->p[0]->width);
+    const byte  *cr = HU_ArmorDigitsTranslation(num);
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - width, y, 0, n->p[0]);
+        V_DrawTranslatedPatch(x - width, y, 0, n->p[0], cr);
     else
         // draw the new number
         while (num)
         {
-            V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
+            V_DrawTranslatedPatch((x -= width), y, 0, n->p[num % 10], cr);
 
             if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                 x++;
@@ -199,11 +202,13 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         V_DrawPatch(x - width, y, 0, n->p[0]);
     else
     {
+        const byte  *cr = HU_HealthDigitsTranslation(num);
+
         x += (num == 1);
 
         while (num)
         {
-            V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
+            V_DrawTranslatedPatch((x -= width), y, 0, n->p[num % 10], cr);
 
             if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                 x++;
@@ -255,16 +260,18 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
 
 void STlib_UpdateBigArmor(st_percent_t *per, bool refresh)
 {
-    if (refresh)
-        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
+    if (refresh || coloredstats)
+        V_DrawTranslatedPatch(per->n.x, per->n.y, 0, per->p,
+            HU_ArmorDigitsTranslation(*per->n.num + armordiff));
 
     STlib_UpdateBigArmorNum(&per->n);
 }
 
 void STlib_UpdateBigHealth(st_percent_t *per, bool refresh)
 {
-    if (refresh)
-        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
+    if (refresh || coloredstats)
+        V_DrawTranslatedPatch(per->n.x, per->n.y, 0, per->p,
+            HU_HealthDigitsTranslation(*per->n.num + healthdiff));
 
     STlib_UpdateBigHealthNum(&per->n);
 }

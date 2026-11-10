@@ -90,6 +90,7 @@ extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
 extern bool     cleanscreenshots;
+extern bool     coloredstats;
 extern bool     compresssavegames;
 extern bool     compressscreenshots;
 extern int      con_edgecolor;
@@ -613,6 +614,8 @@ enum
 #define centerweapon_default                    true
 
 #define cleanscreenshots_default                false
+
+#define coloredstats_default                    false
 
 #define compresssavegames_default               true
 

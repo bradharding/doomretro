@@ -78,6 +78,7 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
     bool left, bool right, const byte *tinttab1, const byte *tinttab2);
 
 void V_DrawPatch(int x, int y, int screen, patch_t *patch);
+void V_DrawTranslatedPatch(int x, int y, int screen, patch_t *patch, const byte *translation);
 void V_DrawTintedPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab);
 void V_DrawSmallTintedPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab);
 void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte color);
@@ -118,6 +119,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch);
 void V_DrawBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawTranslucentBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_SetHUDNumberShadow(patch_t *patch, bool replaced);
+void V_SetHUDNumberTranslation(const byte *translation);
 void V_DrawSmallHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawTranslucentSmallHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab);

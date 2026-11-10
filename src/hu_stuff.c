@@ -638,11 +638,15 @@ static void HU_DrawBigHUD(void)
 
     if (r_hud_translucency || !healthanim)
     {
+        V_SetHUDNumberTranslation(HU_HealthDigitsTranslation(health));
+
         HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 24, health, tinttab,
             (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
 
         if (!emptytallpercent)
             bighudnumfunc(x, VANILLAHEIGHT - 24, tallpercent, tinttab);
+
+        V_SetHUDNumberTranslation(NULL);
     }
 
     if (!gamepaused)
@@ -676,11 +680,15 @@ static void HU_DrawBigHUD(void)
         x += LITTLESHORT(patch->width) + 4;
     }
 
+    V_SetHUDNumberTranslation(HU_ArmorDigitsTranslation(armor));
+
     HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 24, armor, NULL,
         (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
 
     if (!emptytallpercent)
         bighudnumfunc(x, VANILLAHEIGHT - 24, tallpercent, NULL);
+
+    V_SetHUDNumberTranslation(NULL);
 
     if (ammotype != am_noammo)
     {
@@ -696,9 +704,15 @@ static void HU_DrawBigHUD(void)
             - widestammopatchwidth - HU_BigHUDNumberWidth(ammo) + 4;
 
         if (r_hud_translucency || !ammoanim)
+        {
+            V_SetHUDNumberTranslation(HU_AmmoDigitsTranslation(ammo, ammotype));
+
             HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 24, ammo, (ammoanim ? tinttab25 : NULL),
                 (ammoanim ? V_DrawTranslucentBigHUDNumberPatch : (ammohighlight > currenttime ?
                 bighudnumfunc2 : bighudnumfunc)));
+
+            V_SetHUDNumberTranslation(NULL);
+        }
 
         if (!gamepaused)
         {
@@ -838,6 +852,41 @@ int         maxammodiff[NUMAMMO] = { 0 };
 int         armordiff = 0;
 int         healthdiff = 0;
 
+static const byte *HU_DigitsTranslation(const int percent)
+{
+    if (percent < 25)
+        return NULL;
+    else if (percent < 50)
+        return cr_gold;
+    else if (percent <= 100)
+        return colortranslation[2];
+
+    return colortranslation[3];
+}
+
+const byte *HU_HealthDigitsTranslation(const int health)
+{
+    return (coloredstats && !vanilla ? HU_DigitsTranslation(health) : NULL);
+}
+
+const byte *HU_ArmorDigitsTranslation(const int armor)
+{
+    return (coloredstats && !vanilla ? HU_DigitsTranslation(armor) : NULL);
+}
+
+const byte *HU_AmmoDigitsTranslation(const int ammo, const ammotype_t ammotype)
+{
+    const int   max = viewplayer->maxammo[ammotype] + maxammodiff[ammotype];
+
+    if (!coloredstats || vanilla || max <= 0)
+        return NULL;
+
+    if (ammo >= max)
+        return colortranslation[3];
+
+    return HU_DigitsTranslation(MAX(0, ammo) * 100 / max);
+}
+
 static void HU_DrawSmallHUD(void)
 {
     const int           health = BETWEEN(HUD_NUMBER_MIN, (negativehealth && minuspatch && !viewplayer->health ?
@@ -867,6 +916,8 @@ static void HU_DrawSmallHUD(void)
 
         health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
 
+        V_SetHUDNumberTranslation(HU_HealthDigitsTranslation(health));
+
         if (healthhighlight > currenttime)
         {
             if (emptytallpercent)
@@ -893,6 +944,8 @@ static void HU_DrawSmallHUD(void)
                 smallhudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
             }
         }
+
+        V_SetHUDNumberTranslation(NULL);
     }
 
     if (!gamepaused)
@@ -925,6 +978,7 @@ static void HU_DrawSmallHUD(void)
 
     if (armorhighlight > currenttime)
     {
+        V_SetHUDNumberTranslation(HU_ArmorDigitsTranslation(armor));
         HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc2);
 
         if (!emptytallpercent)
@@ -932,11 +986,14 @@ static void HU_DrawSmallHUD(void)
     }
     else
     {
+        V_SetHUDNumberTranslation(HU_ArmorDigitsTranslation(armor));
         HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc);
 
         if (!emptytallpercent)
             smallhudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
     }
+
+    V_SetHUDNumberTranslation(NULL);
 
     for (int i = 1; i <= NUMCARDS; i++)
         for (int j = 0; j < NUMCARDS; j++)
@@ -1020,8 +1077,14 @@ static void HU_DrawSmallHUD(void)
                 HUD_AMMO_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
 
         if (r_hud_translucency || !ammoanim)
+        {
+            V_SetHUDNumberTranslation(HU_AmmoDigitsTranslation(ammo, ammotype));
+
             HU_DrawSmallHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
                 (ammohighlight > currenttime ? smallhudnumfunc2 : smallhudnumfunc));
+
+            V_SetHUDNumberTranslation(NULL);
+        }
 
         if (!gamepaused)
         {
