@@ -102,8 +102,8 @@ extern int64_t  sprtopscreen;
 extern fixed_t  pspritescale;
 extern fixed_t  pspriteiscale;
 
-extern short    firstbloodsplatlump;
-extern int      numbloodsplatlumps;
+short R_RandomBloodSplatLump(void);
+bool R_IsBloodSplatLump(const short lump);
 
 extern bool     allowwolfensteinss;
 

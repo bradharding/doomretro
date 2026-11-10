@@ -2213,7 +2213,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
     if (!(splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL)))
         return;
 
-    patch = firstbloodsplatlump + M_BigRandomInt(0, numbloodsplatlumps - 1);
+    patch = R_RandomBloodSplatLump();
 
     splat->patch = firstspritelump + patch;
     splat->color = color;

@@ -1606,8 +1606,8 @@ void P_UnarchiveThinkers(void)
 
                     if (r_bloodsplats_total < r_bloodsplats_max)
                     {
-                        if (splat->patch < firstbloodsplatlump || splat->patch >= firstbloodsplatlump + numbloodsplatlumps)
-                            splat->patch = firstbloodsplatlump + M_BigRandomInt(0, numbloodsplatlumps - 1);
+                        if (!R_IsBloodSplatLump(splat->patch))
+                            splat->patch = R_RandomBloodSplatLump();
 
                         splat->width = spritewidth[splat->patch];
                         splat->patch += firstspritelump;

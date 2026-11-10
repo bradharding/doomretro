@@ -106,8 +106,8 @@ static int                      clipbot[MAXWIDTH];
 // variables used to look up and range check thing_t sprites patches
 spritedef_t                     *sprites;
 
-short                           firstbloodsplatlump;
-int                             numbloodsplatlumps;
+static short                    *bloodsplatlumps;
+static int                      numbloodsplatlumps;
 
 bool                            allowwolfensteinss = true;
 
@@ -402,8 +402,18 @@ static void R_InitSpriteDefs(void)
 
     free(hash); // free hash table
 
-    firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
-    numbloodsplatlumps = sprites[SPR_BLD2].numframes;
+    numbloodsplatlumps = 0;
+
+    for (int i = 0; i < numspritelumps; i++)
+    {
+        const lumpinfo_t    *lump = lumpinfo[i + firstspritelump];
+
+        if (lump->size && !strncmp(lump->name, "BLD2", 4) && lump->name[4] && lump->name[5] && !lump->name[6])
+        {
+            bloodsplatlumps = I_Realloc(bloodsplatlumps, (numbloodsplatlumps + 1) * sizeof(*bloodsplatlumps));
+            bloodsplatlumps[numbloodsplatlumps++] = i;
+        }
+    }
 
     // check if Wolfenstein SS sprites have been changed to zombiemen sprites
     if (bfgedition && gamemode == commercial)
@@ -422,6 +432,20 @@ static void R_InitSpriteDefs(void)
                 allowwolfensteinss = false;
         }
     }
+}
+
+short R_RandomBloodSplatLump(void)
+{
+    return bloodsplatlumps[M_BigRandomInt(0, numbloodsplatlumps - 1)];
+}
+
+bool R_IsBloodSplatLump(const short lump)
+{
+    for (int i = 0; i < numbloodsplatlumps; i++)
+        if (bloodsplatlumps[i] == lump)
+            return true;
+
+    return false;
 }
 
 //
