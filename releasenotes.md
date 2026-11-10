@@ -75,6 +75,7 @@
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
   * Custom monsters now always bleed red blood unless `Blood color` is specified.
   * `Initial health`, `Max health` and `Max armor` are no longer capped.
+  * Blood splats no longer use the wrong sprites when sprite 144 is renamed.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * Things now also rock slightly from side to side, as they bob up and down in liquid sectors, when the new `r_liquid_rocksprites` CVAR is `on`, which is `on` by default and `off` when vanilla mode is enabled. The player’s view will also rock slightly when they die in a liquid sector and this CVAR is `on`.
 * Sectors with animated flats containing the text “SEA” in their name are now treated as liquid sectors.
@@ -156,6 +157,7 @@
 * The <kbd><b>ESC</b></kbd> can now be held down slightly longer in the menu to close it completely, rather than just returning to the previous menu.
 * A bug is fixed whereby the mouse would disappear during the confirmation message for the `resetall` CCMD.
 * Fake contrast has been improved when the `r_fakecontrast` CVAR is set to `smooth`, allowing better contrast between walls at different angles.
+* A minor improvement has been made to the rendering of flats.
 * If the effect applied to the player’s view when they have an invulnerability power-up isn’t bright, overlay test won’t be inverted.
 * The console now opens at startup with a warning, rather than *DOOM Retro* exiting with an error, if a PWAD that is attempting to load is invalid.
 * The values of the `con_warninglevel` CVAR have been changed from `0`, `1` and `2` to `low`, `medium` and `high`.
@@ -164,6 +166,7 @@
 * The nodes of all maps from the official IWADs are now rebuilt using the built-in [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder, eliminating many [slime trails](https://doomwiki.org/wiki/Slime_trail).
 * A bug is fixed whereby the effects of changing the `am_forcepalette` CVAR in the console wouldn’t be immediate unless the automap was open.
 * When the `r_brightmaps` CVAR is `on`, brightmaps are no longer applied to textures, flats or sprites that have been replaced in a PWAD, unless that PWAD has defined the brightmaps itself in a `BRGHTMPS` lump.
+* An arch-vile’s fire can no longer appear on a different target than the one that was damaged and thrown by its attack, if the arch-vile’s target changed after it began the attack.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
