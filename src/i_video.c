@@ -1931,10 +1931,8 @@ static void SetVideoMode(const bool createwindow, const bool output)
     {
         if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
         {
-            C_Warning(1, "The " BOLD("vid_scaleapi") " CVAR has been changed from " BOLD("%s")
-                " to " BOLD("\"software\"") ".", vid_scaleapi);
-            vid_scaleapi = vid_scaleapi_software;
-            M_SaveCVARs();
+            C_Warning(1, "Scaling can't be done using " BOLD("%s")
+                " and is being done in software instead.", vid_scaleapi);
         }
     }
 
@@ -2154,12 +2152,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
             if (output)
                 C_Output("This scaling is also done in software.");
-
-            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
-            {
-                vid_scaleapi = vid_scaleapi_software;
-                M_SaveCVARs();
-            }
 
             if (output && (M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
                 || M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear)))
