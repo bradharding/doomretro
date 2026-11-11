@@ -2451,6 +2451,7 @@ void I_RestartGraphics(const bool recreatewindow)
     I_GetScreenDimensions();
 
     SetVideoMode(recreatewindow, false);
+    I_UpdateBlitFunc(false);
 
     AM_SetAutomapSize(r_screensize);
 
