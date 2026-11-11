@@ -191,6 +191,22 @@ int         fadecount = 0;
 
 bool        splashscreen = true;
 
+static void D_EndSplashScreen(void)
+{
+    splashscreen = false;
+    vid_scalefilter = vid_scalefilter_copy;
+
+    if (vid_widescreen_copy)
+    {
+        vid_widescreen_copy = false;
+        vid_widescreen = true;
+    }
+
+    M_SaveCVARs();
+    I_RestartGraphics(false);
+    I_UpdateBlitFunc(false);
+}
+
 bool        realframe;
 bool        updateswirl;
 
@@ -2506,11 +2522,7 @@ static void D_DoomMainSetup(void)
         && startloadgame < savegame_max)
     {
         menuactive = false;
-        splashscreen = false;
-        vid_scalefilter = vid_scalefilter_copy;
-        M_SaveCVARs();
-        I_RestartGraphics(false);
-        I_UpdateBlitFunc(false);
+        D_EndSplashScreen();
         I_InitKeyboard();
 
         if (alwaysrun)
@@ -2613,19 +2625,8 @@ static void D_DoomMainSetup(void)
         if (autostart)
         {
             menuactive = false;
-            splashscreen = false;
-            vid_scalefilter = vid_scalefilter_copy;
-            M_SaveCVARs();
-            I_RestartGraphics(false);
-            I_UpdateBlitFunc(false);
+            D_EndSplashScreen();
             I_InitKeyboard();
-
-            if (vid_widescreen_copy)
-            {
-                vid_widescreen_copy = false;
-                vid_widescreen = true;
-                I_RestartGraphics(false);
-            }
 
             if (alwaysrun)
                 C_StringCVAROutput(stringize(alwaysrun), "on");
@@ -2657,11 +2658,7 @@ static void D_DoomMainSetup(void)
             if (M_CheckParm("-nosplash"))
             {
                 menuactive = false;
-                splashscreen = false;
-                vid_scalefilter = vid_scalefilter_copy;
-                M_SaveCVARs();
-                I_RestartGraphics(false);
-                I_UpdateBlitFunc(false);
+                D_EndSplashScreen();
                 D_FadeScreen(false);
                 D_StartTitle(1);
             }
