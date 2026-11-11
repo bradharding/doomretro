@@ -288,6 +288,33 @@ static bool CanToggle(const consolecmd_t *cmd)
 //
 // Candidate list
 //
+// Removes a pair of double quotes around text, or just the opening one if it isn't closed.
+static void Unquote(const char *text, char *buffer, const size_t size)
+{
+    size_t  len;
+
+    M_StringCopy(buffer, text, size);
+    len = strlen(buffer);
+
+    if (len >= 2 && buffer[0] == '"' && buffer[len - 1] == '"')
+    {
+        memmove(buffer, buffer + 1, len - 2);
+        buffer[len - 2] = '\0';
+    }
+    else if (len >= 1 && buffer[0] == '"')
+        memmove(buffer, buffer + 1, len);
+}
+
+static bool SameText(const char *a, const char *b)
+{
+    char    text1[WORDLEN];
+    char    text2[WORDLEN];
+
+    Unquote(a, text1, sizeof(text1));
+    Unquote(b, text2, sizeof(text2));
+    return M_StringCompare(text1, text2);
+}
+
 static bool HasCandidate(const char *text)
 {
     for (int i = 0; i < numcandidates; i++)
@@ -300,8 +327,19 @@ static bool HasCandidate(const char *text)
 static void AddCandidate(const char *text, const int group, const bool keepcase, const bool more)
 {
     candidate_t *candidate;
+    char        plain[WORDLEN];
+    const char  *match = text;
 
-    if (!*text || strlen(text) >= WORDLEN || !M_StringStartsWith(text, partialtext) || HasCandidate(text))
+    if (!*text || strlen(text) >= WORDLEN)
+        return;
+
+    if (*text == '"' && *partialtext != '"')
+    {
+        Unquote(text, plain, sizeof(plain));
+        match = plain;
+    }
+
+    if (!M_StringStartsWith(match, partialtext) || HasCandidate(text))
         return;
 
     if (numcandidates >= MAXCANDIDATES)
@@ -321,7 +359,7 @@ static void AddCandidate(const char *text, const int group, const bool keepcase,
     candidate->more = more;
 
     // Don't offer what has already been typed, or a CVAR's current value, as the first suggestion.
-    candidate->skipfirst = (*partialtext ? M_StringCompare(text, partialtext) :
+    candidate->skipfirst = (*partialtext ? M_StringCompare(match, partialtext) :
         (valuecvar && MatchesValue(valuecvar, text)));
 }
 
@@ -336,6 +374,14 @@ static void AddWord(const char *text, const int group, const bool more)
         M_AmericanToBritishEnglish(buffer);
 
     AddCandidate(buffer, group, false, more);
+}
+
+static void AddQuotedWord(const char *text, const bool more)
+{
+    char    buffer[WORDLEN];
+
+    M_snprintf(buffer, sizeof(buffer), "\"%s\"", text);
+    AddWord(buffer, 0, more);
 }
 
 static void AddWords(const char *const *words, const int count, const int group, const bool more)
@@ -656,14 +702,30 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
     }
     else if (flags & (CF_STRING | CF_OTHER))
     {
+        const bool  quoted = (direct && (flags & CF_STRING));
+
         if (M_StringCompare(cvar->name, "vid_scalefilter"))
         {
-            AddWord("linear", 0, morevalues);
-            AddWord("nearest", 0, morevalues);
-            AddWord("nearest_linear", 0, morevalues);
+            if (quoted)
+            {
+                AddQuotedWord("linear", morevalues);
+                AddQuotedWord("nearest", morevalues);
+                AddQuotedWord("nearest_linear", morevalues);
+            }
+            else
+            {
+                AddWord("linear", 0, morevalues);
+                AddWord("nearest", 0, morevalues);
+                AddWord("nearest_linear", 0, morevalues);
+            }
         }
         else if (!IsEmptyValue(cvar->defaultstring))
-            AddWord(cvar->defaultstring, 0, morevalues);
+        {
+            if (quoted)
+                AddQuotedWord(cvar->defaultstring, morevalues);
+            else
+                AddWord(cvar->defaultstring, 0, morevalues);
+        }
     }
 
     valuecvar = NULL;
@@ -1463,18 +1525,28 @@ static bool Parse(const char *input, parse_t *parse)
                 continue;
             }
 
-            // a quoted argument such as a message, which has nothing to complete
+            // a quoted argument such as a message, which has nothing to complete, unless it
+            // is a CVAR's value that is still being typed
             i++;
 
             while (i < len && !IsCloseQuote(input[i]))
                 i++;
 
-            if (i >= len)
-                return false;
+            if (i < len)
+                i++;
 
-            i++;
+            if (i == len)
+            {
+                if (i - start >= WORDLEN)
+                    return false;
 
-            if (!PushWord(&parse->cmd, input + start, i - start) || i == len)
+                memcpy(parse->partial, input + start, i - start);
+                parse->partial[i - start] = '\0';
+                parse->partialstart = start;
+                break;
+            }
+
+            if (!PushWord(&parse->cmd, input + start, i - start))
                 return false;
 
             continue;
@@ -1509,8 +1581,12 @@ static bool BuildOutput(const int index, char *output, const size_t size)
     const candidate_t   *candidate = &candidates[index];
     const size_t        partiallen = strlen(session.partial);
     char                text[WORDLEN];
+    char                *body = text;
 
     M_StringCopy(text, candidate->text, sizeof(text));
+
+    if (*text == '"' && *session.partial != '"')
+        body++;
 
     if (*session.partial && !candidate->keepcase)
     {
@@ -1525,16 +1601,16 @@ static bool BuildOutput(const int index, char *output, const size_t size)
             }
 
         if (!hasletter && GetCapsLockState())
-            for (char *p = text; *p; p++)
+            for (char *p = body; *p; p++)
                 *p = (char)toupper((unsigned char)*p);
         else if (hasletter && isuppercase(session.partial))
-            for (char *p = text; *p; p++)
+            for (char *p = body; *p; p++)
                 *p = (char)toupper((unsigned char)*p);
         else if (hasletter && islowercase(session.partial))
-            for (char *p = text; *p; p++)
+            for (char *p = body; *p; p++)
                 *p = (char)tolower((unsigned char)*p);
 
-        memcpy(text, session.partial, MIN((int)partiallen, (int)strlen(text)));
+        memcpy(body, session.partial, MIN((int)partiallen, (int)strlen(body)));
     }
 
     if (session.partialstart + strlen(text) + 2 > size)
@@ -1566,7 +1642,7 @@ static bool SameValue(const consolecmd_t *cvar, const char *a, const char *b)
 {
     const int   type = (cvar->variable == &r_gamma ? GAMMAVALUEALIAS : cvar->aliases);
 
-    if (M_StringCompare(a, b))
+    if (SameText(a, b))
         return true;
 
     for (int i = 0; *valuealiases[i].text; i++)
@@ -1609,7 +1685,7 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
         Resolve(&parse, parse.partial);
 
         cvar = cyclecvar;
-        cycle = (*typed && cvar && numcandidates == 1 && M_StringCompare(candidates[0].text, typed));
+        cycle = (*typed && cvar && numcandidates == 1 && SameText(candidates[0].text, typed));
 
         if (cycle)
         {
