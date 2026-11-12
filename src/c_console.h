@@ -307,6 +307,8 @@ void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
+const float *C_BlurScreen(void);
+void C_DitherRow(const float *rgb, byte *dest, const int y, const byte *remap);
 int C_GetQuotePairing(const char *text, const int len, const int i);
 int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting, const bool kerning);
 

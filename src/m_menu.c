@@ -547,45 +547,6 @@ menu_t SaveDef =
     load1
 };
 
-static void M_BlurMenuBackground(const byte *src, byte *dest)
-{
-    for (int i = 0; i < SCREENAREA; i++)
-        dest[i] = grays[src[i]];
-
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            dest[x] = tinttab50[(dest[x + 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 2; x > y; x--)
-            dest[x] = tinttab50[(dest[x - 1] << 8) + dest[x]];
-
-    for (int y = SCREENWIDTH; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y + 6; x <= y + SCREENWIDTH - 6; x++)
-            dest[x] = tinttab50[(dest[SCREENWIDTH * M_BigRandomInt(-1, 1)
-                + x + M_BigRandomInt(-6, 6)] << 8) + dest[x]];
-
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab50[(dest[x - SCREENWIDTH - 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            dest[x] = tinttab50[(dest[x + SCREENWIDTH] << 8) + dest[x]];
-
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            dest[x] = tinttab50[(dest[x - SCREENWIDTH] << 8) + dest[x]];
-
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab50[(dest[x + SCREENWIDTH - 1] << 8) + dest[x]];
-
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            dest[x] = tinttab50[(dest[x - SCREENWIDTH + 1] << 8) + dest[x]];
-}
-
 static void M_ResetHighlightFade(void)
 {
     previousitem = -1;
@@ -751,25 +712,37 @@ void M_DrawMenuBackground(void)
 
     if (time != menublurtime || animatingpillarboxes || keepwidescreenduringanim)
     {
-        for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
+        const float         *blurrgb = C_BlurScreen();
+        static float        linergb[MAXWIDTH * 3];
+        static unsigned int noiseseed = 1;
+
+        for (int y = 0; y < SCREENHEIGHT; y++)
         {
-            const byte  *white = ((M_BigRandom() % 25) ? white25 : white33);
+            const float *src = &blurrgb[y * SCREENWIDTH * 3];
+            float       boost = 0.0f;
+
+            if ((y % 2) == 1 && (M_BigRandom() % 25))
+                boost = ((M_BigRandom() % 25) ? 0.05f : 0.0f);
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
-                byte    *dot = *screens + x + y;
+                float   gray = src[x * 3] * 0.2126f + src[x * 3 + 1] * 0.7152f + src[x * 3 + 2] * 0.0722f;
+                float   noise;
 
-                *dot = white[*dot];
+                noiseseed ^= noiseseed << 13;
+                noiseseed ^= noiseseed >> 17;
+                noiseseed ^= noiseseed << 5;
+                noise = ((float)(noiseseed & 255) - 127.5f) * (10.0f / 127.5f);
+
+                gray += (255.0f - gray) * boost;
+                gray = fminf(fmaxf(gray * 0.6f + noise, 0.0f), 255.0f);
+
+                linergb[x * 3] = gray;
+                linergb[x * 3 + 1] = gray;
+                linergb[x * 3 + 2] = gray;
             }
-        }
 
-        M_BlurMenuBackground(screens[0], menublurscreen);
-
-        for (int i = 0; i < SCREENAREA; i++)
-        {
-            byte    *dot = menublurscreen + i;
-
-            *dot = black40[*dot];
+            C_DitherRow(linergb, &menublurscreen[y * SCREENWIDTH], y, grays);
         }
 
         if (!animatingpillarboxes && !keepwidescreenduringanim)

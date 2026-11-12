@@ -1843,6 +1843,8 @@ void C_DrawConsoleEdge(int y)
 
 #define BLURRADIUS      5
 #define BLURSIGMA       2.0f
+#define BLURHRADIUS     12
+#define BLURHSIGMA      5.0f
 #define BLURWINDOW      (BLURRADIUS * 2 + 1)
 #define DITHERNOISE     4.0f
 #define DITHERMAXERROR  24.0f
@@ -1852,6 +1854,7 @@ void C_DrawConsoleEdge(int y)
 #define BRANDRADIUS     19
 
 static float            blurkernel[BLURRADIUS + 1];
+static float            blurkernelh[BLURHRADIUS + 1];
 static float            blurpalette[256][3];
 static unsigned short   blurnearest[64 * 64 * 64];
 
@@ -1876,6 +1879,17 @@ static void C_InitBlur(void)
     for (int i = 0; i <= BLURRADIUS; i++)
         blurkernel[i] /= sum;
 
+    sum = 0.0f;
+
+    for (int i = 0; i <= BLURHRADIUS; i++)
+    {
+        blurkernelh[i] = expf(-(float)(i * i) / (2.0f * BLURHSIGMA * BLURHSIGMA));
+        sum += blurkernelh[i] * (i ? 2.0f : 1.0f);
+    }
+
+    for (int i = 0; i <= BLURHRADIUS; i++)
+        blurkernelh[i] /= sum;
+
     for (int i = 0; i < 256; i++)
         for (int c = 0; c < 3; c++)
             blurpalette[i][c] = PLAYPAL[i * 3 + c];
@@ -1894,7 +1908,7 @@ static byte C_NearestColor(const int r, const int g, const int b)
     return (byte)blurnearest[index];
 }
 
-static void C_DitherRow(const float *rgb, byte *dest, const int y)
+void C_DitherRow(const float *rgb, byte *dest, const int y, const byte *remap)
 {
     static float    errors[2][(MAXWIDTH + 2) * 3];
     static float    *current = errors[0];
@@ -1929,6 +1943,10 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
 
         color = C_NearestColor(BETWEEN(0, (int)(v[0] + noise), 255), BETWEEN(0, (int)(v[1] + noise), 255),
             BETWEEN(0, (int)(v[2] + noise), 255));
+
+        if (remap)
+            color = remap[color];
+
         dest[x] = color;
 
         for (int c = 0; c < 3; c++)
@@ -1947,10 +1965,11 @@ static void C_DitherRow(const float *rgb, byte *dest, const int y)
     next = temp;
 }
 
-static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, const float tintamount)
+static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, const float tintamount,
+    const float *hkernel, const int hradius)
 {
     static float    blurwindow[BLURWINDOW][MAXWIDTH * 3];
-    byte            line[MAXWIDTH + BLURRADIUS * 2];
+    byte            line[MAXWIDTH + BLURHRADIUS * 2];
     int             computed = 0;
 
     for (int y = 0; y < rows; y++)
@@ -1964,29 +1983,29 @@ static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, 
             const byte  *src = &screens[0][computed * SCREENWIDTH];
             float       *dest = blurwindow[computed % BLURWINDOW];
 
-            for (int i = 0; i < BLURRADIUS; i++)
+            for (int i = 0; i < hradius; i++)
             {
                 line[i] = src[0];
-                line[BLURRADIUS + SCREENWIDTH + i] = src[SCREENWIDTH - 1];
+                line[hradius + SCREENWIDTH + i] = src[SCREENWIDTH - 1];
             }
 
-            memcpy(&line[BLURRADIUS], src, SCREENWIDTH);
+            memcpy(&line[hradius], src, SCREENWIDTH);
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
-                const byte  *p = &line[x + BLURRADIUS];
-                float       r = blurpalette[*p][0] * blurkernel[0];
-                float       g = blurpalette[*p][1] * blurkernel[0];
-                float       b = blurpalette[*p][2] * blurkernel[0];
+                const byte  *p = &line[x + hradius];
+                float       r = blurpalette[*p][0] * hkernel[0];
+                float       g = blurpalette[*p][1] * hkernel[0];
+                float       b = blurpalette[*p][2] * hkernel[0];
 
-                for (int k = 1; k <= BLURRADIUS; k++)
+                for (int k = 1; k <= hradius; k++)
                 {
                     const float *c1 = blurpalette[p[-k]];
                     const float *c2 = blurpalette[p[k]];
 
-                    r += (c1[0] + c2[0]) * blurkernel[k];
-                    g += (c1[1] + c2[1]) * blurkernel[k];
-                    b += (c1[2] + c2[2]) * blurkernel[k];
+                    r += (c1[0] + c2[0]) * hkernel[k];
+                    g += (c1[1] + c2[1]) * hkernel[k];
+                    b += (c1[2] + c2[2]) * hkernel[k];
                 }
 
                 dest[x * 3] = r;
@@ -2010,6 +2029,36 @@ static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, 
         for (int i = 0; i < SCREENWIDTH * 3; i++)
             row[i] = row[i] * (1.0f - tintamount) + tint[i % 3] * tintamount;
     }
+}
+
+const float *C_BlurScreen(void)
+{
+    static byte     *cachedinput;
+    static float    *blurrgb;
+    static int      cachedwidth;
+    static int      cachedheight;
+    static int      cachedarea;
+
+    C_InitBlur();
+
+    if (cachedarea < SCREENAREA)
+    {
+        cachedinput = I_Realloc(cachedinput, SCREENAREA);
+        blurrgb = I_Realloc(blurrgb, SCREENAREA * 3 * sizeof(float));
+        cachedarea = SCREENAREA;
+        cachedwidth = 0;
+    }
+
+    if (cachedwidth != SCREENWIDTH || cachedheight != SCREENHEIGHT
+        || memcmp(screens[0], cachedinput, SCREENAREA))
+    {
+        memcpy(cachedinput, screens[0], SCREENAREA);
+        C_BlurBackground(blurrgb, SCREENHEIGHT, blurpalette[0], 0.0f, blurkernelh, BLURHRADIUS);
+        cachedwidth = SCREENWIDTH;
+        cachedheight = SCREENHEIGHT;
+    }
+
+    return blurrgb;
 }
 
 static float C_BrandDistance(const int gx, const int gy, float *vx, float *vy)
@@ -2147,7 +2196,8 @@ static void C_RenderBackground(const int backgroundheight)
         blurrgb = I_Realloc(blurrgb, blurrgbsize * sizeof(float));
     }
 
-    C_BlurBackground(blurrgb, rows, blurpalette[inverted ? nearestblack : nearestcolors[CONSOLEBACKCOLOR]], tintamount);
+    C_BlurBackground(blurrgb, rows, blurpalette[inverted ? nearestblack : nearestcolors[CONSOLEBACKCOLOR]], tintamount,
+        blurkernel, BLURRADIUS);
 
     for (int x = 0; x < SCREENWIDTH; x++)
         lensx[x] = (smoothtransitions ? LENSOFFSET(x) - LENSOFFSET(SCREENWIDTH - 1 - x) : 0);
@@ -2222,7 +2272,7 @@ static void C_RenderBackground(const int backgroundheight)
             }
         }
 
-        C_DitherRow(linergb, dest, row);
+        C_DitherRow(linergb, dest, row, NULL);
 
         if (row < glassrows)
             for (int x = 0; x < SCREENWIDTH; x++)
