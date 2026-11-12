@@ -1,0 +1,12 @@
+{
+  "name": "doomretro",
+  "version-string": "1.0",
+  "builtin-baseline": "c775bf89d4b5a31704674cebfcdd7cfd6dbd1e54",
+  "dependencies": [
+    "sdl2",
+    {
+      "name": "sdl2-mixer",
+      "features": ["libflac", "libmodplug", "mpg123", "opusfile", "timidity"]
+    }
+  ]
+}

@@ -117,6 +117,81 @@ jobs:
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
 
+  build-windows-msvc-static:
+    name: Build Windows MSVC static
+    runs-on: windows-2025-vs2026
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check out vcpkg
+        uses: actions/checkout@v7
+        with:
+          repository: microsoft/vcpkg
+          ref: c775bf89d4b5a31704674cebfcdd7cfd6dbd1e54
+          path: vcpkg
+
+      - name: Cache vcpkg binaries
+        uses: actions/cache@v6
+        with:
+          path: vcpkg-cache
+          key: vcpkg-msvc-static-${{ hashFiles('vcpkg.json', 'cmake/triplets/x64-windows-static-release.cmake') }}
+
+      - name: Bootstrap vcpkg
+        run: .\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+
+      - name: Extract version
+        id: version
+        shell: pwsh
+        run: |
+          $versionLine = Get-Content src\version.h | Select-String -Pattern '#define DOOMRETRO_VERSIONSTRING\s+"([^"]+)"'
+          if (!$versionLine) { throw 'Unable to determine DOOM Retro version.' }
+          "VERSION=$($versionLine.Matches[0].Groups[1].Value)" >> $env:GITHUB_OUTPUT
+
+      - name: Configure
+        shell: pwsh
+        env:
+          VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}\vcpkg-cache,readwrite
+        run: |
+          cmake -S . -B build-msvc-static -G "Visual Studio 18 2026" -A x64 `
+            -DCMAKE_TOOLCHAIN_FILE="$env:GITHUB_WORKSPACE\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+            -DVCPKG_OVERLAY_TRIPLETS="$env:GITHUB_WORKSPACE\cmake\triplets" `
+            -DVCPKG_TARGET_TRIPLET=x64-windows-static-release `
+            -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded `
+            -DDOOMRETRO_STATIC=ON
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build
+        run: cmake --build build-msvc-static --config Release --parallel
+
+      - name: Copy WAD
+        run: Copy-Item res\doomretro.wad build-msvc-static\Release\doomretro.wad
+
+      - name: Check that only system DLLs are required
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (!$vs) { throw 'Visual Studio C++ tools were not found.' }
+          $output = & cmd.exe /c "call `"$vs\VC\Auxiliary\Build\vcvars64.bat`" >nul && dumpbin /dependents build-msvc-static\Release\doomretro.exe"
+          if ($LASTEXITCODE -ne 0) { throw 'dumpbin failed.' }
+          $output
+          $dlls = @($output | ForEach-Object { if ($_ -match '^\s+([^\s]+\.dll)\s*$') { $Matches[1] } })
+          if (!$dlls) { throw 'No DLL imports were found in dumpbin output.' }
+          $runtime = @($dlls | Where-Object { $_ -match '^(vcruntime|msvcp|msvcr|ucrtbase|api-ms-win-crt-)' })
+          if ($runtime) { throw "Dynamically linked C runtime: $($runtime -join ', ')" }
+          $nonSystem = @($dlls | Where-Object { $_ -notmatch '^(api-ms-win-|ext-ms-win-)' -and !(Test-Path (Join-Path $env:SystemRoot "System32\$_")) })
+          if ($nonSystem) { throw "Non-system DLL dependencies: $($nonSystem -join ', ')" }
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: doomretro-v${{ steps.version.outputs.VERSION }}-win64-msvc-static
+          if-no-files-found: error
+          path: |
+            build-msvc-static/Release/doomretro.exe
+            build-msvc-static/Release/doomretro.wad
+
   build-windows-mingw:
     name: Build Windows MinGW
     runs-on: windows-latest
