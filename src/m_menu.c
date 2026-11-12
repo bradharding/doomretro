@@ -111,10 +111,16 @@ static int      quitmessagebuttony;
 static int      quitmessagebuttonwidth[2];
 static char     *quitmessagebuttontext[2];
 static int      quitmessagebuttonkey[2];
+static int      pressedmessagebutton = -1;
+static bool     pressedmessagebuttoninside;
 bool            messagebuttonsactive;
 static bool     messagebuttonsusedosprompt;
 static bool     messagebuttonswaitforrelease;
 static bool     menuitemactivatedwithmouse;
+static bool     menuitemactivatedonrelease;
+static menu_t   *pressedmenu;
+static int      pressedmenuitem = -1;
+static bool     pressedmenuiteminside;
 static char     quitmessage[160];
 static char     quitmessagestring[320];
 
@@ -218,7 +224,7 @@ static void M_DrawSound(void);
 static void M_DrawLoad(void);
 static void M_DrawSave(void);
 
-static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
+static void M_DrawSaveLoadBorder(int x, int y, bool highlight, bool shadow);
 static bool M_IsPlayingGame(void);
 static void M_UpdateGameMissionFromExpansion(void);
 static void M_SetupNextMenu(menu_t *menudef);
@@ -227,6 +233,7 @@ static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, const char *string,
     bool highlight, bool shadow, unsigned char prevletter);
+static void M_WriteMenuButtonText(int x, int y, const char *string, bool highlight, bool shadow);
 static void M_ResetHighlightFade(void);
 static void M_StartHighlightFade(int olditem);
 static bool M_IsHighlightedMenuItem(const menu_t *menu, int index, int selecteditem);
@@ -234,6 +241,11 @@ static int M_GetMenuItemHighlightFade(const menu_t *menu, int index);
 static void M_ResetMessageButtonHighlightFade(void);
 static void M_StartMessageButtonHighlightFade(int oldhover);
 static int M_GetMessageButtonHighlightFade(int index);
+
+static int M_MenuItemPressOffset(const menu_t *menu, int index)
+{
+    return (menupress && windowfocused && pressedmenu == menu && pressedmenuitem == index && pressedmenuiteminside);
+}
 
 //
 // DOOM MENU
@@ -880,7 +892,7 @@ static struct
 //
 void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 {
-    if (!M_DrawFON2String(x, y, string, highlight))
+    if (!M_DrawFON2String(x, y, string, highlight, shadow))
     {
         char        prev = '\0';
         const int   len = (int)strlen(string);
@@ -993,15 +1005,20 @@ static void M_SplitString(char *string)
 // M_DrawPatchWithShadow
 //  draw patch with shadow on screen
 //
-static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
+static void M_DrawMenuItemPatch(int x, int y, patch_t *patch, bool highlight, bool shadow)
 {
     if (!patch)
         return;
 
     if (LITTLESHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch(x, y, patch, highlight, SCREENWIDTH);
+        V_DrawMenuPatch(x, y, patch, highlight, (shadow ? SCREENWIDTH : -1));
     else
         V_DrawPagePatch(0, patch);
+}
+
+static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
+{
+    M_DrawMenuItemPatch(x, y, patch, highlight, true);
 }
 
 //
@@ -1179,27 +1196,27 @@ int M_CountSaveGames(void)
 //
 // Draw border for the savegame description
 //
-static void M_DrawSaveLoadBorder(int x, int y, bool highlight)
+static void M_DrawSaveLoadBorder(int x, int y, bool highlight, bool shadow)
 {
     if (M_LSCNTR)
     {
         x += 3;
-        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"), highlight);
+        M_DrawMenuItemPatch(x, y + 11, W_CacheLumpName("M_LSLEFT"), highlight, shadow);
         x += 8;
 
         for (int i = 0; i < 24; i++)
         {
-            M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR"), highlight);
+            M_DrawMenuItemPatch(x, y + 11, W_CacheLumpName("M_LSCNTR"), highlight, shadow);
             x += 8;
         }
 
-        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSRGHT"), highlight);
+        M_DrawMenuItemPatch(x, y + 11, W_CacheLumpName("M_LSRGHT"), highlight, shadow);
     }
     else
     {
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 8; xx++)
-                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], highlight, true);
+                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], highlight, shadow);
 
         x += 8;
 
@@ -1207,14 +1224,14 @@ static void M_DrawSaveLoadBorder(int x, int y, bool highlight)
         {
             for (int yy = 0; yy < 16; yy++)
                 for (int xx = 0; xx < 8; xx++)
-                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], highlight, true);
+                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], highlight, shadow);
 
             x += 8;
         }
 
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 9; xx++)
-                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], highlight, true);
+                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], highlight, shadow);
     }
 }
 
@@ -1246,10 +1263,12 @@ static void M_DrawLoad(void)
     for (int i = 0; i < load_end; i++)
     {
         const int   y = M_SaveMenuSlotY(i);
+        const int   offset = M_MenuItemPressOffset(&LoadDef, i);
         const int   fade = M_GetMenuItemHighlightFade(&LoadDef, i);
 
+        menudrawoffset = -offset;
         V_SetMenuHighlightFade(fade);
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (fade > 0));
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4 + offset, (fade > 0), !offset);
 
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
@@ -1259,8 +1278,9 @@ static void M_DrawLoad(void)
         M_FitSaveString(savegamestrings[i]);
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
-            && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
+            && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y + offset,
             savegamestrings[i], (fade > 0), false, '\0');
+        menudrawoffset = 0;
         V_SetMenuHighlightFade(100);
     }
 }
@@ -1358,16 +1378,19 @@ static void M_DrawSave(void)
     {
         int         len = (int)strlen(savegamestrings[i]);
         int         y = M_SaveMenuSlotY(i);
+        const int   offset = M_MenuItemPressOffset(&SaveDef, i);
         const int   fade = M_GetMenuItemHighlightFade(&SaveDef, i);
 
+        menudrawoffset = -offset;
         V_SetMenuHighlightFade(fade);
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (fade > 0));
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4 + offset, (fade > 0), !offset);
 
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
         currentmenu->menuitems[i].width = 209;
         currentmenu->menuitems[i].height = LITTLESHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
+        y += offset;
         M_FitSaveString(savegamestrings[i]);
         len = (int)strlen(savegamestrings[i]);
 
@@ -1441,6 +1464,7 @@ static void M_DrawSave(void)
                 && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
                 savegamestrings[i], (fade > 0), false, '\0');
 
+        menudrawoffset = 0;
         V_SetMenuHighlightFade(100);
     }
 }
@@ -2423,6 +2447,8 @@ static void M_DrawOptions(void)
         free(temp);
     }
 
+    menudrawoffset = -M_MenuItemPressOffset(&OptionsDef, msgs);
+
     if (messages)
     {
         fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
@@ -2438,13 +2464,14 @@ static void M_DrawOptions(void)
             if (FREEDOOM)
                 patch->topoffset = 0;
 
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
-                OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (fade > 0));
+            M_DrawMenuItemPatch(OptionsDef.x + (REKKR ? width - 11 : width + 6),
+                OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET) + M_MenuItemPressOffset(&OptionsDef, msgs),
+                patch, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, msgs));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text)
-                + M_BigStringWidth(" "), OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (fade > 0), true);
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * msgs + OFFSET + M_MenuItemPressOffset(&OptionsDef, msgs),
+                s_M_ON, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, msgs));
     }
     else
     {
@@ -2461,14 +2488,17 @@ static void M_DrawOptions(void)
             if (FREEDOOM)
                 patch->topoffset = 0;
 
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
-                OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (fade > 0));
+            M_DrawMenuItemPatch(OptionsDef.x + (REKKR ? width - 11 : width + 6),
+                OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET) + M_MenuItemPressOffset(&OptionsDef, msgs),
+                patch, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, msgs));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text)
-                + M_BigStringWidth(" "), OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (fade > 0), true);
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * msgs + OFFSET + M_MenuItemPressOffset(&OptionsDef, msgs),
+                s_M_OFF, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, msgs));
     }
+
+    menudrawoffset = -M_MenuItemPressOffset(&OptionsDef, detail);
 
     if (r_detail == r_detail_low)
     {
@@ -2485,13 +2515,14 @@ static void M_DrawOptions(void)
             if (FREEDOOM)
                 patch->topoffset = 0;
 
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
-                OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (fade > 0));
+            M_DrawMenuItemPatch(OptionsDef.x + (REKKR ? width - 13 : width + 6),
+                OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET) + M_MenuItemPressOffset(&OptionsDef, detail),
+                patch, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, detail));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text)
-                + M_BigStringWidth(" "), OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (fade > 0), true);
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * detail + OFFSET + M_MenuItemPressOffset(&OptionsDef, detail),
+                s_M_LOW, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, detail));
     }
     else
     {
@@ -2508,15 +2539,17 @@ static void M_DrawOptions(void)
             if (FREEDOOM)
                 patch->topoffset = 0;
 
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
-                OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (fade > 0));
+            M_DrawMenuItemPatch(OptionsDef.x + (REKKR ? width - 13 : width + 6),
+                OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET) + M_MenuItemPressOffset(&OptionsDef, detail),
+                patch, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, detail));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text)
-                + M_BigStringWidth(" "), OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (fade > 0), true);
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * detail + OFFSET + M_MenuItemPressOffset(&OptionsDef, detail),
+                s_M_HIGH, (fade > 0), !M_MenuItemPressOffset(&OptionsDef, detail));
     }
 
+    menudrawoffset = 0;
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
         (r_screensize == r_screensize_max - 1 ? I_GetWidescreenTarget() : 1 + !r_hud)));
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
@@ -2692,7 +2725,7 @@ static void M_Console(int choice)
     consolefullscreen = true;
     dontrestoremousepointeronshow = true;
     C_ShowConsole(true);
-    consoleignoreleftbutton = menuitemactivatedwithmouse;
+    consoleignoreleftbutton = (menuitemactivatedwithmouse && !menuitemactivatedonrelease);
     D_FadeScreen(false);
     S_StartSound(NULL, sfx_pistol);
 }
@@ -3081,6 +3114,7 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messagebuttonsactive = false;
     quitmessagebuttons = false;
     quitmessagebuttonhover = -1;
+    pressedmessagebutton = -1;
     M_ResetMessageButtonHighlightFade();
     quitmessagebuttoncount = 0;
     messagebuttonswaitforrelease = false;
@@ -3146,7 +3180,7 @@ static void M_StartOKButtonMessage(char *string, bool usemousebuttons)
     quitmessagebuttonkey[0] = KEY_ENTER;
     messagebuttonsactive = true;
     quitmessagebuttons = usemousebuttons;
-    messagebuttonswaitforrelease = usemousebuttons;
+    messagebuttonswaitforrelease = (usemousebuttons && !menuitemactivatedonrelease);
     quitmessagebuttonhover = -1;
 
     if (usemousebuttons)
@@ -3344,19 +3378,20 @@ static int M_DrawMessage(int y)
 
 static void M_DrawQuitMessageButtons(void)
 {
-    const int         texty = quitmessagebuttony + 4;
-
     M_UpdateQuitMessageButtons();
 
     for (int i = 0; i < quitmessagebuttoncount; i++)
     {
-        const int fade = M_GetMessageButtonHighlightFade(i);
+        const int   fade = M_GetMessageButtonHighlightFade(i);
+        const bool  pressed = (menupress && windowfocused && pressedmessagebutton == i && pressedmessagebuttoninside);
 
+        menudrawoffset = (pressed ? -1 : 0);
         V_SetMenuHighlightFade(fade);
-        M_WriteText(quitmessagebuttonx[i] + 6, texty, quitmessagebuttontext[i],
-            (fade > 0), true, '\0');
+        M_WriteMenuButtonText(quitmessagebuttonx[i] + 6, quitmessagebuttony + 4 + pressed,
+            quitmessagebuttontext[i], (fade > 0), !pressed);
     }
 
+    menudrawoffset = 0;
     V_SetMenuHighlightFade(100);
 }
 
@@ -3375,7 +3410,8 @@ void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 //
 // Write a string
 //
-static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow, unsigned char prevletter)
+static void M_WriteTextInternal(int x, int y, const char *string, bool highlight, bool shadow,
+    unsigned char prevletter, bool menupatch)
 {
     int     width;
     char    letter;
@@ -3414,7 +3450,9 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
             if (cx + width > VANILLAWIDTH)
                 break;
 
-            if (shadow)
+            if (menupatch)
+                M_DrawMenuItemPatch(cx, cy, hu_font[c], highlight, shadow);
+            else if (shadow)
                 M_DrawPatchWithShadow(cx, cy, hu_font[c], highlight);
             else
                 V_DrawPatch(cx, cy, 0, hu_font[c]);
@@ -3447,6 +3485,16 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
         prevletter = letter;
         cx += width;
     }
+}
+
+static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow, unsigned char prevletter)
+{
+    M_WriteTextInternal(x, y, string, highlight, shadow, prevletter, false);
+}
+
+static void M_WriteMenuButtonText(int x, int y, const char *string, bool highlight, bool shadow)
+{
+    M_WriteTextInternal(x, y, string, highlight, shadow, '\0', true);
 }
 
 static void M_ShowHelp(int choice)
@@ -3611,7 +3659,24 @@ static void M_OpenConsole(bool nomouserestore)
 bool M_Responder(event_t *ev)
 {
     int             key = -1;
+    bool            newmenupress = false;
+    static bool     discardmenupress;
     static uint64_t keywait;
+
+    menuitemactivatedonrelease = false;
+
+    if (!menupress && (pressedmenu || pressedmessagebutton != -1))
+    {
+        discardmenupress = true;
+        pressedmenu = NULL;
+        pressedmessagebutton = -1;
+    }
+
+    if (ev->type == ev_keydown || ev->type == ev_controller || ev->type == ev_mousewheel)
+    {
+        pressedmenu = NULL;
+        pressedmessagebutton = -1;
+    }
 
     if (ev->type == ev_keyup && ev->data1 == KEY_ESCAPE)
         menucloseheld = false;
@@ -3789,6 +3854,16 @@ bool M_Responder(event_t *ev)
 
         M_UpdateOpenConsoleEdge(mousey);
 
+        if (discardmenupress)
+        {
+            leftbuttondown = leftbutton;
+
+            if (!leftbutton)
+                discardmenupress = false;
+
+            return true;
+        }
+
         if (draggingconsole)
         {
             pagetic = consoleopendragpagetic;
@@ -3844,6 +3919,41 @@ bool M_Responder(event_t *ev)
         }
 
         leftbuttondown = leftbutton;
+        newmenupress = newleftbuttonpress;
+
+        if (pressedmenu)
+        {
+            if (!windowfocused || !menuactive || messagetoprint || consoleactive || currentmenu != pressedmenu
+                || itemon != pressedmenuitem)
+            {
+                pressedmenu = NULL;
+                return true;
+            }
+            else
+            {
+                const menuitem_t    *menuitem = &pressedmenu->menuitems[pressedmenuitem];
+
+                pressedmenuiteminside = (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                    && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height);
+
+                if (leftbutton)
+                    return true;
+
+                pressedmenu = NULL;
+
+                if (!pressedmenuiteminside)
+                    return true;
+
+                if (currentmenu == &SaveDef)
+                    savepointerx = ev->data2;
+
+                menuitemactivatedwithmouse = true;
+                menuitemactivatedonrelease = true;
+                mousewait = I_GetTime() + 8;
+                key = KEY_ENTER;
+                goto handlekey;
+            }
+        }
 
         if (messagebuttonswaitforrelease && !(ev->data1 & MOUSE_LEFTBUTTON))
             messagebuttonswaitforrelease = false;
@@ -3869,15 +3979,44 @@ bool M_Responder(event_t *ev)
             quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
             M_StartMessageButtonHighlightFade(oldhover);
 
-            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime() && !messagebuttonswaitforrelease)
+            if (pressedmessagebutton != -1)
             {
-                const int   button = M_QuitMessageButtonAt(ev->data2, ev->data3);
+                pressedmessagebuttoninside = (quitmessagebuttonhover == pressedmessagebutton);
 
-                if (button != -1 && !savestringenter)
+                if (leftbutton)
+                    return true;
+
+                if (pressedmessagebuttoninside)
                 {
-                    key = quitmessagebuttonkey[button];
+                    key = quitmessagebuttonkey[pressedmessagebutton];
+                    pressedmessagebutton = -1;
+                    menuitemactivatedonrelease = true;
                     mousewait = I_GetTime() + 8;
+                    goto handlekey;
                 }
+
+                pressedmessagebutton = -1;
+                return true;
+            }
+
+            if (menupress)
+            {
+                if (newleftbuttonpress && mousewait < I_GetTime() && !messagebuttonswaitforrelease
+                    && !savestringenter && quitmessagebuttonhover != -1)
+                {
+                    pressedmessagebutton = quitmessagebuttonhover;
+                    pressedmessagebuttoninside = true;
+                    return true;
+                }
+
+                if (leftbutton)
+                    return true;
+            }
+            else if (leftbutton && mousewait < I_GetTime() && !messagebuttonswaitforrelease
+                && !savestringenter && quitmessagebuttonhover != -1)
+            {
+                key = quitmessagebuttonkey[quitmessagebuttonhover];
+                mousewait = I_GetTime() + 8;
             }
         }
 
@@ -4293,6 +4432,18 @@ bool M_Responder(event_t *ev)
         return false;
     }
 
+    if (menupress && ev->type == ev_mouse && newmenupress && m_pointer && menuactive && !messagetoprint
+        && !helpscreen && !savestringenter && menuitemactivatedwithmouse && key == KEY_ENTER
+        && keywait < I_GetTime() && !keydown && currentmenu->menuitems[itemon].routine
+        && currentmenu->menuitems[itemon].status)
+    {
+        pressedmenu = currentmenu;
+        pressedmenuitem = itemon;
+        pressedmenuiteminside = true;
+        return true;
+    }
+
+handlekey:
     // Console
     if (key && (key == keyboardconsole || key == keyboardconsole2)
         && !paused && !splashscreen && !keydown && !savestringenter)
@@ -4532,11 +4683,12 @@ bool M_Responder(event_t *ev)
             && key != KEY_BACKSPACE && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
             return false;
 
-        keydown = key;
+        keydown = (menuitemactivatedonrelease ? 0 : key);
         menuactive = messagelastmenuactive;
         messagetoprint = false;
         quitmessagebuttons = false;
         quitmessagebuttonhover = -1;
+        pressedmessagebutton = -1;
 
         if (messageroutine)
             messageroutine(ch);
@@ -5001,7 +5153,7 @@ bool M_Responder(event_t *ev)
         else if (key == KEY_ENTER && keywait < I_GetTime() && !keydown)
         {
             // Activate menu item
-            keydown = key;
+            keydown = (menuitemactivatedonrelease ? 0 : key);
 
             if (ev->type == ev_keydown && currentmenu == &MainDef && itemon == quit_doom)
                 usingmouse = false;
@@ -5326,9 +5478,12 @@ void M_OpenMainMenu(void)
 //
 static void M_DrawNightmare(bool highlight)
 {
+    const int   offset = M_MenuItemPressOffset(&NewDef, nightmare);
+
     for (int y = 0; y < 20; y++)
         for (int x = 0; x < 124; x++)
-            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], highlight, true);
+            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y + offset,
+                (int)nmare[y * 124 + x], highlight, !offset);
 
     currentmenu->menuitems[nightmare].x = NewDef.x + MAXWIDESCREENDELTA;
     currentmenu->menuitems[nightmare].y = NewDef.y + OFFSET + 16 * nightmare;
@@ -5377,6 +5532,12 @@ void M_Drawer(void)
     bool            drawopenconsolehint;
     int             targetopenconsoleedgey = (M_CanDrawOpenConsoleEdge() ? 0 : -CONSOLEEDGEHEIGHT);
     const uint64_t  tics = I_GetTime();
+
+    if (!windowfocused || !menuactive || messagetoprint || consoleactive)
+        pressedmenu = NULL;
+
+    if (!windowfocused || !messagetoprint || !quitmessagebuttons || consoleactive)
+        pressedmessagebutton = -1;
 
     if (prevconsoleheight > 0 && !consoleheight && !consoledirection && M_CanDrawOpenConsoleEdge())
     {
@@ -5494,10 +5655,14 @@ void M_Drawer(void)
                     LoadDef.laston = itemon;
             }
 
+            menudrawoffset = M_MenuItemPressOffset(currentmenu, itemon);
+
             if (M_SKULL1)
                 M_DrawPatchWithShadow(x - 43, M_SaveMenuSlotY(itemon) - (chex ? 7 : 8), skullpatch, true);
             else
                 M_DrawPatchWithShadow(x - 37, M_SaveMenuSlotY(itemon) - 7, skullpatch, true);
+
+            menudrawoffset = 0;
         }
         else
         {
@@ -5515,6 +5680,8 @@ void M_Drawer(void)
             }
             else if (currentmenu == &SoundDef && (item == sound_empty1 || item == sound_empty2))
                 item--;
+
+            menudrawoffset = M_MenuItemPressOffset(currentmenu, item);
 
             if (M_SKULL1)
             {
@@ -5535,11 +5702,15 @@ void M_Drawer(void)
                 M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
             }
 
+            menudrawoffset = 0;
+
             for (int i = 0; i < max; i++)
             {
                 const int   fade = M_GetMenuItemHighlightFade(currentmenu, i);
+                const int   pressoffset = M_MenuItemPressOffset(currentmenu, i);
                 const bool  highlight = (fade > 0);
 
+                menudrawoffset = -pressoffset;
                 V_SetMenuHighlightFade(fade);
 
                 if (currentmenu->menuitems[i].routine)
@@ -5553,7 +5724,7 @@ void M_Drawer(void)
                         {
                             patch_t *patch = W_CacheLumpName(name);
 
-                            M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                            M_DrawMenuItemPatch(x, y + OFFSET + pressoffset, patch, highlight, !pressoffset);
                             currentmenu->menuitems[i].x = x - LITTLESHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
                             currentmenu->menuitems[i].y = y - LITTLESHORT(patch->topoffset) + OFFSET;
                             widest = MAX(widest, LITTLESHORT(patch->width));
@@ -5567,7 +5738,7 @@ void M_Drawer(void)
                     }
                     else if (M_StringCompare(name, "M_MSENS") && (!M_MSENS || DBIGFONT) && usingcontroller)
                     {
-                        M_DrawString(x, y + OFFSET, s_M_CONTROLLERSENSITIVITY, highlight, true);
+                        M_DrawString(x, y + OFFSET + pressoffset, s_M_CONTROLLERSENSITIVITY, highlight, !pressoffset);
                         widest = MAX(widest, M_BigStringWidth(s_M_CONTROLLERSENSITIVITY));
 
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
@@ -5578,7 +5749,7 @@ void M_Drawer(void)
                     {
                         patch_t *patch = W_CacheLastLumpName(name);
 
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                        M_DrawMenuItemPatch(x, y + OFFSET + pressoffset, patch, highlight, !pressoffset);
                         currentmenu->menuitems[i].x = x - LITTLESHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y - LITTLESHORT(patch->topoffset) + OFFSET;
                         widest = MAX(widest, LITTLESHORT(patch->width));
@@ -5588,7 +5759,7 @@ void M_Drawer(void)
                     {
                         int width = M_BigStringWidth(*text);
 
-                        M_DrawString(x, y + OFFSET, *text, highlight, true);
+                        M_DrawString(x, y + OFFSET + pressoffset, *text, highlight, !pressoffset);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 
@@ -5640,7 +5811,7 @@ void M_Drawer(void)
                         if (FREEDOOM)
                             patch->topoffset = 0;
 
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                        M_DrawMenuItemPatch(x, y + OFFSET + pressoffset, patch, highlight, !pressoffset);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 
@@ -5696,7 +5867,7 @@ void M_Drawer(void)
                         if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                             yy += OFFSET;
 
-                        M_DrawString(x, yy, *text, highlight, true);
+                        M_DrawString(x, yy + pressoffset, *text, highlight, !pressoffset);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = yy;
 
@@ -5746,6 +5917,7 @@ void M_Drawer(void)
                 }
 
                 y += LINEHEIGHT - 1;
+                menudrawoffset = 0;
                 V_SetMenuHighlightFade(100);
             }
 
@@ -5776,6 +5948,7 @@ void M_Drawer(void)
 void M_CloseMenu(void)
 {
     menucloseheld = false;
+    pressedmenu = NULL;
 
     if (!menuactive)
         return;
@@ -5830,6 +6003,7 @@ void M_CloseMenu(void)
 //
 static void M_SetupNextMenu(menu_t *menudef)
 {
+    pressedmenu = NULL;
     M_StartMenuElementFade();
     currentmenu = menudef;
     itemon = currentmenu->laston;

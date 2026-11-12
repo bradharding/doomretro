@@ -178,7 +178,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
     return true;
 }
 
-bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
+bool M_DrawFON2String(int x, int y, const char *str, bool highlight, bool shadow)
 {
     int cx = x;
 
@@ -195,7 +195,7 @@ bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
             cx += FON2_SPACE;
         else
         {
-            V_DrawBigFontPatch(cx, y, chars[c].patch, highlight, SCREENWIDTH);
+            V_DrawBigFontPatch(cx, y, chars[c].patch, highlight, (shadow ? SCREENWIDTH : -1));
             cx += chars[c].width + kerning;
         }
     }

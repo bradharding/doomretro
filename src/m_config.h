@@ -133,6 +133,7 @@ extern float    m_sensitivity_vertical;
 extern bool     m_smoothing;
 extern bool     melt;
 extern bool     menuhighlight;
+extern bool     menupress;
 extern bool     menushadow;
 extern bool     menuspin;
 extern bool     messages;
@@ -739,6 +740,8 @@ enum
 #define melt_default                            true
 
 #define menuhighlight_default                   true
+
+#define menupress_default                       true
 
 #define menushadow_default                      true
 
