@@ -3088,7 +3088,14 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
 
-    D_FadeScreen(false);
+    if (menuactive && smoothtransitions && !togglingvanilla)
+    {
+        fadecount = 0;
+        menuitemfadecount = 0;
+        M_StartMenuElementFade();
+    }
+    else
+        D_FadeScreen(false);
 }
 
 void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt)
@@ -4541,7 +4548,11 @@ bool M_Responder(event_t *ev)
         else
         {
             S_StartSound(NULL, (currentmenu == &HelpDef ? sfx_pistol : sfx_swtchx));
-            D_FadeScreen(false);
+
+            if (!menuactive || !smoothtransitions || togglingvanilla)
+                D_FadeScreen(false);
+            else if (!menuitemfadecount && !fadecount)
+                M_StartMenuElementFade();
         }
 
         return true;
@@ -5326,6 +5337,35 @@ static void M_DrawNightmare(bool highlight)
 }
 
 //
+// M_DrawMenuElementFade
+//
+static void M_DrawMenuElementFade(void)
+{
+    const byte *tinttabsout[MENUELEMFADECOUNT + 1] =
+    {
+        NULL,
+        tinttab80, tinttab70, tinttab60, tinttab50,
+        tinttab40, tinttab30, tinttab20, tinttab10
+    };
+
+    const byte *tinttabsin[MENUELEMFADECOUNT + 1] =
+    {
+        NULL,
+        tinttab20, tinttab30, tinttab40, tinttab50,
+        tinttab60, tinttab70, tinttab80, tinttab90
+    };
+
+    const byte  *tinttabout = tinttabsout[menuitemfadecount];
+    const byte  *tinttabin = tinttabsin[menuitemfadecount];
+
+    for (int i = 0; i < SCREENAREA; i++)
+        if (menuelemsnapshot[i] != menubgsnapshot[i])
+            screens[0][i] = tinttabout[(screens[0][i] << 8) + menuelemsnapshot[i]];
+        else if (screens[0][i] != menublurscreen[i])
+            screens[0][i] = tinttabin[(menublurscreen[i] << 8) + screens[0][i]];
+}
+
+//
 // M_Drawer
 // Called after the view has been rendered,
 // but before it has been blitted.
@@ -5405,6 +5445,9 @@ void M_Drawer(void)
 
         if (quitmessagebuttons)
             M_DrawQuitMessageButtons();
+
+        if (menuitemfadecount > 0 && smoothtransitions)
+            M_DrawMenuElementFade();
 
         if (drawopenconsolehint)
             C_DrawConsoleEdge(openconsoleedgey);
@@ -5721,30 +5764,7 @@ void M_Drawer(void)
     }
 
     if (menuitemfadecount > 0 && smoothtransitions)
-    {
-        const byte *tinttabsout[MENUELEMFADECOUNT + 1] =
-        {
-            NULL,
-            tinttab80, tinttab70, tinttab60, tinttab50,
-            tinttab40, tinttab30, tinttab20, tinttab10
-        };
-
-        const byte *tinttabsin[MENUELEMFADECOUNT + 1] =
-        {
-            NULL,
-            tinttab20, tinttab30, tinttab40, tinttab50,
-            tinttab60, tinttab70, tinttab80, tinttab90
-        };
-
-        const byte  *tinttabout = tinttabsout[menuitemfadecount];
-        const byte  *tinttabin = tinttabsin[menuitemfadecount];
-
-        for (int i = 0; i < SCREENAREA; i++)
-            if (menuelemsnapshot[i] != menubgsnapshot[i])
-                screens[0][i] = tinttabout[(screens[0][i] << 8) + menuelemsnapshot[i]];
-            else if (screens[0][i] != menublurscreen[i])
-                screens[0][i] = tinttabin[(menublurscreen[i] << 8) + screens[0][i]];
-    }
+        M_DrawMenuElementFade();
 
     if (drawopenconsolehint)
         C_DrawConsoleEdge(openconsoleedgey);
