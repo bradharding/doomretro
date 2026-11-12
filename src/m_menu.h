@@ -133,6 +133,7 @@ extern bool     helpscreen;
 extern bool     palettescreen;
 extern bool     quitting;
 extern bool     reopenautomap;
+extern bool     draggingconsole;
 extern menu_t   *currentmenu;
 extern int      menuitemfadecount;
 extern int      menuspindirection;

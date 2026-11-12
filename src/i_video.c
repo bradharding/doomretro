@@ -547,7 +547,8 @@ static void I_GetEvent(void)
 
                 mousebuttonstate |= button;
 
-                if ((menuactive || consoleactive) && button == MOUSE_RIGHTBUTTON)
+                if ((menuactive || consoleactive) && button == MOUSE_RIGHTBUTTON
+                    && !draggingconsole && !draggingconsoleedge)
                     usingmouse = false;
 
                 break;
@@ -750,12 +751,18 @@ static void I_ReadMouse(void)
 {
     int                 x, y;
     static unsigned int prevmousebuttonstate;
+    static bool         ignorerightbutton;
 
     SDL_GetRelativeMouseState(&x, &y);
 
+    if (!(mousebuttonstate & MOUSE_RIGHTBUTTON))
+        ignorerightbutton = false;
+    else if (draggingconsole || draggingconsoleedge)
+        ignorerightbutton = true;
+
     if (x || y || mousebuttonstate != prevmousebuttonstate || (mousebuttonstate && (menuactive || consoleactive)))
     {
-        event_t ev = { ev_mouse, mousebuttonstate, 0, 0 };
+        event_t ev = { ev_mouse, (mousebuttonstate & ~(ignorerightbutton ? MOUSE_RIGHTBUTTON : 0)), 0, 0 };
 
         if ((menuactive || consoleactive
             || (messagetoprint && messagebuttonsactive)

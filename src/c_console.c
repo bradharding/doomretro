@@ -5031,7 +5031,7 @@ bool C_Responder(event_t *ev)
         static int  consoleedgedragdirection;
         static bool consoleedgedragfullscreen;
 
-        if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse && !consoleignoreleftbutton)
+        if ((ev->data1 & MOUSE_LEFTBUTTON) && (usingmouse || draggingconsoleedge) && !consoleignoreleftbutton)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
