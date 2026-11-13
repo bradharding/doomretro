@@ -79,6 +79,7 @@ typedef struct
 
 extern byte *tinttab4;
 extern byte *tinttab5;
+extern byte *tinttab6;
 extern byte *tinttab10;
 extern byte *tinttab15;
 extern byte *tinttab20;

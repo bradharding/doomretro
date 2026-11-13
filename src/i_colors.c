@@ -73,6 +73,7 @@ static const byte filter[256] =
 
 byte        *tinttab4;
 byte        *tinttab5;
+byte        *tinttab6;
 byte        *tinttab10;
 byte        *tinttab15;
 byte        *tinttab20;
@@ -409,6 +410,7 @@ void I_InitTintTables(byte *palette)
 
     tinttab4 = GenerateTintTable(palette, 4, ALL);
     tinttab5 = GenerateTintTable(palette, 5, ALL);
+    tinttab6 = GenerateTintTable(palette, 6, ALL);
     tinttab10 = GenerateTintTable(palette, 10, ALL);
     tinttab15 = GenerateTintTable(palette, 15, ALL);
     tinttab20 = GenerateTintTable(palette, 20, ALL);

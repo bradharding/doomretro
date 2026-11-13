@@ -309,7 +309,6 @@ static char *GuessFilename(char *path, const char *string)
 }
 #endif
 
-
 int D_OpenWADLauncher(void)
 {
     int             iwadfound = -1;
