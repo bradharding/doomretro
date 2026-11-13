@@ -1061,6 +1061,7 @@ static void F_BunnyScroll(void)
             if (finalecount == 1130)
                 D_FadeScreen(false);
 
+            V_BeginMenuElements();
             V_DrawMenuPatch((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
                 (FREEDOOM || hacx ? W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD("END0")) :
                     W_CacheLumpName("END0")), false, SCREENWIDTH);
@@ -1078,10 +1079,13 @@ static void F_BunnyScroll(void)
             }
 
             M_snprintf(name, sizeof(name), "END%i", stage);
+            V_BeginMenuElements();
             V_DrawMenuPatch((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
                 (FREEDOOM || hacx ? W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD(name)) :
                     W_CacheLumpName(name)), false, SCREENWIDTH);
         }
+
+        V_EndMenuElements();
     }
 }
 
