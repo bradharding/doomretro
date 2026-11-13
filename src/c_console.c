@@ -718,26 +718,96 @@ static bool IsQuoteFormattingChar(const char c)
         || c == MONOSPACEDONCHAR || c == MONOSPACEDOFFCHAR);
 }
 
+static bool IsQuoteApostrophe(const char *text, const int len, const int i)
+{
+    return (text[i] == '\'' && i > 0 && i + 1 < len
+        && isalnum((unsigned char)text[i - 1]) && isalnum((unsigned char)text[i + 1]));
+}
+
+static bool QuoteEnclosesCommand(const char *text, const int len, const int first, const int last)
+{
+    int start = first + 1;
+    int end;
+    int suffix = last + 1;
+    int prefix = first - 1;
+
+    while (suffix < len && (isspace((unsigned char)text[suffix]) || IsQuoteFormattingChar(text[suffix])))
+        suffix++;
+
+    if (suffix != len)
+        return false;
+
+    while (prefix >= 0 && (text[prefix] == ' ' || IsQuoteFormattingChar(text[prefix])))
+        prefix--;
+
+    end = prefix + 1;
+
+    while (prefix >= 0 && (isalnum((unsigned char)text[prefix]) || text[prefix] == '_'))
+        prefix--;
+
+    for (int j = 0; *consolecmds[j].name && end > prefix + 1; j++)
+        if (strlen(consolecmds[j].name) == end - prefix - 1
+            && !strncasecmp(text + prefix + 1, consolecmds[j].name, end - prefix - 1)
+            && !M_StringCompare(consolecmds[j].name, "bind") && !M_StringCompare(consolecmds[j].name, "alias"))
+            return false;
+
+    while (start < last && (isspace((unsigned char)text[start]) || IsQuoteFormattingChar(text[start])))
+        start++;
+
+    end = start;
+
+    while (end < last && !isspace((unsigned char)text[end]) && !IsQuoteFormattingChar(text[end])
+        && text[end] != ';')
+        end++;
+
+    if (end == start)
+        return false;
+
+    for (int j = 0; *consolecmds[j].name; j++)
+    {
+        const char *names[] = { consolecmds[j].name, consolecmds[j].altspelling, consolecmds[j].alternate };
+
+        for (int k = 0; k < 3; k++)
+            if (names[k] && strlen(names[k]) == end - start && !strncasecmp(text + start, names[k], end - start))
+                return true;
+    }
+
+    return false;
+}
+
 int C_GetQuotePairing(const char *text, const int len, const int i)
 {
     const char  quote = text[i];
     int         first = -1;
     int         last = -1;
     int         count = 0;
+    int         ordinal = 0;
+    int         start = i;
+    int         end = i + 1;
 
-    for (int j = 0; j < len; j++)
-        if (text[j] == quote)
+    if (IsQuoteApostrophe(text, len, i))
+        return 0;
+
+    while (start > 0 && text[start - 1] != '\t' && text[start - 1] != '\n')
+        start--;
+
+    while (end < len && text[end] != '\t' && text[end] != '\n')
+        end++;
+
+    for (int j = start; j < end; j++)
+        if (text[j] == quote && !IsQuoteApostrophe(text, len, j))
         {
-            if (++count > 2)
-                return -1;
-
             if (first < 0)
                 first = j;
-            else
-                last = j;
+
+            last = j;
+            count++;
+
+            if (j == i)
+                ordinal = count;
         }
 
-    if (count != 2)
+    if (count < 2 || (count & 1))
         return -1;
 
     if (i == first)
@@ -749,7 +819,7 @@ int C_GetQuotePairing(const char *text, const int len, const int i)
 
         return (j >= 0 && isalnum((unsigned char)text[j]) ? -1 : 1);
     }
-    else
+    else if (i == last)
     {
         int j = last + 1;
 
@@ -758,6 +828,11 @@ int C_GetQuotePairing(const char *text, const int len, const int i)
 
         return (j < len && isalnum((unsigned char)text[j]) ? -1 : 0);
     }
+
+    if (QuoteEnclosesCommand(text, end, first, last))
+        ordinal--;
+
+    return (ordinal & 1);
 }
 
 int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting, const bool kerning)
