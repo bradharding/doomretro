@@ -93,7 +93,7 @@ int         am_tswallcolor = am_tswallcolor_default;
 int         am_wallcolor = am_wallcolor_default;
 int         am_yellowdoorcolor = am_yellowdoorcolor_default;
 int         am_yellowkeycolor = am_yellowkeycolor_default;
-bool        animatedstats = animatedstats_default;
+bool        animatednumbers = animatednumbers_default;
 bool        autoaim = autoaim_default;
 bool        autofire = autofire_default;
 bool        autoload = autoload_default;
@@ -382,7 +382,7 @@ static default_t cvars[] =
     CVAR_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                          0                      ),
     CVAR_INT          (am_yellowdoorcolor,               am_yellowdoorcolour,                   am_yellowdoorcolor,                    0                      ),
     CVAR_INT          (am_yellowkeycolor,                am_yellowkeycolour,                    am_yellowkeycolor,                     0                      ),
-    CVAR_BOOL         (animatedstats,                    animatedstats,                         animatedstats,                         BOOLVALUEALIAS         ),
+    CVAR_BOOL         (animatednumbers,                  animatedstats,                         animatednumbers,                       BOOLVALUEALIAS         ),
     CVAR_BOOL         (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS         ),
     CVAR_BOOL         (autofire,                         autofire,                              autofire,                              BOOLVALUEALIAS         ),
     CVAR_BOOL         (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS         ),

@@ -796,7 +796,7 @@ consolecmd_t consolecmds[] =
         " to " BOLD("255") ")."),
     INTCVAR(ammo, "", "", playercvarsfunc1, playercvarsfunc2, 0, 0,
         "The amount of ammo you have for your currently equipped weapon."),
-    BOOLCVAR(animatedstats, "", "", boolfunc1, boolfunc2, 0,
+    BOOLCVAR(animatednumbers, "", "", boolfunc1, boolfunc2, 0,
         "Toggles animating your health, armor and ammo in the status bar and widescreen heads-up "
         "display when they change."),
     PERCENTCVAR(armor, armour, "", playercvarsfunc1, playercvarsfunc2,

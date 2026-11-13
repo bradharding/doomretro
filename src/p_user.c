@@ -527,7 +527,7 @@ void P_AnimateAllStatsFromStart(void)
 
 void P_AnimateHealth(const int diff)
 {
-    if (animatedstats)
+    if (animatednumbers)
     {
         healthdiff = BETWEEN(-maxhealth, diff, maxhealth);
         healthdiffspeed = MIN(ABS(healthdiff) / 20 + 1, 20);
@@ -536,7 +536,7 @@ void P_AnimateHealth(const int diff)
 
 void P_AnimateArmor(const int diff)
 {
-    if (animatedstats)
+    if (animatednumbers)
     {
         armordiff = diff;
         armordiffspeed = MIN(ABS(diff) / 20 + 1, 20);
@@ -545,7 +545,7 @@ void P_AnimateArmor(const int diff)
 
 void P_AnimateAmmo(const int diff, const ammotype_t type)
 {
-    if (animatedstats)
+    if (animatednumbers)
     {
         ammodiff[type] = diff;
         ammodiffspeed[type] = MIN(ABS(diff) / 20 + 1, 20);
@@ -554,7 +554,7 @@ void P_AnimateAmmo(const int diff, const ammotype_t type)
 
 void P_AnimateMaxAmmo(const int diff, const ammotype_t type)
 {
-    if (animatedstats)
+    if (animatednumbers)
     {
         maxammodiff[type] = diff;
         maxammodiffspeed[type] = MIN(ABS(diff) / 20 + 1, 20);
@@ -585,7 +585,7 @@ void P_PlayerThink(void)
         return;
     }
 
-    if (animatedstats)
+    if (animatednumbers)
     {
         if (healthdiff < 0)
             healthdiff = MIN(healthdiff + healthdiffspeed, 0);
