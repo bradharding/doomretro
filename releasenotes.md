@@ -112,6 +112,7 @@
 * These changes have been made to the support of `MAPINFO` lumps:
   * Block comments are now parsed correctly.
   * If `enterpic` and `exitpic` specify unsupported PNG lumps, the default `INTERPIC` lump is used instead.
+  * Setting `label` to `clear` now hides the map label.
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.

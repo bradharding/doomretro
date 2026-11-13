@@ -136,6 +136,7 @@ typedef struct
     char            intertext[1024];
     char            intertextsecret[1024];
     char            label[9];
+    bool            clearlabel;
     int             liquid[NUMLIQUIDS];
     int             music;
     char            musicartist[128];
@@ -318,6 +319,7 @@ static void P_InitMapInfoEntry(mapinfo_t *info)
     info->intertext[0] = '\0';
     info->intertextsecret[0] = '\0';
     info->label[0] = '\0';
+    info->clearlabel = false;
 
     for (int k = 0; k < NUMLIQUIDS; k++)
     {
@@ -927,7 +929,8 @@ bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_LABEL:
                             SC_MustGetString();
-                            M_StringCopy(info->label, sc_String, sizeof(info->label));
+                            info->clearlabel = SC_Compare("CLEAR");
+                            M_StringCopy(info->label, (info->clearlabel ? "" : sc_String), sizeof(info->label));
                             break;
 
                         case MCMD_INTERTEXTSECRET:
@@ -1372,6 +1375,11 @@ char *P_GetInterSecretText(const int ep, const int map)
 char *P_GetLabel(const int ep, const int map)
 {
     return P_GetMapInfoEntry(ep, map)->label;
+}
+
+bool P_IsLabelCleared(const int ep, const int map)
+{
+    return P_GetMapInfoEntry(ep, map)->clearlabel;
 }
 
 bool P_GetMapCompatCorpseGibs(const int ep, const int map)

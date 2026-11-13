@@ -58,6 +58,7 @@ int P_GetInterMusic(const int ep, const int map);
 char *P_GetInterText(const int ep, const int map);
 char *P_GetInterSecretText(const int ep, const int map);
 char *P_GetLabel(const int ep, const int map);
+bool P_IsLabelCleared(const int ep, const int map);
 bool P_GetMapCompatCorpseGibs(const int ep, const int map);
 bool P_GetMapCompatFloorMove(const int ep, const int map);
 bool P_GetMapCompatLight(const int ep, const int map);

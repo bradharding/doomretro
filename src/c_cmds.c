@@ -6435,7 +6435,8 @@ static void mapstatsfunc2(char *cmd, char *parms)
     else
         C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, GetNumMaps(lump));
 
-    C_TabbedOutput(tabs, "Label\t%s", mapnum);
+    if (!P_IsLabelCleared(gameepisode, gamemap))
+        C_TabbedOutput(tabs, "Label\t%s", mapnum);
 
     if (!M_StringCompare(maptitle, mapnum))
     {

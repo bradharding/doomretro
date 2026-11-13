@@ -2948,6 +2948,15 @@ void P_MapName(int ep, int map)
         M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
     }
 
+    if (P_IsLabelCleared(ep, map))
+    {
+        char    *temp = titlecase(maptitle);
+
+        M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), ITALICS("%s"), temp);
+        M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
+        free(temp);
+    }
+
     mapnumandtitle[0] = (char)toupper((unsigned char)mapnumandtitle[0]);
     automaptitle[0] = (char)toupper((unsigned char)automaptitle[0]);
 }
