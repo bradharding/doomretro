@@ -119,6 +119,15 @@ static bool             hudstyletransitionactive;
 static bool             hudstyletransitionfadingout;
 static int              hudtransitionstyle;
 
+uint64_t                ammohighlight = 0;
+uint64_t                armorhighlight = 0;
+uint64_t                healthhighlight = 0;
+
+int                     ammodiff[NUMAMMO] = { 0 };
+int                     maxammodiff[NUMAMMO] = { 0 };
+int                     armordiff = 0;
+int                     healthdiff = 0;
+
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -843,25 +852,16 @@ static void HU_DrawCrosshair(void)
             nearestcolors[crosshaircolor] : black25[nearestcolors[crosshaircolor]]), NULL, -1);
 }
 
-uint64_t    ammohighlight = 0;
-uint64_t    armorhighlight = 0;
-uint64_t    healthhighlight = 0;
-
-int         ammodiff[NUMAMMO] = { 0 };
-int         maxammodiff[NUMAMMO] = { 0 };
-int         armordiff = 0;
-int         healthdiff = 0;
-
 static const byte *HU_DigitsTranslation(const int percent)
 {
     if (percent < 25)
-        return statstranslation[0];
+        return digitstranslation[0];
     else if (percent < 50)
         return cr_gold;
     else if (percent <= 100)
-        return statstranslation[1];
-
-    return statstranslation[2];
+        return digitstranslation[1];
+    else
+        return digitstranslation[2];
 }
 
 const byte *HU_HealthDigitsTranslation(const int health)
@@ -882,7 +882,7 @@ const byte *HU_AmmoDigitsTranslation(const int ammo, const ammotype_t ammotype)
         return NULL;
 
     if (ammo >= max)
-        return statstranslation[2];
+        return digitstranslation[2];
 
     return HU_DigitsTranslation(MAX(0, ammo) * 100 / max);
 }

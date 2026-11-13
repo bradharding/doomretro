@@ -6,7 +6,6 @@
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the menu’s background.
 * Improvements have been made to the shadows cast by items in the menu when the `menushadow` CVAR is `on`.
-* Elements on the intermission screen now cast the same soft, dithered shadows as menu items.
 * When the `menuhighlight` CVAR is `on`, clicking the mouse or pressing <kbd><b>ENTER</b></kbd> on an item in the menu now causes that item to be highlighted slightly more.
 * These changes have been made to the console:
   * The corrugated glass effect of the console’s background has been replaced by a dithered, Gaussian blur.

@@ -62,7 +62,7 @@ extern int  consoleoutputclipy;
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 extern byte *colortranslation[10];
-extern byte statstranslation[3][256];
+extern byte digitstranslation[3][256];
 extern byte cr_gold[256];
 extern byte cr_none[256];
 

@@ -84,7 +84,7 @@ byte V_GetMenuHighlightColor(byte color, bool highlight);
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[10];
-byte    statstranslation[3][256];
+byte    digitstranslation[3][256];
 byte    cr_gold[256];
 byte    cr_none[256];
 
@@ -149,9 +149,9 @@ void V_InitColorTranslation(void)
             }
         }
 
-        statstranslation[0][i] = nearestcolors[red];
-        statstranslation[1][i] = nearestcolors[green[red]];
-        statstranslation[2][i] = nearestcolors[blue[red]];
+        digitstranslation[0][i] = nearestcolors[red];
+        digitstranslation[1][i] = nearestcolors[green[red]];
+        digitstranslation[2][i] = nearestcolors[blue[red]];
     }
 }
 
