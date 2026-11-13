@@ -37,6 +37,7 @@
 #include "doomstat.h"
 #include "i_controller.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 
 static SDL_GameController   *controller;
@@ -222,6 +223,7 @@ void I_ShutdownController(void)
 
     SDL_GameControllerClose(controller);
 
+    M_CancelMenuInputPress(true);
     controller = NULL;
     controllerrumbles = false;
     controllerbuttons = 0;

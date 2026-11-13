@@ -90,6 +90,7 @@ void M_OpenMainMenu(void);
 void M_CloseMenu(void);
 void M_EndGame(int choice);
 void M_StopMenuElementFade(void);
+void M_CancelMenuInputPress(bool controlleronly);
 
 void M_DrawMenuBackground(void);
 void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow);

@@ -121,6 +121,11 @@ static bool     menuitemactivatedonrelease;
 static menu_t   *pressedmenu;
 static int      pressedmenuitem = -1;
 static bool     pressedmenuiteminside;
+static int      pressinput;
+static int      presscontrol;
+static int      presskey;
+static bool     pressmessage;
+static bool     presscancelled;
 static char     quitmessage[160];
 static char     quitmessagestring[320];
 
@@ -3656,6 +3661,23 @@ static void M_OpenConsole(bool nomouserestore)
     C_ShowConsole(false);
 }
 
+void M_CancelMenuInputPress(bool controlleronly)
+{
+    if (!pressinput || (controlleronly && pressinput != ev_controller))
+        return;
+
+    pressinput = 0;
+    pressedmenu = NULL;
+    pressedmessagebutton = -1;
+
+    if (pressmessage && messagetoprint && quitmessagebuttons && !usingmouse)
+    {
+        M_BuildMessageButtonPrompt();
+        messagestring = quitmessagestring;
+        quitmessagebuttons = false;
+    }
+}
+
 bool M_Responder(event_t *ev)
 {
     int             key = -1;
@@ -3664,6 +3686,62 @@ bool M_Responder(event_t *ev)
     static uint64_t keywait;
 
     menuitemactivatedonrelease = false;
+
+    if (pressinput)
+    {
+        const bool released = (pressinput == ev_keydown ? ev->type == ev_keyup && ev->data1 == presscontrol :
+            ev->type == ev_controller && !(controllerbuttons & presscontrol));
+
+        if (!menupress || !windowfocused || consoleactive || (consoleoverlaymenu && consoleheight)
+            || (pressmessage ? !messagetoprint || !quitmessagebuttons || pressedmessagebutton == -1 :
+                !menuactive || messagetoprint || pressedmenu != currentmenu || pressedmenuitem != itemon))
+            presscancelled = true;
+
+        if (presscancelled)
+        {
+            pressedmenu = NULL;
+            pressedmessagebutton = -1;
+
+            if (pressmessage && messagetoprint && quitmessagebuttons && !usingmouse)
+            {
+                M_BuildMessageButtonPrompt();
+                messagestring = quitmessagestring;
+                quitmessagebuttons = false;
+            }
+        }
+
+        if (released)
+        {
+            pressinput = 0;
+
+            if (presscancelled)
+                return true;
+
+            pressedmenu = NULL;
+            pressedmessagebutton = -1;
+            menuitemactivatedonrelease = true;
+            key = presskey;
+            goto handlekey;
+        }
+
+        if ((pressinput == ev_keydown && ev->type == ev_keydown && ev->data1 == presscontrol)
+            || (pressinput == ev_controller && ev->type == ev_controller) || ev->type == ev_mouse)
+            return true;
+
+        if (ev->type == ev_keydown || ev->type == ev_mousewheel)
+        {
+            presscancelled = true;
+            pressedmenu = NULL;
+            pressedmessagebutton = -1;
+
+            if (pressmessage && messagetoprint && quitmessagebuttons && !usingmouse)
+            {
+                M_BuildMessageButtonPrompt();
+                messagestring = quitmessagestring;
+                quitmessagebuttons = false;
+            }
+        }
+    }
 
     if (!menupress && (pressedmenu || pressedmessagebutton != -1))
     {
@@ -3692,7 +3770,7 @@ bool M_Responder(event_t *ev)
 
     if (ev->type == ev_controller)
     {
-        if (menuactive && controllerwait < I_GetTime())
+        if ((menuactive || (menupress && messagetoprint && messagebuttonsactive)) && controllerwait < I_GetTime())
         {
             if (controllerbuttons & controllerscreenshot)
             {
@@ -4441,6 +4519,61 @@ bool M_Responder(event_t *ev)
         pressedmenuitem = itemon;
         pressedmenuiteminside = true;
         return true;
+    }
+
+    if (menupress && !pressinput && !keydown && windowfocused && !consoleactive
+        && !savestringenter && (ev->type == ev_keydown || ev->type == ev_controller)
+        && key != keyboardconsole && key != keyboardconsole2
+        && key != keyboardscreenshot && key != keyboardscreenshot2
+        && key != keyboardsizedown && key != keyboardsizedown2
+        && key != keyboardsizeup && key != keyboardsizeup2
+        && key != keyboardmenu && key != keyboardmenu2)
+    {
+        int button = -1;
+
+        if (messagetoprint && messagebuttonsactive)
+        {
+            for (int i = 0; i < quitmessagebuttoncount; i++)
+                if (key == quitmessagebuttonkey[i] || (key == KEY_ENTER && i == 0)
+                    || (key == 'y' && quitmessagebuttoncount == 1)
+                    || (key == KEY_BACKSPACE && i == quitmessagebuttoncount - 1))
+                {
+                    button = i;
+                    break;
+                }
+        }
+
+        if (button != -1 || (key == KEY_ENTER && menuactive && !messagetoprint && !helpscreen
+            && keywait < I_GetTime() && currentmenu->menuitems[itemon].routine
+            && currentmenu->menuitems[itemon].status))
+        {
+            pressinput = ev->type;
+            presscontrol = (ev->type == ev_keydown ? ev->data1 :
+                (key == KEY_BACKSPACE || key == 'n' ? CONTROLLER_B :
+                    (controllerbuttons & CONTROLLER_A ? CONTROLLER_A : CONTROLLER_RIGHT_TRIGGER)));
+            presskey = key;
+            pressmessage = (button != -1);
+            presscancelled = false;
+
+            if (pressmessage)
+            {
+                usingmouse = false;
+                messagestring = quitmessage;
+                quitmessagebuttons = true;
+                quitmessagebuttonhover = -1;
+                pressedmessagebutton = button;
+                pressedmessagebuttoninside = true;
+                M_ResetMessageButtonHighlightFade();
+            }
+            else
+            {
+                pressedmenu = currentmenu;
+                pressedmenuitem = itemon;
+                pressedmenuiteminside = true;
+            }
+
+            return true;
+        }
     }
 
 handlekey:

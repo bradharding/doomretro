@@ -655,6 +655,7 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_FOCUS_LOST:
                         case SDL_WINDOWEVENT_MINIMIZED:
                             windowfocused = false;
+                            M_CancelMenuInputPress(false);
 
                             if (!s_musicinbackground)
                                 S_PauseMusic();
