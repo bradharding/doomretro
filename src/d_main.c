@@ -560,8 +560,10 @@ void D_Display(void)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
 
+            V_BeginMenuElements();
             V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2,
                 (VANILLAHEIGHT - LITTLESHORT(patch->height)) / 2, patch, false, SCREENWIDTH);
+            V_EndMenuElements();
         }
         else
             M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);
