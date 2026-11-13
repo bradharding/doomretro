@@ -1613,6 +1613,8 @@ void WI_Drawer(void)
     if (backgroundscreenwidth != SCREENWIDTH)
         WI_DrawBackground();
 
+    V_BeginMenuElements();
+
     switch (state)
     {
         case StatCount:
@@ -1627,6 +1629,8 @@ void WI_Drawer(void)
             WI_DrawNoState();
             break;
     }
+
+    V_EndMenuElements();
 }
 
 static void WI_InitVariables(wbstartstruct_t *wbstartstruct)

@@ -106,6 +106,8 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
 bool V_IsEmptyPatch(patch_t *patch);
+void V_BeginMenuElements(void);
+void V_EndMenuElements(void);
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth);
 void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth);
 void V_SetMenuHighlightFade(int fade);

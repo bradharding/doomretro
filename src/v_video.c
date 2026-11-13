@@ -68,6 +68,12 @@ int                 consoleoutputclipy = INT_MAX;
 static int          menuhighlightfade = 100;
 static bool         menuitemflash;
 
+static bool         drawingmenuelements;
+static byte         menushadowmask[MAXSCREENAREA];
+static byte         menushadowblur[MAXSCREENAREA];
+static bool         menuelementmask[MAXSCREENAREA];
+static int          menushadowleft, menushadowright, menushadowtop, menushadowbottom;
+
 static bool         bighudnumbershadow;
 static bool         bighudnumbergray;
 static bool         numbergrayisshadow;
@@ -1517,6 +1523,91 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     }
 }
 
+void V_BeginMenuElements(void)
+{
+    drawingmenuelements = true;
+    memset(menushadowmask, 0, SCREENAREA);
+    memset(menuelementmask, 0, SCREENAREA * sizeof(*menuelementmask));
+    menushadowleft = SCREENWIDTH;
+    menushadowright = -1;
+    menushadowtop = SCREENHEIGHT;
+    menushadowbottom = -1;
+}
+
+static void V_AddMenuShadow(int x, int y)
+{
+    if (x >= 0 && x < SCREENWIDTH && y >= 0 && y < SCREENHEIGHT)
+    {
+        menushadowmask[y * SCREENWIDTH + x] = 255;
+        menushadowleft = MIN(menushadowleft, x);
+        menushadowright = MAX(menushadowright, x);
+        menushadowtop = MIN(menushadowtop, y);
+        menushadowbottom = MAX(menushadowbottom, y);
+    }
+}
+
+void V_EndMenuElements(void)
+{
+    static const int    kernel[7] = { 1, 2, 3, 4, 3, 2, 1 };
+    static byte         dither[1024];
+    static bool         ditherready;
+    int                 left;
+    int                 right;
+    int                 top;
+    int                 bottom;
+
+    drawingmenuelements = false;
+
+    if (!menushadow || menushadowright < menushadowleft)
+        return;
+
+    if (!ditherready)
+    {
+        C_BuildDither(dither);
+        ditherready = true;
+    }
+
+    left = MAX(0, menushadowleft - 3);
+    right = MIN(SCREENWIDTH - 1, menushadowright + 3);
+    top = MAX(0, menushadowtop - 3);
+    bottom = MIN(SCREENHEIGHT - 1, menushadowbottom + 3);
+
+    for (int y = top; y <= bottom; y++)
+        for (int x = left; x <= right; x++)
+        {
+            int sum = 0;
+
+            for (int k = -3; k <= 3; k++)
+                if (x + k >= 0 && x + k < SCREENWIDTH)
+                    sum += kernel[k + 3] * menushadowmask[y * SCREENWIDTH + x + k];
+
+            menushadowblur[y * SCREENWIDTH + x] = (sum + 8) / 16;
+        }
+
+    for (int y = top; y <= bottom; y++)
+        for (int x = left; x <= right; x++)
+            if (!menuelementmask[y * SCREENWIDTH + x])
+            {
+                int sum = 0;
+                int darkness;
+                int shade;
+
+                for (int k = -3; k <= 3; k++)
+                    if (y + k >= top && y + k <= bottom)
+                        sum += kernel[k + 3] * menushadowblur[(y + k) * SCREENWIDTH + x];
+
+                darkness = (sum * 20 + 127) / 255;
+                shade = (darkness >> 4) + ((darkness & 15) > dither[(x & 31) | ((y & 31) << 5)]);
+
+                if (shade)
+                {
+                    byte    *dest = &screens[0][y * SCREENWIDTH + x];
+
+                    *dest = colormaps[0][shade * 256 + *dest];
+                }
+            }
+}
+
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
@@ -1558,15 +1649,23 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                     byte        *dest = &screens[0][currenty * SCREENWIDTH + currentx];
 
                     *dest = V_GetMenuHighlightColor(dot, highlight);
+
+                    if (drawingmenuelements)
+                        menuelementmask[currenty * SCREENWIDTH + currentx] = true;
                 }
 
                 if (menushadow && i <= shadowwidth && currenty + 2 >= 0 && currenty + 2 < SCREENHEIGHT
-                    && currentx + 2 < SCREENWIDTH)
+                    && currentx + 2 >= 0 && currentx + 2 < SCREENWIDTH)
                 {
-                    byte    *dot = &screens[0][(currenty + 2) * SCREENWIDTH + currentx + 2];
+                    if (drawingmenuelements)
+                        V_AddMenuShadow(currentx + 2, currenty + 2);
+                    else
+                    {
+                        byte    *dot = &screens[0][(currenty + 2) * SCREENWIDTH + currentx + 2];
 
-                    if (*dot != BROWN1 && *dot != BROWN2)
-                        *dot = black40[*dot];
+                        if (*dot != BROWN1 && *dot != BROWN2)
+                            *dot = black40[*dot];
+                    }
                 }
 
                 currenty++;
@@ -1580,6 +1679,12 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
 
 void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
+    if (drawingmenuelements)
+    {
+        V_DrawMenuPatch(x, y, patch, highlight, shadowwidth);
+        return;
+    }
+
     byte        *desttop;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
     int         startx = x;
@@ -2580,10 +2685,23 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     byte    *dot;
 
                     *dest = src;
-                    dot = dest + 2 * (size_t)SCREENWIDTH + 2;
 
-                    if (*dot != BROWN1 && *dot != BROWN2)
-                        *dot = black40[*dot];
+                    if (drawingmenuelements)
+                    {
+                        const int   offset = (int)(dest - screens[0]);
+
+                        menuelementmask[offset] = true;
+
+                        if (menushadow)
+                            V_AddMenuShadow(offset % SCREENWIDTH + 2, offset / SCREENWIDTH + 2);
+                    }
+                    else
+                    {
+                        dot = dest + 2 * (size_t)SCREENWIDTH + 2;
+
+                        if (*dot != BROWN1 && *dot != BROWN2)
+                            *dot = black40[*dot];
+                    }
                 }
 
                 dest += SCREENWIDTH;
@@ -2636,6 +2754,32 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
 void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 {
+    if (drawingmenuelements)
+    {
+        const int   screenx = (x + WIDESCREENDELTA) * 2;
+        const int   screeny = y * 2;
+
+        for (int yy = screeny; yy < screeny + 2; yy++)
+            for (int xx = screenx; xx < screenx + 2; xx++)
+                if (xx >= 0 && xx < SCREENWIDTH && yy >= 0 && yy < SCREENHEIGHT)
+                {
+                    if (color == PINK1)
+                    {
+                        if (shadow && menushadow)
+                            V_AddMenuShadow(xx, yy);
+                    }
+                    else if (color && color != 32)
+                    {
+                        const int   offset = yy * SCREENWIDTH + xx;
+
+                        screens[0][offset] = V_GetMenuHighlightColor(color, highlight);
+                        menuelementmask[offset] = true;
+                    }
+                }
+
+        return;
+    }
+
     if (color == PINK1)
     {
         if (shadow && menushadow)

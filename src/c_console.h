@@ -266,6 +266,7 @@ extern const kern_t     kern[];
 extern const kern_t     altkern[];
 
 bool C_Autocomplete(char *input, const size_t size, int *caret, const bool reverse);
+void C_BuildDither(byte *map);
 void C_CreateTimeStamp(const int index);
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);

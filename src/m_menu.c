@@ -5772,10 +5772,13 @@ void M_Drawer(void)
     if (messagetoprint)
     {
         M_DrawMenuBackground();
+        V_BeginMenuElements();
         M_DrawMessage(M_MessageTopY());
 
         if (quitmessagebuttons)
             M_DrawQuitMessageButtons();
+
+        V_EndMenuElements();
 
         if (menuitemfadecount > 0 && smoothtransitions)
             M_DrawMenuElementFade();
@@ -5796,8 +5799,7 @@ void M_Drawer(void)
         return;
     }
 
-    if (DBIGFONT)
-        memset(tempscreen, PINK1, MAXSCREENAREA);
+    V_BeginMenuElements();
 
     if (currentmenu->routine)
         currentmenu->routine();         // call draw routine
@@ -6080,19 +6082,12 @@ void M_Drawer(void)
                 V_SetMenuHighlightFade(100);
             }
 
-            if (DBIGFONT)
-            {
-                for (int i = 0; i < MAXSCREENAREA; i++)
-                    if (tempscreen[i] == PINK2)
-                        screens[0][i] = black40[screens[0][i]];
-                    else if (tempscreen[i] != PINK1)
-                        screens[0][i] = tempscreen[i];
-            }
-
             for (int i = 0; i < max; i++)
                 currentmenu->menuitems[i].width = widest;
         }
     }
+
+    V_EndMenuElements();
 
     if (menuitemfadecount > 0 && smoothtransitions)
         M_DrawMenuElementFade();

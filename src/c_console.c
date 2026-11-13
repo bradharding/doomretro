@@ -2207,7 +2207,7 @@ static void C_SampleBlur(const float *blurrgb, float fx, float fy, const int max
     }
 }
 
-static void C_BuildDither(byte *map)
+void C_BuildDither(byte *map)
 {
     float           energy[1024];
     float           kernel[1024];
