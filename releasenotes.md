@@ -4,14 +4,16 @@
 
 * *DOOM Retro* is now distributed as a statically linked executable, and is therefore no longer accompanied by any DLLs.
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Improvements have been made to the menu’s background.
+* When clicking the mouse or pressing <kbd><b>ENTER</b></kbd> on a menu item, that item now presses down slightly. This can be disabled using the new `menupress` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the console:
   * The corrugated glass effect of the console’s background has been replaced by a dithered, Gaussian blur.
   * A liquid glass effect is also applied when the `smoothtransitions` CVAR is `on`.
   * Headers, dividers and the scroll bar have been redesigned.
-  * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, or dragging the scroll bar using the mouse, is now smooth.
-  * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
+  * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, or dragging the scroll bar using the mouse, is now smooth when the `smoothtransitions` CVAR is `on`.
+  * When opening the console using the <kbd><b>~</b></kbd> key while playing a game, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
   * Several changes have been made to text that is output to the console.
-  * Improvements have been made to wrapping and truncating text in the console.
+  * Improvements have been made to wrapping and truncating text, and the display of nested pairs of quotes.
   * Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key is now more context-aware.
   * These additional keyboard shortcuts are now available in the console:
     * <kbd><b>CTRL</b></kbd> + <kbd><b>&larr;</b></kbd>/<kbd><b>&rarr;</b></kbd> moves the caret to the previous/next word.
@@ -167,6 +169,8 @@
 * A bug is fixed whereby the effects of changing the `am_forcepalette` CVAR in the console wouldn’t be immediate unless the automap was open.
 * When the `r_brightmaps` CVAR is `on`, brightmaps are no longer applied to textures, flats or sprites that have been replaced in a PWAD, unless that PWAD has defined the brightmaps itself in a `BRGHTMPS` lump.
 * An arch-vile’s fire can no longer appear on a different target than the one that was damaged and thrown by its attack, if the arch-vile’s target changed after it began the attack.
+* The `animatedstats` CVAR has been renamed `animatednumbers`.
+* Your health, armor and ammo in the status bar and widescreen heads-up display can be colored dynamically, a feature from the original [*BOOM*](https://doomwiki.org/wiki/Boom) source port, by enabling the new `colorednumbers` CVAR, which is `off` by default and when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
