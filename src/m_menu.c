@@ -121,6 +121,10 @@ static bool     menuitemactivatedonrelease;
 static menu_t   *pressedmenu;
 static int      pressedmenuitem = -1;
 static bool     pressedmenuiteminside;
+static menu_t   *pressedslider;
+static int      pressedslideritem;
+static int      sliderinput;
+static int      slidercontrol;
 static int      pressinput;
 static int      presscontrol;
 static int      presskey;
@@ -235,7 +239,7 @@ static void M_UpdateGameMissionFromExpansion(void);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_BuildMessageButtonPrompt(void);
 static void M_DrawSlider(int x, int y, int width, int shadowwidth,
-    float dot, float factor, int offset, bool highlight);
+    float dot, float factor, int offset, bool highlight, int pressed);
 static void M_WriteText(int x, int y, const char *string,
     bool highlight, bool shadow, unsigned char prevletter);
 static void M_WriteMenuButtonText(int x, int y, const char *string, bool highlight, bool shadow);
@@ -247,9 +251,18 @@ static void M_ResetMessageButtonHighlightFade(void);
 static void M_StartMessageButtonHighlightFade(int oldhover);
 static int M_GetMessageButtonHighlightFade(int index);
 
+static bool M_SliderControllerHeld(void)
+{
+    return (slidercontrol == KEY_LEFTARROW ? (controllerbuttons & CONTROLLER_DPAD_LEFT)
+        || controllerthumbLX < -CONTROLLER_THUMB_THRESHOLD || controllerthumbRX < -CONTROLLER_THUMB_THRESHOLD :
+        (controllerbuttons & CONTROLLER_DPAD_RIGHT) || controllerthumbLX > CONTROLLER_THUMB_THRESHOLD
+        || controllerthumbRX > CONTROLLER_THUMB_THRESHOLD);
+}
+
 static int M_MenuItemPressOffset(const menu_t *menu, int index)
 {
-    return (menupress && windowfocused && pressedmenu == menu && pressedmenuitem == index && pressedmenuiteminside);
+    return (menupress && windowfocused && ((pressedmenu == menu && pressedmenuitem == index && pressedmenuiteminside)
+        || (pressedslider == menu && M_IsHighlightedMenuItem(menu, index, pressedslideritem))));
 }
 
 //
@@ -1929,7 +1942,7 @@ static void M_DrawSound(void)
     fade = M_GetMenuItemHighlightFade(&SoundDef, sfx_vol);
     V_SetMenuHighlightFade(fade);
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx,
-        16, 15, dot, 4.0f, 6, (fade > 0));
+        16, 15, dot, 4.0f, 6, (fade > 0), M_MenuItemPressOffset(&SoundDef, sfx_vol));
 
     dot = (float)(musicvolume * !nomusic);
     SoundMenu[sound_empty2].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
@@ -1937,7 +1950,7 @@ static void M_DrawSound(void)
     fade = M_GetMenuItemHighlightFade(&SoundDef, music_vol);
     V_SetMenuHighlightFade(fade);
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx,
-        16, 15, dot, 4.0f, 6, (fade > 0));
+        16, 15, dot, 4.0f, 6, (fade > 0), M_MenuItemPressOffset(&SoundDef, music_vol));
 
     V_SetMenuHighlightFade(100);
 }
@@ -2563,7 +2576,7 @@ static void M_DrawOptions(void)
     fade = M_GetMenuItemHighlightFade(&OptionsDef, scrnsize);
     V_SetMenuHighlightFade(fade);
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
-        9, 15, dot, 6.54f, 8, (fade > 0));
+        9, 15, dot, 6.54f, 8, (fade > 0), M_MenuItemPressOffset(&OptionsDef, scrnsize));
 
     if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
@@ -2574,7 +2587,7 @@ static void M_DrawOptions(void)
         fade = M_GetMenuItemHighlightFade(&OptionsDef, mousesens);
         V_SetMenuHighlightFade(fade);
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
-            9, 15, dot, 8.0f, 8, (fade > 0));
+            9, 15, dot, 8.0f, 8, (fade > 0), M_MenuItemPressOffset(&OptionsDef, mousesens));
     }
     else
     {
@@ -2585,7 +2598,7 @@ static void M_DrawOptions(void)
         fade = M_GetMenuItemHighlightFade(&OptionsDef, mousesens);
         V_SetMenuHighlightFade(fade);
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
-            9, 15, dot, 8.0f, 8, (fade > 0));
+            9, 15, dot, 8.0f, 8, (fade > 0), M_MenuItemPressOffset(&OptionsDef, mousesens));
     }
 
     V_SetMenuHighlightFade(100);
@@ -3086,7 +3099,8 @@ static void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-static void M_DrawSlider(int x, int y, int width, int shadowwidth, float dot, float factor, int offset, bool highlight)
+static void M_DrawSlider(int x, int y, int width, int shadowwidth, float dot, float factor, int offset,
+    bool highlight, int pressed)
 {
     int xx = x;
 
@@ -3096,17 +3110,19 @@ static void M_DrawSlider(int x, int y, int width, int shadowwidth, float dot, fl
         y -= 2;
     }
 
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"), highlight);
+    menudrawoffset = pressed;
+    M_DrawMenuItemPatch(xx, y, W_CacheLumpName("M_THERML"), highlight, !pressed);
     xx += 8;
 
     for (int i = 0; i < width; i++)
     {
-        V_DrawMenuPatch(xx, y, W_CacheLumpName("M_THERMM"), highlight, shadowwidth);
+        V_DrawMenuPatch(xx, y, W_CacheLumpName("M_THERMM"), highlight, (pressed ? -1 : shadowwidth));
         xx += 8;
     }
 
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"), highlight);
-    V_DrawMenuPatch(x + offset + (int)(dot * factor), y, W_CacheLumpName("M_THERMO"), highlight, 0);
+    M_DrawMenuItemPatch(xx, y, W_CacheLumpName("M_THERMR"), highlight, !pressed);
+    V_DrawMenuPatch(x + offset + (int)(dot * factor), y, W_CacheLumpName("M_THERMO"), highlight, (pressed ? -1 : 0));
+    menudrawoffset = 0;
 }
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)
@@ -3663,6 +3679,9 @@ static void M_OpenConsole(bool nomouserestore)
 
 void M_CancelMenuInputPress(bool controlleronly)
 {
+    if (!controlleronly || sliderinput == ev_controller)
+        pressedslider = NULL;
+
     if (!pressinput || (controlleronly && pressinput != ev_controller))
         return;
 
@@ -3686,6 +3705,20 @@ bool M_Responder(event_t *ev)
     static uint64_t keywait;
 
     menuitemactivatedonrelease = false;
+
+    if (pressedslider)
+    {
+        const bool released = ((sliderinput == ev_mouse && ev->type == ev_mouse && !(ev->data1 & MOUSE_LEFTBUTTON))
+            || (sliderinput == ev_keydown && ev->type == ev_keyup && ev->data1 == slidercontrol)
+            || (sliderinput == ev_controller && ev->type == ev_controller && !M_SliderControllerHeld()));
+
+        if (!menupress || !windowfocused || !menuactive || messagetoprint || consoleactive
+            || currentmenu != pressedslider || released
+            || (sliderinput == ev_keydown && ev->type == ev_keydown && ev->data1 != slidercontrol)
+            || (sliderinput != ev_mouse && ev->type == ev_mousewheel)
+            || (sliderinput != ev_mouse && !M_IsHighlightedMenuItem(currentmenu, itemon, pressedslideritem)))
+            pressedslider = NULL;
+    }
 
     if (pressinput)
     {
@@ -3998,6 +4031,23 @@ bool M_Responder(event_t *ev)
 
         leftbuttondown = leftbutton;
         newmenupress = newleftbuttonpress;
+
+        if (menupress && newleftbuttonpress && m_pointer && menuactive && !messagetoprint
+            && !consoleactive && (currentmenu == &OptionsDef || currentmenu == &SoundDef))
+            for (int i = 0; i < currentmenu->numitems; i++)
+            {
+                const menuitem_t *menuitem = &currentmenu->menuitems[i];
+
+                if (menuitem->status == -1 && i > 0 && currentmenu->menuitems[i - 1].status == 2
+                    && ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                    && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                {
+                    pressedslider = currentmenu;
+                    pressedslideritem = i - 1;
+                    sliderinput = ev_mouse;
+                    break;
+                }
+            }
 
         if (pressedmenu)
         {
@@ -4508,6 +4558,22 @@ bool M_Responder(event_t *ev)
         }
 
         return false;
+    }
+
+    if (menupress && menuactive && !messagetoprint && !consoleactive && !savestringenter
+        && (ev->type == ev_keydown || ev->type == ev_controller)
+        && (key == KEY_LEFTARROW || key == KEY_RIGHTARROW)
+        && (currentmenu == &OptionsDef || currentmenu == &SoundDef))
+    {
+        const int slider = (currentmenu->menuitems[itemon].status == -1 ? itemon - 1 : itemon);
+
+        if (slider >= 0 && currentmenu->menuitems[slider].status == 2)
+        {
+            pressedslider = currentmenu;
+            pressedslideritem = slider;
+            sliderinput = ev->type;
+            slidercontrol = key;
+        }
     }
 
     if (menupress && ev->type == ev_mouse && newmenupress && m_pointer && menuactive && !messagetoprint
@@ -5669,6 +5735,10 @@ void M_Drawer(void)
     if (!windowfocused || !menuactive || messagetoprint || consoleactive)
         pressedmenu = NULL;
 
+    if (!menupress || !windowfocused || !menuactive || messagetoprint || consoleactive
+        || currentmenu != pressedslider || (sliderinput == ev_controller && !M_SliderControllerHeld()))
+        pressedslider = NULL;
+
     if (!windowfocused || !messagetoprint || !quitmessagebuttons || consoleactive)
         pressedmessagebutton = -1;
 
@@ -6082,6 +6152,7 @@ void M_CloseMenu(void)
 {
     menucloseheld = false;
     pressedmenu = NULL;
+    pressedslider = NULL;
 
     if (!menuactive)
         return;
@@ -6137,6 +6208,7 @@ void M_CloseMenu(void)
 static void M_SetupNextMenu(menu_t *menudef)
 {
     pressedmenu = NULL;
+    pressedslider = NULL;
     M_StartMenuElementFade();
     currentmenu = menudef;
     itemon = currentmenu->laston;
