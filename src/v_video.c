@@ -125,7 +125,7 @@ void V_InitColorTranslation(void)
 
     for (int i = 0; i < 256; i++)
     {
-        const int   brightness = MAX(PLAYPAL[i * 3], MAX(PLAYPAL[i * 3 + 1], PLAYPAL[i * 3 + 2]));
+        const int   bright = MAX(PLAYPAL[i * 3], MAX(PLAYPAL[i * 3 + 1], PLAYPAL[i * 3 + 2]));
         int         red = RED1;
         int         difference = INT_MAX;
 
@@ -134,7 +134,7 @@ void V_InitColorTranslation(void)
 
         for (int j = RED1; j < RED1 + 16; j++)
         {
-            const int   diff = ABS(brightness - palette[j * 3]);
+            const int   diff = ABS(bright - palette[j * 3]);
 
             if (diff < difference)
             {
