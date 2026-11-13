@@ -445,6 +445,8 @@ void D_Display(void)
     if (vid_capfps != TICRATE && (realframe = (gametime > saved_gametime)))
         saved_gametime = gametime;
 
+    I_CompletePillarboxTransition();
+
     // change the view size if needed
     if (setsizeneeded)
     {
@@ -452,8 +454,6 @@ void D_Display(void)
         R_ExecuteSetViewSize();
         oldgamestate = GS_NONE; // force background redraw
     }
-
-    I_CompletePillarboxTransition();
 
     if (drawdisk)
         HU_DrawDisk();
