@@ -70,6 +70,7 @@ static int          menuhighlightfade = 100;
 
 static bool         bighudnumbershadow;
 static bool         bighudnumbergray;
+static bool         numbergrayisshadow;
 static const byte   *hudnumbertranslation;
 
 byte V_GetMenuHighlightColor(byte color, bool highlight);
@@ -77,6 +78,7 @@ byte V_GetMenuHighlightColor(byte color, bool highlight);
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[10];
+byte    statstranslation[3][256];
 byte    cr_gold[256];
 byte    cr_none[256];
 
@@ -102,6 +104,14 @@ static colortranslation_t colortranslations[] =
 
 void V_InitColorTranslation(void)
 {
+    const byte  *palette = W_CacheLumpNameFromResourceWAD("PLAYPAL");
+    const byte  *green = W_CacheLumpNameFromResourceWAD("CRGREEN");
+    const byte  *blue = W_CacheLumpNameFromResourceWAD("CRBLUE");
+
+    numbergrayisshadow = (PLAYPAL[DARKGRAY3 * 3] == PLAYPAL[DARKGRAY3 * 3 + 1]
+        && PLAYPAL[DARKGRAY3 * 3] == PLAYPAL[DARKGRAY3 * 3 + 2]
+        && PLAYPAL[DARKGRAY3 * 3] <= palette[DARKGRAY1 * 3]);
+
     for (colortranslation_t *p = colortranslations; *p->name; p++)
     {
         const byte  *translation = W_CacheLumpNameFromResourceWAD(p->name);
@@ -115,8 +125,27 @@ void V_InitColorTranslation(void)
 
     for (int i = 0; i < 256; i++)
     {
+        const int   brightness = MAX(PLAYPAL[i * 3], MAX(PLAYPAL[i * 3 + 1], PLAYPAL[i * 3 + 2]));
+        int         red = RED1;
+        int         difference = INT_MAX;
+
         cr_gold[i] = I_GoldTranslation(PLAYPAL, (byte)i);
         cr_none[i] = i;
+
+        for (int j = RED1; j < RED1 + 16; j++)
+        {
+            const int   diff = ABS(brightness - palette[j * 3]);
+
+            if (diff < difference)
+            {
+                difference = diff;
+                red = j;
+            }
+        }
+
+        statstranslation[0][i] = nearestcolors[red];
+        statstranslation[1][i] = nearestcolors[green[red]];
+        statstranslation[2][i] = nearestcolors[blue[red]];
     }
 }
 
@@ -541,6 +570,11 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
     }
 }
 
+static bool V_IsNumberShadow(const byte dot, const byte *translation)
+{
+    return (dot == DARKGRAY3 && (!translation || numbergrayisshadow));
+}
+
 void V_DrawTranslatedPatch(int x, int y, int screen, patch_t *patch, const byte *translation)
 {
     int         col = 0;
@@ -584,7 +618,7 @@ void V_DrawTranslatedPatch(int x, int y, int screen, patch_t *patch, const byte 
                 {
                     const byte  dot = source[srccol >> FRACBITS];
 
-                    *dest = (dot == DARKGRAY3 ? dot : translation[dot]);
+                    *dest = (V_IsNumberShadow(dot, translation) ? dot : translation[dot]);
                     dest += SCREENWIDTH;
                     srccol += DYI;
                 }
@@ -1742,7 +1776,7 @@ void V_SetHUDNumberTranslation(const byte *translation)
 
 static byte V_TranslateHUDNumberDot(const byte dot)
 {
-    return (hudnumbertranslation && dot != DARKGRAY3 ? hudnumbertranslation[dot] : dot);
+    return (hudnumbertranslation && !V_IsNumberShadow(dot, hudnumbertranslation) ? hudnumbertranslation[dot] : dot);
 }
 
 static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool translucent,
@@ -1781,18 +1815,19 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
 
                 for (int row = cliptop; row < clipbottom; row++)
                 {
-                    const byte  dot = (number ? V_TranslateHUDNumberDot(source[srccol >> FRACBITS]) :
-                                    source[srccol >> FRACBITS]);
+                    const byte  original = source[srccol >> FRACBITS];
+                    const byte  dot = (number ? V_TranslateHUDNumberDot(original) : original);
+                    const bool  numbershadow = (number && V_IsNumberShadow(original, hudnumbertranslation));
 
                     if (shadow && row + 2 < SCREENHEIGHT && screenx + 2 < SCREENWIDTH)
                         *(dest + 2 * SCREENWIDTH + 2) = tinttab33[*(dest + 2 * SCREENWIDTH + 2)];
 
                     if (translucent)
-                        *dest = (number && dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) :
+                        *dest = (numbershadow ? (bighudnumbergray ? dot : tinttab33[*dest]) :
                             (highlight ? white5[dot] : (tinttab ? tinttab[(dot << 8) + *dest] :
                             tinttab75[(dot << 8) + *dest])));
                     else
-                        *dest = (highlight && dot != DARKGRAY3 ? white5[dot] : dot);
+                        *dest = (highlight && (number ? !numbershadow : dot != DARKGRAY3) ? white5[dot] : dot);
 
                     dest += SCREENWIDTH;
                     srccol += DYI;
@@ -1883,7 +1918,7 @@ void V_DrawHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
-                *dest = (dot == DARKGRAY3 ? dot : white5[V_TranslateHUDNumberDot(dot)]);
+                *dest = (V_IsNumberShadow(dot, hudnumbertranslation) ? dot : white5[V_TranslateHUDNumberDot(dot)]);
                 dest += SCREENWIDTH;
             }
 
@@ -1916,7 +1951,7 @@ void V_DrawTranslucentHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patc
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
-                *dest = (dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) :
+                *dest = (V_IsNumberShadow(dot, hudnumbertranslation) ? (bighudnumbergray ? dot : tinttab33[*dest]) :
                     white5[V_TranslateHUDNumberDot(dot)]);
                 dest += SCREENWIDTH;
             }
@@ -1980,7 +2015,7 @@ void V_DrawTranslucentSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
-                *dest = (dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) :
+                *dest = (V_IsNumberShadow(dot, hudnumbertranslation) ? (bighudnumbergray ? dot : tinttab33[*dest]) :
                     tinttab[(V_TranslateHUDNumberDot(dot) << 8) + *dest]);
                 dest += SCREENWIDTH;
             }

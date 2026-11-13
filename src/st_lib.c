@@ -177,9 +177,11 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 
     if (viewplayer->negativehealth < 0 && negativehealth && minuspatch)
     {
-        int offset = 0;
+        int         offset = 0;
+        const byte  *cr;
 
         num = BETWEEN(-99, viewplayer->negativehealth + healthdiff, 999);
+        cr = HU_HealthDigitsTranslation(num);
 
         if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             offset++;
@@ -188,18 +190,18 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 
         while (num)
         {
-            V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
+            V_DrawTranslatedPatch((x -= width), y, 0, n->p[num % 10], cr);
 
             if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                 x++;
         }
 
-        V_DrawPatch(x + offset - minuspatchwidth, y - minuspatchtopoffset1, 0, minuspatch);
+        V_DrawTranslatedPatch(x + offset - minuspatchwidth, y - minuspatchtopoffset1, 0, minuspatch, cr);
         return;
     }
 
     if (!(num = BETWEEN(0, *n->num + healthdiff, 999)))
-        V_DrawPatch(x - width, y, 0, n->p[0]);
+        V_DrawTranslatedPatch(x - width, y, 0, n->p[0], HU_HealthDigitsTranslation(num));
     else
     {
         const byte  *cr = HU_HealthDigitsTranslation(num);

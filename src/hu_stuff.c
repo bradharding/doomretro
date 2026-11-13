@@ -855,13 +855,13 @@ int         healthdiff = 0;
 static const byte *HU_DigitsTranslation(const int percent)
 {
     if (percent < 25)
-        return NULL;
+        return statstranslation[0];
     else if (percent < 50)
         return cr_gold;
     else if (percent <= 100)
-        return colortranslation[2];
+        return statstranslation[1];
 
-    return colortranslation[3];
+    return statstranslation[2];
 }
 
 const byte *HU_HealthDigitsTranslation(const int health)
@@ -882,7 +882,7 @@ const byte *HU_AmmoDigitsTranslation(const int ammo, const ammotype_t ammotype)
         return NULL;
 
     if (ammo >= max)
-        return colortranslation[3];
+        return statstranslation[2];
 
     return HU_DigitsTranslation(MAX(0, ammo) * 100 / max);
 }
