@@ -262,7 +262,7 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
 
 void STlib_UpdateBigArmor(st_percent_t *per, bool refresh)
 {
-    if (refresh || coloredstats)
+    if (refresh || colorednumbers)
         V_DrawTranslatedPatch(per->n.x, per->n.y, 0, per->p,
             HU_ArmorDigitsTranslation(*per->n.num + armordiff));
 
@@ -271,7 +271,7 @@ void STlib_UpdateBigArmor(st_percent_t *per, bool refresh)
 
 void STlib_UpdateBigHealth(st_percent_t *per, bool refresh)
 {
-    if (refresh || coloredstats)
+    if (refresh || colorednumbers)
         V_DrawTranslatedPatch(per->n.x, per->n.y, 0, per->p,
             HU_HealthDigitsTranslation(*per->n.num + healthdiff));
 

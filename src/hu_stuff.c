@@ -866,19 +866,19 @@ static const byte *HU_DigitsTranslation(const int percent)
 
 const byte *HU_HealthDigitsTranslation(const int health)
 {
-    return (coloredstats && !vanilla ? HU_DigitsTranslation(health) : NULL);
+    return (colorednumbers && !vanilla ? HU_DigitsTranslation(health) : NULL);
 }
 
 const byte *HU_ArmorDigitsTranslation(const int armor)
 {
-    return (coloredstats && !vanilla ? HU_DigitsTranslation(armor) : NULL);
+    return (colorednumbers && !vanilla ? HU_DigitsTranslation(armor) : NULL);
 }
 
 const byte *HU_AmmoDigitsTranslation(const int ammo, const ammotype_t ammotype)
 {
     const int   max = viewplayer->maxammo[ammotype] + maxammodiff[ammotype];
 
-    if (!coloredstats || vanilla || max <= 0)
+    if (!colorednumbers || vanilla || max <= 0)
         return NULL;
 
     if (ammo >= max)
