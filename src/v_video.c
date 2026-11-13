@@ -65,8 +65,8 @@ int                 lowpixelrows;
 
 int                 consoleoutputclipy = INT_MAX;
 
-int                 menudrawoffset;
 static int          menuhighlightfade = 100;
+static bool         menuitemflash;
 
 static bool         bighudnumbershadow;
 static bool         bighudnumbergray;
@@ -547,7 +547,7 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
         {
             const byte  *source = (byte *)column + 3;
             const byte  length = column->length;
-            const int   top = (((y + column->topdelta) * DY) >> FRACBITS) + menudrawoffset;
+            const int   top = ((y + column->topdelta) * DY) >> FRACBITS;
             const int   count = (length * DY) >> FRACBITS;
             const int   cliptop = MAX(0, top);
             const int   clipbottom = MIN(SCREENHEIGHT, top + count);
@@ -1526,7 +1526,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
     y -= LITTLESHORT(patch->topoffset);
 
-    top = ((y * DY) >> FRACBITS) + menudrawoffset;
+    top = (y * DY) >> FRACBITS;
     screenx = (x * DX) >> FRACBITS;
 
     for (int col = 0, i = 0; col < width; col += DXI, i++)
@@ -1587,7 +1587,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
     y -= LITTLESHORT(patch->topoffset);
 
-    desttop = &tempscreen[(((y * DY) >> FRACBITS) + menudrawoffset) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
     for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
     {
@@ -2640,8 +2640,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         if (shadow && menushadow)
         {
-            byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2)
-                            + menudrawoffset * SCREENWIDTH;
+            byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2);
 
             *dot = black40[*dot];
             dot++;
@@ -2654,8 +2653,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2)
-                        + menudrawoffset * SCREENWIDTH;
+        byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2);
 
         color = V_GetMenuHighlightColor(color, highlight);
 
@@ -2694,6 +2692,9 @@ byte V_GetMenuHighlightColor(byte color, bool highlight)
 
     const byte  *tinttab = tinttab4;
 
+    if (menuitemflash)
+        return white5[menuhighlight && highlight ? gold4[color] : color];
+
     if (!menuhighlight)
         return color;
     else if (!highlight || menuhighlightfade <= 0)
@@ -2714,6 +2715,12 @@ byte V_GetMenuHighlightColor(byte color, bool highlight)
 void V_SetMenuHighlightFade(int fade)
 {
     menuhighlightfade = BETWEEN(0, fade, 100);
+    menuitemflash = false;
+}
+
+void V_SetMenuItemFlash(bool flash)
+{
+    menuitemflash = flash;
 }
 
 static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,

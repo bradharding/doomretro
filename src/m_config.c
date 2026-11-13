@@ -145,7 +145,6 @@ float       m_sensitivity_vertical = m_sensitivity_vertical_default;
 bool        m_smoothing = m_smoothing_default;
 bool        melt = melt_default;
 bool        menuhighlight = menuhighlight_default;
-bool        menupress = menupress_default;
 bool        menushadow = menushadow_default;
 bool        menuspin = menuspin_default;
 bool        messages = messages_default;
@@ -435,7 +434,6 @@ static default_t cvars[] =
     CVAR_BOOL         (m_smoothing,                      m_smoothing,                           m_smoothing,                           BOOLVALUEALIAS         ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS         ),
     CVAR_BOOL         (menuhighlight,                    menuhighlight,                         menuhighlight,                         BOOLVALUEALIAS         ),
-    CVAR_BOOL         (menupress,                        menupress,                             menupress,                             BOOLVALUEALIAS         ),
     CVAR_BOOL         (menushadow,                       menushadow,                            menushadow,                            BOOLVALUEALIAS         ),
     CVAR_BOOL         (menuspin,                         menuspin,                              menuspin,                              BOOLVALUEALIAS         ),
     CVAR_BOOL         (messages,                         messages,                              messages,                              BOOLVALUEALIAS         ),

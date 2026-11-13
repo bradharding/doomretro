@@ -5,7 +5,7 @@
 * *DOOM Retro* is now distributed as a statically linked executable, and is therefore no longer accompanied by any DLLs.
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the menu’s background.
-* When clicking the mouse or pressing <kbd><b>ENTER</b></kbd> on a menu item, that item now presses down slightly. This can be disabled using the new `menupress` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* When clicking the mouse or pressing <kbd><b>ENTER</b></kbd> on a menu item, that item now highlights brighter if the existing`menuhighlight` CVAR is `on`.
 * These changes have been made to the console:
   * The corrugated glass effect of the console’s background has been replaced by a dithered, Gaussian blur.
   * A liquid glass effect is also applied when the `smoothtransitions` CVAR is `on`.

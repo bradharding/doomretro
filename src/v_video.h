@@ -58,7 +58,6 @@ extern int  lowpixelheight;
 extern int  lowpixelrows;
 
 extern int  consoleoutputclipy;
-extern int  menudrawoffset;
 
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
@@ -110,6 +109,7 @@ bool V_IsEmptyPatch(patch_t *patch);
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth);
 void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth);
 void V_SetMenuHighlightFade(int fade);
+void V_SetMenuItemFlash(bool flash);
 void V_SetMenuDrawOffset(int offset);
 void V_DrawHelpPatch(patch_t *patch);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);

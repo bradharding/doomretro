@@ -979,8 +979,6 @@ consolecmd_t consolecmds[] =
         "Toggles a melting effect when transitioning between some screens."),
     BOOLCVAR(menuhighlight, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the highlighting of items selected in the menu."),
-    BOOLCVAR(menupress, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles items pressing down when selected in the menu."),
     BOOLCVAR(menushadow, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shadows cast by items in the menu."),
     BOOLCVAR(menuspin, "", "", boolfunc1, boolfunc2, 0,
