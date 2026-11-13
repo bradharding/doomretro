@@ -2693,7 +2693,7 @@ byte V_GetMenuHighlightColor(byte color, bool highlight)
     const byte  *tinttab = tinttab4;
 
     if (menuitemflash)
-        return tinttab6[(nearestgold << 8) + (menuhighlight && highlight ? gold4[color] : color)];
+        return gold6[menuhighlight && highlight ? gold4[color] : color];
 
     if (!menuhighlight)
         return color;

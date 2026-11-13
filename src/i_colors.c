@@ -129,6 +129,7 @@ byte        *black25;
 byte        *black40;
 byte        *black75;
 byte        *gold4;
+byte        *gold6;
 byte        *white5;
 byte        *white25;
 byte        *white33;
@@ -219,6 +220,7 @@ void I_InitColors(byte *palette)
     black40 = &tinttab40[nearestblack << 8];
     black75 = &tinttab75[nearestblack << 8];
     gold4 = &tinttab4[nearestgold << 8];
+    gold6 = &tinttab6[nearestgold << 8];
     white5 = &tinttab5[nearestwhite << 8];
     white25 = &tinttab25[nearestwhite << 8];
     white33 = &tinttab33[nearestwhite << 8];
