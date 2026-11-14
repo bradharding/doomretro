@@ -766,7 +766,7 @@ void M_DrawMenuBackground(void)
                 noise = ((float)(noiseseed & 255) - 127.5f) * (10.0f / 127.5f);
 
                 gray += (255.0f - gray) * boost;
-                gray = fminf(fmaxf(gray * 0.6f + noise, 0.0f), 255.0f);
+                gray = fminf(fmaxf(gray * 0.75f + noise, 0.0f), 255.0f);
 
                 linergb[x * 3] = gray;
                 linergb[x * 3 + 1] = gray;
