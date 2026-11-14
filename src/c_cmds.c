@@ -735,7 +735,7 @@ consolecmd_t consolecmds[] =
     INTCVAR(am_display, "", "", intfunc1, am_displayfunc2, 0, 0,
         "The display used to show the external automap."),
     BOOLCVAR(am_dynamic, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles dynamically updating the automap while it is open."),
+        "Toggles dynamically updating the automap while it's open."),
     BOOLCVAR(am_external, "", "", boolfunc1, am_externalfunc2, 0,
         "Toggles showing the automap on an external display."),
     COLORCVAR(am_fdwallcolor, am_fdwallcolour,
@@ -777,7 +777,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(am_rotatemode, "", "", boolfunc1, am_rotatemodefunc2, 0,
         "Toggles rotating around you in the automap."),
     INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
-        "The color of secrets in the automap once they are found or when you cheat (" BOLD("none")
+        "The color of secrets in the automap once they're found or when you cheat (" BOLD("none")
         ", or " BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
@@ -806,7 +806,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(autoaim, "", "", boolfunc1, boolfunc2, 0,
         "Toggles vertical autoaiming as you fire your weapon while using freelook."),
     BOOLCVAR(autofire, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles automatically firing your weapon if there is a monster in front of you."),
+        "Toggles automatically firing your weapon if there's a monster in front of you."),
     BOOLCVAR(autoload, "", "", boolfunc1, boolfunc2, CF_PISTOLSTART,
         "Toggles automatically loading the last savegame when you die."),
     BOOLCVAR(autosave, "", "", boolfunc1, boolfunc2, 0,
@@ -928,7 +928,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(joy_invertyaxis, "", "", boolfunc1, boolfunc2, 0,
         "Toggles inverting the vertical axis of a controller's right thumbstick when you look up or down."),
     PERCENTCVAR(joy_rumble_barrels, "", "", intfunc1, intfunc2,
-        "The amount a controller rumbles when you are near an exploding barrel (" BOLD("0%") " to " BOLD("200%") ")."),
+        "The amount a controller rumbles when you're near an exploding barrel (" BOLD("0%") " to " BOLD("200%") ")."),
     PERCENTCVAR(joy_rumble_damage, "", "", intfunc1, intfunc2,
         "The amount a controller rumbles when you take damage (" BOLD("0%") " to " BOLD("200%") ")."),
     BOOLCVAR(joy_rumble_fall, "", "", boolfunc1, boolfunc2, 0,
@@ -974,7 +974,7 @@ consolecmd_t consolecmds[] =
     CCMD(mapstats, "", "", nullfunc1, mapstatsfunc2, false, "",
         "Shows stats about the current map."),
     TIMECVAR(maptime, "", "", nullfunc1, timefunc2,
-        "The amount of time you have been in the current map."),
+        "The amount of time you've been in the current map."),
     BOOLCVAR(melt, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a melting effect when transitioning between some screens."),
     BOOLCVAR(menuhighlight, "", "", boolfunc1, boolfunc2, 0,
@@ -1105,7 +1105,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_liquid_current, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a slight current being applied to liquid sectors."),
     BOOLCVAR(r_liquid_lowerview, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles lowering your view when you are in a liquid sector."),
+        "Toggles lowering your view when you're in a liquid sector."),
     BOOLCVAR(r_liquid_swirl, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the swirl of liquid sectors."),
     OTHERCVAR(r_lowpixelsize, "", "", nullfunc1, r_lowpixelsizefunc2,
@@ -1139,7 +1139,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_shadows_translucency, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the translucency of shadows cast by sprites."),
     BOOLCVAR(r_shake_barrels, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles shaking your view when you are near an exploding barrel."),
+        "Toggles shaking your view when you're near an exploding barrel."),
     BOOLCVAR(r_shake_berserk, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shaking your view when you have a berserk power-up and punch something."),
     BOOLCVAR(r_shake_damage, "", "", boolfunc1, boolfunc2, 0,
@@ -3773,7 +3773,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given everything.");
+                    C_PlayerMessage("You've been given everything.");
                 else
                     C_PlayerMessage("%s has been given everything.", playername);
 
@@ -3798,7 +3798,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given full health.");
+                    C_PlayerMessage("You've been given full health.");
                 else
                     C_PlayerMessage("%s has been given full health.", playername);
 
@@ -3823,7 +3823,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all your weapons.");
+                    C_PlayerMessage("You've been given all your weapons.");
                 else
                     C_PlayerMessage("%s has been given all %s weapons.",
                         playername, pronoun(possessivedeterminer));
@@ -3851,7 +3851,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given full ammo for all your weapons.");
+                    C_PlayerMessage("You've been given full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given full ammo for all %s weapons.",
                         playername, pronoun(possessivedeterminer));
@@ -3864,7 +3864,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given a backpack and full ammo for all your weapons.");
+                    C_PlayerMessage("You've been given a backpack and full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given a backpack and full ammo for all %s weapons.",
                         playername, pronoun(possessivedeterminer));
@@ -3892,7 +3892,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given full %s.",
+                    C_PlayerMessage("You've been given full %s.",
                         (english == english_american ? "armor" : "armour"));
                 else
                     C_PlayerMessage("%s has been given full %s.",
@@ -3921,7 +3921,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all the keycards and skull keys.");
+                    C_PlayerMessage("You've been given all the keycards and skull keys.");
                 else
                     C_PlayerMessage("%s has been given all the keycards and skull keys.", playername);
 
@@ -3946,7 +3946,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all the keycards.");
+                    C_PlayerMessage("You've been given all the keycards.");
                 else
                     C_PlayerMessage("%s has been given all the keycards.", playername);
 
@@ -3971,7 +3971,7 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all the skull keys.");
+                    C_PlayerMessage("You've been given all the skull keys.");
                 else
                     C_PlayerMessage("%s has been given all the skull keys.", playername);
 
@@ -4007,7 +4007,7 @@ static void givefunc2(char *cmd, char *parms)
             viewplayer->ammo[am_clip] = MAX(1, viewplayer->ammo[am_clip]);
 
             if (isdefaultplayername())
-                C_PlayerMessage("You have been given a pistol.");
+                C_PlayerMessage("You've been given a pistol.");
             else
                 C_PlayerMessage("%s has been given a pistol.", playername);
 
@@ -4027,7 +4027,7 @@ static void givefunc2(char *cmd, char *parms)
             if (result)
             {
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all the power-ups.");
+                    C_PlayerMessage("You've been given all the power-ups.");
                 else
                     C_PlayerMessage("%s has been given all the power-ups.", playername);
 
@@ -4087,7 +4087,7 @@ static void givefunc2(char *cmd, char *parms)
                         if (viewplayer->health <= 0)
                         {
                             if (isdefaultplayername())
-                                C_Warning(0, "You can't be given %s %s when you are dead!",
+                                C_Warning(0, "You can't be given %s %s when you're dead!",
                                     (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                             else
                                 C_Warning(0, "%s can't be given %s %s when %s %s dead!",
@@ -4099,14 +4099,14 @@ static void givefunc2(char *cmd, char *parms)
                             if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
                             {
                                 if (isdefaultplayername())
-                                    C_PlayerMessage("You have been given %s.", mobjinfo[i].name1);
+                                    C_PlayerMessage("You've been given %s.", mobjinfo[i].name1);
                                 else
                                     C_PlayerMessage("%s has been given %s.", playername, mobjinfo[i].name1);
                             }
                             else
                             {
                                 if (isdefaultplayername())
-                                    C_PlayerMessage("You have been given %s %s.",
+                                    C_PlayerMessage("You've been given %s %s.",
                                         (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                                 else
                                     C_PlayerMessage("%s has been given %s %s.",
@@ -7067,7 +7067,7 @@ static void namefunc2(char *cmd, char *parms)
         || M_StringCompare(namecmdold, "me"))
     {
         if (isdefaultplayername())
-            C_PlayerMessage("You have been named " BOLD("%s") ".", namecmdnew);
+            C_PlayerMessage("You've been named " BOLD("%s") ".", namecmdnew);
         else if (*namecmdnew)
             C_PlayerMessage("%s has been renamed " BOLD("%s") ".", playername, namecmdnew);
         else
@@ -9814,7 +9814,7 @@ static void resurrectfunc2(char *cmd, char *parms)
             P_ResurrectPlayer(initial_health);
 
             if (isdefaultplayername())
-                M_StringCopy(buffer, "You have been resurrected!", sizeof(buffer));
+                M_StringCopy(buffer, "You've been resurrected!", sizeof(buffer));
             else
                 M_snprintf(buffer, sizeof(buffer), "%s has been resurrected!", playername);
 
@@ -10422,7 +10422,7 @@ static void takefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You are already dead!");
+                    C_Warning(0, "You're already dead!");
                 else
                     C_Warning(0, "%s is already dead!", playername);
             }
@@ -10697,7 +10697,7 @@ static void teleportfunc2(char *cmd, char *parms)
             if (x == oldx && y == oldy)
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You are already there!");
+                    C_Warning(0, "You're already there!");
                 else
                     C_Warning(0, "%s is already there!", playername);
             }
@@ -11067,10 +11067,9 @@ static void vanillafunc2(char *cmd, char *parms)
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
 
         if (isdefaultplayername())
-            C_Warning(0, "Changes to any CVARs won't be saved while you are in vanilla mode!");
+            C_Warning(0, "Changes to any CVARs won't be saved while you're in vanilla mode!");
         else
-            C_Warning(0, "Changes to any CVARs won't be saved while %s is in vanilla mode!",
-                playername);
+            C_Warning(0, "Changes to any CVARs won't be saved while %s is in vanilla mode!", playername);
     }
     else
     {

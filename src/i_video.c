@@ -2179,7 +2179,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
 #if !defined (__APPLE__)
                 if (vid_vsync == vid_vsync_adaptive && M_StringStartsWith(vid_scaleapi, "opengl"))
                     if (SDL_GL_SetSwapInterval(-1) < 0)
-                        C_Warning(1, "Adaptive VSync is not supported.");
+                        C_Warning(1, "Adaptive VSync isn't supported.");
 #endif
 
                 if (refreshrate < vid_capfps || !vid_capfps)
