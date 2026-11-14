@@ -65,6 +65,7 @@ typedef struct
     const byte              *tint;
     const byte              *softtints[3];
     fixed_t                 top;
+    fixed_t                 floorz;
     fixed_t                 tz;
     fixed_t                 cliprow;
     fixed_t                 spread;

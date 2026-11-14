@@ -1088,6 +1088,7 @@ bool R_PrepareShadows(void)
 
         caster->columns = patch->columns;
         caster->top = vis->texturemid + viewz - vis->offground;
+        caster->floorz = vis->gz;
 
         if ((vis->mobj->flags2 & MF2_FLOATBOB) && r_floatbob)
             caster->top -= floatbobdiffs[((vis->mobj->floatbob + maptime) & 63)];
@@ -1227,11 +1228,12 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
     {
         const shadowcaster_t    *caster = &shadowcasters[i];
         const bool              clipped = (caster->clipped && caster->clipy > centery);
-        const fixed_t           basedepth = (clipped ? FixedDiv(FixedMul(planenum, viewz - planez),
+        const fixed_t           basedepth = (clipped ? FixedDiv(FixedMul(planenum, viewz - caster->floorz),
                                     (caster->clipy - centery) << FRACBITS) : caster->tz);
         const fixed_t           behind = depth - basedepth;
         const int64_t           up = ((int64_t)behind * SHADOWHEIGHTPERDEPTH) >> FRACBITS;
-        const int64_t           reach = (clipped ? caster->cliprow : (int64_t)caster->top - planez);
+        const int64_t           reach = (clipped ? (int64_t)caster->cliprow + caster->floorz - planez :
+                                    (int64_t)caster->top - planez);
         const float             halfwidth = caster->halfwidth;
         const float             origin = caster->center + (float)behind * caster->skew;
         const float             center = origin + caster->edgeshift;
