@@ -1523,6 +1523,21 @@ void W_ReleaseLumpNum(int lumpnum)
     Z_ChangeTag(lumpinfo[lumpnum]->cache, PU_CACHE);
 }
 
+bool W_NoExternalPWADsLoaded(void)
+{
+    for (int i = 0; i < numwads; i++)
+        if (wadlist[i]->type == PWAD && !D_IsResourceWAD(wadlist[i]->path))
+        {
+            char    *file = leafname(wadlist[i]->path);
+
+            if (!D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file)
+                && !D_IsSIGILSHREDSWAD(file) && !D_IsEXTRASWAD(file))
+                return false;
+        }
+
+    return true;
+}
+
 bool W_NoPWADsLoaded(void)
 {
     for (int i = 0; i < numwads; i++)

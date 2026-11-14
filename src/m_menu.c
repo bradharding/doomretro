@@ -79,11 +79,6 @@
 #define MENUELEMFADECOUNT           8
 #define MENUCLOSEHOLDTHRESHOLD    500
 
-static int M_SaveMenuSlotY(int slot)
-{
-    return (LoadDef.y + slot * LINEHEIGHT + OFFSET + (slot > AUTOSAVESLOT ? AUTOSAVEGAP : 0));
-}
-
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
 
@@ -191,6 +186,7 @@ static fixed_t  playerviewz;
 
 patch_t         *menuborder;
 static short    titleheight;
+static bool     useresourcetitle;
 
 int             *maptoepisode;
 
@@ -249,14 +245,6 @@ static int M_GetMenuItemHighlightFade(const menu_t *menu, int index);
 static void M_ResetMessageButtonHighlightFade(void);
 static void M_StartMessageButtonHighlightFade(int oldhover);
 static int M_GetMessageButtonHighlightFade(int index);
-
-static bool M_SliderControllerHeld(void)
-{
-    return (slidercontrol == KEY_LEFTARROW ? (controllerbuttons & CONTROLLER_DPAD_LEFT)
-        || controllerthumbLX < -CONTROLLER_THUMB_THRESHOLD || controllerthumbRX < -CONTROLLER_THUMB_THRESHOLD :
-        (controllerbuttons & CONTROLLER_DPAD_RIGHT) || controllerthumbLX > CONTROLLER_THUMB_THRESHOLD
-        || controllerthumbRX > CONTROLLER_THUMB_THRESHOLD);
-}
 
 //
 // DOOM MENU
@@ -575,6 +563,7 @@ static void M_ResetHighlightFade(void)
     previousitem = -1;
     previousmenu = NULL;
     menuhighlightfade = 100;
+
     V_SetMenuHighlightFade(100);
 }
 
@@ -720,6 +709,7 @@ static void M_StartMenuElementFade(void)
 
     memcpy(menuelemsnapshot, screens[0], SCREENAREA);
     memcpy(menubgsnapshot, menublurscreen, SCREENAREA);
+
     menuitemfadecount = MENUELEMFADECOUNT;
 }
 
@@ -760,13 +750,11 @@ void M_DrawMenuBackground(void)
                 float   gray = src[x * 3] * 0.2126f + src[x * 3 + 1] * 0.7152f + src[x * 3 + 2] * 0.0722f;
                 float   noise;
 
-                noiseseed ^= noiseseed << 13;
-                noiseseed ^= noiseseed >> 17;
-                noiseseed ^= noiseseed << 5;
+                noiseseed ^= (noiseseed << 13);
+                noiseseed ^= (noiseseed >> 17);
+                noiseseed ^= (noiseseed << 5);
                 noise = ((float)(noiseseed & 255) - 127.5f) * (10.0f / 127.5f);
-
-                gray += (255.0f - gray) * boost;
-                gray = fminf(fmaxf(gray * 0.75f + noise, 0.0f), 255.0f);
+                gray = fminf(fmaxf((gray + (255.0f - gray) * boost) * 0.75f + noise, 0.0f), 255.0f);
 
                 linergb[x * 3] = gray;
                 linergb[x * 3 + 1] = gray;
@@ -1125,6 +1113,7 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
     *ep = saveg_read8(file);
     *map = saveg_read8(file);
     mission = saveg_read8(file);
+
     fclose(file);
 
     // switch expansions if necessary
@@ -1138,7 +1127,9 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
             ExpDef.laston = ex1;
             expansion = 1;
             gamemission = doom2;
+
             M_SaveCVARs();
+
             return true;
         }
         else
@@ -1155,7 +1146,9 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
             ExpDef.laston = ex2;
             expansion = 2;
             gamemission = pack_nerve;
+
             M_SaveCVARs();
+
             return true;
         }
         else
@@ -1172,7 +1165,9 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
             ExpDef.laston = (nerve ? ex3 : ex2);
             expansion = (nerve ? 3 : 2);
             gamemission = pack_masterlevels;
+
             M_SaveCVARs();
+
             return true;
         }
         else
@@ -1205,6 +1200,11 @@ int M_CountSaveGames(void)
     }
 
     return count;
+}
+
+static int M_SaveMenuSlotY(int slot)
+{
+    return (LoadDef.y + slot * LINEHEIGHT + OFFSET + (slot > AUTOSAVESLOT ? AUTOSAVEGAP : 0));
 }
 
 //
@@ -1310,12 +1310,14 @@ static void M_LoadSelect(int choice)
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
         S_StartSound(NULL, sfx_pistol);
+
         functionkey = 0;
 
         if (choice != AUTOSAVESLOT)
             quicksaveslot = choice;
 
         savegameslot = choice;
+
         G_LoadGame(name);
     }
     else
@@ -1483,6 +1485,7 @@ static void M_DoSave(int slot)
 {
     M_CloseMenu();
     G_SaveGame(slot, savegamestrings[slot], "");
+
     functionkey = 0;
 
     if (slot != AUTOSAVESLOT)
@@ -2016,7 +2019,13 @@ static void M_DrawMainMenu(void)
 {
     M_DrawMenuBackground();
 
-    if (FREEDOOM || chex || hacx || harmony || REKKRSA || autosigil)
+    if (useresourcetitle)
+    {
+        patch_t *patch = W_CacheLumpNameFromResourceWAD("M_DOOM");
+
+        V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, SCREENWIDTH);
+    }
+    else if (FREEDOOM || chex || hacx || harmony || REKKRSA || autosigil)
     {
         M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"), false);
         MainDef.x = 97;
@@ -3664,6 +3673,14 @@ void M_CancelMenuInputPress(bool controlleronly)
         messagestring = quitmessagestring;
         quitmessagebuttons = false;
     }
+}
+
+static bool M_SliderControllerHeld(void)
+{
+    return (slidercontrol == KEY_LEFTARROW ? (controllerbuttons & CONTROLLER_DPAD_LEFT)
+        || controllerthumbLX < -CONTROLLER_THUMB_THRESHOLD || controllerthumbRX < -CONTROLLER_THUMB_THRESHOLD :
+        (controllerbuttons & CONTROLLER_DPAD_RIGHT) || controllerthumbLX > CONTROLLER_THUMB_THRESHOLD
+        || controllerthumbRX > CONTROLLER_THUMB_THRESHOLD);
 }
 
 bool M_Responder(event_t *ev)
@@ -6267,7 +6284,9 @@ void M_Init(void)
     quicksaveslot = -1;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
     menuborder = W_CacheLastLumpName("DRBORDER");
-    titleheight = LITTLESHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
+    useresourcetitle = W_NoExternalPWADsLoaded();
+    titleheight = LITTLESHORT(((patch_t *)(useresourcetitle ? W_CacheLumpNameFromResourceWAD("M_DOOM") :
+        W_CacheLumpName("M_DOOM")))->height);
 
     fontpatch = W_CacheLumpName("STCFN065");
     caretcolor = tinttab15[FindBrightDominantColor(fontpatch)];

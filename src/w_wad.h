@@ -161,6 +161,7 @@ void W_ReleaseLumpNum(int lumpnum);
 void W_CloseFiles(void);
 
 bool W_NoPWADsLoaded(void);
+bool W_NoExternalPWADsLoaded(void);
 
 gamemission_t IWADRequiredByPWAD(char *pwadname);
 bool HasDehackedLump(const char *pwadname);
