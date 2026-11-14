@@ -4566,7 +4566,7 @@ bool M_Responder(event_t *ev)
     {
         int button = -1;
 
-        if (messagetoprint && messagebuttonsactive)
+        if (messagetoprint && messagebuttonsactive && quitmessagebuttons)
         {
             for (int i = 0; i < quitmessagebuttoncount; i++)
                 if (key == quitmessagebuttonkey[i] || (key == KEY_ENTER && i == 0)
