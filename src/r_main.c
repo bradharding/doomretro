@@ -1454,7 +1454,7 @@ static void R_RockView(void)
 
         for (int y = 0; y < viewheight; y++)
         {
-            const fixed_t   srcy = centeryfrac + FixedMul((y - cy) * FRACUNIT, zoomedheightfrac) + yoffset;
+            const fixed_t   srcy = cy * FRACUNIT + FixedMul((y - cy) * FRACUNIT, zoomedheightfrac) + yoffset;
 
             dest[((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx + x] =
                 source[((size_t)viewwindowy + BETWEEN(0, (srcy >> FRACBITS), viewheight - 1)) * SCREENWIDTH
