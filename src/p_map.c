@@ -1286,7 +1286,6 @@ static bool P_ThingHeightClip(mobj_t *thing)
 
     const fixed_t   oldfloorz = thing->floorz;  // haleyjd
     const bool      onfloor = (thing->z == oldfloorz);
-    const int       flags2 = thing->flags2;
     const player_t  *player = thing->player;
 
     P_CheckPosition(thing, thing->x, thing->y);
@@ -1296,9 +1295,9 @@ static bool P_ThingHeightClip(mobj_t *thing)
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;   // killough 11/98: remember dropoffs
 
-    if ((flags2 & MF2_FEETARECLIPPED) && !player && r_liquid_bobsprites)
+    if ((thing->flags2 & MF2_FEETARECLIPPED) && !player && r_liquid_bobsprites)
         thing->z = tmfloorz;
-    else if (flags2 & MF2_FLOATBOB)
+    else if (thing->flags2 & MF2_FLOATBOB)
     {
         if (tmfloorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
             thing->z = thing->z - oldfloorz + tmfloorz;
@@ -1316,7 +1315,7 @@ static bool P_ThingHeightClip(mobj_t *thing)
             P_CalcHeight();
 
         // killough 11/98: Possibly upset balance of objects hanging off ledges
-        if ((flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)
+        if ((thing->flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)
             thing->gear = 0;
     }
     else
@@ -2174,19 +2173,15 @@ static bool nofit;
 //
 static void PIT_ChangeSector(mobj_t *thing)
 {
-    int         flags;
-    int         flags2;
     mobjtype_t  type;
 
     if (P_ThingHeightClip(thing))
         return; // keep checking
 
-    flags = thing->flags;
-    flags2 = thing->flags2;
     type = thing->type;
 
     // crunch bodies to giblets
-    if ((flags & MF_CORPSE) || (flags2 & MF2_CRUSHABLE))
+    if ((thing->flags & MF_CORPSE) || (thing->flags2 & MF2_CRUSHABLE))
     {
         if (thing->player)
         {
@@ -2194,7 +2189,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(flags & MF_NOBLOOD) && thing->bloodcolor > NOBLOOD)
+        if (!(thing->flags & MF_NOBLOOD) && thing->bloodcolor > NOBLOOD)
         {
             const int       radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
             const int       max = M_RandomInt(50, 100) + radius;
@@ -2222,7 +2217,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(flags2 & MF2_NOMIRROREDCORPSE)
+            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
                 && (type != MT_PAIN || !doom4vanilla))
                 thing->flags2 |= MF2_MIRRORED;
 
@@ -2239,7 +2234,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // crunch dropped items
-    if (flags & MF_DROPPED)
+    if (thing->flags & MF_DROPPED)
     {
         P_RemoveMobj(thing);
 
@@ -2248,23 +2243,23 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // killough 11/98: kill touchy things immediately
-    if ((flags & MF_TOUCHY) && ((flags2 & MF2_ARMED) || sentient(thing)))
+    if ((thing->flags & MF_TOUCHY) && ((thing->flags2 & MF2_ARMED) || sentient(thing)))
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true, false, false); // kill object
         return;
     }
 
-    if (!(flags & MF_SHOOTABLE))
+    if (!(thing->flags & MF_SHOOTABLE))
         return; // assume it is bloody gibs or something
 
     nofit = true;
 
     if (crushchange && !(maptime & 3))
     {
-        if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
+        if (!(thing->flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
             && (type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            bool        fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
+            bool        fuzz = ((thing->flags & MF_FUZZ) && r_blood == r_blood_all);
             const int   z = thing->z + thing->height * 2 / 3;
             int         color = REDBLOOD;
 

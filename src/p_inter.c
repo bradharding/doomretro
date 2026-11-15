@@ -2179,19 +2179,19 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 {
     player_t            *splayer = NULL;
     player_t            *tplayer;
-    const int           flags = target->flags;
-    const bool          corpse = (flags & MF_CORPSE);
+    const bool          corpse = (target->flags & MF_CORPSE);
+    const bool          skullfly = (target->flags & MF_SKULLFLY);
     const mobjtype_t    type = target->type;
     mobjinfo_t          *info = &mobjinfo[type];
     bool                justhit = false;
 
-    if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide || target->giblevel == 2))
+    if (!(target->flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide || target->giblevel == 2))
         return;
 
     if (type == MT_BARREL && corpse && target == inflicter)
         return;
 
-    if (flags & MF_SKULLFLY)
+    if (target->flags & MF_SKULLFLY)
     {
         target->momx = 0;
         target->momy = 0;
@@ -2220,7 +2220,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (massacre)
     {
         if (r_bloodsplats_max
-            && !(flags & MF_NOBLOOD) && type != MT_SKULL
+            && !(target->flags & MF_NOBLOOD) && type != MT_SKULL
             && target->bloodcolor > NOBLOOD)
         {
             const short lump = sprites[target->sprite].spriteframes[target->frame & FF_FRAMEMASK].lump[0];
@@ -2238,7 +2238,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             }
         }
     }
-    else if (inflicter && !healthcvar && !(flags & MF_NOCLIP)
+    else if (inflicter && !healthcvar && !(target->flags & MF_NOCLIP)
         && (!source || !splayer || !(weaponinfo[splayer->readyweapon].flags & WPF_NOTHRUST)))
     {
         angle_t ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
@@ -2262,7 +2262,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (corpse)
     {
         // [BH] gib corpse if enough damage
-        if (r_corpses_gib && damage >= 25 && !(flags & MF_NOBLOOD))
+        if (r_corpses_gib && damage >= 25 && !(target->flags & MF_NOBLOOD))
         {
             statenum_t  state = info->xdeathstate;
 
@@ -2411,7 +2411,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     }
     else if ((target->health -= damage) <= 0)   // do the damage
     {
-        if (!(flags & MF_FUZZ) && target->state && !target->state->dehacked
+        if (!(target->flags & MF_FUZZ) && target->state && !target->state->dehacked
             && (type == MT_BARREL || type == MT_SKULL || type == MT_PAIN))
             target->colfunc = tlredcolfunc;
 
@@ -2425,7 +2425,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         return;
     }
 
-    if (M_Random() < info->painchance && !(flags & MF_SKULLFLY) && (!tplayer || !(viewplayer->cheats & CF_GODMODE)))
+    if (M_Random() < info->painchance && !skullfly && (!tplayer || !(viewplayer->cheats & CF_GODMODE)))
     {
         justhit = true;
         P_SetMobjState(target, info->painstate);
@@ -2454,7 +2454,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     }
 
     // fight back!
-    if (justhit && (target->target == source || !target->target || !(flags & target->target->flags & MF_FRIEND)))
+    if (justhit && (target->target == source || !target->target || !(target->flags & target->target->flags & MF_FRIEND)))
         target->flags |= MF_JUSTHIT;
 }
 
