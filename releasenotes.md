@@ -79,6 +79,8 @@
   * Custom monsters now always bleed red blood unless `Blood color` is specified.
   * `Initial health`, `Max health` and `Max armor` are no longer capped.
   * Blood splats no longer use the wrong sprites when sprite 144 is renamed.
+  * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_CheckAmmo` codepointer now behave correctly if the `infiniteammo` CCMD is in use.
+  * The ammo count now lights up in the widescreen HUD when weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_ConsumeAmmo` codepointer are fired.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * Things now also rock slightly from side to side, as they bob up and down in liquid sectors, when the new `r_liquid_rocksprites` CVAR is `on`, which is `on` by default and `off` when vanilla mode is enabled. The player’s view will also rock slightly when they die in a liquid sector and this CVAR is `on`.
 * Sectors with animated flats containing the text “SEA” in their name are now treated as liquid sectors.
@@ -109,7 +111,6 @@
 * The `r_althud_ammobars` CVAR has been renamed `r_hud_ammobars`.
 * The `r_althudfont` CVAR has been renamed `r_hud_altfont`.
 * The ammo count no longer lights up in the widescreen HUD when the player fires their weapon if the `infiniteammo` CCMD is in use.
-* Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_CheckAmmo` codepointer now behave correctly if the `infiniteammo` CCMD is in use.
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Block comments are now parsed correctly.
