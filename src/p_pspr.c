@@ -1265,7 +1265,13 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // subtract ammo, but don't let it get below zero
     if (!infiniteammo)
-        player->ammo[type] = MAX(0, player->ammo[type] - ammo);
+    {
+        const int   value = MAX(0, player->ammo[type] - ammo);
+
+        P_AnimateAmmo(player->ammo[type] - value, type);
+        player->ammo[type] = value;
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    }
 }
 
 //
@@ -1280,7 +1286,7 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
     const ammotype_t    type = readyweapon.ammotype;
 
-    if (!state || type == am_noammo)
+    if (!state || type == am_noammo || infiniteammo)
         return;
 
     if (player->ammo[type] < (state->args[1] ? state->args[1] : readyweapon.ammopershot))

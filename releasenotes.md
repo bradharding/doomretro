@@ -109,6 +109,7 @@
 * The `r_althud_ammobars` CVAR has been renamed `r_hud_ammobars`.
 * The `r_althudfont` CVAR has been renamed `r_hud_altfont`.
 * The ammo count no longer lights up in the widescreen HUD when the player fires their weapon if the `infiniteammo` CCMD is in use.
+* Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_CheckAmmo` codepointer now behave correctly if the `infiniteammo` CCMD is in use.
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Block comments are now parsed correctly.
