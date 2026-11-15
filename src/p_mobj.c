@@ -228,8 +228,8 @@ static void P_XYMovement(mobj_t *mo)
             // killough 08/11/98: bouncing off walls
             // killough 10/98:
             // Add ability for objects other than players to bounce on ice
-            if (!(flags & MF_MISSILE)
-                && ((flags & MF_BOUNCES)
+            if (!(mo->flags & MF_MISSILE)
+                && ((mo->flags & MF_BOUNCES)
                     || (!player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)))
             {
                 if (blockline)
@@ -241,7 +241,7 @@ static void P_XYMovement(mobj_t *mo)
                     const fixed_t   y = FixedMul(r, blockline->dy);
 
                     // reflect momentum away from wall
-                    if (flags & MF_NOGRAVITY)
+                    if (mo->flags & MF_NOGRAVITY)
                     {
                         mo->momx = x * 2 - mo->momx;
                         mo->momy = y * 2 - mo->momy;
@@ -265,7 +265,7 @@ static void P_XYMovement(mobj_t *mo)
                 P_SlideMove(mo);
                 break;
             }
-            else if (flags & MF_MISSILE)
+            else if (mo->flags & MF_MISSILE)
             {
                 // explode a missile
                 if (ceilingline && ceilingline->backsector
@@ -293,7 +293,7 @@ static void P_XYMovement(mobj_t *mo)
         }
     } while (xmove || ymove);
 
-    if (flags & (MF_MISSILE | MF_SKULLFLY))
+    if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
