@@ -1092,7 +1092,8 @@ bool W_ReadGameInfoFromFile(const char *filename, gameinfo_t *info)
 
     memset(info, 0, sizeof(*info));
 
-    if (M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip")
+    if (D_IsSIGILWAD(leafname(filename)) || D_IsSIGIL2WAD(leafname(filename))
+        || M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip")
         || M_StringEndsWith(filename, ".lmp"))
         return false;
 
@@ -1145,7 +1146,8 @@ bool W_ReadLoadedGameInfo(gameinfo_t *info)
     memset(info, 0, sizeof(*info));
 
     for (int i = numlumps - 1; i >= 0; i--)
-        if (!strncasecmp(lumpinfo[i]->name, "GAMEINFO", 8) && lumpinfo[i]->size > 0)
+        if (!strncasecmp(lumpinfo[i]->name, "GAMEINFO", 8) && lumpinfo[i]->size > 0
+            && !D_IsSIGILWAD(lumpinfo[i]->wadfile->path) && !D_IsSIGIL2WAD(lumpinfo[i]->wadfile->path))
         {
             W_ParseGameInfo(W_CacheLumpNum(i), lumpinfo[i]->size, info);
             W_ReleaseLumpNum(i);
