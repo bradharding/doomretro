@@ -1089,11 +1089,13 @@ bool W_ReadGameInfoFromFile(const char *filename, gameinfo_t *info)
 {
     FILE    *fp;
     bool    result = false;
+    char    *file = M_StringDuplicate(filename);
+    bool    ignoresigil = (D_IsSIGILWAD(file) || D_IsSIGIL2WAD(file));
 
+    free(file);
     memset(info, 0, sizeof(*info));
 
-    if (D_IsSIGILWAD(leafname(filename)) || D_IsSIGIL2WAD(leafname(filename))
-        || M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip")
+    if (ignoresigil || M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip")
         || M_StringEndsWith(filename, ".lmp"))
         return false;
 
