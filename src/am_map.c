@@ -2772,6 +2772,27 @@ static void AM_DrawCrosshair(void)
     }
 }
 
+static void AM_DarkenEdges(void)
+{
+    const bool  bottomedge = (mapwindow || r_screensize == r_screensize_max);
+
+    for (int x = 0; x < MAPWIDTH; x++)
+    {
+        mapscreen[x] = black25[mapscreen[x]];
+
+        if (bottomedge)
+            mapscreen[MAPBOTTOM + x] = black25[mapscreen[MAPBOTTOM + x]];
+    }
+
+    for (int y = 1; y < MAPHEIGHT - 1; y++)
+    {
+        byte    *row = &mapscreen[y * MAPWIDTH];
+
+        row[0] = black25[row[0]];
+        row[MAPWIDTH - 1] = black25[row[MAPWIDTH - 1]];
+    }
+}
+
 static void AM_StatusBarShadow(void)
 {
     for (int i = 24 * 256, y = 1; y < 7; i -= 4 * 256, y++)
@@ -2897,4 +2918,7 @@ void AM_Drawer(void)
 
     if (!am_followmode && !takingcleancreenshot)
         AM_DrawCrosshair();
+
+    if (am_antialiasing)
+        AM_DarkenEdges();
 }
