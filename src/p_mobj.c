@@ -941,10 +941,11 @@ void P_RemoveMobj(mobj_t *mobj)
         sector_list = NULL;
     }
 
+    P_SetTarget(&mobj->tracer, NULL);
+
     if (flags & MF_SHOOTABLE)
     {
         P_SetTarget(&mobj->target, NULL);
-        P_SetTarget(&mobj->tracer, NULL);
         P_SetTarget(&mobj->lastenemy, NULL);
     }
 
@@ -2392,7 +2393,7 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t
     if (!(target->flags & MF_SHOOTABLE))
     {
         // Target died
-        *seektarget = NULL;
+        P_SetTarget(seektarget, NULL);
         return false;
     }
 

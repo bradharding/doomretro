@@ -1086,7 +1086,7 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     // set tracer to the player's autoaim target,
     // so player seeker missiles prioritizing the
     // baddie the player is actually aiming at. ;)
-    mo->tracer = linetarget;
+    P_SetTarget(&mo->tracer, linetarget);
 
     if (!infiniteammo)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
