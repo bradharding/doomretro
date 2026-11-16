@@ -1085,7 +1085,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_hud_altfont, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying messages in an alternate font when the alternate heads-up display is displayed."),
     BOOLCVAR(r_hud_ammobars, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles additional bars indicating the amount of ammo the player has for all ammo types in the alternate "
+        "Toggles additional bars indicating the amount of ammo you have for all ammo types in the alternate "
         "heads-up display."),
     INTCVAR(r_hud_style, "", "", intfunc1, intfunc2, 0, HUDSTYLEVALUEALIAS,
         "The style of the heads-up display when widescreen (" BOLD("big") ", " BOLD("small") " or " BOLD("alternate") ")."),
