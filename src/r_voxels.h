@@ -40,7 +40,6 @@
 #define VX_MAXFRAMES        29
 #define VX_MINZ             (4 * FRACUNIT)
 #define VX_MAXDISTANCE      (1024 * FRACUNIT)
-#define VX_SHADOWDISTANCE   (768 * FRACUNIT)
 #define VX_SPINTICS         (TICRATE * 4)
 #define VX_FASTSPINTICS     TICRATE
 #define VX_HOVERZ           (4 * FRACUNIT)

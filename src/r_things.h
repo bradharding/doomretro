@@ -39,6 +39,7 @@
 #define SHADOWSKEW              (r_radiallighting ? FRACUNIT * 3 / 2 : FRACUNIT)
 #define SHADOWSWIRLSLACK        (FRACUNIT * 6)
 #define SHADOWSOFTDISTANCE      (512 * FRACUNIT)
+#define SHADOWDISTANCE          (768 * FRACUNIT)
 
 typedef struct
 {

@@ -797,7 +797,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->rockx = rockx;
     vv->rocky = rocky;
     vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
-        && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOWDISTANCE * VX_SHADOWDISTANCE);
+        && (int64_t)dx * dx <= (int64_t)SHADOWDISTANCE * SHADOWDISTANCE - (int64_t)dy * dy);
     vv->tint = VX_TintForThing(thing);
     vv->lightrows = NULL;
     vv->nextlightrows = NULL;

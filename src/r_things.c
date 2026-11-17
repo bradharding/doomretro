@@ -1475,7 +1475,8 @@ static void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
     iscale = FixedDiv(FRACUNIT, xscale);
-    castshadow = ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows);
+    castshadow = (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4
+        && (int64_t)tr_x * tr_x <= (int64_t)SHADOWDISTANCE * SHADOWDISTANCE - (int64_t)tr_y * tr_y);
 
     // too far off the side?
     // [ceski] [JN] Possibly use an extended value (fovtx) and prevent overflows (int64_t).
