@@ -140,8 +140,6 @@ typedef struct sector_s
     int                 linecount;
     struct line_s       **lines;                // [linecount] size
 
-    int                 cachedheight;
-
     // [AM] Previous position of floor and ceiling before
     //      think. Used to interpolate between positions.
     fixed_t             oldfloorheight;
@@ -1033,7 +1031,7 @@ typedef struct
 
     fixed_t             scale;
     fixed_t             scale2;
-    fixed_t             scalestep;
+    int64_t             scalestep;
 
     fixed_t             minscale;
     fixed_t             maxscale;
