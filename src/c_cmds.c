@@ -485,6 +485,9 @@ static bool inaftergameccmdfunc1(char *cmd, char *parms);
 static bool ingamecvarfunc1(char *cmd, char *parms);
 static bool nightmarefunc1(char *cmd, char *parms);
 static bool nullfunc1(char *cmd, char *parms);
+static bool aliveboolfunc1(char *cmd, char *parms);
+static bool ingameboolfunc1(char *cmd, char *parms);
+static bool nightmareboolfunc1(char *cmd, char *parms);
 
 static void aliaslistfunc2(char *cmd, char *parms);
 static void bindlistfunc2(char *cmd, char *parms);
@@ -873,20 +876,20 @@ consolecmd_t consolecmds[] =
         "Explodes all " BOLD("barrels") " or " BOLD("missiles") "."),
     COLORCVAR(facebackcolor, facebackcolour,
         "The color of your face's background in the status bar (" BOLD("0") " to " BOLD("255") ")."),
-    CCMD(fastmonsters, "", "", nightmarefunc1, fastmonstersfunc2, true, FASTMONSTERSFORMAT,
+    CCMD(fastmonsters, "", "", nightmareboolfunc1, fastmonstersfunc2, true, FASTMONSTERSFORMAT,
         "Toggles fast monsters."),
     BOOLCVAR(flashkeys, "", "", boolfunc1, boolfunc2, 0,
         "Toggles flashing the keycard or skull key that is needed when you try to open a locked door."),
     BOOLCVAR(freelook, mouselook, "", boolfunc1, freelookfunc2, 0,
         "Toggles freely looking up and down using the mouse or a controller."),
-    CCMD(freeze, "", "", ingameccmdfunc1, freezefunc2, true, FREEZEFORMAT,
+    CCMD(freeze, "", "", ingameboolfunc1, freezefunc2, true, FREEZEFORMAT,
         "Toggles freeze mode."),
     TIMECVAR(gametime, "", "", nullfunc1, timefunc2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
     CCMD(give, "", "", givefunc1, givefunc2, true, GIVEFORMAT,
         "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons")
         ", " BOLD("powerups") ", or " BOLD("all") " or certain " BOLDITALICS("items") " to you."),
-    CCMD(god, "", "", alivefunc1, godfunc2, true, GODFORMAT,
+    CCMD(god, "", "", aliveboolfunc1, godfunc2, true, GODFORMAT,
         "Toggles god mode."),
     BOOLCVAR(groupmessages, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the grouping of identical player messages."),
@@ -913,7 +916,7 @@ consolecmd_t consolecmds[] =
         BOLDITALICS("value") ", or optionally a different string of " BOLDITALICS("commands") " if it doesn't."),
     BOOLCVAR(infighting, "", "", boolfunc1, boolfunc2, 0,
         "Toggles infighting amongst monsters once you die."),
-    CCMD(infiniteammo, "", "", ingameccmdfunc1, infiniteammofunc2, true, INFINITEAMMOFORMAT,
+    CCMD(infiniteammo, "", "", ingameboolfunc1, infiniteammofunc2, true, INFINITEAMMOFORMAT,
         "Toggles an infinite amount of ammo for all of your weapons."),
     BOOLCVAR(infiniteheight, "", "", boolfunc1, boolfunc2, 0,
         "Toggles giving you and everything else in the current map infinite height."),
@@ -993,17 +996,17 @@ consolecmd_t consolecmds[] =
         "Toggles allowing your health to be less than " BOLD("0%") " when you die."),
     CCMD(newgame, "", "", nullfunc1, newgamefunc2, true, "",
         "Starts a new game."),
-    CCMD(noclip, "", "", ingameccmdfunc1, noclipfunc2, true, NOCLIPFORMAT,
+    CCMD(noclip, "", "", ingameboolfunc1, noclipfunc2, true, NOCLIPFORMAT,
         "Toggles no clipping mode."),
-    CCMD(nomonsters, "", "", nullfunc1, nomonstersfunc2, true, NOMONSTERSFORMAT,
+    CCMD(nomonsters, "", "", boolfunc1, nomonstersfunc2, true, NOMONSTERSFORMAT,
         "Toggles the presence of monsters in maps."),
-    CCMD(notarget, "", "", ingameccmdfunc1, notargetfunc2, true, NOTARGETFORMAT,
+    CCMD(notarget, "", "", ingameboolfunc1, notargetfunc2, true, NOTARGETFORMAT,
         "Toggles monsters not targeting you."),
     BOOLCVAR(obituaries, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying obituaries when you or monsters are killed."),
     CCMD(palette, "", "", nullfunc1, palettefunc2, false, "",
         "Shows all 256 colors in the current palette."),
-    CCMD(pistolstart, "", "", nullfunc1, pistolstartfunc2, true, PISTOLSTARTFORMAT,
+    CCMD(pistolstart, "", "", boolfunc1, pistolstartfunc2, true, PISTOLSTARTFORMAT,
         "Toggles you starting each map with 100% health, no armor, and only your pistol with 50 bullets."),
     CCMD(play, "", "", playfunc1, playfunc2, true, PLAYFORMAT,
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
@@ -1162,7 +1165,7 @@ consolecmd_t consolecmds[] =
         "Toggles rendering sprites as voxels if available (" BOLD("on") ", " BOLD("off") " or " BOLD("auto") ")."),
     CCMD(readme, "", "", nullfunc1, readmefunc2, false, "",
         "Shows the accompanying readme file for the currently loaded PWAD."),
-    CCMD(regenhealth, "", "", ingameccmdfunc1, regenhealthfunc2, true, REGENHEALTHFORMAT,
+    CCMD(regenhealth, "", "", ingameboolfunc1, regenhealthfunc2, true, REGENHEALTHFORMAT,
         "Toggles regenerating your health by 1% every second when it's less than 100%."),
     CCMD(releasenotes, "", "", nullfunc1, releasenotesfunc2, false, "",
         "Opens a list of what's changed since the last version of " ITALICS(DOOMRETRO_NAME ".")),
@@ -1173,9 +1176,9 @@ consolecmd_t consolecmds[] =
         "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD(resetall, "", "", nullfunc1, resetallfunc2, false, "",
         "Resets all CVARs and bound controls to their defaults."),
-    CCMD(respawnitems, "", "", nullfunc1, respawnitemsfunc2, true, RESPAWNITEMSFORMAT,
+    CCMD(respawnitems, "", "", boolfunc1, respawnitemsfunc2, true, RESPAWNITEMSFORMAT,
         "Toggles respawning items."),
-    CCMD(respawnmonsters, "", "", nightmarefunc1, respawnmonstersfunc2, true, RESPAWNMONSTERSFORMAT,
+    CCMD(respawnmonsters, "", "", nightmareboolfunc1, respawnmonstersfunc2, true, RESPAWNMONSTERSFORMAT,
         "Toggles respawning monsters."),
     CCMD(restartmap, "", "", inaftergameccmdfunc1, restartmapfunc2, false, "",
         "Restarts the current map."),
@@ -1243,7 +1246,7 @@ consolecmd_t consolecmds[] =
         "Unbinds the " BOLDITALICS("+action") " from a " BOLDITALICS("control") "."),
     INTCVAR(units, "", "", intfunc1, intfunc2, 0, UNITSVALUEALIAS,
         "The units used by certain stats (" BOLD("imperial") " or " BOLD("metric") ")."),
-    CCMD(vanilla, "", "", nullfunc1, vanillafunc2, true, VANILLAFORMAT,
+    CCMD(vanilla, "", "", boolfunc1, vanillafunc2, true, VANILLAFORMAT,
         "Toggles vanilla mode."),
     STRCVAR(version, "", "", nullfunc1, strfunc2, CF_READONLY, 16,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
@@ -11102,6 +11105,21 @@ static void wikifunc2(char *cmd, char *parms)
 static bool boolfunc1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, BOOLVALUEALIAS) != INT_MIN);
+}
+
+static bool aliveboolfunc1(char *cmd, char *parms)
+{
+    return (boolfunc1(cmd, parms) && alivefunc1(cmd, parms));
+}
+
+static bool ingameboolfunc1(char *cmd, char *parms)
+{
+    return (boolfunc1(cmd, parms) && ingameccmdfunc1(cmd, parms));
+}
+
+static bool nightmareboolfunc1(char *cmd, char *parms)
+{
+    return (boolfunc1(cmd, parms) && nightmarefunc1(cmd, parms));
 }
 
 static void boolfunc2(char *cmd, char *parms)
