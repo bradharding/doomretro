@@ -149,8 +149,7 @@
 * These changes have been made to shadows cast by sprites when the `r_shadows` CVAR is `on`:
   * Shadows are now cast better behind sprites, accurately from their bases, directly onto the sectors behind them.
   * Shadows are cast outwards slightly from the center of the player’s view if the `r_radiallighting` CVAR is `on`.
-  * Shadows are now cast by monster projectiles.
-  * Shadows are now cast by all decorations.
+  * Shadows are now cast by projectiles, item and teleport fogs, and more decorations.
   * Shadows are now cast by all things that have entries in a `DEHACKED` lump.
   * The edges of shadows are now softened. This can be disabled using the new `r_shadows_soft` CVAR, which is `on` by default.
   * Shadows now swirl along with the liquid when cast in liquid sectors if the `r_liquid_swirl` CVAR is also `on`.
