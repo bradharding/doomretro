@@ -35,21 +35,24 @@
 
 #pragma once
 
-#include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "i_system.h"
 
 #define M_ARRAY_INIT_CAPACITY   128
 
-typedef struct
+typedef union
 {
-#ifdef _MSC_VER
-    _Alignas(double) int        capacity;
-#else
-    _Alignas(max_align_t) int   capacity;
-#endif
-    int                         size;
+    struct
+    {
+        int     capacity;
+        int     size;
+    } header;
+
+    long double align_float;
+    intmax_t    align_int;
+    void        *align_pointer;
 } m_array_buffer_t;
 
 inline static m_array_buffer_t *array_ptr(const void *v)
@@ -59,31 +62,31 @@ inline static m_array_buffer_t *array_ptr(const void *v)
 
 inline static int array_size(const void *v)
 {
-    return (v ? array_ptr(v)->size : 0);
+    return (v ? array_ptr(v)->header.size : 0);
 }
 
 inline static int array_capacity(const void *v)
 {
-    return (v ? array_ptr(v)->capacity : 0);
+    return (v ? array_ptr(v)->header.capacity : 0);
 }
 
 inline static void array_clear(const void *v)
 {
     if (v)
-        array_ptr(v)->size = 0;
+        array_ptr(v)->header.size = 0;
 }
 
 #define array_grow(v, n) \
     ((v) = M_ArrayGrow((v), sizeof(*(v)), n))
 
-#define array_push(v, e)                                                    \
-    {                                                                       \
-        if (!(v))                                                           \
-            (v) = M_ArrayGrow((v), sizeof(*(v)), M_ARRAY_INIT_CAPACITY);    \
-        else if (array_ptr((v))->size == array_ptr((v))->capacity)          \
-            (v) = M_ArrayGrow((v), sizeof(*(v)), array_ptr((v))->capacity); \
-                                                                            \
-        (v)[array_ptr((v))->size++] = (e);                                  \
+#define array_push(v, e)                                                 \
+    {                                                                    \
+        if (!(v))                                                        \
+            (v) = M_ArrayGrow((v), sizeof(*(v)), M_ARRAY_INIT_CAPACITY); \
+        else if (array_size(v) == array_capacity(v))                     \
+            (v) = M_ArrayGrow((v), sizeof(*(v)), array_capacity(v));     \
+                                                                         \
+        (v)[array_ptr(v)->header.size++] = (e);                          \
     }
 
 #define array_free(v)         \
@@ -103,14 +106,14 @@ RETNOTNULL inline static void *M_ArrayGrow(void *v, size_t esize, int n)
     if (v)
     {
         p = array_ptr(v);
-        p = I_Realloc(p, sizeof(m_array_buffer_t) + ((size_t)p->capacity + n) * esize);
-        p->capacity += n;
+        p = I_Realloc(p, sizeof(*p) + ((size_t)p->header.capacity + n) * esize);
+        p->header.capacity += n;
     }
     else
     {
-        p = I_Malloc(sizeof(m_array_buffer_t) + n * esize);
-        p->capacity = n;
-        p->size = 0;
+        p = I_Malloc(sizeof(*p) + n * esize);
+        p->header.capacity = n;
+        p->header.size = 0;
     }
 
     return (p + 1);
