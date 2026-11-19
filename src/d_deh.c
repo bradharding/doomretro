@@ -2094,8 +2094,7 @@ static const char *deh_state[] =
 
 static const struct deh_flag_s deh_stateflags_mbf21[] =
 {
-    { "SKILL5FAST", STATEF_SKILL5FAST },    // tics halve on nightmare skill
-    { NULL,         0                 }
+    { "SKILL5FAST", STATEF_SKILL5FAST }     // tics halve on nightmare skill
 };
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
@@ -3420,18 +3419,14 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
         {
             if (!value)
                 for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
-                {
-                    const struct deh_flag_s *flag;
-
-                    for (flag = deh_stateflags_mbf21; flag->name; flag++)
+                    for (int i = 0; i < arrlen(deh_stateflags_mbf21); i++)
                     {
-                        if (!M_StringCompare(strval, flag->name))
+                        if (!M_StringCompare(strval, deh_stateflags_mbf21[i].name))
                             continue;
 
-                        value |= flag->value;
+                        value |= deh_stateflags_mbf21[i].value;
                         break;
                     }
-                }
 
             states[indexnum].flags = value;
             mbf21compatible = true;

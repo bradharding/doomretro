@@ -1401,11 +1401,16 @@ static void ResolveCommand(const char (*w)[WORDLEN], const int n)
         for (p = strtok(p, " \t"); p && expanded.count < MAXWORDS; p = strtok(NULL, " \t"))
             M_StringCopy(expanded.word[expanded.count++], p, WORDLEN);
 
-        if (!expanded.count || !FindCmd(expanded.word[0]) || expanded.count + n - 1 > MAXWORDS)
+        if (!expanded.count || !FindCmd(expanded.word[0]))
             return;
 
         for (int i = 1; i < n; i++)
+        {
+            if (expanded.count >= MAXWORDS)
+                return;
+
             M_StringCopy(expanded.word[expanded.count++], w[i], WORDLEN);
+        }
 
         ResolveCommand((const char (*)[WORDLEN])expanded.word, expanded.count);
         return;

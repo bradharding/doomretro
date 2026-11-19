@@ -44,14 +44,17 @@
 
 typedef struct
 {
-    int     capacity;
-    int     size;
-    char    buffer[1];
+#ifdef _MSC_VER
+    _Alignas(double) int        capacity;
+#else
+    _Alignas(max_align_t) int   capacity;
+#endif
+    int                         size;
 } m_array_buffer_t;
 
 inline static m_array_buffer_t *array_ptr(const void *v)
 {
-    return (m_array_buffer_t *)((char *)v - offsetof(m_array_buffer_t, buffer));
+    return ((m_array_buffer_t *)v - 1);
 }
 
 inline static int array_size(const void *v)
@@ -110,5 +113,5 @@ RETNOTNULL inline static void *M_ArrayGrow(void *v, size_t esize, int n)
         p->size = 0;
     }
 
-    return p->buffer;
+    return (p + 1);
 }

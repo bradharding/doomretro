@@ -2590,10 +2590,17 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
 void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
-    byte        *desttop;
-    int         lastsourcecol = -1;
-    int         lastfuzzpos = 0;
-    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    byte                *desttop;
+    int                 lastsourcecol = -1;
+    int                 lastfuzzpos = 0;
+    const int           columns = LITTLESHORT(patch->width);
+    const int           step = DXI;
+    unsigned int        width;
+
+    if (columns <= 0 || columns > (int)arrlen(patch->columnoffset) || step <= 0)
+        return;
+
+    width = (unsigned int)columns << FRACBITS;
 
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
     y -= LITTLESHORT(patch->topoffset);
@@ -2602,9 +2609,9 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < width; col += DXI, desttop++)
+    for (unsigned int col = 0; col < width; col += step, desttop++)
     {
-        const int   sourcecol = LITTLESHORT(patch->width) - 1 - (col >> FRACBITS);
+        const int   sourcecol = (width - 1 - col) >> FRACBITS;
         const bool  duplicate = (sourcecol == lastsourcecol);
         int         fuzzpos = (duplicate ? lastfuzzpos : fuzz1pos);
         column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));

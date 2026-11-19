@@ -99,6 +99,7 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     mz_zip_archive  archive = { 0 };
     mz_uint         entries;
     int             count = 0;
+    int             lump = 0;
     int             startlump;
     lumpinfo_t      *filelumps;
     wadfile_t       *wadfile;
@@ -145,7 +146,7 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     numlumps += count;
     lumpinfo = I_Realloc(lumpinfo, numlumps * sizeof(*lumpinfo));
 
-    for (mz_uint i = 0, lump = 0; i < entries; i++)
+    for (mz_uint i = 0; i < entries; i++)
     {
         mz_zip_archive_file_stat    stat;
         const char                  *base;
@@ -156,6 +157,9 @@ static bool W_AddPK3(char *filename, bool autoloaded)
         if (!mz_zip_reader_file_stat(&archive, i, &stat) || stat.m_is_directory
             || W_PK3EntryNamespace(stat.m_filename) < 0)
             continue;
+
+        if (!filelumps || lump >= count)
+            I_Error("W_AddPK3: Inconsistent lump directory in %s.", filename);
 
         base = stat.m_filename;
 
@@ -182,6 +186,9 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     }
 
     mz_zip_reader_end(&archive);
+
+    if (lump != count)
+        I_Error("W_AddPK3: Inconsistent lump directory in %s.", filename);
 
     if (wadsloaded)
     {

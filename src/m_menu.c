@@ -1389,7 +1389,6 @@ static void M_DrawSave(void)
     // draw each save game slot
     for (int i = 0; i < load_end; i++)
     {
-        int         len = (int)strlen(savegamestrings[i]);
         const int   y = M_SaveMenuSlotY(i);
         const int   fade = M_GetMenuItemHighlightFade(&SaveDef, i);
 
@@ -1402,7 +1401,6 @@ static void M_DrawSave(void)
         currentmenu->menuitems[i].height = LITTLESHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
         M_FitSaveString(savegamestrings[i]);
-        len = (int)strlen(savegamestrings[i]);
 
         // draw save game description
         if (savestringenter && i == itemon)
@@ -1411,8 +1409,9 @@ static void M_DrawSave(void)
             char        right[256] = "";
             int         x = LoadDef.x - 2;
             const bool  narrow = (caretcolor == caretbordercolor);
+            const int   len = (int)strlen(savegamestrings[i]);
 
-            savecharindex = MIN(savecharindex, (int)strlen(savegamestrings[i]));
+            savecharindex = MIN(savecharindex, len);
 
             // draw text to left of text caret
             for (int j = 0; j < savecharindex; j++)

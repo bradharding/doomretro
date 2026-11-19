@@ -1215,18 +1215,19 @@ void P_InitHelperDogs(const int dogs)
 
 static void P_SpawnFriend(const mapthing_t *mthing)
 {
-    const short playerstart = mthing->type;
+    const int   playerstart = mthing->type;
 
-    if (numfriends >= playerstart - 1)
+    const int   index = (playerstart >= Player5Start ? playerstart - Player5Start + 3 : playerstart - Player2Start);
+
+    if (index >= 0 && index < MAXFRIENDS && index < numfriends)
     {
-        mobj_t  *mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ,
-                    friendtype[playerstart - 2]);
+        mobj_t  *mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, friendtype[index]);
 
         mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
         mobj->flags |= MF_FRIEND;
         mobj->flags2 |= MF2_SPAWNEDBYPLAYER;
-        M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
-        mobj->health = friendhealth[playerstart - 2];
+        M_StringCopy(mobj->name, friendname[index], sizeof(mobj->name));
+        mobj->health = friendhealth[index];
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
         if (gamemap == 1)

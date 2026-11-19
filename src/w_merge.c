@@ -231,12 +231,9 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
             if (sprite->angle_lumps[i] == lump)
                 return true;
     }
-    else
-    {
-        // check if this lump is being used for this frame
-        if (sprite->angle_lumps[angle_num - 1] == lump)
-            return true;
-    }
+    else if (angle_num > 0 && angle_num <= (int)arrlen(sprite->angle_lumps)
+        && sprite->angle_lumps[angle_num - 1] == lump)
+        return true;
 
     // second frame if any
 
@@ -253,12 +250,9 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
             if (sprite->angle_lumps[i] == lump)
                 return true;
     }
-    else
-    {
-        // check if this lump is being used for this frame
-        if (sprite->angle_lumps[angle_num - 1] == lump)
-            return true;
-    }
+    else if (angle_num > 0 && angle_num <= (int)arrlen(sprite->angle_lumps)
+        && sprite->angle_lumps[angle_num - 1] == lump)
+        return true;
 
     return false;
 }
@@ -363,7 +357,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     if (!(angle_num = SpriteRotationNumber(lump->name[5])))
         for (int i = 0; i < 16; i++)
             sprite->angle_lumps[i] = lump;
-    else
+    else if (angle_num > 0 && angle_num <= (int)arrlen(sprite->angle_lumps))
         sprite->angle_lumps[angle_num - 1] = lump;
 
     // no second angle?
@@ -376,7 +370,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     if (!(angle_num = SpriteRotationNumber(lump->name[7])))
         for (int i = 0; i < 16; i++)
             sprite->angle_lumps[i] = lump;
-    else
+    else if (angle_num > 0 && angle_num <= (int)arrlen(sprite->angle_lumps))
         sprite->angle_lumps[angle_num - 1] = lump;
 }
 

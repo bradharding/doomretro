@@ -1573,7 +1573,14 @@ int R_TextureNumForName(const char *name)
 // to avoid using alloca(), and to improve performance.
 void R_PrecacheLevel(void)
 {
-    bool    *hitlist = calloc(MAX(MAX(numsectors, numflats), MAX(numsides, numtextures)), sizeof(bool));
+    const int   flatcount = MAX(0, numflats);
+    const int   texturecount = MAX(0, numtextures);
+    const int   capacity = MAX(flatcount, texturecount);
+
+    if (!capacity)
+        return;
+
+    bool        *hitlist = calloc(capacity, sizeof(*hitlist));
 
     if (!hitlist)
         return;
@@ -1581,36 +1588,33 @@ void R_PrecacheLevel(void)
     // Precache flats.
     for (int i = 0; i < numsectors; i++)
     {
-        if (sectors[i].floorpic > -1)
-            hitlist[sectors[i].floorpic] = true;
+        const int   pics[] = { sectors[i].floorpic, sectors[i].ceilingpic };
 
-        if (sectors[i].ceilingpic > -1)
-            hitlist[sectors[i].ceilingpic] = true;
+        for (int j = 0; j < arrlen(pics); j++)
+            if (pics[j] >= 0 && pics[j] < flatcount)
+                hitlist[pics[j]] = true;
     }
 
-    for (int i = 0; i < numflats; i++)
+    for (int i = 0; i < flatcount; i++)
         if (hitlist[i])
             W_CacheLumpNum(firstflat + i);
 
     // Precache textures.
-    memset(hitlist, false, sizeof(*hitlist));
+    memset(hitlist, 0, capacity * sizeof(*hitlist));
 
     for (int i = 0; i < numsides; i++)
     {
-        hitlist[sides[i].toptexture] = true;
-        hitlist[sides[i].midtexture] = true;
-        hitlist[sides[i].bottomtexture] = true;
+        const int   pics[] = { sides[i].toptexture, sides[i].midtexture, sides[i].bottomtexture };
+
+        for (int j = 0; j < arrlen(pics); j++)
+            if (pics[j] >= 0 && pics[j] < texturecount)
+                hitlist[pics[j]] = true;
     }
 
-    // Sky texture is always present.
-    // Note that F_SKY1 is the name used to
-    //  indicate a sky floor/ceiling as a flat,
-    //  while the sky texture is stored like
-    //  a wall texture, with an episode dependent
-    //  name.
-    hitlist[skytexture] = true;
+    if (skytexture >= 0 && skytexture < texturecount)
+        hitlist[skytexture] = true;
 
-    for (int i = 0; i < numtextures; i++)
+    for (int i = 0; i < texturecount; i++)
         if (hitlist[i])
         {
             texture_t   *texture = textures[i];

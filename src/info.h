@@ -55,7 +55,7 @@
 #define MT_RIPPER       MT_EXTRA10
 #define MT_LAMP         MT_EXTRA50
 
-typedef enum
+enum
 {
     MT_NULL = -1,
     MT_PLAYER,
@@ -239,7 +239,9 @@ typedef enum
     MT_EXTRA95, MT_EXTRA96, MT_EXTRA97, MT_EXTRA98, MT_EXTRA99,
 
     NUMMOBJTYPES
-} mobjtype_t;
+};
+
+typedef int mobjtype_t;
 
 typedef enum
 {

@@ -2303,19 +2303,22 @@ bool IsControlBound(const controltype_t type, const int control, const bool auto
     return false;
 }
 
-static int GetControlByTypeAndValue(const controltype_t type, const int value)
+static void C_ReportUnboundControl(const char *action, const controltype_t type, const int value)
 {
-    int control = 0;
+    for (const control_t *control = controls; control->type; control++)
+        if (control->type == type && control->value == value)
+        {
+            if (type == keyboardcontrol && strlen(control->control) == 1)
+                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
+                    action, control->control);
+            else
+                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                    action, control->control);
 
-    while (controls[control].type)
-    {
-        if (controls[control].type == type && controls[control].value == value)
-            return control;
+            return;
+        }
 
-        control++;
-    }
-
-    return -1;
+    C_Warning(0, "The " BOLD("%s") " action has been unbound from an unknown control (%d).", action, value);
 }
 
 //
@@ -2758,56 +2761,31 @@ void bindfunc2(char *cmd, char *parms)
             {
                 if (actions[action].keyboard1 && *(int *)actions[action].keyboard1)
                 {
-                    const int   control = GetControlByTypeAndValue(keyboardcontrol, *(int *)actions[action].keyboard1);
-
-                    if (strlen(controls[control].control) == 1)
-                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
-                            actions[action].action, controls[control].control);
-                    else
-                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                            actions[action].action, controls[control].control);
-
+                    C_ReportUnboundControl(actions[action].action, keyboardcontrol, *(int *)actions[action].keyboard1);
                     *(int *)actions[action].keyboard1 = 0;
                 }
 
                 if (actions[action].keyboard2 && *(int *)actions[action].keyboard2)
                 {
-                    const int   control = GetControlByTypeAndValue(keyboardcontrol, *(int *)actions[action].keyboard2);
-
-                    if (strlen(controls[control].control) == 1)
-                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
-                            actions[action].action, controls[control].control);
-                    else
-                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                            actions[action].action, controls[control].control);
-
+                    C_ReportUnboundControl(actions[action].action, keyboardcontrol, *(int *)actions[action].keyboard2);
                     *(int *)actions[action].keyboard2 = 0;
                 }
 
                 if (actions[action].mouse1 && *(int *)actions[action].mouse1 != -1)
                 {
-                    const int   control = GetControlByTypeAndValue(mousecontrol, *(int *)actions[action].mouse1);
-
-                    C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[action].action, controls[control].control);
+                    C_ReportUnboundControl(actions[action].action, mousecontrol, *(int *)actions[action].mouse1);
                     *(int *)actions[action].mouse1 = -1;
                 }
 
                 if (actions[action].controller1 && *(int *)actions[action].controller1)
                 {
-                    const int   control = GetControlByTypeAndValue(controllercontrol, *(int *)actions[action].controller1);
-
-                    C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[action].action, controls[control].control);
+                    C_ReportUnboundControl(actions[action].action, controllercontrol, *(int *)actions[action].controller1);
                     *(int *)actions[action].controller1 = 0;
                 }
 
                 if (actions[action].controller2 && *(int *)actions[action].controller2)
                 {
-                    const int   control = GetControlByTypeAndValue(controllercontrol, *(int *)actions[action].controller2);
-
-                    C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[action].action, controls[control].control);
+                    C_ReportUnboundControl(actions[action].action, controllercontrol, *(int *)actions[action].controller2);
                     *(int *)actions[action].controller2 = 0;
                 }
 

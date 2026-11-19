@@ -1185,13 +1185,13 @@ static bool PIT_ApplyTorque(line_t *ld)
         {
             // At this point, we know that the object straddles a two-sided
             // linedef, and that the object's center of mass is above-ground.
-            fixed_t x = ABS(ld->dx);
-            fixed_t y = ABS(ld->dy);
+            fixed_t x = (fixed_t)MIN64(ABS64(ld->dx), FIXED_MAX);
+            fixed_t y = (fixed_t)MIN64(ABS64(ld->dy), FIXED_MAX);
 
             if (y > x)
                 SWAP(x, y);
 
-            y = finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT];
+            y = finesine[(tantoangle[BETWEEN(0, FixedDiv(y, x) >> DBITS, SLOPERANGE)] + ANG90) >> ANGLETOFINESHIFT];
 
             // Momentum is proportional to distance between the
             // object's center of mass and the pivot linedef.
@@ -1200,7 +1200,8 @@ static bool PIT_ApplyTorque(line_t *ld)
             // increased, the momentum gradually decreases to 0 for
             // the same amount of pseudotorque, so that oscillations
             // are prevented, yet it has a chance to reach equilibrium.
-            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << (OVERDRIVE - mo->gear) : y >> (mo->gear - OVERDRIVE))), x);
+            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << (OVERDRIVE - mo->gear) :
+                (y >> (mo->gear - OVERDRIVE)))), x);
 
             // Apply momentum away from the pivot linedef.
             x = FixedMul(ld->dy, dist);

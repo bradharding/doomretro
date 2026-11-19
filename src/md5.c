@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c_console.h"
 #include "m_misc.h"
 #include "md5.h"
 
@@ -252,8 +253,20 @@ char *MD5(const char *filename)
 
         MD5Init(&md5);
 
-        while ((len = fread(buffer, 1, sizeof(buffer), file)) > 0)
-            MD5Update(&md5, buffer, (unsigned int)len);
+        do
+        {
+            len = fread(buffer, 1, sizeof(buffer), file);
+
+            if (len)
+                MD5Update(&md5, buffer, (unsigned int)len);
+        } while (len == sizeof(buffer));
+
+        if (ferror(file))
+        {
+            fclose(file);
+            C_Warning(0, "An error occurred while reading " BOLD("%s") " to calculate its MD5 checksum.", filename);
+            return M_StringDuplicate(checksum);
+        }
 
         MD5Final(digest, &md5);
 

@@ -113,12 +113,19 @@ void *Z_Calloc(size_t size1, size_t size2, unsigned char tag, void **user)
     return ((size1 *= size2) ? memset(Z_Malloc(size1, tag, user), 0, size1) : NULL);
 }
 
+static void Z_ReleaseBlock(memblock_t *block)
+{
+    if (block->user)
+        *block->user = NULL;
+
+    free(block);
+}
+
 void Z_Free(void *ptr)
 {
     memblock_t      *block;
     memblock_t      *next;
     memblock_t      *prev;
-    void            **user;
     unsigned char   tag;
 
     if (!ptr)
@@ -127,29 +134,42 @@ void Z_Free(void *ptr)
     block = (memblock_t *)((char *)ptr - headersize);
     next = block->next;
     prev = block->prev;
-    user = block->user;
     tag = block->tag;
-
-    // Nullify user if one exists
-    if (user)
-        *user = NULL;
 
     if (block == next)
         blockbytag[tag] = NULL;
-    else if (blockbytag[tag] == block)
-        blockbytag[tag] = next;
+    else
+    {
+        if (blockbytag[tag] == block)
+            blockbytag[tag] = next;
 
-    prev->next = next;
-    next->prev = prev;
+        prev->next = next;
+        next->prev = prev;
+    }
 
-    free(block);
+    Z_ReleaseBlock(block);
 }
 
 void Z_FreeTags(unsigned char lowtag, unsigned char hightag)
 {
     for (; lowtag <= hightag; lowtag++)
-        while (blockbytag[lowtag])
-            Z_Free((char *)blockbytag[lowtag] + headersize);
+    {
+        memblock_t  *block = blockbytag[lowtag];
+
+        if (!block)
+            continue;
+
+        blockbytag[lowtag] = NULL;
+        block->prev->next = NULL;
+
+        while (block)
+        {
+            memblock_t  *next = block->next;
+
+            Z_ReleaseBlock(block);
+            block = next;
+        }
+    }
 }
 
 void Z_ChangeTag(void *ptr, unsigned char tag)

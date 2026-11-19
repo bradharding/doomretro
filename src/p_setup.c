@@ -2165,8 +2165,13 @@ static void P_CreateBlockMap(void)
             int     *list;
         } bmap_t;
 
-        unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
-        bmap_t          *bmap = calloc(tot, sizeof(*bmap));     // array of blocklists
+        const uint64_t  blocks = (uint64_t)bmapwidth * bmapheight;
+
+        if (bmapwidth <= 0 || bmapheight <= 0 || blocks > INT_MAX - 6 || blocks > SIZE_MAX / sizeof(bmap_t))
+            I_Error("P_CreateBlockMap: Invalid blockmap dimensions (%d x %d).", bmapwidth, bmapheight);
+
+        const size_t    tot = (size_t)blocks;
+        bmap_t          *bmap = I_Calloc(tot, sizeof(*bmap));
 
         for (int i = 0; i < numlines; i++)
         {
@@ -2186,11 +2191,11 @@ static void P_CreateBlockMap(void)
                                     - (((y >> MAPBTOFRAC) << MAPBTOFRAC) + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y)
                                     * (adx = ABS(adx)) * dy));
 
-            // starting block, and pointer to its blocklist structure
-            unsigned int        b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
+            // starting block
+            size_t              b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
 
             // ending block
-            const unsigned int  bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
+            const size_t        bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
                                     + (((lines[i].v2->x >> FRACBITS) - minx) >> MAPBTOFRAC);
 
             // delta for pointer when moving across y
@@ -2237,9 +2242,9 @@ static void P_CreateBlockMap(void)
         //
         // 4 words, unused if this routine is called, are reserved at the start.
         {
-            size_t  count = (size_t)tot + 6;    // we need at least 1 word per block, plus reserved's
+            size_t  count = tot + 6;    // we need at least 1 word per block, plus reserved's
 
-            for (int i = 0; (unsigned int)i < tot; i++)
+            for (size_t i = 0; i < tot; i++)
                 if (bmap[i].n)
                     count += bmap[i].n + 2;     // 1 header word + 1 trailer word + blocklist
 
@@ -2249,13 +2254,14 @@ static void P_CreateBlockMap(void)
 
         // Now compress the blockmap.
         {
-            int     ndx = (tot += 4);   // Advance index to start of linedef lists
-            bmap_t  *bp = bmap;         // Start of uncompressed blockmap
+            const int   liststart = (int)tot + 4;
+            int         ndx = liststart;
+            bmap_t      *bp = bmap;
 
             blockmaplump[ndx++] = 0;    // Store an empty blockmap list at start
             blockmaplump[ndx++] = -1;   // (Used for compression)
 
-            for (unsigned int i = 4; i < tot; i++, bp++)
+            for (int i = 4; i < liststart; i++, bp++)
                 if (bp->n)                                          // Non-empty blocklist
                 {
                     blockmaplump[(blockmaplump[i] = ndx++)] = 0;    // Store index and header
@@ -2269,7 +2275,7 @@ static void P_CreateBlockMap(void)
                 }
                 else
                     // Empty blocklist: point to reserved empty blocklist
-                    blockmaplump[i] = tot;
+                    blockmaplump[i] = liststart;
 
             free(bmap); // Free uncompressed blockmap
         }

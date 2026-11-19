@@ -12,7 +12,7 @@
   * A liquid glass effect is also applied when the `smoothtransitions` CVAR is `on`.
   * Headers, dividers and the scroll bar have been redesigned.
   * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, or dragging the scroll bar using the mouse, is now smooth when the `smoothtransitions` CVAR is `on`.
-  * When opening the console using the <kbd><b>~</b></kbd> key while playing a game, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
+  * When opening the console using the <kbd><b>~</b></kbd> key while playing a game, you may now hold the key down slightly longer for the console to open to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
   * Several changes have been made to text that is output to the console.
   * Improvements have been made to wrapping and truncating text, and the display of nested pairs of quotes.
   * Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key is now more context-aware.

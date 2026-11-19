@@ -1042,13 +1042,12 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
+        const int           glyph = letter - CONSOLEFONTSTART;
 
         if (letter == ' ')
             width += spacewidth;
-        else if (isdigit(letter))
-            width += (monospaced ? zerowidth : LITTLESHORT(consolefont[letter - CONSOLEFONTSTART]->width));
-        else if (letter >= CONSOLEFONTSTART)
-            width += (LITTLESHORT(consolefont[letter - CONSOLEFONTSTART]->width) - (letter == ','));
+        else if (glyph >= 0 && glyph < CONSOLEFONTSIZE)
+            width += (monospaced && isdigit(letter) ? zerowidth : LITTLESHORT(consolefont[glyph]->width) - (letter == ','));
     }
 
     return width;
@@ -2813,12 +2812,13 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth,
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
+        const int           glyph = letter - CONSOLEFONTSTART;
 
         if (letter == ' ')
             x += spacewidth;
-        else
+        else if (glyph >= 0 && glyph < CONSOLEFONTSIZE)
         {
-            patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
+            patch_t     *patch = consolefont[glyph];
             const int   width = LITTLESHORT(patch->width);
 
             if (isdigit(letter) && monospaced)
@@ -4094,20 +4094,23 @@ void C_Drawer(void)
 
     consoleoutputclipy = INT_MAX;
 
-    if (consoleinput[0] != '\0')
+    const int   inputlen = (int)strnlen(consoleinput, sizeof(consoleinput) - 1);
+    const int   caret = BETWEEN(0, caretpos, inputlen);
+    const int   selectionstart = BETWEEN(0, selectstart, caret);
+    const int   selectionend = BETWEEN(caret, selectend, inputlen);
+
+    if (inputlen)
     {
-        char    partialinput[255] = "";
+        char    partialinput[sizeof(consoleinput)];
 
         // draw input text to left of caret
-        for (i = 0; i < MIN(selectstart, caretpos); i++)
-            partialinput[i] = consoleinput[i];
-
+        memcpy(partialinput, consoleinput, selectionstart);
+        partialinput[selectionstart] = '\0';
         UpdateCheatMask(consoleinput);
-        partialinput[i] = '\0';
 
         if (partialinput[0] != '\0')
         {
-            len = (int)strlen(partialinput);
+            len = selectionstart;
 
             x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0, '\0', '\0',
@@ -4121,12 +4124,11 @@ void C_Drawer(void)
         }
 
         // draw any selected text to left of caret
-        if (selectstart < caretpos)
+        if (selectionstart < caret)
         {
-            for (i = selectstart; i < selectend; i++)
-                partialinput[i - selectstart] = consoleinput[i];
-
-            partialinput[i - selectstart] = '\0';
+            len = selectionend - selectionstart;
+            memcpy(partialinput, consoleinput + selectionstart, len);
+            partialinput[len] = '\0';
 
             if (partialinput[0] != '\0')
             {
@@ -4140,7 +4142,7 @@ void C_Drawer(void)
 
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false,
-                    true, 0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
+                    true, 0, prevletter, prevletter2, selectionstart, &V_DrawConsoleSelectedTextPatch);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -4183,19 +4185,18 @@ void C_Drawer(void)
         caretwait = 0;
     }
 
-    if (consoleinput[0] != '\0')
+    if (inputlen)
     {
         x += 3;
 
         // draw any selected text to right of caret
-        if (selectend > caretpos)
+        if (selectionend > caret)
         {
-            char    partialinput[255] = "";
+            char    partialinput[sizeof(consoleinput)];
 
-            for (i = selectstart; i < selectend; i++)
-                partialinput[i - selectstart] = consoleinput[i];
-
-            partialinput[i - selectstart] = '\0';
+            len = selectionend - selectionstart;
+            memcpy(partialinput, consoleinput + selectionstart, len);
+            partialinput[len] = '\0';
 
             if (partialinput[0] != '\0')
             {
@@ -4209,7 +4210,7 @@ void C_Drawer(void)
 
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true,
-                    0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
+                    0, prevletter, prevletter2, selectionstart, &V_DrawConsoleSelectedTextPatch);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -4222,19 +4223,17 @@ void C_Drawer(void)
         }
 
         // draw input text to right of caret
-        if (caretpos < (len = (int)strlen(consoleinput)))
+        if (selectionend < inputlen)
         {
-            char    partialinput[255] = "";
+            char    partialinput[sizeof(consoleinput)];
 
-            for (i = selectend; i < len; i++)
-                partialinput[i - selectend] = consoleinput[i];
+            len = inputlen - selectionend;
+            memcpy(partialinput, consoleinput + selectionend, len);
+            partialinput[len] = '\0';
 
-            partialinput[i - selectend] = '\0';
-
-            if (partialinput[0] != '\0')
-                C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor, NOBACKGROUNDCOLOR,
-                    NOBOLDCOLOR, NULL, notabs, false, true, 0, prevletter, prevletter2,
-                    selectend, &V_DrawConsoleTextPatch);
+            C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor, NOBACKGROUNDCOLOR,
+                NOBOLDCOLOR, NULL, notabs, false, true, 0, prevletter, prevletter2,
+                selectionend, &V_DrawConsoleTextPatch);
         }
     }
 }

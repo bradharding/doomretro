@@ -133,15 +133,16 @@ static void CreatePatch(int patchnum)
         int             *numpostsincolumn = NULL;
         int             numpoststotal = 0;
         bool            badpatch = false;
+        const int       width = LITTLESHORT(oldpatch->width);
 
-        patch->width = LITTLESHORT(oldpatch->width);
+        patch->width = width;
         patch->widthmask = 0;
         patch->height = LITTLESHORT(oldpatch->height);
         patch->leftoffset = LITTLESHORT(oldpatch->leftoffset);
         patch->topoffset = LITTLESHORT(oldpatch->topoffset);
 
         // count the number of posts in each column
-        if (patch->width <= 0 || !(numpostsincolumn = calloc(patch->width, sizeof(int))))
+        if (width <= 0 || !(numpostsincolumn = calloc(width, sizeof(*numpostsincolumn))))
         {
             W_ReleaseLumpNum(sourcepatchnum);
             memset(patch, 0, sizeof(*patch));
@@ -150,10 +151,10 @@ static void CreatePatch(int patchnum)
         }
 
         // work out how much memory we need to allocate for this patch's data
-        pixeldatasize = ((patch->width * patch->height + 4) & ~3);
-        columnsdatasize = patch->width * sizeof(rcolumn_t);
+        pixeldatasize = ((width * patch->height + 4) & ~3);
+        columnsdatasize = width * sizeof(rcolumn_t);
 
-        for (int x = 0; x < patch->width && !badpatch; x++)
+        for (int x = 0; x < width && !badpatch; x++)
         {
             const unsigned int  columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
 
@@ -237,7 +238,7 @@ static void CreatePatch(int patchnum)
         SDL_assert((((byte *)patch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)patch->data) == datasize);
 
         // fill in the pixels, posts, and columns
-        for (int x = 0, numpostsusedsofar = 0; x < patch->width && !badpatch; x++)
+        for (int x = 0, numpostsusedsofar = 0; x < width && !badpatch; x++)
         {
             int                 top = -1;
             const unsigned int  columnoffset = LITTLELONG(oldpatch->columnoffset[x]);

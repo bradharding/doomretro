@@ -1390,18 +1390,19 @@ void M_LoadCVARs(const char *filename)
             mouseactionlist[i][0] = '\0';
     }
 
-    while (!feof(file))
+    char    line[1024];
+    bool    firstline = true;
+
+    while (fgets(line, sizeof(line), file))
     {
-        char    line[1024] = "";
         char    cvar[64] = "";
         char    value[256] = "";
 
-        if (!fgets(line, sizeof(line), file))
-            continue;
-
-        if (ftell(file) == (long)strlen(line) && (unsigned char)line[0] == 0xEF
+        if (firstline && (unsigned char)line[0] == 0xEF
             && (unsigned char)line[1] == 0xBB && (unsigned char)line[2] == 0xBF)
             memmove(line, line + 3, strlen(line + 3) + 1);
+
+        firstline = false;
 
         if (sscanf(line, "%63s %255[^\r\n]", cvar, value) != 2)
             continue;
@@ -1565,6 +1566,9 @@ void M_LoadCVARs(const char *filename)
             }
         }
     }
+
+    if (ferror(file))
+        C_Warning(0, "An error occurred while reading " BOLD("%s") ".", filename);
 
     fclose(file);
 

@@ -117,19 +117,19 @@ void P_SetPlayerSprite(const size_t position, const statenum_t stnum)
 //
 static void P_BringUpWeapon(void)
 {
-    statenum_t  newstate;
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const unsigned int  weapon = (pendingweapon == wp_nochange ? viewplayer->readyweapon : pendingweapon);
 
-    if (viewplayer->pendingweapon == wp_nochange)
-        viewplayer->pendingweapon = viewplayer->readyweapon;
-    else if (viewplayer->pendingweapon == wp_chainsaw)
+    if (weapon >= NUMWEAPONS)
+        return;
+
+    if (pendingweapon == wp_chainsaw)
         S_StartSound(viewplayer->mo, sfx_sawup);
-
-    newstate = weaponinfo[viewplayer->pendingweapon].upstate;
 
     viewplayer->pendingweapon = wp_nochange;
     viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM + FRACUNIT * 2;
 
-    P_SetPlayerSprite(ps_weapon, newstate);
+    P_SetPlayerSprite(ps_weapon, weaponinfo[weapon].upstate);
 }
 
 //
@@ -388,6 +388,8 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    const unsigned int  weapon = player->readyweapon;
+
     if (player->readyweapon != quickswitchweapon || player->health <= 0
         || (player->pendingweapon != wp_nochange && player->pendingweapon != quickswitchweapon))
         quickswitchweapon = wp_nochange;
@@ -399,7 +401,14 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     quickswitchweapon = wp_nochange;
     psp->sy = WEAPONTOP;
-    P_SetPlayerSprite(ps_weapon, weaponinfo[player->readyweapon].readystate);
+
+    if (weapon >= NUMWEAPONS)
+    {
+        P_SetPlayerSprite(ps_weapon, S_NULL);
+        return;
+    }
+
+    P_SetPlayerSprite(ps_weapon, weaponinfo[weapon].readystate);
 }
 
 void P_QuickSwitchWeapon(void)

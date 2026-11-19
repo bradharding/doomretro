@@ -154,8 +154,11 @@ FILE *P_OpenSaveGame(const char *filename)
     if (fread(header, 1, sizeof(header), stream) != sizeof(header)
         || memcmp(header, SAVEGAME_MAGIC, 4))
     {
-        rewind(stream);
-        return stream;
+        if (fseek(stream, 0, SEEK_SET) == 0)
+            return stream;
+
+        fclose(stream);
+        return NULL;
     }
     else
     {
@@ -175,9 +178,8 @@ FILE *P_OpenSaveGame(const char *filename)
             && mz_uncompress(uncompressed, &destlen, compressed, (mz_ulong)compressedlen) == MZ_OK
             && destlen == uncompressedlen
             && (tempstream = tmpfile())
-            && fwrite(uncompressed, 1, uncompressedlen, tempstream) == uncompressedlen)
-            rewind(tempstream);
-        else if (tempstream)
+            && (fwrite(uncompressed, 1, uncompressedlen, tempstream) != uncompressedlen
+                || fseek(tempstream, 0, SEEK_SET) != 0))
         {
             fclose(tempstream);
             tempstream = NULL;

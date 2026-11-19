@@ -1697,11 +1697,15 @@ static inline void R_InitRadialLightDistance(void)
 
 static inline void R_UpdateRadialLightIndex(void)
 {
-    while (ds_z < MAXLIGHTZ - 1 && ds_radiallightdistance >= radiallightsquared[ds_z + 1])
-        ds_z++;
+    int z = BETWEEN(0, ds_z, MAXLIGHTZ - 1);
 
-    while (ds_z > 0 && ds_radiallightdistance < radiallightsquared[ds_z])
-        ds_z--;
+    while (z < MAXLIGHTZ - 1 && ds_radiallightdistance >= radiallightsquared[z + 1])
+        z++;
+
+    while (z > 0 && ds_radiallightdistance < radiallightsquared[z])
+        z--;
+
+    ds_z = z;
 }
 
 static inline void R_UpdateRadialLightColormap(const lighttable_t **colormap, int *lightindex)
