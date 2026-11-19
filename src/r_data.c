@@ -937,7 +937,13 @@ static void R_InitSpriteLumps(void)
 
     for (int i = 0; i < nummobjtypes; i++)
     {
-        char    *temp = M_SubString(sprnames[states[mobjinfo[i].spawnstate].sprite], 0, 4);
+        const char  *sprname = sprnames[states[mobjinfo[i].spawnstate].sprite];
+        char        *temp;
+
+        if (!sprname)
+            continue;
+
+        temp = M_SubString(sprname, 0, 4);
 
         for (int j = 0; j < numspritelumps; j++)
         {
