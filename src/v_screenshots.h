@@ -38,6 +38,35 @@
 #include "doomtype.h"
 #include "w_file.h"
 
+#define CACHESIZE       65536
+#define MAXSCREENSHOTS  2
+#define MAXJOBS         4
+
+typedef struct
+{
+    char            path[MAX_PATH];
+    int             width;
+    int             height;
+    byte            *raw;
+    size_t          rawsize;
+    byte            palette[256 * 3];
+} screenshot_t;
+
+typedef struct
+{
+    screenshot_t    screenshots[MAXSCREENSHOTS];
+    int             numscreenshots;
+    SDL_Thread      *thread;
+    SDL_atomic_t    done;
+    SDL_atomic_t    failed;
+} screenshotjob_t;
+
+typedef struct
+{
+    char            key[MAX_PATH * 2];
+    int             next;
+} screenshotcounter_t;
+
 extern bool takingcleancreenshot;
 
 void V_ScreenShot(void);

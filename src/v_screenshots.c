@@ -57,35 +57,6 @@
 #include "v_video.h"
 #include "w_file.h"
 
-#define CACHESIZE       65536
-#define MAXSCREENSHOTS  2
-#define MAXJOBS         4
-
-typedef struct
-{
-    char            path[MAX_PATH];
-    int             width;
-    int             height;
-    byte            *raw;
-    size_t          rawsize;
-    byte            palette[256 * 3];
-} screenshot_t;
-
-typedef struct
-{
-    screenshot_t    screenshots[MAXSCREENSHOTS];
-    int             numscreenshots;
-    SDL_Thread      *thread;
-    SDL_atomic_t    done;
-    SDL_atomic_t    failed;
-} screenshotjob_t;
-
-typedef struct
-{
-    char    key[MAX_PATH * 2];
-    int     next;
-} screenshotcounter_t;
-
 bool                        takingcleancreenshot;
 
 static char                 lbmname1[MAX_PATH];
@@ -338,19 +309,14 @@ void V_ScreenShotSound(void)
 
 static void V_FormatScreenShotName(char *name, const size_t size, const char *base, const int count)
 {
-    if (!count)
-        M_snprintf(name, (int)size, "%s.png", base);
-    else if (count < 1000)
-        M_snprintf(name, (int)size, "%s (%d).png", base, count);
-    else if (count < 1000000)
-        M_snprintf(name, (int)size, "%s (%d,%03d).png", base, count / 1000, count % 1000);
-    else
+    if (count)
     {
-        char    *temp = commify(count);
+        char    buffer[COMMIFY_BUFSIZE];
 
-        M_snprintf(name, (int)size, "%s (%s).png", base, temp);
-        free(temp);
+        M_snprintf(name, (int)size, "%s (%s).png", base, commifybuf(count, buffer));
     }
+    else
+        M_snprintf(name, (int)size, "%s.png", base);
 }
 
 static bool V_ScreenShotExists(const char *folder, const char *base, const int count)
