@@ -11,7 +11,7 @@
   * The corrugated glass effect of the console’s background has been replaced by a dithered, Gaussian blur.
   * A liquid glass effect is also applied when the `smoothtransitions` CVAR is `on`.
   * Headers, dividers and the scroll bar have been redesigned.
-  * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, or dragging the scroll bar using the mouse, is now smooth when the `smoothtransitions` CVAR is `on`.
+  * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, dragging the scroll bar using the mouse, or as new text is added to the console, is now smooth when the `smoothtransitions` CVAR is `on`.
   * When opening the console using the <kbd><b>~</b></kbd> key while playing a game, you may now hold the key down slightly longer for the console to open to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
   * Several changes have been made to text that is output to the console.
   * Improvements have been made to wrapping and truncating text, and the display of nested pairs of quotes.
@@ -38,17 +38,18 @@
   * A new `+crouch` action that lets the player crouch. When held down, the player moves slower and fits under low ceilings.
   * A new `+quickmelee` action that switches to the player’s chainsaw (or fists if they don’t have one) and attacks with it, and then switches back to the weapon they had equipped once released.
   * A new `+quickswitch` action that switches to the last weapon the player had equipped.
-  They are all unbound by default, but can be bound to a control using the `bind` CCMD.
-* Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
+  These actions are all unbound by default, but can be bound to a control using the `bind` CCMD.
+* Individual lump files (with the extension `.lmp`) can now be loaded, by either specifying them on the command-line, putting them in the `autoload` folder, or selecting them in the WAD launcher.
 * A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.
-* Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be overwritten by a manual save.
-* A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
-* The white flash when taking a screenshot no longer interferes when taking multiple screenshots in quick succession.
-* The compression of screenshots can now be disabled using the new `compressscreenshots` CVAR, which is `on` by default.
+* Autosaving a game has changed. There is now a dedicated autosave slot at the top of the save and load game menus. When the `autosave` CVAR is `on` and the player exits a map, the game automatically saves to this slot once the next map has started, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be overwritten by a manual save.
+* These changes have been made to taking screenshots by pressing the <kbd><b>PRINTSCREEN</b></kbd> key:
+  * A bug is fixed whereby two screenshots would be created if taken while the console was open.
+  * The white flash when taking a screenshot no longer interferes when taking multiple screenshots in quick succession.
+  * The compression of screenshots can now be disabled using the new `compressscreenshots` CVAR, which is `on` by default.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
-* If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack now isn’t so loud.
-* Visual anomalies no longer appear along the right side of the player’s weapon when they move.
+* If `extras.wad` has autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack now isn’t so loud.
+* Minor visual anomalies no longer appear along the right edges of the player’s weapon as they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
 * A bug is fixed whereby toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys in the menu would corrupt the player’s view in some rare instances.
@@ -56,7 +57,7 @@
 * These changes have been made to secrets in the automap:
   * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is entered.
   * Secrets now also appear in that color once they have been found.
-  * The number of secrets found displayed when the `am_playerstats` CVAR is `on` is now affected when the `IDDT` cheat is entered.
+  * The number of secrets found, displayed when the `am_playerstats` CVAR is `on`, is now affected when the `IDDT` cheat is entered.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/), [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
@@ -66,11 +67,11 @@
 * These changes have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24):
   * Flats may now be used as wall textures, and wall textures as flats.
   * If found, `id24res.wad` is now loaded automatically, allowing *ID24*-compatible things to be spawned.
-  * Line specials 2,082 to 2,086 are now supported.
+  * Line specials 2,082 to 2,086, used for scrolling textures, are now supported.
 * A weapon carousel is now displayed when the player changes their weapon:
   * This carousel can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-  * The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
-  * If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (their default), or `0` to `255`.
+  * The icons in the carousel are generated based on the pickup sprites of the player’s weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
+  * If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (their default), or `0` to `255`.
   * These colors can also be specified by an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
 * Sprites now tilt slightly to face the center of the player’s view. This can be disabled using the new `r_sprites_tilt` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
@@ -94,7 +95,7 @@
   * Visual anomalies no longer appear when the player is halfway submerged and the `r_liquid_bob` CVAR is `on`.
   * The player’s view no longer bobs up and down when they are dead in deep water.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
-* When the `obituaries` CVAR is `on`
+* When the `obituaries` CVAR is `on`:
   * Obituaries that involve barrels have been either simplified or removed.
   * Obituaries that refer to a monster’s projectile have been simplified to refer to the monster itself.
 * Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
@@ -107,7 +108,7 @@
 * If the `s_musicvolume` CVAR is bound to a control using the `bind` CCMD, the change in volume is now immediate when pressing that control during a game.
 * When the `+prevweapon` or `+nextweapon` actions are bound to a mouse button using the `bind` CCMD, they no longer trigger repeatedly.
 * The rise of the player’s weapon up from the bottom of the screen at the start of each map is now smoother.
-* The vertical tilt applied to the player’s weapon when the `freelook` CVAR is `on` is now more responsive, and now works when the `r_screensize` CVAR is `8`. It can also be disabled using the new `weapontilt` CVAR, which is `on` by default.
+* The vertical tilt applied to the player’s weapon when the `freelook` CVAR is `on` is now more responsive, and now works when the `r_screensize` CVAR is `8`. It can also be disabled using the new `weapontilt` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_althud` CVAR has been replaced by the `r_hud_style` CVAR. This new CVAR can be `small` for the existing widescreen HUD, `alternate` for the alternate widescreen HUD, or `big` for a new, big widescreen HUD (the new default).
 * These changes have been made to the small widescreen HUD:
   * The armor count is now displayed when 0%.
@@ -125,7 +126,7 @@
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
 * The `BIGDOOR1` and `BIGDOOR6` textures are now always vertically aligned as intended.
 * The `freeze` CCMD can now be entered while the player is dead.
-* As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
+* As long as the `secretmessages` CVAR is `on`, secret messages are still displayed even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
 * A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* if the [*No Rest For The Living*](https://doomwiki.org/wiki/No_Rest_for_the_Living) and/or [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) expansions were also loaded.
 * These changes have been made when the `r_corpses_nudge` CVAR is `on`:
@@ -141,11 +142,11 @@
 * The following improvements have been made when the `r_textures` CVAR is `off`:
   * Brightmaps are now displayed if the `r_brightmaps` CVAR is `on`.
   * The player’s weapon now isn’t always translucent.
-  * A subtractive translucency effect is now applied to the fuzz effect of spectres and the player’s partial invisibility power-up.
-  * Rocket trails and dogs no longer appear with textures.
+  * A subtractive translucency effect is now applied to the fuzz effect of spectres and the player’s weapon when they have a partial invisibility power-up.
+  * Rocket trails and dogs are no longer textured.
   * Partially translucent sprites now appear correctly.
 * Partial support has been added for the `GAMEINFO` lump:
-  * If `iwad` is specified, it will be used to determine the IWAD to load.
+  * If `iwad` is specified, it will be used to determine which IWAD to load.
   * If `startuptitle` is specified, it will be used as the title in the window caption, as well as the title used in *Discord* when the `discordpresence` CVAR is `on`.
 * The console can now be opened in the automap by dragging it from the top of the screen downwards with the mouse, when follow mode is off and the `m_pointer` CVAR is `on`.
 * Red blood splats are now a slightly darker shade.
@@ -166,12 +167,12 @@
 * The <kbd><b>ESC</b></kbd> can now be held down slightly longer in the menu to close it completely, rather than just returning to the previous menu.
 * A bug is fixed whereby the mouse would disappear during the confirmation message for the `resetall` CCMD.
 * Fake contrast has been improved when the `r_fakecontrast` CVAR is set to `smooth`, allowing better contrast between walls at different angles.
-* A minor improvement has been made to the rendering of flats.
-* If the effect applied to the player’s view when they have an invulnerability power-up isn’t bright, overlay test won’t be inverted.
+* Minor improvements have been made to the rendering of flats.
+* If the effect applied to the player’s view when they have an invulnerability power-up is changed in a PWAD such that it isn’t bright, overlay text won’t be inverted.
 * The console now opens at startup with a warning, rather than *DOOM Retro* exiting with an error, if a PWAD that is attempting to load is invalid.
 * The values of the `con_warninglevel` CVAR have been changed from `0`, `1` and `2` to `low`, `medium` and `high`.
 * The current time can be displayed in the top right corner of the screen using the new `clock` CVAR. This CVAR is `off` by default and when vanilla mode is enabled.
-* The `con_timestampformat` CVAR has been renamed `timeformat` and affects the clock displayed by the new `clock` CVAR.
+* The `con_timestampformat` CVAR has been renamed `timeformat` and affects both the clock displayed by the new `clock` CVAR and the timestamps of console messages.
 * The nodes of all maps from the official IWADs are now rebuilt using the built-in [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder, eliminating many [slime trails](https://doomwiki.org/wiki/Slime_trail).
 * A bug is fixed whereby the effects of changing the `am_forcepalette` CVAR in the console wouldn’t be immediate unless the automap was open.
 * When the `r_brightmaps` CVAR is `on`, brightmaps are no longer applied to textures, flats or sprites that have been replaced in a PWAD, unless that PWAD has defined the brightmaps itself in a `BRGHTMPS` lump.
