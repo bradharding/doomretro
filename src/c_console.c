@@ -2899,24 +2899,35 @@ static void C_GetOverlayTextColors(void)
 
 void C_UpdateFPSOverlay(void)
 {
-    const int       x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
-    char            *temp = commify(framespersecond);
-    static int      fpshistory[OVERLAYFPSGRAPHWIDTH] = { 0 };
-    static int      fpshistoryindex = 0;
-    static uint64_t lastupdate = 0;
-    static int      maxfpsseen = 60;
-    uint64_t        now = I_GetTimeMS();
-    int             graphx = SCREENWIDTH - OVERLAYFPSGRAPHWIDTH - OVERLAYTEXTX;
-    int             graphy = OVERLAYTEXTY + 1;
-    int             prevpx = -1;
-    int             prevpy = -1;
-    int             pyvals[OVERLAYFPSGRAPHWIDTH];
+    const int           x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
+    const int           currentfps = framespersecond;
+    static int          previousfps;
+    static char         fpsbuffer[COMMIFY_BUFSIZE];
+    static const char   *fpstext;
+    static int          fpstextwidth;
+    static int          fpshistory[OVERLAYFPSGRAPHWIDTH] = { 0 };
+    static int          fpshistoryindex = 0;
+    static uint64_t     lastupdate = 0;
+    static int          maxfpsseen = 60;
+    uint64_t            now = I_GetTimeMS();
+    int                 graphx = SCREENWIDTH - OVERLAYFPSGRAPHWIDTH - OVERLAYTEXTX;
+    int                 graphy = OVERLAYTEXTY + 1;
+    int                 prevpx = -1;
+    int                 prevpy = -1;
+    int                 pyvals[OVERLAYFPSGRAPHWIDTH];
 
     C_GetOverlayTextColors();
 
+    if (!fpstext || currentfps != previousfps)
+    {
+        fpstext = commifybuf(currentfps, fpsbuffer);
+        fpstextwidth = C_OverlayWidth(fpstext, true);
+        previousfps = currentfps;
+    }
+
     if (now - lastupdate >= 1000)
     {
-        fpshistory[fpshistoryindex] = framespersecond;
+        fpshistory[fpshistoryindex] = currentfps;
         fpshistoryindex = (fpshistoryindex + 1) % OVERLAYFPSGRAPHWIDTH;
         lastupdate = now;
         maxfpsseen = 0;
@@ -3071,8 +3082,7 @@ void C_UpdateFPSOverlay(void)
 
     V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x, (graphy += OVERLAYFPSGRAPHHEIGHT + 2) + 3,
         fps, fpswidth, overlaytextcolor, overlaytextshadowcolor, overlaytexttinttab);
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3, graphy, temp, true);
-    free(temp);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - fpstextwidth - 3, graphy, fpstext, true);
 }
 
 void C_UpdateClockOverlay(void)
