@@ -1655,7 +1655,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                 }
 
                 if (menushadow && i <= shadowwidth && currenty + 2 >= 0 && currenty + 2 < SCREENHEIGHT
-                    && currentx + 2 >= 0 && currentx + 2 < SCREENWIDTH)
+                    && currentx + 2 < SCREENWIDTH)
                 {
                     if (drawingmenuelements)
                         V_AddMenuShadow(currentx + 2, currenty + 2);
@@ -2689,8 +2689,6 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 
                 if (nogreen[src])
                 {
-                    byte    *dot;
-
                     *dest = src;
 
                     if (drawingmenuelements)
@@ -2704,7 +2702,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     }
                     else
                     {
-                        dot = dest + 2 * (size_t)SCREENWIDTH + 2;
+                        byte    *dot = dest + 2 * (size_t)SCREENWIDTH + 2;
 
                         if (*dot != BROWN1 && *dot != BROWN2)
                             *dot = black40[*dot];
