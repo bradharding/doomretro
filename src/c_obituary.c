@@ -390,16 +390,11 @@ void C_BuildObituaryString(const int index)
 
                     C_BuildThingName(killername, sizeof(killername), killer, false, false, "", othername);
 
-                    if (killer == MT_BARREL)
-                        M_snprintf(buffer, buffersize, "%s was %s by an exploding %s.",
-                            targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
-                            (inflictername ? inflictername : mobjinfo[MT_BARREL].name1));
-                    else
-                        M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded.",
-                            targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
-                            (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                            (inflictername ? inflictername : mobjinfo[MT_BARREL].name1),
-                            killername);
+                    M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded.",
+                        targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
+                        (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                        (inflictername ? inflictername : mobjinfo[MT_BARREL].name1),
+                        killername);
                 }
             }
         }

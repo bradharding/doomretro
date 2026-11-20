@@ -43,9 +43,6 @@
 #define NUMBONUSPALS            4
 #define RADIATIONPAL            (STARTBONUSPALS + NUMBONUSPALS)
 
-// Size of status bar.
-#define ST_WIDTH                SCREENWIDTH
-
 #define ST_SCROLLINC            8
 
 // Number of status faces.
@@ -63,8 +60,6 @@
 
 #define ST_STRAIGHTFACE         1
 #define ST_STRAIGHTFACECOUNT    (TICRATE / 2)
-
-#define IDMUS_MAX               70
 
 #define IDDTTICS                (TICRATE * 2)
 

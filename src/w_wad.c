@@ -428,17 +428,12 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (M_StringCompare(file, "rekkrsa.wad"))
         REKKR = REKKRSA = true;
 
-    if (sigilwadadded && D_IsSIGILWAD(file))
-        return false;
-    else if (buckethead && D_IsSIGILSHREDSWAD(file))
-        return false;
-    else if (sigil2wadadded && D_IsSIGIL2WAD(file))
-        return false;
-    else if (nervewadadded && D_IsNERVEWAD(file))
-        return false;
-    else if (masterlevelswadadded && D_IsMasterLevelsWAD(file))
-        return false;
-    else if (extraswadadded && D_IsEXTRASWAD(file))
+    if ((sigilwadadded && D_IsSIGILWAD(file))
+        || (buckethead && D_IsSIGILSHREDSWAD(file))
+        || (sigil2wadadded && D_IsSIGIL2WAD(file))
+        || (nervewadadded && D_IsNERVEWAD(file))
+        || (masterlevelswadadded && D_IsMasterLevelsWAD(file))
+        || (extraswadadded && D_IsEXTRASWAD(file)))
         return false;
 
     if (M_StringEndsWith(file, ".lmp"))

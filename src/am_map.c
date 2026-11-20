@@ -408,7 +408,7 @@ void AM_GetGridSize(void)
     else
     {
         gridwidth = am_gridsize_width_default << MAPBITS;
-        gridheight = am_gridsize_width_default << MAPBITS;
+        gridheight = am_gridsize_height_default << MAPBITS;
         am_gridsize = am_gridsize_default;
         M_SaveCVARs();
     }
@@ -1049,15 +1049,10 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (key == keyboardzoomout && !movement
+                else if ((key == keyboardzoomout && !movement
                     && (!mapwindow || keyboardzoomout != '-'))
-                {
-                    keydown = key;
-                    speedtoggle = AM_GetSpeedToggle();
-                    AM_AddZoomImpulse(-1);
-                }
-                else if (key == keyboardzoomout2 && !movement
-                    && (!mapwindow || keyboardzoomout2 != '-'))
+                    || (key == keyboardzoomout2 && !movement
+                        && (!mapwindow || keyboardzoomout2 != '-')))
                 {
                     keydown = key;
                     speedtoggle = AM_GetSpeedToggle();
@@ -1065,16 +1060,10 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // zoom in
-                else if (key == keyboardzoomin && !movement
+                else if ((key == keyboardzoomin && !movement
                     && (!mapwindow || keyboardzoomin != '='))
-                {
-                    keydown = key;
-                    speedtoggle = AM_GetSpeedToggle();
-                    AM_AddZoomImpulse(1);
-                    bigstate = false;
-                }
-                else if (key == keyboardzoomin2 && !movement
-                    && (!mapwindow || keyboardzoomin2 != '='))
+                    || (key == keyboardzoomin2 && !movement
+                        && (!mapwindow || keyboardzoomin2 != '=')))
                 {
                     keydown = key;
                     speedtoggle = AM_GetSpeedToggle();

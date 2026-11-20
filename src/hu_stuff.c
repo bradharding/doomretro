@@ -216,9 +216,8 @@ static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
     int lump;
 
-    if (dehacked && (lump = W_CheckNumForName(keypics[keypicnum].patchnamea)) >= 0)
-        return W_CacheLumpNum(lump);
-    else if ((lump = W_CheckNumForName(keypics[keypicnum].patchnameb)) >= 0)
+    if ((dehacked && (lump = W_CheckNumForName(keypics[keypicnum].patchnamea)) >= 0)
+        || (lump = W_CheckNumForName(keypics[keypicnum].patchnameb)) >= 0)
         return W_CacheLumpNum(lump);
 
     return NULL;

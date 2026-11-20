@@ -377,7 +377,6 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             case S1_Teleport_AlsoMonsters_Silent_SameAngle:
             case SR_Teleport_AlsoMonsters_Silent_SameAngle:
                 return false;
-                break;
         }
     }
 

@@ -112,7 +112,6 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
 void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth);
 void V_SetMenuHighlightFade(int fade);
 void V_SetMenuItemFlash(bool flash);
-void V_SetMenuDrawOffset(int offset);
 void V_DrawHelpPatch(patch_t *patch);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);

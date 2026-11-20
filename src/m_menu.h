@@ -89,7 +89,6 @@ void M_Init(void);
 void M_OpenMainMenu(void);
 void M_CloseMenu(void);
 void M_EndGame(int choice);
-void M_StopMenuElementFade(void);
 void M_CancelMenuInputPress(bool controlleronly);
 
 void M_DrawMenuBackground(void);
@@ -126,7 +125,6 @@ char *M_BuildAutosaveName(char *buffer, size_t size);
 extern bool     messagetoprint;
 extern bool     messagebuttonsactive;
 extern bool     nomusic;
-extern bool     nosound;
 extern bool     nosfx;
 extern bool     firstevent;
 extern bool     savegames;

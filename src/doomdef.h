@@ -105,18 +105,6 @@
 // Global parameters/defines.
 //
 
-enum
-{
-    DOOM1AND2,
-    DOOM1ONLY,
-    DOOM2ONLY,
-    TNTONLY,
-    PLUTONIAONLY,
-    MASTERLEVELSONLY,
-    NERVEONLY,
-    LEGACYOFRUSTONLY
-};
-
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependent animations etc.
 typedef enum

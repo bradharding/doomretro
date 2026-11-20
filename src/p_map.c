@@ -518,10 +518,8 @@ static bool PIT_CheckThing(mobj_t *thing)
     if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ))
         && !infiniteheight && !compat_nopassover && !(flags & MF_SPECIAL))
     {
-        if (tmthing->z >= thing->z + thing->height)
-            return true;    // over thing
-        else if (tmthing->z + tmthing->height <= thing->z)
-            return true;    // under thing
+        if (tmthing->z >= thing->z + thing->height || tmthing->z + tmthing->height <= thing->z)
+            return true;
     }
 
     // check for skulls slamming into things
@@ -766,9 +764,7 @@ static bool PIT_CheckOnMobjZ(mobj_t *thing)
         return true;
 
     // over/under thing
-    if (tmthing->z > thing->z + thing->height)
-        return true;
-    else if (tmthing->z + tmthing->height <= thing->z)
+    if (tmthing->z > thing->z + thing->height || tmthing->z + tmthing->height <= thing->z)
         return true;
 
     blockdist = thing->radius + tmthing->radius;

@@ -352,11 +352,7 @@ static bool ReadMusHeader(MEMFILE *file, musheader *header)
         && mem_fread(&header->secondarychannels, sizeof(short), 1, file) == 1
         && mem_fread(&header->instrumentcount, sizeof(short), 1, file) == 1)
     {
-        header->scorelength = LITTLESHORT(header->scorelength);
         header->scorestart = LITTLESHORT(header->scorestart);
-        header->primarychannels = LITTLESHORT(header->primarychannels);
-        header->secondarychannels = LITTLESHORT(header->secondarychannels);
-        header->instrumentcount = LITTLESHORT(header->instrumentcount);
 
         return true;
     }

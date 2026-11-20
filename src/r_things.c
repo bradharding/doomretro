@@ -207,10 +207,7 @@ static void R_InstallSpriteLump(const int lump, const int frame, const char rot,
     unsigned int    rotation = (rot >= 'A' ? rot - 'A' + 10 : (rot >= '0' ? rot - '0' : 17));
 
     if (frame >= MAXSPRITEFRAMES || rotation > 16)
-    {
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lumpinfo[lump]->name);
-        return;
-    }
 
     if (frame > maxframe)
         maxframe = frame;
@@ -281,10 +278,7 @@ static void R_InitSpriteDefs(void)
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
     if (!(hash = calloc(numspritelumps, sizeof(*hash))))
-    {
         I_Error("R_InitSpriteDefs: Out of memory allocating sprite tables");
-        return;
-    }
 
     for (int i = 0; i < numspritelumps; i++)    // initialize hash table as empty
         hash[i].index = hash[i].next = -1;
