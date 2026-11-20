@@ -44,6 +44,8 @@
 
 #include "doomtype.h"
 
+#define COMMIFY_BUFSIZE 27
+
 extern const char   *daynames[7];
 extern const char   *monthnames[12];
 
@@ -107,6 +109,7 @@ char *titlecase(const char *str);
 char *sentencecase(const char *str);
 bool isuppercase(const char *str);
 bool islowercase(const char *str);
+const char *commifybuf(int64_t value, char buffer[COMMIFY_BUFSIZE]);
 char *commify(int64_t value);
 char *commifystring(const char *str);
 char *commifystat(uint64_t value);

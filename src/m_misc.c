@@ -927,33 +927,45 @@ bool islowercase(const char *str)
     return true;
 }
 
-char *commify(int64_t value)
+const char *commifybuf(int64_t value, char buffer[COMMIFY_BUFSIZE])
 {
-    char    result[64];
+    const bool      negative = (value < 0);
+    uint64_t        magnitude = (negative ? 0 - (uint64_t)value : (uint64_t)value);
+    char            *p = buffer + COMMIFY_BUFSIZE - 1;
+    unsigned int    leading = (unsigned int)magnitude;
 
-    M_snprintf(result, sizeof(result), "%" PRIi64, value);
+    *p = '\0';
 
-    if (value <= -1000 || value >= 1000)
+    while (magnitude >= 1000)
     {
-        char    *pt;
-        size_t  n;
+        unsigned int    group = (unsigned int)(magnitude % 1000);
 
-        for (pt = result; *pt && *pt != '.'; pt++);
+        for (int i = 0; i < 3; i++, group /= 10)
+            *--p = '0' + group % 10;
 
-        n = result + sizeof(result) - pt;
-
-        while (true)
-            if ((pt -= 3) > result)
-            {
-                memmove(pt + 1, pt, n);
-                *pt = ',';
-                n += 4;
-            }
-            else
-                break;
+        *--p = ',';
+        magnitude /= 1000;
     }
 
-    return M_StringDuplicate(result);
+    leading = (unsigned int)magnitude;
+
+    do
+    {
+        *--p = '0' + leading % 10;
+        leading /= 10;
+    } while (leading);
+
+    if (negative)
+        *--p = '-';
+
+    return p;
+}
+
+char *commify(int64_t value)
+{
+    char    buffer[COMMIFY_BUFSIZE];
+
+    return M_StringDuplicate(commifybuf(value, buffer));
 }
 
 char *commifystring(const char *str)
