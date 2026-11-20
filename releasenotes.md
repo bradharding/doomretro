@@ -33,8 +33,11 @@
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
 * The spin of the player’s view in the menu’s background no longer decelerates when the `smoothtransitions` CVAR is `off`.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
-* A new `+quickmelee` action has been added that, while held down, switches to the player’s chainsaw (or fists if they don’t have one) and attacks with it, and then switches back to the weapon they had equipped once released. It is unbound by default, but can be bound to a control using the `bind` CCMD.
-* A new `+quickswitch` action has been added that, when pressed, switches to the last weapon the player had equipped. It is unbound by default, but can be bound to a control using the `bind` CCMD.
+* The following actions are now available:
+  * A new `+crouch` action that lets the player crouch. When held down, the player moves slower and fits under low ceilings.
+  * A new `+quickmelee` action that switches to the player’s chainsaw (or fists if they don’t have one) and attacks with it, and then switches back to the weapon they had equipped once released.
+  * A new `+quickswitch` action that switches to the last weapon the player had equipped.
+  They are all unbound by default, but can be bound to a control using the `bind` CCMD.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.

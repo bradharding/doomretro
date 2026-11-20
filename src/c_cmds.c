@@ -380,6 +380,7 @@ static void chaingunactionfunc(void);
 static void chainsawactionfunc(void);
 static void clearmarkactionfunc(void);
 static void consoleactionfunc(void);
+static void crouchactionfunc(void);
 static void fireactionfunc(void);
 static void fistsactionfunc(void);
 static void followmodeactionfunc(void);
@@ -432,6 +433,7 @@ action_t actions[] =
     { "+chainsaw",       "+chainsaw",       true,  false, chainsawactionfunc,       &keyboardchainsaw,       &keyboardchainsaw2,       &mousechainsaw,       &controllerchainsaw,       NULL            },
     { "+clearmark",      "+clearmark",      true,  true,  clearmarkactionfunc,      &keyboardclearmark,      &keyboardclearmark2,      &mouseclearmark,      &controllerclearmark,      NULL            },
     { "+console",        "+console",        false, false, consoleactionfunc,        &keyboardconsole,        &keyboardconsole2,        &mouseconsole,        &controllerconsole,        NULL            },
+    { "+crouch",         "+crouch",         true,  false, crouchactionfunc,         &keyboardcrouch,         &keyboardcrouch2,         &mousecrouch,         &controllercrouch,         NULL            },
     { "+fire",           "+fire",           true,  false, fireactionfunc,           &keyboardfire,           &keyboardfire2,           &mousefire,           &controllerfire,           NULL            },
     { "+fists",          "+fists",          true,  false, fistsactionfunc,          &keyboardfists,          &keyboardfists2,          &mousefists,          &controllerfists,          NULL            },
     { "+followmode",     "+followmode",     true,  true,  followmodeactionfunc,     &keyboardfollowmode,     &keyboardfollowmode2,     &mousefollowmode,     &controllerfollowmode,     NULL            },
@@ -1495,6 +1497,12 @@ static void jumpactionfunc(void)
 {
     if (gamestate == GS_LEVEL && !nojump)
         viewplayer->cmd.buttons |= BT_JUMP;
+}
+
+static void crouchactionfunc(void)
+{
+    if (gamestate == GS_LEVEL)
+        G_QueueCrouch();
 }
 
 static void quickswitchactionfunc(void)
@@ -9365,6 +9373,8 @@ static void C_VerifyResetAll(const int key)
         keyboardclearmark2 = KEYCLEARMARK2_DEFAULT;
         keyboardconsole = KEYCONSOLE_DEFAULT;
         keyboardconsole2 = KEYCONSOLE2_DEFAULT;
+        keyboardcrouch = KEYCROUCH_DEFAULT;
+        keyboardcrouch2 = KEYCROUCH2_DEFAULT;
         keyboardfire = KEYFIRE_DEFAULT;
         keyboardfire2 = KEYFIRE2_DEFAULT;
         keyboardfists = KEYFISTS_DEFAULT;
@@ -9381,8 +9391,6 @@ static void C_VerifyResetAll(const int key)
         keyboardgrid2 = KEYGRID2_DEFAULT;
         keyboardjump = KEYJUMP_DEFAULT;
         keyboardjump2 = KEYJUMP2_DEFAULT;
-        keyboardquickswitch = KEYQUICKSWITCH_DEFAULT;
-        keyboardquickswitch2 = KEYQUICKSWITCH2_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardleft2 = KEYLEFT2_DEFAULT;
         keyboardlookcenter = KEYLOOKCENTER_DEFAULT;
@@ -9403,6 +9411,8 @@ static void C_VerifyResetAll(const int key)
         keyboardplasmarifle2 = KEYPLASMARIFLE2_DEFAULT;
         keyboardprevweapon = KEYPREVWEAPON_DEFAULT;
         keyboardprevweapon2 = KEYPREVWEAPON2_DEFAULT;
+        keyboardquickswitch = KEYQUICKSWITCH_DEFAULT;
+        keyboardquickswitch2 = KEYQUICKSWITCH2_DEFAULT;
         keyboardright = KEYRIGHT_DEFAULT;
         keyboardright2 = KEYRIGHT2_DEFAULT;
         keyboardrocketlauncher = KEYROCKETLAUNCHER_DEFAULT;
@@ -9456,6 +9466,7 @@ static void C_VerifyResetAll(const int key)
         mousechainsaw = MOUSECHAINSAW_DEFAULT;
         mouseclearmark = MOUSECLEARMARK_DEFAULT;
         mouseconsole = MOUSECONSOLE_DEFAULT;
+        mousecrouch = MOUSECROUCH_DEFAULT;
         mousefire = MOUSEFIRE_DEFAULT;
         mousefists = MOUSEFISTS_DEFAULT;
         mousefollowmode = MOUSEFOLLOWMODE_DEFAULT;
@@ -9464,7 +9475,6 @@ static void C_VerifyResetAll(const int key)
         mousefullzoom = MOUSEFULLZOOM_DEFAULT;
         mousegrid = MOUSEGRID_DEFAULT;
         mousejump = MOUSEJUMP_DEFAULT;
-        mousequickswitch = MOUSEQUICKSWITCH_DEFAULT;
         mouseleft = MOUSELEFT_DEFAULT;
         mouselookcenter = MOUSELOOKCENTER_DEFAULT;
         mouselookdown = MOUSELOOKDOWN_DEFAULT;
@@ -9475,6 +9485,7 @@ static void C_VerifyResetAll(const int key)
         mousepistol = MOUSEPISTOL_DEFAULT;
         mouseplasmarifle = MOUSEPLASMARIFLE_DEFAULT;
         mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
+        mousequickswitch = MOUSEQUICKSWITCH_DEFAULT;
         mouseright = MOUSERIGHT_DEFAULT;
         mouserocketlauncher = MOUSEROCKETLAUNCHER_DEFAULT;
         mouserotatemode = MOUSEROTATEMODE_DEFAULT;
@@ -9506,6 +9517,7 @@ static void C_VerifyResetAll(const int key)
         controllerchainsaw = CONTROLLERCHAINSAW_DEFAULT;
         controllerclearmark = CONTROLLERCLEARMARK_DEFAULT;
         controllerconsole = CONTROLLERCONSOLE_DEFAULT;
+        controllercrouch = CONTROLLERCROUCH_DEFAULT;
         controllerfire = CONTROLLERFIRE_DEFAULT;
         controllerfists = CONTROLLERFISTS_DEFAULT;
         controllerfollowmode = CONTROLLERFOLLOWMODE_DEFAULT;
@@ -9514,7 +9526,6 @@ static void C_VerifyResetAll(const int key)
         controllerfullzoom = CONTROLLERFULLZOOM_DEFAULT;
         controllergrid = CONTROLLERGRID_DEFAULT;
         controllerjump = CONTROLLERJUMP_DEFAULT;
-        controllerquickswitch = CONTROLLERQUICKSWITCH_DEFAULT;
         controllerleft = CONTROLLERLEFT_DEFAULT;
         controllerlookcenter = CONTROLLERLOOKCENTER_DEFAULT;
         controllerlookdown = CONTROLLERLOOKDOWN_DEFAULT;
@@ -9525,6 +9536,7 @@ static void C_VerifyResetAll(const int key)
         controllerpistol = CONTROLLERPISTOL_DEFAULT;
         controllerplasmarifle = CONTROLLERPLASMARIFLE_DEFAULT;
         controllerprevweapon = CONTROLLERPREVWEAPON_DEFAULT;
+        controllerquickswitch = CONTROLLERQUICKSWITCH_DEFAULT;
         controllerright = CONTROLLERRIGHT_DEFAULT;
         controllerrocketlauncher = CONTROLLERROCKETLAUNCHER_DEFAULT;
         controllerrotatemode = CONTROLLERROTATEMODE_DEFAULT;

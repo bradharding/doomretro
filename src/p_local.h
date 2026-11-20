@@ -278,6 +278,7 @@ extern bool         hitwall;
 void P_CheckSpechits(void);
 bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y);
 mobj_t *P_CheckOnMobj(mobj_t *thing);
+bool P_CanStand(const mobj_t *thing);
 bool P_IsInLiquid(mobj_t *thing);
 bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropoff);
 bool P_CheckLineSide(const mobj_t *actor, const fixed_t x, const fixed_t y);

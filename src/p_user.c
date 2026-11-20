@@ -85,6 +85,28 @@ static void P_Bob(angle_t angle, fixed_t move)
     viewplayer->momy += FixedMul(move, finesine[angle]);
 }
 
+static bool P_IsCrouching(const mobj_t *mo)
+{
+    return (mo->height < mo->info->height);
+}
+
+static void P_UpdateCrouch(mobj_t *mo, const bool held)
+{
+    if (held)
+    {
+        if (!P_IsCrouching(mo) && mo->info->height > 1)
+        {
+            mo->height = mo->info->height / 2;
+            viewplayer->deltaviewheight = 0;
+        }
+    }
+    else if (P_IsCrouching(mo) && P_CanStand(mo))
+    {
+        mo->height = mo->info->height;
+        viewplayer->deltaviewheight = MAX(0, (VIEWHEIGHT - viewplayer->viewheight) >> 3);
+    }
+}
+
 //
 // P_CalcHeight
 // Calculate the walking/running height adjustment
@@ -101,6 +123,8 @@ void P_CalcHeight(void)
         // (needs to be calculated for gun swing even if not on ground)
         const fixed_t   momx = viewplayer->momx;
         const fixed_t   momy = viewplayer->momy;
+        const bool      crouching = P_IsCrouching(mo);
+        const fixed_t   eyeheight = (crouching ? VIEWHEIGHT / 2 : VIEWHEIGHT);
         fixed_t         bob = (MAXBOB * stillbob / 400) / 2;
 
         if (momx | momy)
@@ -120,15 +144,15 @@ void P_CalcHeight(void)
         // move viewheight
         viewplayer->viewheight += viewplayer->deltaviewheight;
 
-        if (viewplayer->viewheight > VIEWHEIGHT)
+        if (viewplayer->viewheight > eyeheight)
         {
-            viewplayer->viewheight = VIEWHEIGHT;
+            viewplayer->viewheight = (crouching ? MAX(viewplayer->viewheight - 4 * FRACUNIT, eyeheight) : eyeheight);
             viewplayer->deltaviewheight = 0;
         }
 
-        if (viewplayer->viewheight < VIEWHEIGHT / 2)
+        if (viewplayer->viewheight < eyeheight / 2)
         {
-            viewplayer->viewheight = VIEWHEIGHT / 2;
+            viewplayer->viewheight = eyeheight / 2;
 
             if (viewplayer->deltaviewheight < 1)
                 viewplayer->deltaviewheight = 1;
@@ -197,10 +221,11 @@ static bool P_CheckForSteps(const fixed_t width)
 //
 void P_MovePlayer(void)
 {
-    mobj_t              *mo = viewplayer->mo;
-    const ticcmd_t      *cmd = &viewplayer->cmd;
-    const signed char   forward = cmd->forwardmove;
-    const signed char   side = cmd->sidemove;
+    mobj_t          *mo = viewplayer->mo;
+    const ticcmd_t  *cmd = &viewplayer->cmd;
+    const bool      crouching = P_IsCrouching(mo);
+    const int       forward = (crouching ? cmd->forwardmove / 2 : cmd->forwardmove);
+    const int       side = (crouching ? cmd->sidemove / 2 : cmd->sidemove);
 
     mo->angle += ((cmd->angleturn * turbo / 100) << FRACBITS);
 
@@ -694,6 +719,9 @@ void P_PlayerThink(void)
     if (viewplayer->jumptics)
         viewplayer->jumptics--;
 
+    if (!(viewplayer->cheats & CF_FREEZE))
+        P_UpdateCrouch(mo, (cmd->buttons & BT_CROUCH));
+
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
     if (mo->reactiontime)
@@ -729,6 +757,7 @@ void P_PlayerThink(void)
     }
 
     if ((cmd->buttons & BT_JUMP)
+        && !P_IsCrouching(mo)
         && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))
         && !viewplayer->jumptics)
     {

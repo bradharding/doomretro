@@ -2006,7 +2006,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         target->flags &= ~MF_NOGRAVITY;
 
     target->flags2 &= ~MF2_PASSMOBJ;
-    target->height >>= 2;
+    target->height = ((target->player && target->player->mo == target ? info->height : target->height) >> 2);
     target->geartime = MAXGEARTIME; // [JN] Limit torque to 15 seconds
     target->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
 

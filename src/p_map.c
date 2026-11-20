@@ -1002,6 +1002,43 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
     return NULL;
 }
 
+static const mobj_t *standingthing;
+
+static bool PIT_CheckStandingRoom(mobj_t *thing)
+{
+    const mobj_t  *mo = standingthing;
+    const int64_t radius = (int64_t)mo->radius + thing->radius;
+
+    return (thing == mo || !(thing->flags & MF_SOLID) || (thing->flags & (MF_CORPSE | MF_SPECIAL))
+        || (int64_t)thing->z + thing->height <= (int64_t)mo->z + mo->height
+        || thing->z >= (int64_t)mo->z + mo->info->height
+        || ABS64((int64_t)thing->x - mo->x) >= radius || ABS64((int64_t)thing->y - mo->y) >= radius);
+}
+
+bool P_CanStand(const mobj_t *thing)
+{
+    if ((int64_t)thing->z + thing->info->height > thing->ceilingz)
+        return false;
+
+    if (!(thing->flags & MF_NOCLIP))
+    {
+        const fixed_t   radius = thing->radius + MAXRADIUS;
+        const int       xl = P_GetSafeBlockX(thing->x - bmaporgx - radius);
+        const int       xh = P_GetSafeBlockX(thing->x - bmaporgx + radius);
+        const int       yl = P_GetSafeBlockY(thing->y - bmaporgy - radius);
+        const int       yh = P_GetSafeBlockY(thing->y - bmaporgy + radius);
+
+        standingthing = thing;
+
+        for (int bx = xl; bx <= xh; bx++)
+            for (int by = yl; by <= yh; by++)
+                if (!P_BlockThingsIterator(bx, by, &PIT_CheckStandingRoom, true))
+                    return false;
+    }
+
+    return true;
+}
+
 //
 // P_IsInLiquid
 //

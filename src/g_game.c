@@ -546,12 +546,20 @@ static bool G_CheckAutoFire(void)
     return false;
 }
 
+static bool crouchqueued;
+
+void G_QueueCrouch(void)
+{
+    crouchqueued = true;
+}
+
 //
 // G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs.
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
+    const bool crouch = crouchqueued;
     bool    strafe;
     bool    lookup;
     bool    lookdown;
@@ -559,6 +567,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     int     run;
     int     forward = 0;
     int     side = 0;
+
+    crouchqueued = false;
 
     // [BH] This needs to be reset every tic, even if automap open and follow mode off
     memset(cmd, 0, sizeof(ticcmd_t));
@@ -711,6 +721,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if ((gamekeydown[keyboardjump] || gamekeydown[keyboardjump2] || mousebuttons[mousejump]
         || (controllerbuttons & controllerjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
+
+    if (crouch || gamekeydown[keyboardcrouch] || gamekeydown[keyboardcrouch2] || mousebuttons[mousecrouch]
+        || (controllerbuttons & controllercrouch))
+        cmd->buttons |= BT_CROUCH;
 
     // buttons
     if (!(viewplayer->cheats & CF_FREEZE))
