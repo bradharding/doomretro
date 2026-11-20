@@ -546,11 +546,16 @@ static bool G_CheckAutoFire(void)
     return false;
 }
 
-static bool crouchqueued;
+static int  queuedbuttons;
 
 void G_QueueCrouch(void)
 {
-    crouchqueued = true;
+    queuedbuttons |= BT_CROUCH;
+}
+
+void G_QueueJump(void)
+{
+    queuedbuttons |= BT_JUMP;
 }
 
 //
@@ -559,16 +564,16 @@ void G_QueueCrouch(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    const bool crouch = crouchqueued;
-    bool    strafe;
-    bool    lookup;
-    bool    lookdown;
-    bool    lookcenter;
-    int     run;
-    int     forward = 0;
-    int     side = 0;
+    const int   buttons = queuedbuttons;
+    bool        strafe;
+    bool        lookup;
+    bool        lookdown;
+    bool        lookcenter;
+    int         run;
+    int         forward = 0;
+    int         side = 0;
 
-    crouchqueued = false;
+    queuedbuttons = 0;
 
     // [BH] This needs to be reset every tic, even if automap open and follow mode off
     memset(cmd, 0, sizeof(ticcmd_t));
@@ -576,6 +581,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (automapactive && !am_followmode && viewplayer->health > 0)
         return;
 
+    cmd->buttons = buttons;
     strafe = (gamekeydown[keyboardstrafe] || gamekeydown[keyboardstrafe2] || mousebuttons[mousestrafe]
         || (controllerbuttons & controllerstrafe));
     run = ((gamekeydown[keyboardrun] || gamekeydown[keyboardrun2] || mousebuttons[mouserun]
@@ -718,11 +724,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if ((gamekeydown[keyboardjump] || gamekeydown[keyboardjump2] || mousebuttons[mousejump]
-        || (controllerbuttons & controllerjump)) && !nojump)
+    if (gamekeydown[keyboardjump] || gamekeydown[keyboardjump2] || mousebuttons[mousejump]
+        || (controllerbuttons & controllerjump))
         cmd->buttons |= BT_JUMP;
 
-    if (crouch || gamekeydown[keyboardcrouch] || gamekeydown[keyboardcrouch2] || mousebuttons[mousecrouch]
+    if (gamekeydown[keyboardcrouch] || gamekeydown[keyboardcrouch2] || mousebuttons[mousecrouch]
         || (controllerbuttons & controllercrouch))
         cmd->buttons |= BT_CROUCH;
 

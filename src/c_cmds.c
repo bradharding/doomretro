@@ -1495,8 +1495,8 @@ static void gridactionfunc(void)
 
 static void jumpactionfunc(void)
 {
-    if (gamestate == GS_LEVEL && !nojump)
-        viewplayer->cmd.buttons |= BT_JUMP;
+    if (gamestate == GS_LEVEL)
+        G_QueueJump();
 }
 
 static void crouchactionfunc(void)

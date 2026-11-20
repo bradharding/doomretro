@@ -586,6 +586,16 @@ void P_AnimateMaxAmmo(const int diff, const ammotype_t type)
     }
 }
 
+static void P_TryJump(mobj_t *mo, const bool movementlocked)
+{
+    if (!nojump && !movementlocked && !P_IsCrouching(mo) && !viewplayer->jumptics
+        && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)))
+    {
+        mo->momz = JUMPHEIGHT;
+        viewplayer->jumptics = JUMPCOOLDOWN;
+    }
+}
+
 //
 // P_PlayerThink
 //
@@ -593,6 +603,7 @@ void P_PlayerThink(void)
 {
     ticcmd_t    *cmd;
     mobj_t      *mo = viewplayer->mo;
+    bool        movementlocked;
     static int  motionblur;
 
     if (viewplayer->bonuscount)
@@ -724,7 +735,7 @@ void P_PlayerThink(void)
 
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
-    if (mo->reactiontime)
+    if ((movementlocked = (mo->reactiontime != 0)))
         mo->reactiontime--;
     else
         P_MovePlayer();
@@ -756,18 +767,14 @@ void P_PlayerThink(void)
         }
     }
 
-    if ((cmd->buttons & BT_JUMP)
-        && !P_IsCrouching(mo)
-        && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))
-        && !viewplayer->jumptics)
-    {
-        mo->momz = JUMPHEIGHT;
-        viewplayer->jumptics = 18;
-    }
-    else if (cmd->buttons & BT_SPECIAL)
+    if (cmd->buttons & BT_SPECIAL)
         // A special event has no other buttons.
         cmd->buttons = 0;
-    else if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
+
+    if (cmd->buttons & BT_JUMP)
+        P_TryJump(mo, movementlocked);
+
+    if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
     {
         // Check for weapon change.
         const weapontype_t  newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;

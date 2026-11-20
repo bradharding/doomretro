@@ -481,7 +481,7 @@ static void P_ZMovement(mobj_t *mo)
     }
 
     // check for smooth step up
-    if (player && player->mo == mo && mo->z < floorz && !viewplayer->jumptics)
+    if (player && player->mo == mo && mo->z < floorz && mo->momz <= 0)
     {
         player->viewheight -= floorz - mo->z;
         player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
@@ -540,9 +540,9 @@ floater:
             // killough 11/98: touchy objects explode on impact
             if ((mo->flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
                 P_DamageMobj(mo, NULL, NULL, mo->health, true, false, false);
-            else if (player && player->mo == mo && !(viewplayer->cheats & (CF_NOCLIP | CF_FREEZE)))
+            else if (player && player->mo == mo && !(player->cheats & (CF_NOCLIP | CF_FREEZE)))
             {
-                player->jumptics = 7;
+                player->jumptics = LANDCOOLDOWN;
 
                 if (weaponbounce)
                     player->bouncemax = MAX(MINBOUNCEMAX, mo->momz) * 3 / 4;
@@ -764,6 +764,9 @@ void P_MobjThinker(mobj_t *mobj)
 
                 if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
                 {
+                    if (mobj->momz < 0 && player->mo == mobj && !(player->cheats & (CF_NOCLIP | CF_FREEZE)))
+                        player->jumptics = LANDCOOLDOWN;
+
                     player->viewheight -= onmo->z + onmo->height - mobj->z;
                     player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
                     mobj->z = onmo->z + onmo->height;

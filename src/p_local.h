@@ -47,6 +47,8 @@
 #define DEADVIEWHEIGHT      (6 * FRACUNIT)
 #define MENUVIEWHEIGHT      (4 * FRACUNIT)
 #define JUMPHEIGHT          (9 * FRACUNIT)
+#define JUMPCOOLDOWN        18
+#define LANDCOOLDOWN        7
 
 #define DEADPITCH           128
 
