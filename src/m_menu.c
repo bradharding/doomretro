@@ -733,13 +733,13 @@ void M_DrawMenuBackground(void)
 
     if (time != menublurtime || animatingpillarboxes || keepwidescreenduringanim)
     {
-        const float         *blurrgb = C_BlurScreen();
+        const float         *blurgray = C_BlurScreenGray();
         static float        linergb[MAXWIDTH * 3];
         static unsigned int noiseseed = 1;
 
         for (int y = 0; y < SCREENHEIGHT; y++)
         {
-            const float *src = &blurrgb[y * SCREENWIDTH * 3];
+            const float *src = &blurgray[y * SCREENWIDTH];
             float       boost = 0.0f;
 
             if ((y % 2) == 1 && (M_BigRandom() % 25))
@@ -747,7 +747,7 @@ void M_DrawMenuBackground(void)
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
-                float   gray = src[x * 3] * 0.2126f + src[x * 3 + 1] * 0.7152f + src[x * 3 + 2] * 0.0722f;
+                float   gray = src[x];
                 float   noise;
 
                 noiseseed ^= (noiseseed << 13);

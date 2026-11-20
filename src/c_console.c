@@ -1984,25 +1984,29 @@ static byte C_NearestColor(const int r, const int g, const int b)
 
 void C_DitherRow(const float *rgb, byte *dest, const int y, const byte *remap)
 {
-    static float    errors[2][(MAXWIDTH + 2) * 3];
-    static float    *current = errors[0];
-    static float    *next = errors[1];
-    const bool      reverse = (y & 1);
-    const int       dir = (reverse ? -1 : 1);
-    float           *temp;
+    static float        errors[2][(MAXWIDTH + 2) * 3];
+    static float        *current = errors[0];
+    static float        *next = errors[1];
+    const bool          reverse = (y & 1);
+    const int           dir = (reverse ? -1 : 1);
+    const int           step = dir * 3;
+    const int           startx = (reverse ? SCREENWIDTH - 1 : 0);
+    const unsigned int  hashstep = (reverse ? 0u - 374761393u : 374761393u);
+    unsigned int        positionhash = (unsigned int)startx * 374761393u + (unsigned int)y * 668265263u;
+    const float         *src = rgb + startx * 3;
+    byte                *out = dest + startx;
+    float               *e = current + (startx + 1) * 3;
+    float               *below = next + (startx + 1) * 3;
+    float               *temp;
 
     if (!y)
         memset(current, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
 
     memset(next, 0, (SCREENWIDTH + 2) * 3 * sizeof(float));
 
-    for (int n = 0; n < SCREENWIDTH; n++)
+    for (int remaining = SCREENWIDTH; remaining > 0;)
     {
-        const int       x = (reverse ? SCREENWIDTH - 1 - n : n);
-        const float     forward = (x + dir >= 0 && x + dir < SCREENWIDTH ? 1.0f : 0.0f);
-        const float     behind = (x - dir >= 0 && x - dir < SCREENWIDTH ? 1.0f : 0.0f);
-        float           *e = &current[(x + 1) * 3];
-        unsigned int    hash = (unsigned int)x * 374761393u + (unsigned int)y * 668265263u;
+        unsigned int    hash = positionhash;
         float           noise;
         bool            reset;
         float           v[3];
@@ -2013,7 +2017,7 @@ void C_DitherRow(const float *rgb, byte *dest, const int y, const byte *remap)
         reset = !((hash >> 24) & DITHERRESETMASK);
 
         for (int c = 0; c < 3; c++)
-            v[c] = fminf(fmaxf(rgb[x * 3 + c] + (reset ? 0.0f : e[c]), 0.0f), 255.0f);
+            v[c] = fminf(fmaxf(src[c] + (reset ? 0.0f : e[c]), 0.0f), 255.0f);
 
         color = C_NearestColor(BETWEEN(0, (int)(v[0] + noise), 255), BETWEEN(0, (int)(v[1] + noise), 255),
             BETWEEN(0, (int)(v[2] + noise), 255));
@@ -2021,17 +2025,26 @@ void C_DitherRow(const float *rgb, byte *dest, const int y, const byte *remap)
         if (remap)
             color = remap[color];
 
-        dest[x] = color;
+        *out = color;
 
         for (int c = 0; c < 3; c++)
         {
             const float err = BETWEENF(-DITHERMAXERROR, v[c] - blurpalette[color][c], DITHERMAXERROR);
 
-            e[dir * 3 + c] += err * (7.0f / 16.0f) * forward;
-            next[(x + 1 - dir) * 3 + c] += err * (3.0f / 16.0f) * behind;
-            next[(x + 1) * 3 + c] += err * (5.0f / 16.0f);
-            next[(x + 1 + dir) * 3 + c] += err * (1.0f / 16.0f) * forward;
+            e[step + c] += err * (7.0f / 16.0f);
+            below[-step + c] += err * (3.0f / 16.0f);
+            below[c] += err * (5.0f / 16.0f);
+            below[step + c] += err * (1.0f / 16.0f);
         }
+
+        if (!--remaining)
+            break;
+
+        src += step;
+        out += dir;
+        e += step;
+        below += step;
+        positionhash += hashstep;
     }
 
     temp = current;
@@ -2100,15 +2113,17 @@ static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, 
                 row[i] += (above[i] + below[i]) * blurkernel[k];
         }
 
-        for (int i = 0; i < SCREENWIDTH * 3; i++)
-            row[i] = row[i] * (1.0f - tintamount) + tint[i % 3] * tintamount;
+        if (tintamount != 0.0f)
+            for (int i = 0; i < SCREENWIDTH * 3; i++)
+                row[i] = row[i] * (1.0f - tintamount) + tint[i % 3] * tintamount;
     }
 }
 
-const float *C_BlurScreen(void)
+const float *C_BlurScreenGray(void)
 {
     static byte     *cachedinput;
     static float    *blurrgb;
+    static float    *blurgray;
     static int      cachedwidth;
     static int      cachedheight;
     static int      cachedarea;
@@ -2119,6 +2134,7 @@ const float *C_BlurScreen(void)
     {
         cachedinput = I_Realloc(cachedinput, SCREENAREA);
         blurrgb = I_Realloc(blurrgb, SCREENAREA * 3 * sizeof(float));
+        blurgray = I_Realloc(blurgray, SCREENAREA * sizeof(float));
         cachedarea = SCREENAREA;
         cachedwidth = 0;
     }
@@ -2128,11 +2144,19 @@ const float *C_BlurScreen(void)
     {
         memcpy(cachedinput, screens[0], SCREENAREA);
         C_BlurBackground(blurrgb, SCREENHEIGHT, blurpalette[0], 0.0f, blurkernelh, BLURHRADIUS);
+
+        for (int i = 0; i < SCREENAREA; i++)
+        {
+            const float *src = &blurrgb[i * 3];
+
+            blurgray[i] = src[0] * 0.2126f + src[1] * 0.7152f + src[2] * 0.0722f;
+        }
+
         cachedwidth = SCREENWIDTH;
         cachedheight = SCREENHEIGHT;
     }
 
-    return blurrgb;
+    return blurgray;
 }
 
 static float C_BrandDistance(const int gx, const int gy, float *vx, float *vy)
