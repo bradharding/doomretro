@@ -27,6 +27,7 @@
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
+  * If the `quit` CCMD is entered in the console, the console now closes as the screen fades to black.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
   * The crosshair that is displayed when the `crosshair` CVAR is a value other than `none`, now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.

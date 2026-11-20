@@ -329,6 +329,9 @@ void D_FadeScreenToBlack(void)
         return;
     }
 
+    if (quitcmd && consoleheight)
+        consoledirection = -1;
+
     for (int i = 19; i >= 0; i--)
     {
         brightness = startbrightness * (float)i / 20.0f;
