@@ -1724,7 +1724,15 @@ void AM_Ticker(void)
         return;
 
     if (am_followmode)
+    {
         AM_DoFollowPlayer();
+
+        if (editingmark)
+        {
+            pendingmark.x = m_x + m_w / 2;
+            pendingmark.y = m_y + m_h / 2;
+        }
+    }
 
     if (!consoleactive && !paused && !editingmark)
         AM_ApplyZoom();
