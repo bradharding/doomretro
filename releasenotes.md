@@ -10,7 +10,7 @@
 * These changes have been made to the console:
   * The corrugated glass effect of the console’s background has been replaced by a dithered, Gaussian blur.
   * A liquid glass effect is also applied when the `smoothtransitions` CVAR is `on`.
-  * Headers, dividers and the scroll bar have been redesigned.
+  * Headers, dividers, color swatches and the scroll bar have been redesigned.
   * Scrolling around the console, using either the <kbd><b>PAGEUP</b></kbd> and <kbd><b>PAGEDOWN</b></kbd> keys, the mouse wheel, dragging the scroll bar using the mouse, or as new text is added to the console, is now smooth when the `smoothtransitions` CVAR is `on`.
   * When opening the console using the <kbd><b>~</b></kbd> key while playing a game, you may now hold the key down slightly longer for the console to open to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
   * Several changes have been made to text that is output to the console.
@@ -54,6 +54,10 @@
 * Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
 * A bug is fixed whereby toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys in the menu would corrupt the player’s view in some rare instances.
 * Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
+* These changes have been made to marks in the automap:
+  * Marks are now also antialiased in the automap when the `am_antialiasing` CVAR is `on`.
+  * Each mark left by the player in the automap can now be text. When pressing the <kbd><b>M</b></kbd> key, a caret is now displayed next to the mark’s number. The player may then delete that number and type their own text, pressing <kbd><b>ENTER</b></kbd> to confirm. This feature may be disabled using the new `am_marktext` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * The `am_markcolor` CVAR is now `4` by default.
 * These changes have been made to secrets in the automap:
   * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is entered.
   * Secrets now also appear in that color once they have been found.
@@ -179,6 +183,7 @@
 * An arch-vile’s fire can no longer appear on a different target than the one that was damaged and thrown by its attack, if the arch-vile’s target changed after it began the attack.
 * The `animatedstats` CVAR has been renamed `animatednumbers`.
 * Your health, armor and ammo in the status bar and widescreen heads-up display can be colored dynamically, a feature from the original [*BOOM*](https://doomwiki.org/wiki/Boom) source port, by enabling the new `colorednumbers` CVAR, which is `off` by default and when vanilla mode is enabled.
+* Improvements have been made to the FPS graph displayed when the `vid_showfps` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
