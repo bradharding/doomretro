@@ -725,6 +725,8 @@ static short    logowidth;
 static short    logoheight;
 static int      logox;
 static int      logoy;
+static short    splashbackwidth;
+static short    splashbackheight;
 
 //
 // D_PageTicker
@@ -765,7 +767,7 @@ void D_SplashDrawer(void)
 {
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch(0, 0, 1280, 800, splashbacklump);
+    V_DrawBigPatch(MAX(0, (SCREENWIDTH - splashbackwidth) / 2), 0, splashbackwidth, splashbackheight, splashbacklump);
     V_DrawTranslucentBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
     V_DrawTranslucentBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)), 10) * 768]);
@@ -2562,6 +2564,8 @@ static void D_DoomMainSetup(void)
     fineprinty = SCREENHEIGHT - fineprintheight - 14;
 
     splashbacklump = W_CacheLumpNameFromResourceWAD("SPLSHBCK");
+    splashbackwidth = LITTLESHORT(splashbacklump->width);
+    splashbackheight = LITTLESHORT(splashbacklump->height);
 
     if (autosigil)
     {

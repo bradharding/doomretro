@@ -100,9 +100,28 @@ static bool V_CaptureScreenShot(screenshotjob_t *job, SDL_Window *sdlwindow, con
 
     blitfunc();
 
+    if (renderer && splashscreen && sdlwindow == window)
+    {
+        SDL_Rect    viewport;
+        float       scalex, scaley;
+
+        SDL_RenderGetScale(renderer, &scalex, &scaley);
+
+        if (SDL_RenderSetScale(renderer, 1, 1) < 0)
+            return false;
+
+        SDL_RenderGetViewport(renderer, &viewport);
+
+        if (SDL_RenderSetScale(renderer, scalex, scaley) < 0)
+            return false;
+
+        width = viewport.w;
+        height = viewport.h;
+    }
+
     if (renderer && width > 0 && height > 0 && job->numscreenshots < MAXSCREENSHOTS)
     {
-        const int       pngwidth = (vid_widescreen ? width : height * 4 / 3);
+        const int       pngwidth = (vid_widescreen || (splashscreen && sdlwindow == window) ? width : height * 4 / 3);
         const int       pitch = pngwidth * 3;
         const size_t    rawsize = (size_t)(pngwidth + 1) * height;
         byte            *pixels = I_Malloc((size_t)pitch * height);
@@ -458,10 +477,10 @@ void V_ScreenShot(void)
     fadecount = 0;
     menuitemfadecount = 0;
 
-    if (cleanscreenshots)
+    if (cleanscreenshots && !splashscreen)
         takingcleancreenshot = true;
 
-    if (cleanscreenshots || fading)
+    if ((cleanscreenshots || fading) && !splashscreen)
         D_Display();
 
     if ((result = V_CaptureScreenShot(job, window, lbmpath1)) && mapwindow && gamestate == GS_LEVEL)
@@ -479,7 +498,7 @@ void V_ScreenShot(void)
         V_StartScreenShotThread(job);
     }
 
-    if (cleanscreenshots)
+    if (cleanscreenshots && !splashscreen)
     {
         takingcleancreenshot = false;
         D_Display();
