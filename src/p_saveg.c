@@ -1257,6 +1257,24 @@ void P_WriteSaveGameFooter(void)
 
     for (int i = 0; i < len; i++)
         saveg_write8(wadsloaded[i]);
+
+    for (int i = 0; i < nummarks; i++)
+        if (*mark[i].text)
+        {
+            saveg_write8(0);
+            fwrite("AMTM", 1, 4, save_stream);
+            saveg_write32(nummarks);
+
+            for (int j = 0; j < nummarks; j++)
+            {
+                const size_t textlen = strlen(mark[j].text);
+
+                saveg_write8((byte)textlen);
+                fwrite(mark[j].text, 1, textlen, save_stream);
+            }
+
+            break;
+        }
 }
 
 //
@@ -1264,10 +1282,30 @@ void P_WriteSaveGameFooter(void)
 //
 void P_ReadSaveGameFooter(void)
 {
-    char    buffer[512] = "";
-    int     i = 0;
+    size_t  capacity = 512;
+    size_t  len = 0;
+    char    *buffer = I_Malloc(capacity);
+    int     ch;
+    char    magic[4];
+    size_t  size;
 
-    while ((buffer[i++] = saveg_read8()));
+    while ((ch = fgetc(save_stream)) != EOF && ch)
+    {
+        if (len + 1 >= capacity)
+        {
+            if (capacity > INT_MAX / 4)
+                I_Error("Invalid savegame footer.");
+
+            buffer = I_Realloc(buffer, capacity *= 2);
+        }
+
+        buffer[len++] = (char)ch;
+    }
+
+    if (ferror(save_stream))
+        I_Error("Couldn't read savegame footer.");
+
+    buffer[len] = '\0';
 
     if (*buffer && !M_StringCompare(buffer, wadsloaded))
     {
@@ -1304,6 +1342,36 @@ void P_ReadSaveGameFooter(void)
 
         free(temp);
     }
+
+    free(buffer);
+
+    if ((size = fread(magic, 1, sizeof(magic), save_stream)))
+    {
+        if (size != sizeof(magic) || memcmp(magic, "AMTM", sizeof(magic))
+            || saveg_read32() != nummarks || feof(save_stream) || ferror(save_stream))
+            I_Error("Invalid automap mark data in savegame.");
+
+        for (int j = 0; j < nummarks; j++)
+        {
+            int textlen = fgetc(save_stream);
+
+            if (textlen < 0 || textlen >= AM_MARKTEXTSIZE
+                || fread(mark[j].text, 1, textlen, save_stream) != (size_t)textlen)
+                I_Error("Invalid automap mark data in savegame.");
+
+            for (int k = 0; k < textlen; k++)
+            {
+                const unsigned char ch = mark[j].text[k];
+
+                if (ch < CONSOLEFONTSTART)
+                    I_Error("Invalid automap mark data in savegame.");
+            }
+
+            mark[j].text[textlen] = '\0';
+        }
+    }
+    else if (ferror(save_stream))
+        I_Error("Couldn't read automap mark data from savegame.");
 }
 
 //
@@ -1952,6 +2020,7 @@ void P_UnarchiveMap(void)
         {
             mark[i].x = saveg_read32();
             mark[i].y = saveg_read32();
+            mark[i].text[0] = '\0';
         }
     }
 

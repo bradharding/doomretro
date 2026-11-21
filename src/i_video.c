@@ -610,6 +610,7 @@ static void I_GetEvent(void)
                 if (!quitting && !splashscreen)
                 {
                     keydown = 0;
+                    AM_CancelTextMark();
                     C_HideConsoleFast();
 
                     if (paused)

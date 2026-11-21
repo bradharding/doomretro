@@ -312,6 +312,9 @@ const float *C_BlurScreenGray(void);
 void C_DitherRow(const float *rgb, byte *dest, const int y, const byte *remap);
 int C_GetQuotePairing(const char *text, const int len, const int i);
 int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting, const bool kerning);
+int C_LayoutText(const int x, const char *text, const unsigned char prevletter,
+    const unsigned char prevletter2, void drawglyph(const int, const int, const patch_t *, const int,
+    const int, const int, const bool, const byte *));
 
 #if defined(_WIN32)
 void C_PrintCompileDate(void);

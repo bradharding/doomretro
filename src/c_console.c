@@ -2504,7 +2504,7 @@ static void C_DrawBackground(const int backgroundheight)
     cachevalid = true;
 }
 
-static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
+static int C_DrawConsoleText(int x, int y, const char *text, const int color1, const int color2,
     const int boldcolor, const byte *tinttab, const int tabs[MAXTABS], const bool formatting,
     const bool kerning, const int index, unsigned char prevletter, unsigned char prevletter2,
     const int inputoffset, void consoletextfunc(const int, const int, const patch_t *, const int,
@@ -2521,7 +2521,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     unsigned char       prevletter3 = '\0';
     bool                prevleftdquote = false;
     bool                prevleftsquote = false;
-    const stringtype_t  stringtype = console[index].stringtype;
+    const stringtype_t  stringtype = (index >= 0 ? console[index].stringtype : inputstring);
 
     y -= CONSOLEHEIGHT - consoleheight;
 
@@ -2533,7 +2533,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         x += WARNINGWIDTH;
     }
 
-    if (M_StringCompare(text, s_STSTR_BUDDHA))
+    if (index >= 0 && M_StringCompare(text, s_STSTR_BUDDHA))
     {
         V_DrawConsoleTextPatch(x, y, altbuddha, altbuddhawidth, color1, color2, false, tinttab);
         return 0;
@@ -2826,6 +2826,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     }
 
     return (x - startx);
+}
+
+int C_LayoutText(const int x, const char *text, const unsigned char prevletter,
+    const unsigned char prevletter2, void drawglyph(const int, const int, const patch_t *, const int,
+    const int, const int, const bool, const byte *))
+{
+    return C_DrawConsoleText(x, CONSOLEHEIGHT - consoleheight, text, 0, NOBACKGROUNDCOLOR,
+        NOBOLDCOLOR, NULL, NULL, false, true, -1, prevletter, prevletter2, -1, drawglyph);
 }
 
 static void C_DrawOverlayText(byte *screen, const int screenwidth,

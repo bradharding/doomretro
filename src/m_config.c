@@ -88,6 +88,7 @@ int         am_redkeycolor = am_redkeycolor_default;
 bool        am_rotatemode = am_rotatemode_default;
 int         am_secretcolor = am_secretcolor_default;
 int         am_teleportercolor = am_teleportercolor_default;
+bool        am_textmarks = am_textmarks_default;
 int         am_thingcolor = am_thingcolor_default;
 int         am_tswallcolor = am_tswallcolor_default;
 int         am_wallcolor = am_wallcolor_default;
@@ -376,6 +377,7 @@ static default_t cvars[] =
     CVAR_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS         ),
     CVAR_INT          (am_secretcolor,                   am_secretcolour,                       am_secretcolor,                        SECRETCOLORVALUEALIAS  ),
     CVAR_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    0                      ),
+    CVAR_BOOL         (am_textmarks,                     am_textmarks,                          am_textmarks,                          BOOLVALUEALIAS         ),
     CVAR_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         0                      ),
     CVAR_INT          (am_tswallcolor,                   am_tswallcolour,                       am_tswallcolor,                        0                      ),
     CVAR_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                          0                      ),

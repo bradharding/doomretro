@@ -786,6 +786,8 @@ consolecmd_t consolecmds[] =
         ", or " BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
+    BOOLCVAR(am_textmarks, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles entering text when adding marks to the automap."),
     COLORCVAR(am_thingcolor, am_thingcolour,
         "The color of things in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_tswallcolor, am_tswallcolour,

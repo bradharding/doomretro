@@ -75,6 +75,7 @@ extern int      am_redkeycolor;
 extern bool     am_rotatemode;
 extern int      am_secretcolor;
 extern int      am_teleportercolor;
+extern bool     am_textmarks;
 extern int      am_thingcolor;
 extern int      am_tswallcolor;
 extern int      am_wallcolor;
@@ -562,6 +563,8 @@ enum
 #define am_teleportercolor_min                  0
 #define am_teleportercolor_default              184
 #define am_teleportercolor_max                  255
+
+#define am_textmarks_default                    true
 
 #define am_thingcolor_min                       0
 #define am_thingcolor_default                   112

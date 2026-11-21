@@ -927,6 +927,34 @@ bool islowercase(const char *str)
     return true;
 }
 
+bool isnumber(char *str)
+{
+    bool    grouped = false;
+    int     digits = 0;
+
+    if (!str)
+        return false;
+
+    if (*str == '+' || *str == '-')
+        str++;
+
+    for (; *str; str++)
+        if (isdigit((unsigned char)*str))
+        {
+            if (digits < 4)
+                digits++;
+        }
+        else if (*str == ',' && digits && (grouped ? digits == 3 : digits <= 3))
+        {
+            grouped = true;
+            digits = 0;
+        }
+        else
+            return false;
+
+    return (grouped ? digits == 3 : digits != 0);
+}
+
 const char *commifybuf(int64_t value, char buffer[COMMIFY_BUFSIZE])
 {
     const bool      negative = (value < 0);

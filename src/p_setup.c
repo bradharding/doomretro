@@ -3289,8 +3289,10 @@ void P_SetupLevel(int ep, int map)
     P_CalcSegsLength();
     P_CalcFakeContrast();
 
+    AM_CancelTextMark();
     nummarks = 0;
     maxmarks = 0;
+    free(mark);
     mark = NULL;
 
     numbreadcrumbs = 0;

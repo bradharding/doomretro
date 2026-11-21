@@ -47,6 +47,14 @@ typedef struct
     fixed_t x, y;
 } mpoint_t;
 
+#define AM_MARKTEXTSIZE 64
+
+typedef struct
+{
+    fixed_t x, y;
+    char    text[AM_MARKTEXTSIZE];
+} am_mark_t;
+
 // Called by main loop.
 bool AM_Responder(const event_t *ev);
 
@@ -63,6 +71,8 @@ void AM_ClearMarks(void);
 void AM_ToggleFollowMode(const bool value);
 void AM_ToggleGrid(void);
 void AM_AddMark(void);
+bool AM_TextMarkResponder(const event_t *ev);
+void AM_CancelTextMark(void);
 void AM_TogglePath(const bool value);
 void AM_ToggleRotateMode(const bool value);
 void AM_ToggleZoomOut(void);
@@ -91,7 +101,7 @@ typedef struct
 extern int          lastlevel;
 extern int          lastepisode;
 
-extern mpoint_t     *mark;
+extern am_mark_t    *mark;
 extern int          nummarks;
 extern int          maxmarks;
 

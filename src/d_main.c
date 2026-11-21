@@ -222,6 +222,9 @@ void D_PostEvent(event_t *ev)
     if (dowipe || !windowfocused)
         return;
 
+    if (AM_TextMarkResponder(ev))
+        return;
+
     if (M_Responder(ev))
         return; // menu ate the event
 

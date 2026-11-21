@@ -41,12 +41,14 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_main.h"
 #include "d_options.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_controller.h"
+#include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_bbox.h"
@@ -196,10 +198,14 @@ static int          zoomsign;
 int                 lastlevel = -1;
 int                 lastepisode = -1;
 
-mpoint_t            *mark;
+am_mark_t           *mark;
 int                 nummarks;
 int                 maxmarks;
 static int          markpress;
+static bool         editingmark;
+static am_mark_t    pendingmark;
+static int          markcaret;
+static uint64_t     markcarettime;
 
 mpoint_t            *breadcrumb;
 int                 numbreadcrumbs;
@@ -517,6 +523,7 @@ static void AM_LevelInit(void)
 
 void AM_Stop(void)
 {
+    AM_CancelTextMark();
     automapactive = false;
     HU_ClearMessages();
     D_FadeScreen(false);
@@ -540,6 +547,8 @@ void AM_InitPixelSize(void)
 
 void AM_Start(const bool mainwindow)
 {
+    AM_CancelTextMark();
+
     if (lastlevel != gamemap || lastepisode != gameepisode || !mainwindow)
     {
         AM_LevelInit();
@@ -653,18 +662,9 @@ void AM_ToggleGrid(void)
     M_SaveCVARs();
 }
 
-//
-// adds a mark at the current location
-//
-void AM_AddMark(void)
+static void AM_CommitMark(am_mark_t *newmark)
 {
-    const int   x = am_frame.center.x;
-    const int   y = am_frame.center.y;
-    char        message[32];
-
-    for (int i = 0; i < nummarks; i++)
-        if (mark[i].x == x && mark[i].y == y)
-            return;
+    char    message[128];
 
     if (nummarks >= maxmarks)
     {
@@ -672,15 +672,159 @@ void AM_AddMark(void)
         mark = I_Realloc(mark, maxmarks * sizeof(*mark));
     }
 
-    mark[nummarks].x = x;
-    mark[nummarks].y = y;
+    mark[nummarks++] = *newmark;
 
-    M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT,
-        ++nummarks, x >> MAPBITS, y >> MAPBITS);
-    C_Output(message);
+    if (*newmark->text)
+    {
+        if (isnumber(newmark->text))
+            M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT,
+                newmark->text, newmark->x >> MAPBITS, newmark->y >> MAPBITS);
+        else
+        {
+            char    text[AM_MARKTEXTSIZE + 3];
+
+            M_snprintf(text, sizeof(text), "\"%s\"", newmark->text);
+            M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT,
+                text, newmark->x >> MAPBITS, newmark->y >> MAPBITS);
+        }
+    }
+    else
+    {
+        char    *temp = commify(nummarks);
+
+        M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT,
+            temp, newmark->x >> MAPBITS, newmark->y >> MAPBITS);
+        free(temp);
+    }
+
+    C_Output("%s", message);
     HU_SetPlayerMessage(message, false, true);
-
     message_dontfuckwithme = true;
+}
+
+void AM_CancelTextMark(void)
+{
+    if (editingmark)
+    {
+        editingmark = false;
+        SDL_StopTextInput();
+    }
+}
+
+bool AM_TextMarkResponder(const event_t *ev)
+{
+    if (!editingmark)
+        return false;
+
+    if (ev->type == ev_keyup)
+    {
+        if (ev->data1 >= 0 && ev->data1 < NUMKEYS)
+            gamekeydown[ev->data1] = false;
+    }
+    else if (ev->type == ev_textinput)
+    {
+        const unsigned char ch = (unsigned char)ev->data1;
+        const size_t len = strlen(pendingmark.text);
+
+        if (ch >= CONSOLEFONTSTART && len < sizeof(pendingmark.text) - 1)
+        {
+            memmove(pendingmark.text + markcaret + 1, pendingmark.text + markcaret, len - markcaret + 1);
+            pendingmark.text[markcaret++] = (char)ch;
+            markcarettime = I_GetTimeMS();
+        }
+    }
+    else if (ev->type == ev_keydown)
+    {
+        const size_t    len = strlen(pendingmark.text);
+
+        switch (ev->data1)
+        {
+            case KEY_ENTER:
+                if (strspn(pendingmark.text, " ") < len)
+                {
+                    AM_CommitMark(&pendingmark);
+                    AM_CancelTextMark();
+                }
+
+                break;
+
+            case KEY_ESCAPE:
+                AM_CancelTextMark();
+                break;
+
+            case KEY_BACKSPACE:
+                if (markcaret > 0)
+                {
+                    memmove(pendingmark.text + markcaret - 1, pendingmark.text + markcaret, len - markcaret + 1);
+                    markcaret--;
+                }
+
+                break;
+
+            case KEY_DELETE:
+                if ((size_t)markcaret < len)
+                    memmove(pendingmark.text + markcaret, pendingmark.text + markcaret + 1, len - markcaret);
+
+                break;
+
+            case KEY_LEFTARROW:
+                if (markcaret > 0)
+                    markcaret--;
+
+                break;
+
+            case KEY_RIGHTARROW:
+                if ((size_t)markcaret < len)
+                    markcaret++;
+
+                break;
+
+            case KEY_HOME:
+                markcaret = 0;
+                break;
+
+            case KEY_END:
+                markcaret = (int)len;
+                break;
+        }
+
+        markcarettime = I_GetTimeMS();
+    }
+
+    return true;
+}
+
+//
+// adds a mark at the current location
+//
+void AM_AddMark(void)
+{
+    am_mark_t   newmark = { am_frame.center.x, am_frame.center.y, "" };
+
+    for (int i = 0; i < nummarks; i++)
+        if (mark[i].x == newmark.x && mark[i].y == newmark.y)
+            return;
+
+    if (am_textmarks)
+    {
+        pendingmark = newmark;
+        M_snprintf(pendingmark.text, sizeof(pendingmark.text), "%i", nummarks + 1);
+        markcaret = (int)strlen(pendingmark.text);
+        markcarettime = I_GetTimeMS();
+        editingmark = true;
+        memset(gamekeydown, 0, sizeof(gamekeydown));
+        memset(mousebuttons, 0, (MAXMOUSEBUTTONS + 4) * sizeof(*mousebuttons));
+        m_paninc.x = m_paninc.y = 0;
+        panvel_x = panvel_y = 0;
+        pansign_x = pansign_y = 0;
+        mousedragging = touchpaddragging = false;
+        zoomvelocity = 0.0f;
+        zoomsign = 0;
+        mtof_zoommul = ftom_zoommul = FRACUNIT;
+        SDL_StartTextInput();
+    }
+    else
+        AM_CommitMark(&newmark);
 }
 
 void AM_ClearMarks(void)
@@ -694,15 +838,26 @@ void AM_ClearMarks(void)
             HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
             nummarks = 0;
             maxmarks = 0;
+            free(mark);
             mark = NULL;
         }
         else if (markpress == 1)
         {
-            char    message[32];
+            char    message[128];
 
             // clear one mark
-            M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, nummarks--);
-            C_Output(message);
+            if (*mark[nummarks - 1].text)
+            {
+                char    text[AM_MARKTEXTSIZE + 3];
+
+                M_snprintf(text, sizeof(text), "\"%s\"", mark[nummarks - 1].text);
+                M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, text);
+            }
+            else
+                M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, nummarks);
+
+            nummarks--;
+            C_Output("%s", message);
             HU_SetPlayerMessage(message, false, true);
         }
 
@@ -1277,6 +1432,9 @@ bool AM_Responder(const event_t *ev)
                 {
                     mousewait = I_GetTime() + 8;
                     AM_AddMark();
+
+                    if (editingmark)
+                        return true;
                 }
 
                 if (mousefullzoom >= 0 && (ev->data1 & mousefullzoom))
@@ -1379,6 +1537,9 @@ bool AM_Responder(const event_t *ev)
                 {
                     AM_AddMark();
                     controllerwait = I_GetTime() + 12;
+
+                    if (editingmark)
+                        return true;
                 }
 
                 // clear mark(s)
@@ -1501,15 +1662,15 @@ void AM_Ticker(void)
     if (am_followmode)
         AM_DoFollowPlayer();
 
-    if (!consoleactive && !paused)
+    if (!consoleactive && !paused && !editingmark)
         AM_ApplyZoom();
 
     // Change the zoom if necessary
-    if (ftom_zoommul != FRACUNIT)
+    if (ftom_zoommul != FRACUNIT && !editingmark)
         AM_ChangeWindowScale();
 
     // Change x,y location
-    if (!consoleactive && !paused)
+    if (!consoleactive && !paused && !editingmark)
     {
         AM_UpdateTouchpadPan();
 
@@ -2526,6 +2687,98 @@ const char *bigmarknums[] =
     "2211111122222222112222222211222211111122221111112222222222222222222222"
 };
 
+static void AM_MarkPosition(const am_mark_t *textmark, int *x, int *y, fixed_t *fracx, fixed_t *fracy)
+{
+    mpoint_t    point = { textmark->x, textmark->y };
+
+    if (am_rotatemode)
+        AM_RotatePoint(&point);
+
+    if (am_correctaspectratio)
+        AM_CorrectAspectRatio(&point);
+
+    if (am_antialiasing && r_detail != r_detail_low)
+    {
+        const fixed_t   fx = CXMTOFFRAC(point.x);
+        const fixed_t   fy = CYMTOFFRAC(point.y);
+
+        *x = fx >> FRACBITS;
+        *y = fy >> FRACBITS;
+        *fracx = fx & FRACMASK;
+        *fracy = fy & FRACMASK;
+    }
+    else
+    {
+        *x = CXMTOF(point.x);
+        *y = CYMTOF(point.y);
+        *fracx = *fracy = 0;
+    }
+}
+
+static byte AM_BlendMarkPixel(const byte background, const byte foreground, const fixed_t coverage)
+{
+    const int   level = (int)(((int64_t)coverage * 10 + FRACUNIT / 2) >> FRACBITS);
+    const byte  *tables[] = { NULL, tinttab90, tinttab80, tinttab70, tinttab60,
+                    tinttab50, tinttab40, tinttab30, tinttab20, tinttab10, NULL };
+
+    if (!level)
+        return background;
+
+    return (level == 10 ? foreground : tables[level][(background << 8) + foreground]);
+}
+
+static void AM_DrawMarkBitmap(const char *bitmap, const int width, const int height,
+    const int x, const int y, const fixed_t fracx, const fixed_t fracy)
+{
+    const fixed_t   weights[] =
+    {
+        FixedMul(FRACUNIT - fracx, FRACUNIT - fracy),
+        FixedMul(fracx, FRACUNIT - fracy),
+        FixedMul(FRACUNIT - fracx, fracy),
+        FixedMul(fracx, fracy)
+    };
+    const int       startx = MAX(0, -x);
+    const int       starty = MAX(0, -y);
+    const int       endx = MIN(width + (fracx != 0), MAPWIDTH - x);
+    const int       endy = MIN(height + (fracy != 0), MAPHEIGHT - y);
+
+    for (int row = starty; row < endy; row++)
+        for (int col = startx; col < endx; col++)
+        {
+            fixed_t coverage = 0;
+            fixed_t shadow = 0;
+
+            // Combine coverage before blending so adjacent glyph pixels remain solid.
+            for (int i = 0; i < 4; i++)
+            {
+                const int   sx = col - (i & 1);
+                const int   sy = row - (i >> 1);
+
+                if (weights[i] && (unsigned int)sx < (unsigned int)width
+                    && (unsigned int)sy < (unsigned int)height)
+                {
+                    const char  pixel = bitmap[(size_t)sy * width + sx];
+
+                    if (pixel == '1')
+                        coverage += weights[i];
+                    else if (pixel == '2')
+                        shadow += weights[i];
+                }
+            }
+
+            if (coverage || shadow)
+            {
+                byte    *dest = &mapscreen[(y + row) * MAPWIDTH + x + col];
+
+                if (shadow && coverage < FRACUNIT)
+                    *dest = AM_BlendMarkPixel(*dest, tinttab40[*dest],
+                        FixedDiv(shadow, FRACUNIT - coverage));
+
+                *dest = AM_BlendMarkPixel(*dest, markcolor, coverage);
+            }
+        }
+}
+
 static void AM_DrawMarks(const char *nums[])
 {
     for (int i = 0; i < nummarks; i++)
@@ -2534,16 +2787,14 @@ static void AM_DrawMarks(const char *nums[])
         int         temp = number;
         int         digits = 1;
         int         x, y;
-        mpoint_t    point = { mark[i].x, mark[i].y };
+        fixed_t     fracx, fracy;
 
-        if (am_rotatemode)
-            AM_RotatePoint(&point);
+        if (*mark[i].text)
+            continue;
 
-        if (am_correctaspectratio)
-            AM_CorrectAspectRatio(&point);
-
-        x = CXMTOF(point.x) - MARKWIDTH / 2 + 1;
-        y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
+        AM_MarkPosition(&mark[i], &x, &y, &fracx, &fracy);
+        x -= MARKWIDTH / 2 - 1;
+        y -= MARKHEIGHT / 2 + 1;
 
         while ((temp /= 10))
             digits++;
@@ -2564,29 +2815,7 @@ static void AM_DrawMarks(const char *nums[])
                 y += (y & 1);
             }
 
-            for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
-            {
-                const unsigned int  fx = x + j % MARKWIDTH;
-
-                if (fx < (unsigned int)MAPWIDTH)
-                {
-                    const unsigned int  fy = y + j / MARKWIDTH;
-
-                    if (fy < (unsigned int)MAPHEIGHT)
-                    {
-                        const char  src = nums[digit][j];
-
-                        if (src == '1')
-                            mapscreen[fy * MAPWIDTH + fx] = markcolor;
-                        else if (src == '2')
-                        {
-                            byte *dest = &mapscreen[fy * MAPWIDTH + fx];
-
-                            *dest = *(*dest + tinttab40);
-                        }
-                    }
-                }
-            }
+            AM_DrawMarkBitmap(nums[digit], MARKWIDTH, MARKHEIGHT, x, y, fracx, fracy);
 
             x -= MARKWIDTH - 2;
 
@@ -2594,6 +2823,144 @@ static void AM_DrawMarks(const char *nums[])
                 x--;
         } while ((number /= 10) > 0);
     }
+}
+
+static struct
+{
+    char    *pixels;
+    int     left, right, height;
+    int     width;
+} markbitmap;
+
+static void AM_LayoutMarkGlyph(const int x, const int y, const patch_t *patch, const int width,
+    const int color, const int background, const bool italics, const byte *tinttab)
+{
+    if (!markbitmap.pixels)
+    {
+        markbitmap.left = MIN(markbitmap.left, x);
+        markbitmap.right = MAX(markbitmap.right, x + width);
+        markbitmap.height = MAX(markbitmap.height, y + LITTLESHORT(patch->height));
+        return;
+    }
+
+    for (int col = 0; col < width; col++)
+    {
+        const column_t *column = (const column_t *)((const byte *)patch + LITTLELONG(patch->columnoffset[col]));
+
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (const byte *)column + 3;
+            const int   bx = x - markbitmap.left + col;
+
+            for (int row = 0; row < column->length; row++)
+            {
+                const int   by = y + column->topdelta + row + 1;
+
+                if (source[row] && (unsigned int)bx < (unsigned int)markbitmap.width
+                    && (unsigned int)by < (unsigned int)markbitmap.height)
+                    markbitmap.pixels[(size_t)by * markbitmap.width + bx] = '1';
+            }
+
+            column = (const column_t *)((const byte *)column + column->length + 4);
+        }
+    }
+}
+
+static int AM_LayoutMarkText(const char *text, const bool caret, int *caretx)
+{
+    if (caret)
+    {
+        char    prefix[AM_MARKTEXTSIZE];
+
+        memcpy(prefix, text, markcaret);
+        prefix[markcaret] = '\0';
+        *caretx = C_LayoutText(0, prefix, '\0', '\0', AM_LayoutMarkGlyph);
+
+        if (text[markcaret])
+            return *caretx + 3 + C_LayoutText(*caretx + 3, text + markcaret,
+                (markcaret ? text[markcaret - 1] : '\0'),
+                (markcaret > 1 ? text[markcaret - 2] : '\0'), AM_LayoutMarkGlyph);
+
+        return *caretx;
+    }
+
+    return C_LayoutText(0, text, '\0', '\0', AM_LayoutMarkGlyph);
+}
+
+static void AM_OutlineMarkBitmap(char *bitmap, const int width, const int height)
+{
+    for (int row = 1; row < height - 1; row++)
+        for (int col = 1; col < width - 1; col++)
+            if (bitmap[(size_t)row * width + col] == '1')
+                for (int dy = -1; dy <= 1; dy++)
+                    for (int dx = -1; dx <= 1; dx++)
+                    {
+                        char    *pixel = &bitmap[(size_t)(row + dy) * width + col + dx];
+
+                        if (*pixel == '0')
+                            *pixel = '2';
+                    }
+}
+
+static void AM_DrawTextMark(const am_mark_t *textmark, const bool caret)
+{
+    static char     *bitmap;
+    static size_t   bitmapcapacity;
+    const bool      showcaret = (caret && ((I_GetTimeMS() - markcarettime) / CARETBLINKTIME) % 2 == 0);
+    int             caretx = 0;
+    int             x, y;
+    int             width;
+    size_t          bitmapsize;
+    fixed_t         fracx, fracy;
+
+    markbitmap.pixels = NULL;
+    markbitmap.left = markbitmap.right = 0;
+    markbitmap.height = CONSOLELINEHEIGHT;
+    width = AM_LayoutMarkText(textmark->text, caret, &caretx);
+
+    if (caret)
+    {
+        markbitmap.left = MIN(markbitmap.left, caretx);
+        markbitmap.right = MAX(markbitmap.right, caretx + 2);
+    }
+
+    if (markbitmap.right == markbitmap.left)
+        return;
+
+    markbitmap.left--;
+    markbitmap.right++;
+    markbitmap.height += 2;
+    markbitmap.width = markbitmap.right - markbitmap.left;
+    bitmapsize = (size_t)markbitmap.width * markbitmap.height;
+
+    if (bitmapsize > bitmapcapacity)
+        bitmap = I_Realloc(bitmap, (bitmapcapacity = bitmapsize));
+
+    memset(bitmap, '0', bitmapsize);
+    markbitmap.pixels = bitmap;
+    AM_LayoutMarkText(textmark->text, caret, &caretx);
+
+    if (showcaret)
+        for (int row = 0; row < CONSOLELINEHEIGHT; row++)
+            for (int col = 0; col < 2; col++)
+                bitmap[(size_t)(row + 1) * markbitmap.width + caretx - markbitmap.left + col] = '1';
+
+    AM_OutlineMarkBitmap(bitmap, markbitmap.width, markbitmap.height);
+
+    AM_MarkPosition(textmark, &x, &y, &fracx, &fracy);
+    x += markbitmap.left - width / 2;
+    y -= CONSOLELINEHEIGHT / 2 + 1;
+    AM_DrawMarkBitmap(bitmap, markbitmap.width, markbitmap.height, x, y, fracx, fracy);
+}
+
+static void AM_DrawTextMarks(void)
+{
+    for (int i = 0; i < nummarks; i++)
+        if (*mark[i].text)
+            AM_DrawTextMark(&mark[i], false);
+
+    if (editingmark)
+        AM_DrawTextMark(&pendingmark, true);
 }
 
 const int lengths[] =
@@ -2907,6 +3274,8 @@ void AM_Drawer(void)
 
     if (!am_followmode && !takingcleancreenshot)
         AM_DrawCrosshair();
+
+    AM_DrawTextMarks();
 
     if (am_antialiasing)
         AM_DarkenEdges();
