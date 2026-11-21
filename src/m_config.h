@@ -520,7 +520,7 @@ enum
 #define am_gridsize_height_max                  4096
 
 #define am_markcolor_min                        0
-#define am_markcolor_default                    89
+#define am_markcolor_default                    4
 #define am_markcolor_max                        255
 
 #define am_marktext_default                     true
