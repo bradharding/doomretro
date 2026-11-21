@@ -2063,7 +2063,8 @@ void G_LoadGame(const char *name)
 
 void G_DoLoadGame(void)
 {
-    int savedmaptime;
+    int     savedmaptime;
+    bool    validfooter;
 
     I_SetPalette(PLAYPAL);
 
@@ -2124,7 +2125,7 @@ void G_DoLoadGame(void)
     if (!P_ReadSaveGameEOF())
         I_Error("%s is invalid.", savename);
 
-    P_ReadSaveGameFooter();
+    validfooter = P_ReadSaveGameFooter();
 
     fclose(save_stream);
 
@@ -2157,7 +2158,7 @@ void G_DoLoadGame(void)
     stat_gamesloaded = SafeAdd(stat_gamesloaded, 1);
     M_SaveCVARs();
 
-    if (consoleactive)
+    if (consoleactive && validfooter)
     {
         C_Output(BOLD("%s") " loaded.", savename);
         C_HideConsoleFast();

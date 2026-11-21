@@ -1280,30 +1280,35 @@ void P_WriteSaveGameFooter(void)
 //
 // Read the footer for a savegame
 //
-void P_ReadSaveGameFooter(void)
+bool P_ReadSaveGameFooter(void)
 {
     size_t  capacity = 512;
     size_t  len = 0;
-    char    *buffer = I_Malloc(capacity);
+    char    *buffer = malloc(capacity);
     int     ch;
-    char    magic[4];
-    size_t  size;
+    byte    header[8];
+
+    if (!buffer)
+        goto invalid_footer;
 
     while ((ch = fgetc(save_stream)) != EOF && ch)
     {
         if (len + 1 >= capacity)
         {
-            if (capacity > INT_MAX / 4)
-                I_Error("Invalid savegame footer.");
+            char    *expanded;
 
-            buffer = I_Realloc(buffer, capacity *= 2);
+            if (capacity > INT_MAX / 4 || !(expanded = realloc(buffer, capacity * 2)))
+                goto invalid_footer;
+
+            buffer = expanded;
+            capacity *= 2;
         }
 
         buffer[len++] = (char)ch;
     }
 
     if (ferror(save_stream))
-        I_Error("Couldn't read savegame footer.");
+        goto invalid_footer;
 
     buffer[len] = '\0';
 
@@ -1320,9 +1325,16 @@ void P_ReadSaveGameFooter(void)
             separator += 2;
         }
 
-        tempsize = strlen(BOLDON) + strlen(buffer) + strlen(BOLDOFF) + 1
-            + separatorcount * (strlen(BOLDOFF) + strlen(BOLDON)) + 4;
-        temp = I_Malloc(tempsize);
+        tempsize = strlen(BOLDON) + len + strlen(BOLDOFF) + 1 + 4;
+
+        if (tempsize > INT_MAX
+            || separatorcount > (INT_MAX - tempsize) / (strlen(BOLDOFF) + strlen(BOLDON)))
+            goto invalid_footer;
+
+        tempsize += separatorcount * (strlen(BOLDOFF) + strlen(BOLDON));
+
+        if (!(temp = malloc(tempsize)))
+            goto invalid_footer;
 
         M_snprintf(temp, (int)tempsize, "%s%s%s", BOLDON, buffer, BOLDOFF);
 
@@ -1344,34 +1356,45 @@ void P_ReadSaveGameFooter(void)
     }
 
     free(buffer);
+    buffer = NULL;
 
-    if ((size = fread(magic, 1, sizeof(magic), save_stream)))
+    if (ch == EOF)
+        return true;
+
+    if (fread(header, 1, sizeof(header), save_stream) != sizeof(header)
+        || memcmp(header, "AMTM", 4)
+        || ((unsigned int)header[4] | (unsigned int)header[5] << 8
+            | (unsigned int)header[6] << 16 | (unsigned int)header[7] << 24) != (unsigned int)nummarks)
+        goto invalid_footer;
+
+    for (int j = 0; j < nummarks; j++)
     {
-        if (size != sizeof(magic) || memcmp(magic, "AMTM", sizeof(magic))
-            || saveg_read32() != nummarks || feof(save_stream) || ferror(save_stream))
-            I_Error("Invalid automap mark data in savegame.");
+        int textlen = fgetc(save_stream);
 
-        for (int j = 0; j < nummarks; j++)
-        {
-            int textlen = fgetc(save_stream);
+        if (textlen < 0 || textlen >= AM_MARKTEXTSIZE
+            || fread(mark[j].text, 1, textlen, save_stream) != (size_t)textlen)
+            goto invalid_footer;
 
-            if (textlen < 0 || textlen >= AM_MARKTEXTSIZE
-                || fread(mark[j].text, 1, textlen, save_stream) != (size_t)textlen)
-                I_Error("Invalid automap mark data in savegame.");
+        for (int k = 0; k < textlen; k++)
+            if ((unsigned char)mark[j].text[k] < CONSOLEFONTSTART)
+                goto invalid_footer;
 
-            for (int k = 0; k < textlen; k++)
-            {
-                const unsigned char ch = mark[j].text[k];
-
-                if (ch < CONSOLEFONTSTART)
-                    I_Error("Invalid automap mark data in savegame.");
-            }
-
-            mark[j].text[textlen] = '\0';
-        }
+        mark[j].text[textlen] = '\0';
     }
-    else if (ferror(save_stream))
-        I_Error("Couldn't read automap mark data from savegame.");
+
+    return true;
+
+invalid_footer:
+    free(buffer);
+
+    for (int i = 0; i < nummarks; i++)
+        mark[i].text[0] = '\0';
+
+    menuactive = false;
+    quicksaveslot = -1;
+    C_ShowConsole(false);
+    C_Warning(0, BOLD("%s") " couldn't be loaded.", savename);
+    return false;
 }
 
 //
