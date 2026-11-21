@@ -759,7 +759,7 @@ consolecmd_t consolecmds[] =
     COLORCVAR(am_markcolor, am_markcolour,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(am_marktext, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles entering text when adding marks to the automap."),
+        "Toggles allowing text to be entered when adding marks in the automap."),
     BOOLCVAR(am_mousepanning, "", "", boolfunc1, boolfunc2, 0,
         "Toggles clicking and dragging the mouse to pan around the automap when follow mode is off."),
     BOOLCVAR(am_path, "", "", boolfunc1, am_pathfunc2, 0,
