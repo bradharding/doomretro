@@ -677,7 +677,7 @@ static void AM_CommitMark(am_mark_t *newmark)
 
     if (*newmark->text)
     {
-        if (isnumber(newmark->text))
+        if (M_IsIntegerString(newmark->text))
             M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT,
                 newmark->text, newmark->x >> MAPBITS, newmark->y >> MAPBITS);
         else
@@ -904,7 +904,7 @@ void AM_ClearMarks(void)
             // clear one mark
             if (*oldmark->text)
             {
-                if (isnumber(oldmark->text))
+                if (M_IsIntegerString(oldmark->text))
                     M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED,
                         oldmark->text, oldmark->x >> MAPBITS, oldmark->y >> MAPBITS);
                 else
@@ -1741,7 +1741,7 @@ void AM_Ticker(void)
     if (ftom_zoommul != FRACUNIT && !editingmark)
         AM_ChangeWindowScale();
 
-    // Change x,y location
+    // Change (x,y) location
     if (!consoleactive && !paused && !editingmark)
     {
         AM_UpdateTouchpadPan();

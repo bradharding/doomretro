@@ -927,7 +927,7 @@ bool islowercase(const char *str)
     return true;
 }
 
-bool isnumber(char *str)
+bool M_IsIntegerString(const char *str)
 {
     bool    grouped = false;
     int     digits = 0;
