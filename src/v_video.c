@@ -1078,8 +1078,10 @@ void V_DrawColorBackPatch(const int x, const int y, const patch_t *patch, const 
     }
 }
 
-void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
-    const int color1, const int color2, const bool italics, const byte *tinttab)
+static int V_ConsoleHeaderEdge(const int color, const int x, const int row, const int width, const int height);
+
+static void V_DrawConsoleTextPatchInternal(const int x, const int y, const patch_t *patch, const int width,
+    const int color1, const int color2, const bool italics, const byte *tinttab, const bool colorback)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
@@ -1093,8 +1095,12 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
         {
             if (y + i >= 0 && y + i < consoleoutputclipy && *source)
             {
-                byte        *dot = dest;
-                const int   color = (*source == WHITE || color2 == NOBACKGROUNDCOLOR ? color1 : color2);
+                byte    *dot = dest;
+                int     color = (*source == WHITE || color2 == NOBACKGROUNDCOLOR ? color1 : color2);
+
+                if (colorback)
+                    color = (!i || !col ? tinttab10[(nearestwhite << 8) + color] :
+                        V_ConsoleHeaderEdge(color, col, i, width - 1, CONSOLELINEHEIGHT - 2));
 
                 if (italics)
                     dot += italicize[i];
@@ -1134,6 +1140,17 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
             dest += SCREENWIDTH;
         }
     }
+}
+
+void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
+    const int color1, const int color2, const bool italics, const byte *tinttab)
+{
+    V_DrawConsoleTextPatchInternal(x, y, patch, width, color1, color2, italics, tinttab, false);
+}
+
+void V_DrawConsoleColorBackPatch(const int x, const int y, const patch_t *patch, const int width, const int color)
+{
+    V_DrawConsoleTextPatchInternal(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, NULL, true);
 }
 
 void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *patch, const int width,

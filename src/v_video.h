@@ -99,6 +99,7 @@ void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *pat
     const int color1, const int color2, const bool italics, const byte *tinttab);
 void V_DrawColorBackPatch(const int x, const int y, const patch_t *patch, const int width,
     const int height, const int color);
+void V_DrawConsoleColorBackPatch(const int x, const int y, const patch_t *patch, const int width, const int color);
 void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
     const int color1, const int color2, const bool italics, const byte *tinttab);
 void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,

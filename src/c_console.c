@@ -2612,7 +2612,7 @@ static int C_DrawConsoleText(int x, int y, const char *text, const int color1, c
                     {
                         const int   oldx = x;
 
-                        V_DrawConsoleTextPatch(x, y, colorback, colorbackwidth, palindex, -1, false, NULL);
+                        V_DrawConsoleColorBackPatch(x, y, colorback, colorbackwidth, palindex);
 
                         x += (colorbackwidth - C_TextWidth(digits, NULL, false, false) - 1) / 2 + 1;
 
