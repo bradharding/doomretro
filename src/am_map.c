@@ -35,6 +35,7 @@
 
 #define _USE_MATH_DEFINES
 
+#include <ctype.h>
 #include <math.h>
 
 #include "am_map.h"
@@ -711,6 +712,31 @@ void AM_CancelTextMark(void)
     }
 }
 
+static void AM_CapitalizeMarkText(char *text)
+{
+    for (; *text; text++)
+        if (isalpha((unsigned char)*text))
+        {
+            *text = (char)toupper((unsigned char)*text);
+            break;
+        }
+}
+
+static void AM_NormalizeMarkText(char *text)
+{
+    size_t  end = strlen(text);
+    size_t  out = 0;
+
+    while (end && (isspace((unsigned char)text[end - 1]) || ispunct((unsigned char)text[end - 1])))
+        end--;
+
+    for (size_t i = 0; i < end; i++)
+        if (text[i] != ' ' || (out && text[out - 1] != ' '))
+            text[out++] = text[i];
+
+    text[out] = '\0';
+}
+
 bool AM_TextMarkResponder(const event_t *ev)
 {
     if (!editingmark)
@@ -726,10 +752,12 @@ bool AM_TextMarkResponder(const event_t *ev)
         const unsigned char ch = (unsigned char)ev->data1;
         const size_t len = strlen(pendingmark.text);
 
-        if (ch >= CONSOLEFONTSTART && len < sizeof(pendingmark.text) - 1)
+        if (ch >= CONSOLEFONTSTART && !(markcaret == 0 && isspace(ch))
+            && len < sizeof(pendingmark.text) - 1)
         {
             memmove(pendingmark.text + markcaret + 1, pendingmark.text + markcaret, len - markcaret + 1);
             pendingmark.text[markcaret++] = (char)ch;
+            AM_CapitalizeMarkText(pendingmark.text);
             markcarettime = I_GetTimeMS();
         }
     }
@@ -740,13 +768,19 @@ bool AM_TextMarkResponder(const event_t *ev)
         switch (ev->data1)
         {
             case KEY_ENTER:
-                if (strspn(pendingmark.text, " ") < len)
+            {
+                am_mark_t   newmark = pendingmark;
+
+                AM_NormalizeMarkText(newmark.text);
+
+                if (*newmark.text)
                 {
-                    AM_CommitMark(&pendingmark);
+                    AM_CommitMark(&newmark);
                     AM_CancelTextMark();
                 }
 
                 break;
+            }
 
             case KEY_ESCAPE:
                 AM_CancelTextMark();
@@ -786,6 +820,22 @@ bool AM_TextMarkResponder(const event_t *ev)
             case KEY_END:
                 markcaret = (int)len;
                 break;
+        }
+
+        if (editingmark && (ev->data1 == KEY_BACKSPACE || ev->data1 == KEY_DELETE))
+        {
+            size_t  leading = 0;
+
+            while (isspace((unsigned char)pendingmark.text[leading]))
+                leading++;
+
+            if (leading)
+            {
+                memmove(pendingmark.text, pendingmark.text + leading, strlen(pendingmark.text + leading) + 1);
+                markcaret = MAX(0, markcaret - (int)leading);
+            }
+
+            AM_CapitalizeMarkText(pendingmark.text);
         }
 
         markcarettime = I_GetTimeMS();
@@ -3265,7 +3315,8 @@ void AM_Drawer(void)
             AM_DrawPath();
     }
 
-    AM_DrawPlayer();
+    if (!editingmark || !am_followmode)
+        AM_DrawPlayer();
 
     if (r_detail == r_detail_low)
     {
@@ -3286,7 +3337,7 @@ void AM_Drawer(void)
             AM_StatusBarShadow();
     }
 
-    if (!am_followmode && !takingcleancreenshot)
+    if (!am_followmode && !takingcleancreenshot && !editingmark)
         AM_DrawCrosshair();
 
     AM_DrawTextMarks();
