@@ -814,13 +814,18 @@ void AM_AddMark(void)
         editingmark = true;
         memset(gamekeydown, 0, sizeof(gamekeydown));
         memset(mousebuttons, 0, (MAXMOUSEBUTTONS + 4) * sizeof(*mousebuttons));
-        m_paninc.x = m_paninc.y = 0;
-        panvel_x = panvel_y = 0;
-        pansign_x = pansign_y = 0;
-        mousedragging = touchpaddragging = false;
+        m_paninc.x = 0;
+        m_paninc.y = 0;
+        panvel_x = 0;
+        panvel_y = 0;
+        pansign_x = 0;
+        pansign_y = 0;
+        mousedragging = false;
+        touchpaddragging = false;
         zoomvelocity = 0.0f;
         zoomsign = 0;
-        mtof_zoommul = ftom_zoommul = FRACUNIT;
+        mtof_zoommul = FRACUNIT;
+        ftom_zoommul = FRACUNIT;
         SDL_StartTextInput();
     }
     else
@@ -843,18 +848,27 @@ void AM_ClearMarks(void)
         }
         else if (markpress == 1)
         {
-            char    message[128];
+            am_mark_t   *oldmark = &mark[nummarks - 1];
+            char        message[128];
 
             // clear one mark
-            if (*mark[nummarks - 1].text)
+            if (*oldmark->text)
             {
-                char    text[AM_MARKTEXTSIZE + 3];
+                if (isnumber(oldmark->text))
+                    M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED,
+                        oldmark->text, oldmark->x >> MAPBITS, oldmark->y >> MAPBITS);
+                else
+                {
+                    char    text[AM_MARKTEXTSIZE + 3];
 
-                M_snprintf(text, sizeof(text), "\"%s\"", mark[nummarks - 1].text);
-                M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, text);
+                    M_snprintf(text, sizeof(text), "\"%s\"", oldmark->text);
+                    M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED,
+                        text, oldmark->x >> MAPBITS, oldmark->y >> MAPBITS);
+                }
             }
             else
-                M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, nummarks);
+                M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED,
+                    nummarks, oldmark->x >> MAPBITS, oldmark->y >> MAPBITS);
 
             nummarks--;
             C_Output("%s", message);
