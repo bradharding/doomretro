@@ -855,7 +855,7 @@ void AM_AddMark(void)
         if (mark[i].x == newmark.x && mark[i].y == newmark.y)
             return;
 
-    if (am_textmarks)
+    if (am_marktext)
     {
         pendingmark = newmark;
         M_snprintf(pendingmark.text, sizeof(pendingmark.text), "%i", nummarks + 1);

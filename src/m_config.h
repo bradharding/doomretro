@@ -63,6 +63,7 @@ extern bool     am_grid;
 extern int      am_gridcolor;
 extern char     *am_gridsize;
 extern int      am_markcolor;
+extern bool     am_marktext;
 extern bool     am_mousepanning;
 extern bool     am_path;
 extern int      am_pathcolor;
@@ -75,7 +76,6 @@ extern int      am_redkeycolor;
 extern bool     am_rotatemode;
 extern int      am_secretcolor;
 extern int      am_teleportercolor;
-extern bool     am_textmarks;
 extern int      am_thingcolor;
 extern int      am_tswallcolor;
 extern int      am_wallcolor;
@@ -523,6 +523,8 @@ enum
 #define am_markcolor_default                    89
 #define am_markcolor_max                        255
 
+#define am_marktext_default                     true
+
 #define am_mousepanning_default                 true
 
 #define am_path_default                         false
@@ -563,8 +565,6 @@ enum
 #define am_teleportercolor_min                  0
 #define am_teleportercolor_default              184
 #define am_teleportercolor_max                  255
-
-#define am_textmarks_default                    true
 
 #define am_thingcolor_min                       0
 #define am_thingcolor_default                   112

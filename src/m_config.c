@@ -76,6 +76,7 @@ bool        am_grid = am_grid_default;
 int         am_gridcolor = am_gridcolor_default;
 char        *am_gridsize = am_gridsize_default;
 int         am_markcolor = am_markcolor_default;
+bool        am_marktext = am_marktext_default;
 bool        am_mousepanning = am_mousepanning_default;
 bool        am_path = am_path_default;
 int         am_pathcolor = am_pathcolor_default;
@@ -88,7 +89,6 @@ int         am_redkeycolor = am_redkeycolor_default;
 bool        am_rotatemode = am_rotatemode_default;
 int         am_secretcolor = am_secretcolor_default;
 int         am_teleportercolor = am_teleportercolor_default;
-bool        am_textmarks = am_textmarks_default;
 int         am_thingcolor = am_thingcolor_default;
 int         am_tswallcolor = am_tswallcolor_default;
 int         am_wallcolor = am_wallcolor_default;
@@ -365,6 +365,7 @@ static default_t cvars[] =
     CVAR_INT          (am_gridcolor,                     am_gridcolour,                         am_gridcolor,                          0                      ),
     CVAR_OTHER        (am_gridsize,                      am_gridsize,                           am_gridsize,                           0                      ),
     CVAR_INT          (am_markcolor,                     am_markcolour,                         am_markcolor,                          0                      ),
+    CVAR_BOOL         (am_marktext,                      am_marktext,                           am_marktext,                           BOOLVALUEALIAS         ),
     CVAR_BOOL         (am_mousepanning,                  am_mousepanning,                       am_mousepanning,                       BOOLVALUEALIAS         ),
     CVAR_BOOL         (am_path,                          am_path,                               am_path,                               BOOLVALUEALIAS         ),
     CVAR_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                          0                      ),
@@ -377,7 +378,6 @@ static default_t cvars[] =
     CVAR_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS         ),
     CVAR_INT          (am_secretcolor,                   am_secretcolour,                       am_secretcolor,                        SECRETCOLORVALUEALIAS  ),
     CVAR_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    0                      ),
-    CVAR_BOOL         (am_textmarks,                     am_textmarks,                          am_textmarks,                          BOOLVALUEALIAS         ),
     CVAR_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         0                      ),
     CVAR_INT          (am_tswallcolor,                   am_tswallcolour,                       am_tswallcolor,                        0                      ),
     CVAR_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                          0                      ),
