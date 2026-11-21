@@ -89,6 +89,7 @@ void V_DrawTranslucentPatch(int x, int y, int screen, patch_t *patch, const byte
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch);
 void V_DrawBigStatusBarPatch(int x, int y, short width, patch_t *patch);
 void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch);
+void V_DrawTranslucentBigPatch(int x, int y, short width, short height, patch_t *patch);
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch);
 void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, const int color1,
     const int color2);
