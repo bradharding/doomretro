@@ -99,6 +99,7 @@ void I_InitGraphics(void);
 void I_RestartGraphics(const bool recreatewindow);
 void I_CapFPS(const int cap);
 void I_ResetFPSCounter(void);
+void I_ResumeFPSCounter(void);
 
 void I_SaveMousePointerPosition(void);
 void I_RestoreMousePointerPosition(void);
@@ -193,6 +194,7 @@ extern bool         altdown;
 
 extern int          framespersecond;
 extern int          refreshrate;
+extern bool         fpssamplepending;
 extern uint64_t     starttime;
 extern uint64_t     performancecounter;
 extern uint64_t     performancefrequency;

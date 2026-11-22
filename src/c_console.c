@@ -228,6 +228,8 @@ static char             historyindexkilled[CONSOLETEXTMAXLENGTH];
 static char             historyindexgibbed[CONSOLETEXTMAXLENGTH];
 static char             historyindexberserk[64];
 
+uint64_t                fpsgraphlastupdate;
+
 static int C_GetCurrentTopRow(void);
 static int C_EnsureHistoryIndex(void);
 
@@ -2940,7 +2942,6 @@ void C_UpdateFPSOverlay(void)
     static int          fpshistory[OVERLAYFPSGRAPHWIDTH] = { 0 };
     static int          fpshistoryindex = 0;
     static int          fpshistorycount = 0;
-    static uint64_t     lastupdate = 0;
     static int64_t      graphmin;
     static int64_t      graphmax;
     uint64_t            now = I_GetTimeMS();
@@ -2960,7 +2961,7 @@ void C_UpdateFPSOverlay(void)
         previousfps = currentfps;
     }
 
-    if (!fpshistorycount || now - lastupdate >= 1000)
+    if ((!fpshistorycount || now - fpsgraphlastupdate >= 1000) && (!dowipe || !melt) && !fpssamplepending)
     {
         const bool  firstsample = !fpshistorycount;
         int64_t     low = currentfps;
@@ -2969,7 +2970,7 @@ void C_UpdateFPSOverlay(void)
         fpshistory[fpshistoryindex] = currentfps;
         fpshistoryindex = (fpshistoryindex + 1) % OVERLAYFPSGRAPHWIDTH;
         fpshistorycount = MIN(fpshistorycount + 1, OVERLAYFPSGRAPHWIDTH);
-        lastupdate = now;
+        fpsgraphlastupdate = now;
 
         for (int i = 0; i < fpshistorycount; i++)
         {

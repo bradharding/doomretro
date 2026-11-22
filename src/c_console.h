@@ -265,6 +265,8 @@ extern bool             gotoverlaytextcolors;
 extern const kern_t     kern[];
 extern const kern_t     altkern[];
 
+extern uint64_t         fpsgraphlastupdate;
+
 bool C_Autocomplete(char *input, const size_t size, int *caret, const bool reverse);
 void C_BuildDither(byte *map);
 void C_CreateTimeStamp(const int index);
@@ -303,6 +305,7 @@ bool C_ValidateInput(const char *input);
 bool C_Responder(event_t *ev);
 void C_PrintSDLVersions(void);
 void C_UpdateClockOverlay(void);
+void C_ResumeFPSGraph(void);
 void C_UpdateFPSOverlay(void);
 void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);

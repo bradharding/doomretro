@@ -678,6 +678,12 @@ void D_Display(void)
 
         mapblitfunc();
     } while (!done);
+
+    if (vid_showfps)
+    {
+        I_ResumeFPSCounter();
+        fpsgraphlastupdate = I_GetTimeMS();
+    }
 }
 
 //

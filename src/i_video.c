@@ -890,18 +890,23 @@ uint64_t    performancecounter;
 uint64_t    performancefrequency;
 uint64_t    starttime;
 int         framecount;
+bool        fpssamplepending;
 
 void I_ResetFPSCounter(void)
 {
     starttime = SDL_GetPerformanceCounter();
     framespersecond = 0;
     framecount = -1;
+    fpssamplepending = false;
 }
 
 static inline void CalculateFPS(void)
 {
     const uint64_t  currenttime = SDL_GetPerformanceCounter();
     const uint64_t  elapsed = currenttime - starttime;
+
+    if (dowipe && melt)
+        return;
 
     framecount++;
 
@@ -910,7 +915,15 @@ static inline void CalculateFPS(void)
         framespersecond = (int)((framecount * performancefrequency + (elapsed / 2)) / elapsed);
         framecount = 0;
         starttime = currenttime;
+        fpssamplepending = false;
     }
+}
+
+void I_ResumeFPSCounter(void)
+{
+    starttime = SDL_GetPerformanceCounter();
+    framecount = -1;
+    fpssamplepending = true;
 }
 
 void I_CapFPS(const int cap)
