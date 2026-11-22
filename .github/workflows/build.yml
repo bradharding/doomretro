@@ -358,7 +358,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install cmake sdl2 sdl2_mixer ccache
+          brew install cmake pkgconf sdl2 sdl2_mixer ccache
 
       - name: Extract version
         id: version
@@ -371,9 +371,12 @@ jobs:
           rm -rf build
           mkdir -p build
           cd build
+          export PKG_CONFIG_PATH="$(brew --prefix)/lib/pkgconfig:$(brew --prefix)/share/pkgconfig"
           cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                -DCMAKE_PREFIX_PATH="$(brew --prefix)" \
+                -DCMAKE_EXE_LINKER_FLAGS="-L$(brew --prefix)/lib -lSDL2_mixer" \
                 ..
 
       - name: Build
