@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include <math.h>
+
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -94,6 +96,7 @@ byte        *tranmap;
 
 byte        *tinttabadditive;
 byte        *tinttabsubtractive;
+byte        *tinttabsplashadditive;
 byte        *tinttabred;
 byte        *tinttabredwhite1;
 byte        *tinttabredwhite2;
@@ -387,6 +390,41 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
     return result;
 }
 
+static byte *GenerateSplashAdditiveTintTable(byte *palette)
+{
+    byte    *result = I_Malloc(256 * 256 * sizeof(*result));
+    float   linear[256];
+    byte    blend[256][256];
+
+    for (int i = 0; i < 256; i++)
+    {
+        const float value = i / 255.0f;
+
+        linear[i] = (value <= 0.04045f ? value / 12.92f : powf((value + 0.055f) / 1.055f, 2.4f));
+    }
+
+    for (int foreground = 0; foreground < 256; foreground++)
+        for (int background = 0; background < 256; background++)
+        {
+            const float light = fminf(1.0f, linear[background] + 0.8f * linear[foreground]);
+            const float value = (light <= 0.0031308f ? light * 12.92f : 1.055f * powf(light, 1.0f / 2.4f) - 0.055f);
+
+            blend[foreground][background] = (byte)(fminf(1.0f, value) * 255.0f + 0.5f);
+        }
+
+    for (int foreground = 0; foreground < 256; foreground++)
+        for (int background = 0; background < 256; background++)
+        {
+            const byte  *fg = palette + foreground * 3;
+            const byte  *bg = palette + background * 3;
+
+            result[(foreground << 8) + background] = I_GetNearestColor(palette,
+                blend[fg[0]][bg[0]], blend[fg[1]][bg[1]], blend[fg[2]][bg[2]]);
+        }
+
+    return result;
+}
+
 static byte *GenerateSubtractiveTintTable(byte *palette, const int amount)
 {
     byte    *result = I_Malloc(256 * 256 * sizeof(*result));
@@ -433,6 +471,7 @@ void I_InitTintTables(byte *palette)
 
     tinttabadditive = GenerateAdditiveTintTable(palette, ALL);
     tinttabsubtractive = GenerateSubtractiveTintTable(palette, 64);
+    tinttabsplashadditive = GenerateSplashAdditiveTintTable(W_CacheLastLumpName("SPLSHPAL"));
     tinttabred = GenerateAdditiveTintTable(palette, REDS);
     tinttabredwhite1 = GenerateAdditiveTintTable(palette, (REDS | WHITES));
     tinttabredwhite2 = GenerateAdditiveTintTable(palette, (REDS | WHITES | EXTRAS));

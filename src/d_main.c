@@ -797,8 +797,8 @@ void D_SplashDrawer(void)
     memset(screens[0], BLACK, SCREENAREA);
     V_DrawBigPatch(MAX(0, (SCREENWIDTH - splashbackwidth) / 2), 0, splashbackwidth, splashbackheight, splashbacklump);
     D_AnimateSplashBackground();
-    V_DrawTranslucentBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
-    V_DrawTranslucentBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
+    V_DrawAdditiveSplashPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
+    V_DrawAdditiveSplashPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)), 10) * 768]);
     I_Blit_NearestLinear_Splash();
     I_CapFPS(60);

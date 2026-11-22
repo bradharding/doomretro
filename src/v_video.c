@@ -995,9 +995,9 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
     V_DrawBigPatchInternal(x, y, width, height, patch, NULL);
 }
 
-void V_DrawTranslucentBigPatch(int x, int y, short width, short height, patch_t *patch)
+void V_DrawAdditiveSplashPatch(int x, int y, short width, short height, patch_t *patch)
 {
-    V_DrawBigPatchInternal(x, y, width, height, patch, tinttabadditive);
+    V_DrawBigPatchInternal(x, y, width, height, patch, tinttabsplashadditive);
 }
 
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
