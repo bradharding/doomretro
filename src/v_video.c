@@ -997,7 +997,7 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 
 void V_DrawTranslucentBigPatch(int x, int y, short width, short height, patch_t *patch)
 {
-    V_DrawBigPatchInternal(x, y, width, height, patch, tinttab75);
+    V_DrawBigPatchInternal(x, y, width, height, patch, tinttabadditive);
 }
 
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)

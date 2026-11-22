@@ -767,11 +767,11 @@ static void D_AnimateSplashBackground(void)
 
     for (int y = 0; y < SCREENHEIGHT; y++)
     {
-        byte        *row = screens[0] + y * SCREENWIDTH;
-        const int   shift = finesine[(phase + y * FINEANGLES / 400) & FINEMASK] * 4 / FRACUNIT;
+        const int   shift = finesine[(phase + y * FINEANGLES / 400) & FINEMASK] * 3 / FRACUNIT;
 
         if (shift > 0)
         {
+            byte        *row = screens[0] + y * SCREENWIDTH;
             const byte  edge = row[0];
 
             memmove(row + shift, row, SCREENWIDTH - shift);
@@ -779,11 +779,11 @@ static void D_AnimateSplashBackground(void)
         }
         else if (shift < 0)
         {
-            const int   distance = -shift;
+            byte        *row = screens[0] + y * SCREENWIDTH;
             const byte  edge = row[SCREENWIDTH - 1];
 
-            memmove(row, row + distance, SCREENWIDTH - distance);
-            memset(row + SCREENWIDTH - distance, edge, distance);
+            memmove(row, row - shift, SCREENWIDTH + shift);
+            memset(row + SCREENWIDTH + shift, edge, -shift);
         }
     }
 }
