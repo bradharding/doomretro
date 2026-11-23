@@ -735,7 +735,7 @@ void P_PlayerThink(void)
 
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
-    if ((movementlocked = (mo->reactiontime != 0)))
+    if ((movementlocked = !!mo->reactiontime))
         mo->reactiontime--;
     else
         P_MovePlayer();

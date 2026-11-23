@@ -688,7 +688,7 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
         {
             const int   min = cvar->minimumvalue;
             const int   max = cvar->maximumvalue;
-            const bool  percent = ((flags & CF_PERCENT) != 0);
+            const bool  percent = !!(flags & CF_PERCENT);
 
             if (min > INT_MIN && max < INT_MAX && max > min && max - min <= 10)
                 for (int value = min; value <= max; value++)
@@ -709,7 +709,7 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
         }
     }
     else if (flags & CF_FLOAT)
-        AddFloat(cvar->defaultnumber, (flags & CF_PERCENT) != 0);
+        AddFloat(cvar->defaultnumber, !!(flags & CF_PERCENT));
     else if (flags & (CF_STRING | CF_OTHER))
     {
         const bool  quoted = (direct && (flags & CF_STRING));
@@ -942,7 +942,7 @@ static void AddMaps(void)
 
             map = (name[3] - '0') * 10 + (name[4] - '0');
 
-            if (legacyofrust && map != 99 && map != 0)
+            if (legacyofrust && map != 99 && !!map)
             {
                 if (map <= 7)
                     M_snprintf(lump, sizeof(lump), "E1M%i", map);
@@ -1242,7 +1242,7 @@ static void ResolveSpawn(const char (*w)[WORDLEN], const int a)
     const bool  friendly = (a > 0 && M_StringCompare(w[0], "friendly"));
     const bool  flagged = (friendly || (a > 0 && M_StringCompare(w[0], "unfriendly")));
 
-    if (a != (flagged ? 1 : 0))
+    if (a != flagged)
         return;
 
     if (!flagged)
@@ -1259,7 +1259,7 @@ static void ResolveName(const char (*w)[WORDLEN], const int a)
     const bool  flagged = (a > 0 && (M_StringCompare(w[0], "friendly")
                     || M_StringCompare(w[0], "unfriendly")));
 
-    if (a != (flagged ? 1 : 0))
+    if (a != flagged)
         return;
 
     if (!flagged)

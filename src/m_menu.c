@@ -4585,7 +4585,7 @@ bool M_Responder(event_t *ev)
         if (messagetoprint && messagebuttonsactive && quitmessagebuttons)
         {
             for (int i = 0; i < quitmessagebuttoncount; i++)
-                if (key == quitmessagebuttonkey[i] || (key == KEY_ENTER && i == 0)
+                if (key == quitmessagebuttonkey[i] || (key == KEY_ENTER && !i)
                     || (key == 'y' && quitmessagebuttoncount == 1)
                     || (key == KEY_BACKSPACE && i == quitmessagebuttoncount - 1))
                 {

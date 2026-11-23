@@ -752,7 +752,7 @@ bool AM_TextMarkResponder(const event_t *ev)
         const unsigned char ch = (unsigned char)ev->data1;
         const size_t len = strlen(pendingmark.text);
 
-        if (ch >= CONSOLEFONTSTART && !(markcaret == 0 && isspace(ch))
+        if (ch >= CONSOLEFONTSTART && (markcaret || !isspace(ch))
             && len < sizeof(pendingmark.text) - 1)
         {
             memmove(pendingmark.text + markcaret + 1, pendingmark.text + markcaret, len - markcaret + 1);
@@ -2811,8 +2811,8 @@ static void AM_DrawMarkBitmap(const char *bitmap, const int width, const int hei
     };
     const int       startx = MAX(0, -x);
     const int       starty = MAX(0, -y);
-    const int       endx = MIN(width + (fracx != 0), MAPWIDTH - x);
-    const int       endy = MIN(height + (fracy != 0), MAPHEIGHT - y);
+    const int       endx = MIN(width + !!fracx, MAPWIDTH - x);
+    const int       endy = MIN(height + !!fracy, MAPHEIGHT - y);
 
     for (int row = starty; row < endy; row++)
         for (int col = startx; col < endx; col++)
@@ -2978,7 +2978,7 @@ static void AM_DrawTextMark(const am_mark_t *textmark, const bool caret)
 {
     static char     *bitmap;
     static size_t   bitmapcapacity;
-    const bool      showcaret = (caret && ((I_GetTimeMS() - markcarettime) / CARETBLINKTIME) % 2 == 0);
+    const bool      showcaret = (caret && !(((I_GetTimeMS() - markcarettime) / CARETBLINKTIME) % 2));
     int             caretx = 0;
     int             x, y;
     int             width;

@@ -1474,7 +1474,7 @@ static double P_CalcWallLength(const line_t *line)
             const double    fy = (double)other->v1->y / FRACUNIT - oy;
             double          t1, t2;
 
-            if (other == line || P_IsSolid(other) != solid || dx * ey - dy * ex != 0.0 || dx * fy - dy * fx != 0.0)
+            if (other == line || P_IsSolid(other) != solid || dx * ey - dy * ex || dx * fy - dy * fx)
                 continue;
 
             t1 = (fx * dx + fy * dy) / length;

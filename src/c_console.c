@@ -1180,7 +1180,7 @@ static int C_GetConsoleDisplayRows(const int index)
     C_GetWrapPositions(index, wraps);
 
     for (int i = 1, prev = 0; i <= arrlen(wraps); i++)
-        if (!(wraps[i - 1] > prev && wraps[i - 1] < len))
+        if (wraps[i - 1] <= prev || wraps[i - 1] >= len)
             return i;
         else
             prev = wraps[i - 1];
@@ -2115,7 +2115,7 @@ static void C_BlurBackground(float *blurrgb, const int rows, const float *tint, 
                 row[i] += (above[i] + below[i]) * blurkernel[k];
         }
 
-        if (tintamount != 0.0f)
+        if (tintamount)
             for (int i = 0; i < SCREENWIDTH * 3; i++)
                 row[i] = row[i] * (1.0f - tintamount) + tint[i % 3] * tintamount;
     }
@@ -5509,7 +5509,7 @@ bool C_Responder(event_t *ev)
                     {
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
                         scrolloffset = -remainder;
-                        scrolloffsetheld = (remainder != 0);
+                        scrolloffsetheld = !!remainder;
                         scrollbarshadowheld = dragconsolescrollbarmoved;
                         scrolloffsetheldhistory = outputhistory;
                         scrolloffsetheldoffset = outputhistoryoffset;

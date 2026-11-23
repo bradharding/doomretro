@@ -154,7 +154,7 @@ FILE *P_OpenSaveGame(const char *filename)
     if (fread(header, 1, sizeof(header), stream) != sizeof(header)
         || memcmp(header, SAVEGAME_MAGIC, 4))
     {
-        if (fseek(stream, 0, SEEK_SET) == 0)
+        if (!fseek(stream, 0, SEEK_SET))
             return stream;
 
         fclose(stream);
@@ -179,7 +179,7 @@ FILE *P_OpenSaveGame(const char *filename)
             && destlen == uncompressedlen
             && (tempstream = tmpfile())
             && (fwrite(uncompressed, 1, uncompressedlen, tempstream) != uncompressedlen
-                || fseek(tempstream, 0, SEEK_SET) != 0))
+                || fseek(tempstream, 0, SEEK_SET)))
         {
             fclose(tempstream);
             tempstream = NULL;

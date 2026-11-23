@@ -952,7 +952,7 @@ bool M_IsIntegerString(const char *str)
         else
             return false;
 
-    return (grouped ? digits == 3 : digits != 0);
+    return (grouped ? digits == 3 : !!digits);
 }
 
 const char *commifybuf(int64_t value, char buffer[COMMIFY_BUFSIZE])
