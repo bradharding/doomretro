@@ -614,6 +614,28 @@ static void AddNumber(const int value, const bool percent)
     AddWord(buffer, 0, morevalues);
 }
 
+static void AddFloat(const double value, const bool percent)
+{
+    char    buffer[128];
+    size_t  len;
+
+    M_snprintf(buffer, sizeof(buffer), "%.2f", value);
+    len = strlen(buffer);
+
+    if (len >= 3 && buffer[len - 3] == '.' && buffer[len - 1] == '0')
+    {
+        buffer[--len] = '\0';
+
+        if (buffer[len - 1] == '0')
+            buffer[len - 2] = '\0';
+    }
+
+    if (percent)
+        M_StringCopy(buffer + strlen(buffer), "%", sizeof(buffer) - strlen(buffer));
+
+    AddWord(buffer, 0, morevalues);
+}
+
 static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const bool more)
 {
     const int   flags = cvar->flags;
@@ -654,12 +676,7 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
         AddValueAliases(GAMMAVALUEALIAS);
 
         for (int i = 0; i < GAMMALEVELS; i++)
-        {
-            char    *temp = striptrailingzero(gammalevels[i], 2);
-
-            AddWord(temp, 0, morevalues);
-            free(temp);
-        }
+            AddFloat(gammalevels[i], false);
     }
     else if (flags & CF_BOOLEAN)
         AddValueAliases(cvar->aliases ? (valuealiastype_t)cvar->aliases : BOOLVALUEALIAS);
@@ -692,14 +709,7 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
         }
     }
     else if (flags & CF_FLOAT)
-    {
-        char    *temp = striptrailingzero(cvar->defaultnumber, 2);
-        char    buffer[64];
-
-        M_snprintf(buffer, sizeof(buffer), "%s%s", temp, ((flags & CF_PERCENT) ? "%" : ""));
-        AddWord(buffer, 0, morevalues);
-        free(temp);
-    }
+        AddFloat(cvar->defaultnumber, (flags & CF_PERCENT) != 0);
     else if (flags & (CF_STRING | CF_OTHER))
     {
         const bool  quoted = (direct && (flags & CF_STRING));
