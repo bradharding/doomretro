@@ -2967,6 +2967,13 @@ void C_UpdateFPSOverlay(void)
         int64_t     low = currentfps;
         int64_t     high = currentfps;
 
+        if (firstsample)
+        {
+            fpshistory[fpshistoryindex] = 0;
+            fpshistoryindex = (fpshistoryindex + 1) % OVERLAYFPSGRAPHWIDTH;
+            fpshistorycount++;
+        }
+
         fpshistory[fpshistoryindex] = currentfps;
         fpshistoryindex = (fpshistoryindex + 1) % OVERLAYFPSGRAPHWIDTH;
         fpshistorycount = MIN(fpshistorycount + 1, OVERLAYFPSGRAPHWIDTH);
