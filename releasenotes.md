@@ -4,8 +4,8 @@
 
 * *DOOM Retro* is now distributed as a statically linked executable, and is therefore no longer accompanied by any DLLs.
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The splash screen now features a widescreen background.
-* Several improvements have been made to the blurring and scanline effects in the menu’s background.
+* The splash screen now features a widescreen background and holds the final logo frame a little longer.
+* Several improvements have been made to the blur and scanline effects in the menu’s background.
 * Improvements have been made to the shadows cast by items in the menu when the `menushadow` CVAR is `on`.
 * When the `menuhighlight` CVAR is `on`, clicking the mouse or pressing <kbd><b>ENTER</b></kbd> on an item in the menu now causes that item to be highlighted slightly more.
 * These changes have been made to the console:

@@ -87,9 +87,10 @@
 #endif
 #endif
 
-#define FADECOUNT   8
-#define FADETICS    25
-#define LOGOFRAMES  24
+#define FADECOUNT       8
+#define FADETICS        25
+#define LOGOFRAMES      24
+#define SPLASHHOLDTICS  TICRATE
 
 char **episodes[] =
 {
@@ -713,7 +714,7 @@ static void D_DoomLoop(void)
 // TITLE LOOP
 //
 int             titlesequence = 0;
-int             pagetic = 3 * TICRATE;
+int             pagetic = 3 * TICRATE + SPLASHHOLDTICS;
 int             logotic = 3 * TICRATE;
 
 static patch_t  *pagelump;
@@ -805,7 +806,8 @@ void D_SplashDrawer(void)
     D_AnimateSplashBackground();
     V_DrawAdditiveSplashPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
     V_DrawAdditiveSplashPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
-    I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)), 10) * 768]);
+    I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic :
+        (pagetic > 94 + SPLASHHOLDTICS) * (pagetic - 94 - SPLASHHOLDTICS)), 10) * 768]);
     I_Blit_NearestLinear_Splash();
     I_CapFPS(60);
 }
