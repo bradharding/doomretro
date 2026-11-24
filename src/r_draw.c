@@ -518,27 +518,57 @@ void R_DrawWallColumn(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
-            *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
-            dest += SCREENWIDTH;
+            while (--count)
+            {
+                *dest = colormap[dc_source[frac >> FRACBITS]];
+                dest += SCREENWIDTH;
 
-            if ((frac += dc_iscale) >= heightmask)
-                frac -= heightmask;
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+            }
+
+            *dest = colormap[dc_source[frac >> FRACBITS]];
         }
+        else
+        {
+            while (--count)
+            {
+                *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
+                dest += SCREENWIDTH;
 
-        *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+            }
+
+            *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
+        }
     }
     else
     {
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
-            *dest = dc_sectorcolormap[colormap[dc_source[(frac >> FRACBITS) & heightmask]]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
-        }
+            while (--count)
+            {
+                *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+            }
 
-        *dest = dc_sectorcolormap[colormap[dc_source[(frac >> FRACBITS) & heightmask]]];
+            *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+        }
+        else
+        {
+            while (--count)
+            {
+                *dest = dc_sectorcolormap[colormap[dc_source[(frac >> FRACBITS) & heightmask]]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+            }
+
+            *dest = dc_sectorcolormap[colormap[dc_source[(frac >> FRACBITS) & heightmask]]];
+        }
     }
 }
 
@@ -563,39 +593,81 @@ void R_DrawLowResDitheredWallColumn(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
-            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
-            dest += SCREENWIDTH;
-
-            if ((frac += dc_iscale) >= heightmask)
-                frac -= heightmask;
-
-            if (++lowy == lowpixelrows)
+            while (--count)
             {
-                lowy = 0;
-                yphase = (yphase + 1) & DITHERMASK;
-            }
-        }
+                *dest = colormap[dither[yphase]][dc_source[frac >> FRACBITS]];
+                dest += SCREENWIDTH;
 
-        *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
+            *dest = colormap[dither[yphase]][dc_source[frac >> FRACBITS]];
+        }
+        else
+        {
+            while (--count)
+            {
+                *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
+            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
+        }
     }
     else
     {
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
-            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
-
-            if (++lowy == lowpixelrows)
+            while (--count)
             {
-                lowy = 0;
-                yphase = (yphase + 1) & DITHERMASK;
-            }
-        }
+                *dest = colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
 
-        *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
+            *dest = colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]];
+        }
+        else
+        {
+            while (--count)
+            {
+                *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
+            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
+        }
     }
 }
 
@@ -619,30 +691,63 @@ void R_DrawDitheredWallColumn(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--count)
+        if (dc_sectorcolormap == nocolormap)
         {
-            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
-            dest += SCREENWIDTH;
+            while (--count)
+            {
+                *dest = colormap[dither[yphase]][dc_source[frac >> FRACBITS]];
+                dest += SCREENWIDTH;
 
-            if ((frac += dc_iscale) >= heightmask)
-                frac -= heightmask;
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
 
-            yphase = (yphase + 1) & DITHERMASK;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            *dest = colormap[dither[yphase]][dc_source[frac >> FRACBITS]];
         }
+        else
+        {
+            while (--count)
+            {
+                *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
+                dest += SCREENWIDTH;
 
-        *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[frac >> FRACBITS]]];
+        }
     }
     else
     {
-        while (--count)
+        if (dc_sectorcolormap == nocolormap)
         {
-            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
-            yphase = (yphase + 1) & DITHERMASK;
-        }
+            while (--count)
+            {
+                *dest = colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
 
-        *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
+            *dest = colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]];
+        }
+        else
+        {
+            while (--count)
+            {
+                *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            *dest = dc_sectorcolormap[colormap[dither[yphase]][dc_source[(frac >> FRACBITS) & heightmask]]];
+        }
     }
 }
 
@@ -664,31 +769,65 @@ void R_DrawWallColumnWithBrightmap(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
+            while (--count)
+            {
+                dot = dc_source[frac >> FRACBITS];
+                *dest = dc_colormap[dc_brightmap[dot]][dot];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+            }
+
+            dot = dc_source[frac >> FRACBITS];
+            *dest = dc_colormap[dc_brightmap[dot]][dot];
+        }
+        else
+        {
+            while (--count)
+            {
+                dot = dc_source[frac >> FRACBITS];
+                *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+            }
+
             dot = dc_source[frac >> FRACBITS];
             *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
-            dest += SCREENWIDTH;
-
-            if ((frac += dc_iscale) >= heightmask)
-                frac -= heightmask;
         }
-
-        dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
     }
     else
     {
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
+            while (--count)
+            {
+                dot = dc_source[(frac >> FRACBITS) & heightmask];
+                *dest = dc_colormap[dc_brightmap[dot]][dot];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+            }
+
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            *dest = dc_colormap[dc_brightmap[dot]][dot];
+        }
+        else
+        {
+            while (--count)
+            {
+                dot = dc_source[(frac >> FRACBITS) & heightmask];
+                *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+            }
+
             dot = dc_source[(frac >> FRACBITS) & heightmask];
             *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
         }
-
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
     }
 }
 
@@ -715,43 +854,89 @@ void R_DrawLowResDitheredWallColumnWithBrightmap(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
+            while (--count)
+            {
+                dot = dc_source[frac >> FRACBITS];
+                *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
+            dot = dc_source[frac >> FRACBITS];
+            *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+        }
+        else
+        {
+            while (--count)
+            {
+                dot = dc_source[frac >> FRACBITS];
+                *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
             dot = dc_source[frac >> FRACBITS];
             *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
-            dest += SCREENWIDTH;
-
-            if ((frac += dc_iscale) >= heightmask)
-                frac -= heightmask;
-
-            if (++lowy == lowpixelrows)
-            {
-                lowy = 0;
-                yphase = (yphase + 1) & DITHERMASK;
-            }
         }
-
-        dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
     }
     else
     {
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
+            while (--count)
+            {
+                dot = dc_source[(frac >> FRACBITS) & heightmask];
+                *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+        }
+        else
+        {
+            while (--count)
+            {
+                dot = dc_source[(frac >> FRACBITS) & heightmask];
+                *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+
+                if (++lowy == lowpixelrows)
+                {
+                    lowy = 0;
+                    yphase = (yphase + 1) & DITHERMASK;
+                }
+            }
+
             dot = dc_source[(frac >> FRACBITS) & heightmask];
             *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
-
-            if (++lowy == lowpixelrows)
-            {
-                lowy = 0;
-                yphase = (yphase + 1) & DITHERMASK;
-            }
         }
-
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
     }
 }
 
@@ -777,34 +962,71 @@ void R_DrawDitheredWallColumnWithBrightmap(void)
             while (frac >= heightmask)
                 frac -= heightmask;
 
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
+            while (--count)
+            {
+                dot = dc_source[frac >> FRACBITS];
+                *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            dot = dc_source[frac >> FRACBITS];
+            *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+        }
+        else
+        {
+            while (--count)
+            {
+                dot = dc_source[frac >> FRACBITS];
+                *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
+                dest += SCREENWIDTH;
+
+                if ((frac += dc_iscale) >= heightmask)
+                    frac -= heightmask;
+
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
             dot = dc_source[frac >> FRACBITS];
             *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
-            dest += SCREENWIDTH;
-
-            if ((frac += dc_iscale) >= heightmask)
-                frac -= heightmask;
-
-            yphase = (yphase + 1) & DITHERMASK;
         }
-
-        dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
     }
     else
     {
-        while (--count)
+        if (ds_sectorcolormap == nocolormap)
         {
+            while (--count)
+            {
+                dot = dc_source[(frac >> FRACBITS) & heightmask];
+                *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            *dest = colormap[dc_brightmap[dot]][dither[yphase]][dot];
+        }
+        else
+        {
+            while (--count)
+            {
+                dot = dc_source[(frac >> FRACBITS) & heightmask];
+                *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
+                dest += SCREENWIDTH;
+                frac += dc_iscale;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
             dot = dc_source[(frac >> FRACBITS) & heightmask];
             *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
-            dest += SCREENWIDTH;
-            frac += dc_iscale;
-            yphase = (yphase + 1) & DITHERMASK;
         }
-
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither[yphase]][dot]];
     }
 }
 
@@ -1756,14 +1978,28 @@ void R_DrawSpan(void)
     byte                *dest = ylookup0[ds_y] + ds_x1;
     const lighttable_t  *colormap = ds_colormap[0];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-    }
+        while (--count)
+        {
+            *dest++ = colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
 
-    *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+        *dest = colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+    }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
+
+        *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawRadialSpan(void)
@@ -1779,22 +2015,44 @@ void R_DrawRadialSpan(void)
     lightindex = ds_z;
     colormap = ds_zlight[lightindex];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialLightColormap(&colormap, &lightindex);
+            *dest++ = colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
         }
-    }
 
-    *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+        *dest = colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+    }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
+        }
+
+        *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawSpanWithBrightmap(void)
@@ -1804,16 +2062,32 @@ void R_DrawSpanWithBrightmap(void)
     const lighttable_t  *colormap[2] = { ds_colormap[0], fullcolormap };
     byte                dot;
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-    }
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = colormap[ds_brightmap[dot]][dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
 
-    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = colormap[ds_brightmap[dot]][dot];
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
+
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+    }
 }
 
 void R_DrawRadialSpanWithBrightmap(void)
@@ -1830,24 +2104,48 @@ void R_DrawRadialSpanWithBrightmap(void)
     lightindex = ds_z;
     colormap = ds_zlight[lightindex];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialLightColormap(&colormap, &lightindex);
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = (ds_brightmap[dot] ? fullcolormap : colormap)[dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
         }
-    }
 
-    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = (ds_brightmap[dot] ? fullcolormap : colormap)[dot];
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
+        }
+
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
+    }
 }
 
 void R_DrawLowResDitheredSpan(void)
@@ -2009,17 +2307,32 @@ void R_DrawDitheredSpan(void)
     const byte  *dither = ditherspan[ds_y & DITHERMASK][ds_z];
     int         xphase = (ds_x1 + ditherxoffset) & DITHERMASK;
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[ds_colormap[dither[xphase]]
-            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-        xphase = (xphase + 1) & DITHERMASK;
-    }
+        while (--count)
+        {
+            *dest++ = ds_colormap[dither[xphase]][ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
 
-    *dest = ds_sectorcolormap[ds_colormap[dither[xphase]]
-        [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+        *dest = ds_colormap[dither[xphase]][ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+    }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[ds_colormap[dither[xphase]]
+                [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        *dest = ds_sectorcolormap[ds_colormap[dither[xphase]]
+            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawDitheredRadialSpan(void)
@@ -2041,27 +2354,52 @@ void R_DrawDitheredRadialSpan(void)
     nextcolormap = ds_zlight[MIN(lightindex + 1, MAXLIGHTZ - 1)];
     dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+            *dest++ = (dither[xphase] ? nextcolormap : colormap)[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
         }
 
-        xphase = (xphase + 1) & DITHERMASK;
+        *dest = (dither[xphase] ? nextcolormap : colormap)[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]];
     }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
+                [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-    *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-        [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
+            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawDitheredSpanWithBrightmap(void)
@@ -2074,17 +2412,34 @@ void R_DrawDitheredSpanWithBrightmap(void)
     const lighttable_t  *colormap[2][2] = { { ds_colormap[0], ds_colormap[1] },
                                             { fullcolormap,   fullcolormap   } };
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-        xphase = (xphase + 1) & DITHERMASK;
-    }
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = colormap[ds_brightmap[dot]][dither[xphase]][dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
 
-    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = colormap[ds_brightmap[dot]][dither[xphase]][dot];
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
+    }
 }
 
 void R_DrawDitheredRadialSpanWithBrightmap(void)
@@ -2107,29 +2462,56 @@ void R_DrawDitheredRadialSpanWithBrightmap(void)
     nextcolormap = ds_zlight[MIN(lightindex + 1, MAXLIGHTZ - 1)];
     dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
-            (dither[xphase] ? nextcolormap : colormap))[dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = (ds_brightmap[dot] ? fullcolormap : (dither[xphase] ? nextcolormap : colormap))[dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
         }
 
-        xphase = (xphase + 1) & DITHERMASK;
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = (ds_brightmap[dot] ? fullcolormap : (dither[xphase] ? nextcolormap : colormap))[dot];
     }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
+                (dither[xphase] ? nextcolormap : colormap))[dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
-        (dither[xphase] ? nextcolormap : colormap))[dot]];
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
+            (dither[xphase] ? nextcolormap : colormap))[dot]];
+    }
 }
 
 void R_DrawSpan64(void)
@@ -2138,14 +2520,28 @@ void R_DrawSpan64(void)
     byte                *dest = ylookup0[ds_y] + ds_x1;
     const lighttable_t  *colormap = ds_colormap[0];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-    }
+        while (--count)
+        {
+            *dest++ = colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
 
-    *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+        *dest = colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]];
+    }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
+
+        *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawRadialSpan64(void)
@@ -2161,22 +2557,44 @@ void R_DrawRadialSpan64(void)
     lightindex = ds_z;
     colormap = ds_zlight[lightindex];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialLightColormap(&colormap, &lightindex);
+            *dest++ = colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
         }
-    }
 
-    *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+        *dest = colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]];
+    }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
+        }
+
+        *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawSpanWithBrightmap64(void)
@@ -2186,16 +2604,32 @@ void R_DrawSpanWithBrightmap64(void)
     const lighttable_t  *colormap[2] = { ds_colormap[0], fullcolormap };
     byte                dot;
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-    }
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = colormap[ds_brightmap[dot]][dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
 
-    dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = colormap[ds_brightmap[dot]][dot];
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+        }
+
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+    }
 }
 
 void R_DrawRadialSpanWithBrightmap64(void)
@@ -2212,24 +2646,48 @@ void R_DrawRadialSpanWithBrightmap64(void)
     lightindex = ds_z;
     colormap = ds_zlight[lightindex];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialLightColormap(&colormap, &lightindex);
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = (ds_brightmap[dot] ? fullcolormap : colormap)[dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
         }
-    }
 
-    dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = (ds_brightmap[dot] ? fullcolormap : colormap)[dot];
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialLightColormap(&colormap, &lightindex);
+
+                radialpixelcount = 4;
+            }
+        }
+
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
+    }
 }
 
 void R_DrawLowResDitheredSpan64(void)
@@ -2423,27 +2881,52 @@ void R_DrawDitheredRadialSpan64(void)
     nextcolormap = ds_zlight[MIN(lightindex + 1, MAXLIGHTZ - 1)];
     dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-            [ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+            *dest++ = (dither[xphase] ? nextcolormap : colormap)[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
         }
 
-        xphase = (xphase + 1) & DITHERMASK;
+        *dest = (dither[xphase] ? nextcolormap : colormap)[ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]];
     }
+    else
+    {
+        while (--count)
+        {
+            *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
+                [ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-    *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-        [ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
+            [ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)]]];
+    }
 }
 
 void R_DrawDitheredSpanWithBrightmap64(void)
@@ -2456,17 +2939,34 @@ void R_DrawDitheredSpanWithBrightmap64(void)
     const lighttable_t  *colormap[2][2] = { { ds_colormap[0], ds_colormap[1] },
                                             { fullcolormap,   fullcolormap   } };
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-        xphase = (xphase + 1) & DITHERMASK;
-    }
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = colormap[ds_brightmap[dot]][dither[xphase]][dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
 
-    dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = colormap[ds_brightmap[dot]][dither[xphase]][dot];
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
+    }
 }
 
 void R_DrawDitheredRadialSpanWithBrightmap64(void)
@@ -2489,29 +2989,56 @@ void R_DrawDitheredRadialSpanWithBrightmap64(void)
     nextcolormap = ds_zlight[MIN(lightindex + 1, MAXLIGHTZ - 1)];
     dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
 
-    while (--count)
+    if (ds_sectorcolormap == nocolormap)
     {
-        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-        *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
-            (dither[xphase] ? nextcolormap : colormap))[dot]];
-        ds_xfrac += ds_xstep;
-        ds_yfrac += ds_ystep;
-
-        if (!--radialpixelcount)
+        while (--count)
         {
-            R_StepRadialLightDistance(4.0f);
-            R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = (ds_brightmap[dot] ? fullcolormap : (dither[xphase] ? nextcolormap : colormap))[dot];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-            dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
-            radialpixelcount = 4;
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
         }
 
-        xphase = (xphase + 1) & DITHERMASK;
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = (ds_brightmap[dot] ? fullcolormap : (dither[xphase] ? nextcolormap : colormap))[dot];
     }
+    else
+    {
+        while (--count)
+        {
+            dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+            *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
+                (dither[xphase] ? nextcolormap : colormap))[dot]];
+            ds_xfrac += ds_xstep;
+            ds_yfrac += ds_ystep;
 
-    dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
-    *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
-        (dither[xphase] ? nextcolormap : colormap))[dot]];
+            if (!--radialpixelcount)
+            {
+                R_StepRadialLightDistance(4.0f);
+                R_UpdateRadialDitheredLightColormaps(&colormap, &nextcolormap, &lightindex);
+
+                dither = ditherspan[yphase][R_GetRadialLightDitherLevel()];
+                radialpixelcount = 4;
+            }
+
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        dot = ds_source[R_FlatIndex64(ds_xfrac, ds_yfrac)];
+        *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
+            (dither[xphase] ? nextcolormap : colormap))[dot]];
+    }
 }
 
 void R_DrawSolidColorSpan(void)
