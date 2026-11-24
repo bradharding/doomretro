@@ -1033,6 +1033,13 @@ void I_WindowResizeBlit(void)
 }
 #endif
 
+static void I_ClearRenderer(void)
+{
+    SDL_RenderClear(renderer);
+}
+
+static void (*clearfunc)(void) = I_ClearRenderer;
+
 static void I_Blit(void)
 {
     UpdateGrab();
@@ -1040,7 +1047,7 @@ static void I_Blit(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
-    SDL_RenderClear(renderer);
+    clearfunc();
     SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
 }
 
@@ -1051,7 +1058,7 @@ static void I_Blit_NearestLinear(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
-    SDL_RenderClear(renderer);
+    clearfunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -1066,7 +1073,7 @@ static void I_Blit_ShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
-    SDL_RenderClear(renderer);
+    clearfunc();
     SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
 }
 
@@ -1078,7 +1085,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
-    SDL_RenderClear(renderer);
+    clearfunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -1089,7 +1096,7 @@ void I_Blit_NearestLinear_Splash(void)
 {
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
-    SDL_RenderClear(renderer);
+    clearfunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -2446,6 +2453,9 @@ static void I_GetScreenDimensions(void)
     }
 
     SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
+
+    clearfunc = (dest_rect.x == 0 && dest_rect.y == 0 && dest_rect.w == width && dest_rect.h == height ?
+        nullfunc : I_ClearRenderer);
 
     GetPixelSize();
 }
