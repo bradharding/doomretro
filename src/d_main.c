@@ -768,33 +768,6 @@ void D_PageTicker(void)
     }
 }
 
-static void D_AnimateSplashBackground(void)
-{
-    const int   phase = (int)((I_GetTimeMS() % 4000) * FINEANGLES / 4000);
-
-    for (int y = 0; y < SCREENHEIGHT; y++)
-    {
-        const int   shift = finesine[(phase + y * FINEANGLES / 400) & FINEMASK] * 3 / FRACUNIT;
-
-        if (shift > 0)
-        {
-            byte        *row = screens[0] + y * SCREENWIDTH;
-            const byte  edge = row[0];
-
-            memmove(row + shift, row, SCREENWIDTH - shift);
-            memset(row, edge, shift);
-        }
-        else if (shift < 0)
-        {
-            byte        *row = screens[0] + y * SCREENWIDTH;
-            const byte  edge = row[SCREENWIDTH - 1];
-
-            memmove(row, row - shift, SCREENWIDTH + shift);
-            memset(row + SCREENWIDTH + shift, edge, -shift);
-        }
-    }
-}
-
 //
 // D_SplashDrawer
 //
@@ -803,7 +776,6 @@ void D_SplashDrawer(void)
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
     V_DrawBigPatch(MAX(0, (SCREENWIDTH - splashbackwidth) / 2), 0, splashbackwidth, splashbackheight, splashbacklump);
-    D_AnimateSplashBackground();
     V_DrawAdditiveSplashPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
     V_DrawAdditiveSplashPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic :
