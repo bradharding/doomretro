@@ -363,6 +363,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
                 *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
 
+        tempsec->terraintype = P_GetTerrainType(tempsec);
         sec = tempsec;  // Use other sector
     }
 
@@ -583,6 +584,7 @@ static void R_Subsector(int num)
             (frontsector->floortex >= 0 ? (PL_TEXFLAT | frontsector->floortex) :
                 (frontsector->floorpic == skyflatnum        // killough 10/98
                     && (frontsector->floorsky & PL_SKYFLAT) ? frontsector->floorsky : frontsector->floorpic)),
+            (frontsector->floortex >= 0 ? SOLID : frontsector->terraintype),
             floorlightlevel,                                // killough 03/16/98
             frontsector->floorxoffset,                      // killough 03/07/98
             frontsector->flooryoffset,
@@ -597,6 +599,7 @@ static void R_Subsector(int num)
             (frontsector->ceilingtex >= 0 ? (PL_TEXFLAT | frontsector->ceilingtex) :
              (frontsector->ceilingpic == skyflatnum          // killough 10/98
                 && (frontsector->ceilingsky & PL_SKYFLAT) ? frontsector->ceilingsky : frontsector->ceilingpic)),
+            (frontsector->ceilingtex >= 0 ? SOLID : terraintypes[frontsector->ceilingpic]),
             ceilinglightlevel,                              // killough 04/11/98
             frontsector->ceilingxoffset,                    // killough 03/07/98
             frontsector->ceilingyoffset,

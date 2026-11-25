@@ -66,6 +66,7 @@ void P_InitPicAnims(void);
 // at map load
 void P_SetTimer(const int minutes);
 void P_SpawnSpecials(void);
+terraintype_t P_GetTerrainType(const sector_t *sector);
 void P_SetLiquids(void);
 void P_FindLifts(void);
 

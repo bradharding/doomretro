@@ -1496,7 +1496,7 @@ void P_UnarchiveWorld(void)
             sector->ceilingheight <<= FRACBITS;
 
         sector->floorpic = saveg_read16();
-        sector->terraintype = terraintypes[sector->floorpic];
+        sector->terraintype = P_GetTerrainType(sector);
         sector->ceilingpic = saveg_read16();
         sector->lightlevel = saveg_read16();
         sector->oldlightlevel = saveg_read16();

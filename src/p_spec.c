@@ -133,25 +133,24 @@ static void P_SpawnPushers(void);   // phares 03/20/98
 static struct
 {
     char            *startname;
-    char            *endname;
     terraintype_t   terraintype;
 } texturepacks[] = {
-    { "GRAYSLM1", "GRAYSLM4", GRAYSLIME },
-    { "MLAVA1",   "MLAVA4",   LAVA      },
-    { "OBLODA01", "OBLODA08", BLOOD     },
-    { "OGOOPY01", "OGOOPY08", GOOP      },
-    { "OICYWA01", "OICYWA08", ICYWATER  },
-    { "OLAVAC01", "OLAVAC08", LAVA      },
-    { "OLAVAD01", "OLAVAD08", LAVA      },
-    { "ONUKEA01", "ONUKEA08", NUKAGE    },
-    { "OSLUDG01", "OSLUDG08", SLUDGE    },
-    { "OTAR__01", "OTAR__08", TAR       },
-    { "OWATER01", "OWATER08", SLUDGE    },
-    { "PLOOD1",   "PLOOD3",   LIQUID    },
-    { "PURPW1",   "PURPW4",   WATER     },
-    { "TEALW1",   "TEALW4",   WATER     },
-    { "ZO1_01",   "ZO1_99",   LAVA      },
-    { "",         "",         0         }
+    { "GRAYSLM1", GRAYSLIME },
+    { "MLAVA1",   LAVA      },
+    { "OBLODA01", BLOOD     },
+    { "OGOOPY01", GOOP      },
+    { "OICYWA01", ICYWATER  },
+    { "OLAVAC01", LAVA      },
+    { "OLAVAD01", LAVA      },
+    { "ONUKEA01", NUKAGE    },
+    { "OSLUDG01", SLUDGE    },
+    { "OTAR__01", TAR       },
+    { "OWATER01", SLUDGE    },
+    { "PLOOD1",   LIQUID    },
+    { "PURPW1",   WATER     },
+    { "TEALW1",   WATER     },
+    { "ZO1_01",   LAVA      },
+    { "",         0         }
 };
 
 static void SetTerrainType(const anim_t *anim, const terraintype_t terraintype)
@@ -168,19 +167,6 @@ void P_InitPicAnims(void)
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
     size_t      maxanims = 0;
-
-    short       NUKAGE1 = R_CheckFlatNumForName("NUKAGE1");
-    short       NUKAGE3 = R_CheckFlatNumForName("NUKAGE3");
-    short       FWATER1 = R_CheckFlatNumForName("FWATER1");
-    short       FWATER4 = R_CheckFlatNumForName("FWATER4");
-    short       SWATER1 = R_CheckFlatNumForName("SWATER1");
-    short       SWATER4 = R_CheckFlatNumForName("SWATER4");
-    short       LAVA1 = R_CheckFlatNumForName("LAVA1");
-    short       LAVA4 = R_CheckFlatNumForName("LAVA4");
-    short       BLOOD1 = R_CheckFlatNumForName("BLOOD1");
-    short       BLOOD3 = R_CheckFlatNumForName("BLOOD3");
-    short       SLIME01 = R_CheckFlatNumForName("SLIME01");
-    short       SLIME08 = R_CheckFlatNumForName("SLIME08");
 
     terraintypes = Z_Calloc(1, ((size_t)numflats + 1) * sizeof(*terraintypes), PU_STATIC, NULL);
     isteleport = Z_Calloc(1, ((size_t)numflats + 1) * sizeof(*isteleport), PU_STATIC, NULL);
@@ -219,99 +205,69 @@ void P_InitPicAnims(void)
         }
         else
         {
-            int     basepic;
             bool    isliquid = false;
 
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
 
             lastanim->picnum = R_FlatNumForName(animdefs[i].endname);
-            lastanim->basepic = basepic = R_FlatNumForName(animdefs[i].startname);
+            lastanim->basepic = R_FlatNumForName(animdefs[i].startname);
 
-            lastanim->numpics = lastanim->picnum - basepic + 1;
+            lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = false;
 
-            // Check if flat is liquid in IWAD
-            if (basepic >= NUKAGE1 && basepic <= NUKAGE3)
+            // Check if name of flat indicates it is liquid
+            if (M_StrCaseStr(animdefs[i].startname, "NUK")
+                && !M_StrCaseStr(animdefs[i].startname, "WALK"))
             {
                 SetTerrainType(lastanim, NUKAGE);
                 isliquid = true;
             }
-            else if ((basepic >= FWATER1 && basepic <= FWATER4)
-                || (basepic >= SWATER1 && basepic <= SWATER4))
+            else if (M_StrCaseStr(animdefs[i].startname, "WAT")
+                || M_StrCaseStr(animdefs[i].startname, "WTR")
+                || M_StrCaseStr(animdefs[i].startname, "WAV")
+                || M_StrCaseStr(animdefs[i].startname, "SEA"))
             {
                 SetTerrainType(lastanim, WATER);
                 isliquid = true;
             }
-            else if (basepic >= LAVA1 && basepic <= LAVA4)
+            else if (M_StrCaseStr(animdefs[i].startname, "LAV"))
             {
                 SetTerrainType(lastanim, LAVA);
                 isliquid = true;
             }
-            else if (basepic >= BLOOD1 && basepic <= BLOOD3)
+            else if (M_StrCaseStr(animdefs[i].startname, "BLO"))
             {
                 SetTerrainType(lastanim, BLOOD);
                 isliquid = true;
             }
-            else if (basepic >= SLIME01 && basepic <= SLIME08)
+            else if ((M_StrCaseStr(animdefs[i].startname, "SLI")
+                && !M_StringCompare(animdefs[i].startname, "SLIME09")
+                && !M_StringCompare(animdefs[i].startname, "SLIME10")
+                && !M_StringCompare(animdefs[i].startname, "SLIME11")
+                && !M_StringCompare(animdefs[i].startname, "SLIME12"))
+                || M_StrCaseStr(animdefs[i].startname, "SLM")
+                || M_StrCaseStr(animdefs[i].startname, "POOP"))
             {
                 SetTerrainType(lastanim, SLIME);
                 isliquid = true;
             }
-
-            // Check if name of flat indicates it is liquid
-            if (!isliquid)
+            else if (M_StrCaseStr(animdefs[i].startname, "SWAMP")
+                || M_StrCaseStr(animdefs[i].startname, "SWMP"))
             {
-                if (M_StrCaseStr(animdefs[i].startname, "NUK")
-                    && !M_StrCaseStr(animdefs[i].startname, "WALK"))
-                {
-                    SetTerrainType(lastanim, NUKAGE);
-                    isliquid = true;
-                }
-                else if (M_StrCaseStr(animdefs[i].startname, "WAT")
-                    || M_StrCaseStr(animdefs[i].startname, "WTR")
-                    || M_StrCaseStr(animdefs[i].startname, "WAV")
-                    || M_StrCaseStr(animdefs[i].startname, "SEA"))
-                {
-                    SetTerrainType(lastanim, WATER);
-                    isliquid = true;
-                }
-                else if (M_StrCaseStr(animdefs[i].startname, "LAV"))
-                {
-                    SetTerrainType(lastanim, LAVA);
-                    isliquid = true;
-                }
-                else if (M_StrCaseStr(animdefs[i].startname, "BLO"))
-                {
-                    SetTerrainType(lastanim, BLOOD);
-                    isliquid = true;
-                }
-                else if ((M_StrCaseStr(animdefs[i].startname, "SLI")
-                    && (basepic < SLIME09 || basepic > SLIME12))
-                    || M_StrCaseStr(animdefs[i].startname, "SLM")
-                    || M_StrCaseStr(animdefs[i].startname, "POOP"))
-                {
-                    SetTerrainType(lastanim, SLIME);
-                    isliquid = true;
-                }
-                else if (M_StrCaseStr(animdefs[i].startname, "SWAMP")
-                    || M_StrCaseStr(animdefs[i].startname, "SWMP"))
-                {
-                    SetTerrainType(lastanim, SWAMP);
-                    isliquid = true;
-                }
-                else if (M_StrCaseStr(animdefs[i].startname, "LIQ"))
-                {
-                    SetTerrainType(lastanim, LIQUID);
-                    isliquid = true;
-                }
+                SetTerrainType(lastanim, SWAMP);
+                isliquid = true;
+            }
+            else if (M_StrCaseStr(animdefs[i].startname, "LIQ"))
+            {
+                SetTerrainType(lastanim, LIQUID);
+                isliquid = true;
             }
 
             // Check if flat is liquid in popular texture packs
             if (!isliquid)
                 for (int j = 0; *texturepacks[j].startname; j++)
-                    if (basepic >= R_CheckFlatNumForName(texturepacks[j].startname)
-                        && basepic <= R_CheckFlatNumForName(texturepacks[j].endname))
+                    if (M_StringCompare(animdefs[i].startname, texturepacks[j].startname))
                     {
                         SetTerrainType(lastanim, texturepacks[j].terraintype);
                         break;
@@ -409,6 +365,61 @@ void P_InitPicAnims(void)
         }
 }
 
+static bool IsTeleportLineSpecial(const unsigned short special)
+{
+    switch (special)
+    {
+        case W1_Teleport:
+        case WR_Teleport:
+        case W1_Teleport_MonstersOnly:
+        case WR_Teleport_MonstersOnly:
+        case S1_Teleport_AlsoMonsters:
+        case SR_Teleport_AlsoMonsters:
+        case W1_Teleport_AlsoMonsters_Silent_SameAngle:
+        case WR_Teleport_AlsoMonsters_Silent_SameAngle:
+        case S1_Teleport_AlsoMonsters_Silent_SameAngle:
+        case SR_Teleport_AlsoMonsters_Silent_SameAngle:
+        case W1_TeleportToLineWithSameTag_Silent_SameAngle:
+        case WR_TeleportToLineWithSameTag_Silent_SameAngle:
+        case W1_TeleportToLineWithSameTag_Silent_ReversedAngle:
+        case WR_TeleportToLineWithSameTag_Silent_ReversedAngle:
+        case W1_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
+        case WR_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
+        case W1_TeleportToLineWithSameTag_MonstersOnly_Silent:
+        case WR_TeleportToLineWithSameTag_MonstersOnly_Silent:
+        case W1_Teleport_MonstersOnly_Silent:
+        case WR_Teleport_MonstersOnly_Silent:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+terraintype_t P_GetTerrainType(const sector_t *sector)
+{
+    const int           floorpic = sector->floorpic;
+    const terraintype_t terraintype = terraintypes[floorpic];
+    bool                animated = false;
+
+    if (terraintype < LIQUID || sector->linecount != 4)
+        return terraintype;
+
+    for (const anim_t *anim = anims; anim < lastanim; anim++)
+        if (!anim->istexture && floorpic >= anim->basepic && floorpic < anim->basepic + anim->numpics)
+        {
+            animated = true;
+            break;
+        }
+
+    if (animated)
+        for (int i = 0; i < sector->linecount; i++)
+            if (IsTeleportLineSpecial(sector->lines[i]->special))
+                return SOLID;
+
+    return terraintype;
+}
+
 //
 // P_SetLiquids
 //
@@ -417,7 +428,7 @@ void P_SetLiquids(void)
     numliquid = 0;
 
     for (int i = 0; i < numsectors; i++)
-        if ((sectors[i].terraintype = terraintypes[sectors[i].floorpic]) >= LIQUID)
+        if ((sectors[i].terraintype = P_GetTerrainType(&sectors[i])) >= LIQUID)
             numliquid++;
 }
 

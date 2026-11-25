@@ -1194,6 +1194,7 @@ typedef struct visplane_s
     struct visplane_s   *next;
 
     int                 picnum;
+    terraintype_t       terraintype;
     int                 lightlevel;
     int                 left;
     int                 right;

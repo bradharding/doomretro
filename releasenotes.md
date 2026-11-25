@@ -93,7 +93,7 @@
   * The ammo count now lights up in the widescreen HUD when weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_ConsumeAmmo` codepointer are fired.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * Things now also rock slightly from side to side, as they bob up and down in liquid sectors, when the new `r_liquid_rocksprites` CVAR is `on`, which is `on` by default and `off` when vanilla mode is enabled. The player’s view will also rock slightly when they die in a liquid sector and this CVAR is `on`.
-* Sectors with animated flats containing the text “SEA” in their name are now treated as liquid sectors.
+* Improvements have been made to when to treat sectors containing animated flats as liquid sectors.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * Any colormap applied to the player’s view when they are in deep water now renders correctly.
   * Moving in and out of deep water is now smoother.

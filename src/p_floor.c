@@ -577,7 +577,7 @@ void P_CheckTerrainType(sector_t *sector)
 {
     const terraintype_t oldterraintype = sector->terraintype;
 
-    if ((sector->terraintype = terraintypes[sector->floorpic]) != oldterraintype)
+    if ((sector->terraintype = P_GetTerrainType(sector)) != oldterraintype)
     {
         if (sector->terraintype >= LIQUID)
         {

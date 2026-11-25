@@ -326,8 +326,8 @@ static visplane_t *new_visplane(const unsigned int hash)
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
-    const fixed_t x, const fixed_t y, const int colormap, const angle_t angle)
+visplane_t *R_FindPlane(fixed_t height, const int picnum, const terraintype_t terraintype,
+    int lightlevel, const fixed_t x, const fixed_t y, const int colormap, const angle_t angle)
 {
     visplane_t      *check;
     unsigned int    hash;
@@ -347,15 +347,16 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
     hash = visplane_hash(picnum, lightlevel, height, colormap);
 
     for (check = visplanes[hash]; check; check = check->next)
-        if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel
-            && x == check->xoffset && y == check->yoffset && colormap == check->colormap
-            && angle == check->angle)
+        if (height == check->height && picnum == check->picnum && terraintype == check->terraintype
+            && lightlevel == check->lightlevel && x == check->xoffset && y == check->yoffset
+            && colormap == check->colormap && angle == check->angle)
             return check;
 
     check = new_visplane(hash);
 
     check->height = height;
     check->picnum = picnum;
+    check->terraintype = terraintype;
     check->lightlevel = lightlevel;
     check->xoffset = x;
     check->yoffset = y;
@@ -379,6 +380,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
 
     new_pl->height = pl->height;
     new_pl->picnum = pl->picnum;
+    new_pl->terraintype = pl->terraintype;
     new_pl->lightlevel = pl->lightlevel;
     new_pl->xoffset = pl->xoffset;
     new_pl->yoffset = pl->yoffset;
@@ -449,7 +451,7 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[MAXHEIGHT];
     const int   stop = pl->right + 1;
 
-    if (!(pl->picnum & PL_TEXFLAT) && terraintypes[pl->picnum] >= LIQUID
+    if (!(pl->picnum & PL_TEXFLAT) && pl->terraintype >= LIQUID
         && r_liquid_current && !pl->xoffset && !pl->yoffset)
     {
         xoffset = animatedliquidxoffs;
@@ -481,7 +483,7 @@ static void R_MakeSpans(visplane_t *pl)
     }
 
     if ((planeheight = ABS(pl->height - viewz)) < FRACUNIT
-        && !(pl->picnum & PL_TEXFLAT) && terraintypes[pl->picnum] >= LIQUID)
+        && !(pl->picnum & PL_TEXFLAT) && pl->terraintype >= LIQUID)
         planeheight = FRACUNIT;
 
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
@@ -860,7 +862,7 @@ void R_DrawPlanes(void)
                     // regular flat
                     const int   flatnum = flattranslation[picnum] - firstflat;
 
-                    if (terraintypes[picnum] >= LIQUID && r_liquid_swirl)
+                    if (pl->terraintype >= LIQUID && r_liquid_swirl)
                     {
                         ds_source = R_SwirlingFlat(picnum);
                         planeswirl = true;
