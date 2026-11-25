@@ -96,8 +96,7 @@ static SDL_Texture  *texture;
 static SDL_Texture  *texture_upscaled;
 static SDL_Surface  *surface;
 static SDL_Surface  *buffer;
-static byte         *pixels;
-static int          pitch;
+static bool         directtextureupload;
 static SDL_Palette  *palette;
 SDL_Color           palettecolors[256];
 byte                *PLAYPAL;
@@ -109,8 +108,7 @@ static SDL_Texture  *maptexture;
 static SDL_Texture  *maptexture_upscaled;
 static SDL_Surface  *mapsurface;
 static SDL_Surface  *mapbuffer;
-static byte         *mappixels;
-static int          mappitch;
+static bool         directmaptextureupload;
 static SDL_Palette  *mappalette;
 
 static bool         nearestlinear;
@@ -1009,14 +1007,24 @@ static inline void I_DrawPillarboxes(void)
     }
 }
 
+static bool I_CanUploadDirectly(SDL_Renderer *sdlrenderer)
+{
+    SDL_RendererInfo    info;
+
+    if (SDL_GetRendererInfo(sdlrenderer, &info) < 0)
+        I_SDLError("SDL_GetRendererInfo", -1);
+
+    return (M_StringCompare(info.name, "direct3d") || M_StringCompare(info.name, "direct3d11"));
+}
+
 #if defined(_WIN32)
-void I_WindowResizeBlit(void)
+static void I_WindowResizeBlit_Indirect(void)
 {
     if (vid_showfps)
         CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
     SDL_RenderClear(renderer);
 
     if (nearestlinear)
@@ -1031,6 +1039,33 @@ void I_WindowResizeBlit(void)
 
     SDL_RenderPresent(renderer);
 }
+
+static void I_WindowResizeBlit_Direct(void)
+{
+    SDL_Surface *locked;
+
+    if (vid_showfps)
+        CalculateFPS();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
+    SDL_RenderClear(renderer);
+
+    if (nearestlinear)
+    {
+        SDL_SetRenderTarget(renderer, texture_upscaled);
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+        SDL_SetRenderTarget(renderer, NULL);
+        SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    }
+    else
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+
+    SDL_RenderPresent(renderer);
+}
+
+void (*I_WindowResizeBlit)(void) = I_WindowResizeBlit_Indirect;
 #endif
 
 static void I_ClearRenderer(void)
@@ -1046,7 +1081,21 @@ static void I_Blit(void)
     I_DrawPillarboxes();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    clearfunc();
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
+}
+
+static void I_Blit_Direct(void)
+{
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     clearfunc();
     SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
 }
@@ -1057,7 +1106,24 @@ static void I_Blit_NearestLinear(void)
     I_DrawPillarboxes();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    clearfunc();
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+}
+
+static void I_Blit_NearestLinear_Direct(void)
+{
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     clearfunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -1072,7 +1138,22 @@ static void I_Blit_ShowFPS(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    clearfunc();
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
+}
+
+static void I_Blit_ShowFPS_Direct(void)
+{
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+    CalculateFPS();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     clearfunc();
     SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
 }
@@ -1084,7 +1165,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
     clearfunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -1092,10 +1173,28 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
 }
 
-void I_Blit_NearestLinear_Splash(void)
+static void I_Blit_NearestLinear_ShowFPS_Direct(void)
+{
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+    CalculateFPS();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
+    clearfunc();
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+}
+
+static void I_Blit_NearestLinear_Splash_Indirect(void)
 {
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
     clearfunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -1103,6 +1202,23 @@ void I_Blit_NearestLinear_Splash(void)
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
+
+static void I_Blit_NearestLinear_Splash_Direct(void)
+{
+    SDL_Surface *locked;
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
+    clearfunc();
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderPresent(renderer);
+}
+
+void (*I_Blit_NearestLinear_Splash)(void) = I_Blit_NearestLinear_Splash_Indirect;
 
 static void I_Blit_Shake(void)
 {
@@ -1113,7 +1229,30 @@ static void I_Blit_Shake(void)
     I_DrawPillarboxes();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    SDL_RenderClear(renderer);
+
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
+
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+}
+
+static void I_Blit_Shake_Direct(void)
+{
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     SDL_RenderClear(renderer);
 
     dest_rect.x += M_BigRandomInt(-2, 2);
@@ -1134,7 +1273,33 @@ static void I_Blit_NearestLinear_Shake(void)
     I_DrawPillarboxes();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
+
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+}
+
+static void I_Blit_NearestLinear_Shake_Direct(void)
+{
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -1159,7 +1324,31 @@ static void I_Blit_ShowFPS_Shake(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    SDL_RenderClear(renderer);
+
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
+
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+}
+
+static void I_Blit_ShowFPS_Shake_Direct(void)
+{
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+    CalculateFPS();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     SDL_RenderClear(renderer);
 
     dest_rect.x += M_BigRandomInt(-2, 2);
@@ -1181,7 +1370,34 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, buffer->pixels, buffer->pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
+
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+}
+
+static void I_Blit_NearestLinear_ShowFPS_Shake_Direct(void)
+{
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
+    SDL_Surface *locked;
+
+    UpdateGrab();
+    I_DrawPillarboxes();
+    CalculateFPS();
+
+    SDL_LockTextureToSurface(texture, NULL, &locked);
+    SDL_LowerBlit(surface, &src_rect, locked, &src_rect);
+    SDL_UnlockTexture(texture);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -1199,7 +1415,19 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 static void I_Blit_Automap(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
+    SDL_UpdateTexture(maptexture, NULL, mapbuffer->pixels, mapbuffer->pitch);
+    SDL_RenderClear(maprenderer);
+    SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
+    SDL_RenderPresent(maprenderer);
+}
+
+static void I_Blit_Automap_Direct(void)
+{
+    SDL_Surface *locked;
+
+    SDL_LockTextureToSurface(maptexture, NULL, &locked);
+    SDL_LowerBlit(mapsurface, &map_rect, locked, &map_rect);
+    SDL_UnlockTexture(maptexture);
     SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
     SDL_RenderPresent(maprenderer);
@@ -1208,7 +1436,22 @@ static void I_Blit_Automap(void)
 static void I_Blit_Automap_NearestLinear(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
+    SDL_UpdateTexture(maptexture, NULL, mapbuffer->pixels, mapbuffer->pitch);
+    SDL_RenderClear(maprenderer);
+    SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
+    SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
+    SDL_SetRenderTarget(maprenderer, NULL);
+    SDL_RenderCopy(maprenderer, maptexture_upscaled, NULL, NULL);
+    SDL_RenderPresent(maprenderer);
+}
+
+static void I_Blit_Automap_NearestLinear_Direct(void)
+{
+    SDL_Surface *locked;
+
+    SDL_LockTextureToSurface(maptexture, NULL, &locked);
+    SDL_LowerBlit(mapsurface, &map_rect, locked, &map_rect);
+    SDL_UnlockTexture(maptexture);
     SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
     SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
@@ -1226,21 +1469,42 @@ void I_UpdateBlitFunc(const bool shaking)
 {
     if (nearestlinear && (displayheight % VANILLAHEIGHT))
     {
-        if (shaking && !software)
-            blitfunc = (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake);
+        if (directtextureupload)
+        {
+            if (shaking && !software)
+                blitfunc = (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake_Direct : &I_Blit_NearestLinear_Shake_Direct);
+            else
+                blitfunc = (vid_showfps && !splashscreen ? &I_Blit_NearestLinear_ShowFPS_Direct : &I_Blit_NearestLinear_Direct);
+        }
         else
-            blitfunc = (vid_showfps && !splashscreen ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear);
+        {
+            if (shaking && !software)
+                blitfunc = (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake);
+            else
+                blitfunc = (vid_showfps && !splashscreen ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear);
+        }
 
-        mapblitfunc = (mapwindow ? &I_Blit_Automap_NearestLinear : &nullfunc);
+        mapblitfunc = (mapwindow ? (directmaptextureupload ?
+            &I_Blit_Automap_NearestLinear_Direct : &I_Blit_Automap_NearestLinear) : &nullfunc);
     }
     else
     {
-        if (shaking && !software)
-            blitfunc = (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake);
+        if (directtextureupload)
+        {
+            if (shaking && !software)
+                blitfunc = (vid_showfps ? &I_Blit_ShowFPS_Shake_Direct : &I_Blit_Shake_Direct);
+            else
+                blitfunc = (vid_showfps && !splashscreen ? &I_Blit_ShowFPS_Direct : &I_Blit_Direct);
+        }
         else
-            blitfunc = (vid_showfps && !splashscreen ? &I_Blit_ShowFPS : &I_Blit);
+        {
+            if (shaking && !software)
+                blitfunc = (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake);
+            else
+                blitfunc = (vid_showfps && !splashscreen ? &I_Blit_ShowFPS : &I_Blit);
+        }
 
-        mapblitfunc = (mapwindow ? &I_Blit_Automap : &nullfunc);
+        mapblitfunc = (mapwindow ? (directmaptextureupload ? &I_Blit_Automap_Direct : &I_Blit_Automap) : &nullfunc);
     }
 }
 
@@ -1554,8 +1818,7 @@ bool I_CreateExternalAutomap(void)
     if (!(mapbuffer = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, bpp, rmask, gmask, bmask, amask)))
         I_SDLError("SDL_CreateRGBSurface", -1);
 
-    mappitch = mapbuffer->pitch;
-    mappixels = mapbuffer->pixels;
+    directmaptextureupload = I_CanUploadDirectly(maprenderer);
 
     SDL_FillRect(mapbuffer, NULL, BLACK);
 
@@ -1574,10 +1837,10 @@ bool I_CreateExternalAutomap(void)
             SDL_TEXTUREACCESS_TARGET, upscaledwidth * MAPWIDTH, upscaledheight * MAPHEIGHT)))
             I_SDLError("SDL_CreateTexture", -2);
 
-        mapblitfunc = &I_Blit_Automap_NearestLinear;
+        mapblitfunc = (directmaptextureupload ? &I_Blit_Automap_NearestLinear_Direct : &I_Blit_Automap_NearestLinear);
     }
     else
-        mapblitfunc = &I_Blit_Automap;
+        mapblitfunc = (directmaptextureupload ? &I_Blit_Automap_Direct : &I_Blit_Automap);
 
     if (!(mappalette = SDL_AllocPalette(256)))
         I_SDLError("SDL_AllocPalette", -1);
@@ -2295,8 +2558,13 @@ static void SetVideoMode(const bool createwindow, const bool output)
     if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, bpp, rmask, gmask, bmask, amask)))
         I_SDLError("SDL_CreateRGBSurface", -1);
 
-    pitch = buffer->pitch;
-    pixels = buffer->pixels;
+    directtextureupload = (!vid_motionblur && I_CanUploadDirectly(renderer));
+    I_Blit_NearestLinear_Splash = (directtextureupload ?
+        &I_Blit_NearestLinear_Splash_Direct : &I_Blit_NearestLinear_Splash_Indirect);
+
+#if defined(_WIN32)
+    I_WindowResizeBlit = (directtextureupload ? &I_WindowResizeBlit_Direct : &I_WindowResizeBlit_Indirect);
+#endif
 
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);

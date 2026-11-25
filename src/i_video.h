@@ -129,10 +129,10 @@ void I_SetGamma(const float value);
 bool keystate(const int key);
 
 #if defined(_WIN32)
-void I_WindowResizeBlit(void);
+extern void (*I_WindowResizeBlit)(void);
 #endif
 
-void I_Blit_NearestLinear_Splash(void);
+extern void (*I_Blit_NearestLinear_Splash)(void);
 
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
