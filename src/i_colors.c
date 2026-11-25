@@ -34,6 +34,7 @@
 */
 
 #include <math.h>
+#include <stdlib.h>
 
 #include "i_colors.h"
 #include "i_swap.h"
@@ -394,7 +395,7 @@ static byte *GenerateSplashAdditiveTintTable(byte *palette)
 {
     byte    *result = I_Malloc(256 * 256 * sizeof(*result));
     float   linear[256];
-    byte    blend[256][256];
+    byte    (*blend)[256] = I_Malloc(256 * sizeof(*blend));
 
     for (int i = 0; i < 256; i++)
     {
@@ -421,6 +422,8 @@ static byte *GenerateSplashAdditiveTintTable(byte *palette)
             result[(foreground << 8) + background] = I_GetNearestColor(palette,
                 blend[fg[0]][bg[0]], blend[fg[1]][bg[1]], blend[fg[2]][bg[2]]);
         }
+
+    free(blend);
 
     return result;
 }
