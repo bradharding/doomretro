@@ -174,6 +174,7 @@
 * A bug is fixed whereby the mouse would disappear during the confirmation message for the `resetall` CCMD.
 * Fake contrast has been improved when the `r_fakecontrast` CVAR is set to `smooth`, allowing better contrast between walls at different angles.
 * Minor improvements have been made to the rendering of flats.
+* A bug is fixed whereby masked midtextures weren’t being clipped correctly in some instances.
 * If the effect applied to the player’s view when they have an invulnerability power-up is changed in a PWAD such that it isn’t bright, overlay text won’t be inverted.
 * The console now opens at startup with a warning, rather than *DOOM Retro* exiting with an error, if a PWAD that is attempting to load is invalid.
 * The values of the `con_warninglevel` CVAR have been changed from `0`, `1` and `2` to `low`, `medium` and `high`.
