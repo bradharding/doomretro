@@ -555,7 +555,10 @@ static void R_RenderSegLoop(void)
 
             // save texturecolumn for backdrawing of masked midtexture
             if (maskedtexture)
+            {
                 maskedtexturecol[rw_x] = texturecolumn;
+                ds_p->sprbottomclip[rw_x] = MIN(floorclip[rw_x], yh + 1);
+            }
         }
 
         rw_scale += rw_scalestep;
@@ -648,7 +651,8 @@ void R_StoreWallRange(const int start, const int stop)
     rw_stopx = stop + 1;
     span = (int)((int64_t)rw_stopx - start);
 
-    if ((size_t)span * sizeof(*lastopening) + (size_t)(lastopening - openings) > MAXOPENINGS)
+    if ((size_t)span * (backsector && (sidedef->midtexture || sidedef->midflat >= 0) ? 2 : 1)
+        * sizeof(*lastopening) + (size_t)(lastopening - openings) > MAXOPENINGS)
         return;
 
     worldtop = frontsector->interpceilingheight - viewz;
@@ -830,6 +834,8 @@ void R_StoreWallRange(const int start, const int stop)
             // masked midtexture
             maskedtexture = true;
             ds_p->maskedtexturecol = maskedtexturecol = lastopening - rw_x;
+            lastopening += (size_t)rw_stopx - rw_x;
+            ds_p->sprbottomclip = lastopening - rw_x;
             lastopening += (size_t)rw_stopx - rw_x;
         }
     }
