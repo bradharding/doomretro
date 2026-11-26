@@ -4287,22 +4287,25 @@ void C_Drawer(void)
 void C_ExecuteInputString(const char *input)
 {
     char    *string = M_StringDuplicate(input);
-    char    *strings[255] = { "" };
-    int     j = 0;
     bool    makesound = false;
 
     M_StripQuotes(string);
-    strings[0] = strtok(string, ";");
 
-    while (strings[j])
+    for (char *cursor = string; cursor && *cursor; )
     {
-        if (!C_ExecuteInput(trimleadingwhitespace(strings[j])))
+        char    *next = strchr(cursor, ';');
+        char    *command = trimleadingwhitespace(cursor);
+
+        if (next)
+            *next++ = '\0';
+
+        if (*command && !C_ExecuteInput(command))
             break;
 
-        if (M_StringStartsWith(strings[j], "toggle"))
+        if (M_StringStartsWith(command, "toggle"))
             makesound = true;
 
-        strings[++j] = strtok(NULL, ";");
+        cursor = next;
     }
 
     if (makesound)
@@ -4417,7 +4420,10 @@ bool C_ExecuteInput(char *input)
                     {
                         if (gamestate == GS_LEVEL)
                         {
+                            event_t event = { ev_keyup, 0, 0, 0 };
+
                             M_StringCopy(consolecheat, cmd, sizeof(consolecheat));
+                            ST_Responder(&event);
                             C_HideConsoleAndMenu();
                         }
 
@@ -4428,7 +4434,10 @@ bool C_ExecuteInput(char *input)
             else if (M_StringCompare(input, consolecmds[i].name)
                 && consolecmds[i].func1(consolecmds[i].name, ""))
             {
+                event_t event = { ev_keyup, 0, 0, 0 };
+
                 M_StringCopy(consolecheat, input, sizeof(consolecheat));
+                ST_Responder(&event);
                 C_HideConsoleAndMenu();
                 return true;
             }
@@ -4654,19 +4663,19 @@ bool C_Responder(event_t *ev)
                     else
                     {
                         char    *string = M_StringDuplicate(consoleinput);
-                        char    *strings[255] = { "" };
 
-                        strings[0] = strtok(string, ";");
-                        i = 0;
-
-                        while (strings[i])
+                        for (char *cursor = string; cursor && *cursor; )
                         {
-                            char    *temp = trimleadingwhitespace(strings[i]);
+                            char    *next = strchr(cursor, ';');
+                            char    *temp = trimleadingwhitespace(cursor);
 
-                            if (C_ExecuteInput(temp))
+                            if (next)
+                                *next++ = '\0';
+
+                            if (*temp && C_ExecuteInput(temp))
                                 result = true;
 
-                            strings[++i] = strtok(NULL, ";");
+                            cursor = next;
                         }
 
                         free(string);

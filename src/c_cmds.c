@@ -2146,16 +2146,18 @@ bool C_ExecuteAlias(const char *alias)
     if (i >= 0)
     {
         char    *string = M_StringDuplicate(aliases[i].string);
-        char    *segment = strtok(string, ";");
 
         C_Input("%s", alias);
         executingalias = true;
 
-        while (segment)
+        for (char *cursor = string; cursor && *cursor; )
         {
-            char    *next = strtok(NULL, ";");
-            char    *input = trimleadingwhitespace(segment);
+            char    *next = strchr(cursor, ';');
+            char    *input = trimleadingwhitespace(cursor);
             char    buffer[255];
+
+            if (next)
+                *next++ = '\0';
 
             if (!next && *args)
             {
@@ -2163,10 +2165,10 @@ bool C_ExecuteAlias(const char *alias)
                 input = buffer;
             }
 
-            if (!C_ExecuteInput(input))
+            if (*input && !C_ExecuteInput(input))
                 break;
 
-            segment = next;
+            cursor = next;
         }
 
         executingalias = false;
