@@ -1038,6 +1038,7 @@ typedef struct
 
     // 0=none, 1=bottom, 2=top, 3=both
     int                 silhouette;
+    bool                sameliquidfloor;
 
     // Pointers to lists for sprite clipping,
     //  all three adjusted so [x1] is first value.

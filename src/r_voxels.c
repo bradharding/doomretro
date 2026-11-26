@@ -1073,7 +1073,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y, const bool nearc
     clipfloor = (sector->terraintype < LIQUID || sector->heightsec);
 
     R_ClipToDrawSegs(uxstart >> FRACBITS, (uxend - 1) >> FRACBITS,
-        FixedDiv(projection, MAX(celly, VX_MINZ)), worldx, worldy, cellcliptop, cellclipbot, true);
+        FixedDiv(projection, MAX(celly, VX_MINZ)), worldx, worldy, cellcliptop, cellclipbot, true,
+        (vv->liquidclip ? spr->mobj->subsector->sector : NULL));
 
     mceilingclip = sprcliptop;
     mfloorclip = sprclipbot;
@@ -1502,7 +1503,7 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 continue;
 
             R_ClipToDrawSegs(x1, x2, FixedDiv(projection, MAX(cy, VX_MINZ)),
-                wx, wy, shadowcliptop, shadowclipbot, false);
+                wx, wy, shadowcliptop, shadowclipbot, false, NULL);
 
             for (int screenx = x1; screenx <= x2; screenx++)
             {

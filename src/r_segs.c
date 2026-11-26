@@ -957,6 +957,11 @@ void R_StoreWallRange(const int start, const int stop)
     didsolidcol = false;
     R_RenderSegLoop();
 
+    ds_p->sameliquidfloor = (maskedtexture && backsector && !didsolidcol
+        && !(ds_p->silhouette & SIL_BOTTOM) && !frontsector->heightsec && !backsector->heightsec
+        && frontsector->terraintype >= LIQUID && backsector->terraintype >= LIQUID
+        && frontsector->interpfloorheight == backsector->interpfloorheight);
+
     if ((backsector && didsolidcol) || maskedtexture)
         ds_p->silhouette = SIL_BOTH;
 

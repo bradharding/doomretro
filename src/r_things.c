@@ -2323,7 +2323,7 @@ static void R_SortVisSprites(void)
 }
 
 void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fixed_t gx,
-    const fixed_t gy, int *sprtop, int *sprbottom, const bool rendermasked)
+    const fixed_t gy, int *sprtop, int *sprbottom, const bool rendermasked, const sector_t *liquidsector)
 {
     const size_t    clipcount = (size_t)((int64_t)x2 - x1 + 1);
 
@@ -2374,7 +2374,8 @@ void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fix
                         if (sprtop[i] < ds->sprtopclip[i])
                             sprtop[i] = ds->sprtopclip[i];
 
-                if (silhouette & SIL_BOTTOM)
+                if ((silhouette & SIL_BOTTOM) && !(liquidsector && ds->sameliquidfloor
+                    && liquidsector->interpfloorheight == ds->curline->frontsector->interpfloorheight))
                     for (int i = r1; i <= r2; i++)
                         if (sprbottom[i] > ds->sprbottomclip[i])
                             sprbottom[i] = ds->sprbottomclip[i];
@@ -2395,7 +2396,8 @@ static void R_DrawSprite(const vissprite_t *spr)
         memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(*clipbot));
     }
     else
-        R_ClipToDrawSegs(x1, x2, scale, spr->gx, spr->gy, cliptop, clipbot, true);
+        R_ClipToDrawSegs(x1, x2, scale, spr->gx, spr->gy, cliptop, clipbot, true,
+            (spr->drawfunc == &R_DrawVisSpriteClipped ? spr->mobj->subsector->sector : NULL));
 
     // killough 03/27/98:
     // Clip the sprite against deep water and/or fake ceilings.
