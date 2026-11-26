@@ -678,6 +678,9 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
         for (int i = 0; i < GAMMALEVELS; i++)
             AddFloat(gammalevels[i], false);
     }
+    else if (flags & CF_COLOR)
+        for (int value = 0; value <= 255; value++)
+            AddNumber(value, false);
     else if (flags & CF_BOOLEAN)
         AddValueAliases(cvar->aliases ? (valuealiastype_t)cvar->aliases : BOOLVALUEALIAS);
     else if (flags & CF_INTEGER)
@@ -1693,14 +1696,20 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
             return false;
 
         char                typed[WORDLEN];
+        char                trailing;
         const consolecmd_t  *cvar;
+        int                 colorvalue;
+        bool                exactcolor;
         bool                cycle;
 
         M_StringCopy(typed, parse.partial, sizeof(typed));
         Resolve(&parse, parse.partial);
 
         cvar = cyclecvar;
-        cycle = (*typed && cvar && numcandidates == 1 && SameText(candidates[0].text, typed));
+        exactcolor = (cvar && (cvar->flags & CF_COLOR)
+            && sscanf(typed, "%10d %c", &colorvalue, &trailing) == 1 && colorvalue >= 0 && colorvalue <= 255);
+        cycle = (*typed && cvar && (exactcolor
+            || (numcandidates == 1 && SameText(candidates[0].text, typed))));
 
         if (cycle)
         {
@@ -1721,7 +1730,8 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
         if (cycle)
         {
             for (int i = 0; i < numcandidates; i++)
-                if (SameValue(cvar, candidates[i].text, typed))
+                if ((exactcolor && atoi(candidates[i].text) == colorvalue)
+                    || (!exactcolor && SameValue(cvar, candidates[i].text, typed)))
                 {
                     session.index = (i + (reverse ? numcandidates - 1 : 1)) % numcandidates;
                     break;

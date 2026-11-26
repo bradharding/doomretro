@@ -233,6 +233,59 @@ uint64_t                fpsgraphlastupdate;
 static int C_GetCurrentTopRow(void);
 static int C_EnsureHistoryIndex(void);
 
+static bool C_GetInputColor(int *color, int *valueoffset)
+{
+    char        cmd[128];
+    const char  *cmdstart = consoleinput;
+    const char  *valuestart;
+    char        *valueend;
+    long        value;
+    size_t      cmdlen;
+
+    while (isspace((unsigned char)*cmdstart))
+        cmdstart++;
+
+    valuestart = cmdstart;
+
+    while (*valuestart && !isspace((unsigned char)*valuestart))
+        valuestart++;
+
+    cmdlen = (size_t)(valuestart - cmdstart);
+
+    if (!cmdlen || cmdlen >= sizeof(cmd))
+        return false;
+
+    memcpy(cmd, cmdstart, cmdlen);
+    cmd[cmdlen] = '\0';
+
+    while (isspace((unsigned char)*valuestart))
+        valuestart++;
+
+    value = strtol(valuestart, &valueend, 10);
+
+    if (valueend == valuestart || value < 0 || value > 255)
+        return false;
+
+    while (isspace((unsigned char)*valueend))
+        valueend++;
+
+    if (*valueend)
+        return false;
+
+    for (int i = 0; *consolecmds[i].name; i++)
+        if (consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_COLOR)
+            && (M_StringCompare(cmd, consolecmds[i].name)
+                || M_StringCompare(cmd, consolecmds[i].altspelling)
+                || M_StringCompare(cmd, consolecmds[i].alternate)))
+        {
+            *color = (int)value;
+            *valueoffset = (int)(valuestart - consoleinput);
+            return true;
+        }
+
+    return false;
+}
+
 void C_InvalidateConsoleHistoryIndexFrom(const int index)
 {
     const int   dirtyfrom = MAX(0, index);
@@ -4144,8 +4197,37 @@ void C_Drawer(void)
     const int   caret = BETWEEN(0, caretpos, inputlen);
     const int   selectionstart = BETWEEN(0, selectstart, caret);
     const int   selectionend = BETWEEN(caret, selectend, inputlen);
+    int         inputcolor;
+    int         coloroffset;
+    const bool  colorswatch = (inputlen && selectionstart == selectionend
+                    && C_GetInputColor(&inputcolor, &coloroffset));
 
-    if (inputlen)
+    if (colorswatch)
+    {
+        char    prefix[sizeof(consoleinput)];
+        char    swatch[8];
+
+        memcpy(prefix, consoleinput, coloroffset);
+        prefix[coloroffset] = '\0';
+        UpdateCheatMask(consoleinput);
+
+        x += C_DrawConsoleText(x, CONSOLEINPUTY, prefix, consoleinputcolor,
+            NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0, '\0', '\0',
+            0, &V_DrawConsoleTextPatch);
+
+        M_snprintf(swatch, sizeof(swatch), "{%i}", inputcolor);
+        x += C_DrawConsoleText(x, CONSOLEINPUTY, swatch, consoleinputcolor,
+            NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, true, true, 0, '\0', '\0',
+            -1, &V_DrawConsoleTextPatch);
+
+        if (caret < coloroffset)
+        {
+            prefix[caret] = '\0';
+            x = CONSOLEINPUTX + C_TextWidth(prefix, NULL, false, true);
+        }
+    }
+
+    if (inputlen && !colorswatch)
     {
         char    partialinput[sizeof(consoleinput)];
 
@@ -4231,7 +4313,7 @@ void C_Drawer(void)
         caretwait = 0;
     }
 
-    if (inputlen)
+    if (inputlen && !colorswatch)
     {
         x += 3;
 
