@@ -882,6 +882,7 @@ static void GetUpscaledTextureSize(int width, int height)
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
+static void (*clearfunc)(void);
 static void nullfunc(void) {}
 
 uint64_t    performancecounter;
@@ -1072,8 +1073,6 @@ static void I_ClearRenderer(void)
 {
     SDL_RenderClear(renderer);
 }
-
-static void (*clearfunc)(void) = I_ClearRenderer;
 
 static void I_Blit(void)
 {

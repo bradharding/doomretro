@@ -959,19 +959,19 @@ const char *commifybuf(int64_t value, char buffer[COMMIFY_BUFSIZE])
 {
     const bool      negative = (value < 0);
     uint64_t        magnitude = (negative ? 0 - (uint64_t)value : (uint64_t)value);
-    char            *p = buffer + COMMIFY_BUFSIZE - 1;
+    size_t          p = COMMIFY_BUFSIZE - 1;
     unsigned int    leading = (unsigned int)magnitude;
 
-    *p = '\0';
+    buffer[p] = '\0';
 
     while (magnitude >= 1000)
     {
         unsigned int    group = (unsigned int)(magnitude % 1000);
 
         for (int i = 0; i < 3; i++, group /= 10)
-            *--p = '0' + group % 10;
+            buffer[--p] = '0' + (group % 10);
 
-        *--p = ',';
+        buffer[--p] = ',';
         magnitude /= 1000;
     }
 
@@ -979,14 +979,14 @@ const char *commifybuf(int64_t value, char buffer[COMMIFY_BUFSIZE])
 
     do
     {
-        *--p = '0' + leading % 10;
+        buffer[--p] = '0' + (leading % 10);
         leading /= 10;
     } while (leading);
 
     if (negative)
-        *--p = '-';
+        buffer[--p] = '-';
 
-    return p;
+    return &buffer[p];
 }
 
 char *commify(int64_t value)
