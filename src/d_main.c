@@ -775,9 +775,10 @@ void D_SplashDrawer(void)
 {
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch(MAX(0, (SCREENWIDTH - splashbackwidth) / 2), 0, splashbackwidth, splashbackheight, splashbacklump);
-    V_DrawAdditiveSplashPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
-    V_DrawAdditiveSplashPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
+    V_DrawBigPatch(MAX(0, (SCREENWIDTH - splashbackwidth) / 2), 0, splashbackwidth, splashbackheight,
+        splashbacklump, NULL);
+    V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)], tinttab75);
+    V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump, tinttab75);
     I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic :
         (pagetic > 94 + SPLASHHOLDTICS) * (pagetic - 94 - SPLASHHOLDTICS)), 10) * 768]);
     I_Blit_NearestLinear_Splash();

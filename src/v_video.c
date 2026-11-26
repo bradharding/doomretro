@@ -912,7 +912,7 @@ void V_DrawBigStatusBarPatch(int x, int y, short width, patch_t *patch)
     }
 }
 
-static void V_DrawBigPatchInternal(int x, int y, short width, short height, patch_t *patch, const byte *tinttab)
+void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch, const byte *tinttab)
 {
     int     startcol = 0;
     int     endcol = width;
@@ -988,16 +988,6 @@ static void V_DrawBigPatchInternal(int x, int y, short width, short height, patc
             column = (column_t *)((byte *)column + length + 4);
         }
     }
-}
-
-void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
-{
-    V_DrawBigPatchInternal(x, y, width, height, patch, NULL);
-}
-
-void V_DrawAdditiveSplashPatch(int x, int y, short width, short height, patch_t *patch)
-{
-    V_DrawBigPatchInternal(x, y, width, height, patch, tinttabsplashadditive);
 }
 
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
