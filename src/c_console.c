@@ -2992,7 +2992,8 @@ void C_UpdateFPSOverlay(void)
     static char         fpsbuffer[COMMIFY_BUFSIZE];
     static const char   *fpstext;
     static int          fpstextwidth;
-    static int          fpshistory[OVERLAYFPSGRAPHWIDTH] = { 0 };
+    static int          *fpshistory;
+    static int          fpshistorycapacity;
     static int          fpshistoryindex = 0;
     static int          fpshistorycount = 0;
     static int64_t      graphmin;
@@ -3003,7 +3004,7 @@ void C_UpdateFPSOverlay(void)
     int                 graphy = OVERLAYTEXTY + 1;
     int                 prevpx = -1;
     int                 prevpy = -1;
-    int                 pyvals[OVERLAYFPSGRAPHWIDTH];
+    int                 visiblecount;
     int                 firstpoint;
 
     C_GetOverlayTextColors();
@@ -3018,6 +3019,14 @@ void C_UpdateFPSOverlay(void)
     graphwidth = fpstextwidth + 2 + fpswidth;
     graphx = SCREENWIDTH - graphwidth - OVERLAYTEXTX;
 
+    if (!fpshistory)
+    {
+        const char  *temp = commifybuf(INT_MIN, fpsbuffer);
+
+        fpshistorycapacity = C_OverlayWidth(temp, true) + 2 + fpswidth;
+        fpshistory = I_Malloc((size_t)fpshistorycapacity * sizeof(*fpshistory));
+    }
+
     if ((!fpshistorycount || now - fpsgraphlastupdate >= 1000) && (!dowipe || !melt) && !fpssamplepending)
     {
         const bool  firstsample = !fpshistorycount;
@@ -3027,19 +3036,23 @@ void C_UpdateFPSOverlay(void)
         if (firstsample)
         {
             fpshistory[fpshistoryindex] = 0;
-            fpshistoryindex = (fpshistoryindex + 1) % OVERLAYFPSGRAPHWIDTH;
+            fpshistoryindex = (fpshistoryindex + 1) % fpshistorycapacity;
             fpshistorycount++;
         }
 
         fpshistory[fpshistoryindex] = currentfps;
-        fpshistoryindex = (fpshistoryindex + 1) % OVERLAYFPSGRAPHWIDTH;
-        fpshistorycount = MIN(fpshistorycount + 1, OVERLAYFPSGRAPHWIDTH);
+        fpshistoryindex = (fpshistoryindex + 1) % fpshistorycapacity;
+        fpshistorycount = MIN(fpshistorycount + 1, fpshistorycapacity);
         fpsgraphlastupdate = now;
 
-        for (int i = 0; i < fpshistorycount; i++)
+        visiblecount = MIN(fpshistorycount, graphwidth);
+
+        for (int i = fpshistorycapacity - visiblecount; i < fpshistorycapacity; i++)
         {
-            low = MIN64(low, fpshistory[i]);
-            high = MAX64(high, fpshistory[i]);
+            const int   value = fpshistory[(fpshistoryindex + i) % fpshistorycapacity];
+
+            low = MIN64(low, value);
+            high = MAX64(high, value);
         }
 
         if (high - low < OVERLAYFPSGRAPHHEIGHT - 1)
@@ -3052,26 +3065,29 @@ void C_UpdateFPSOverlay(void)
         graphmax = (firstsample || high > graphmax ? high : graphmax - (graphmax - high + 3) / 4);
     }
 
-    firstpoint = OVERLAYFPSGRAPHWIDTH - fpshistorycount;
+    visiblecount = MIN(fpshistorycount, graphwidth);
+    firstpoint = graphwidth - visiblecount;
 
-    for (int i = firstpoint; i < OVERLAYFPSGRAPHWIDTH; i++)
+    for (int i = fpshistorycapacity - visiblecount; i < fpshistorycapacity; i++)
     {
-        const int64_t value = fpshistory[(fpshistoryindex + i) % OVERLAYFPSGRAPHWIDTH];
-        const int     offset = (int)(((value - graphmin) * (OVERLAYFPSGRAPHHEIGHT - 1)
-                          + (graphmax - graphmin) / 2) / (graphmax - graphmin));
+        const int   value = fpshistory[(fpshistoryindex + i) % fpshistorycapacity];
 
-        pyvals[i] = graphy + OVERLAYFPSGRAPHHEIGHT - 1 - offset;
+        graphmin = MIN64(graphmin, value);
+        graphmax = MAX64(graphmax, value);
     }
 
     for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
         for (int xx = graphx; xx < graphx + graphwidth; xx++)
             tempscreen2[yy * SCREENWIDTH + xx] = PINK1;
 
-    for (int i = firstpoint; i < OVERLAYFPSGRAPHWIDTH; i++)
+    for (int i = firstpoint; i < graphwidth; i++)
     {
-        const int   px = graphx + i * (graphwidth - 1) / (OVERLAYFPSGRAPHWIDTH - 1);
-        const int   py = pyvals[i];
-        byte        *dest = &tempscreen2[py * SCREENWIDTH + px];
+        const int64_t   value = fpshistory[(fpshistoryindex + fpshistorycapacity - graphwidth + i) % fpshistorycapacity];
+        const int       offset = (int)(((value - graphmin) * (OVERLAYFPSGRAPHHEIGHT - 1)
+                            + (graphmax - graphmin) / 2) / (graphmax - graphmin));
+        const int       px = graphx + i;
+        const int       py = graphy + OVERLAYFPSGRAPHHEIGHT - 1 - offset;
+        byte            *dest = &tempscreen2[py * SCREENWIDTH + px];
 
         *dest = overlaytextcolor;
         dest += SCREENWIDTH;
