@@ -679,8 +679,13 @@ static void AddCVARValues(const consolecmd_t *cvar, const bool direct, const boo
             AddFloat(gammalevels[i], false);
     }
     else if (flags & CF_COLOR)
+    {
         for (int value = 0; value <= 255; value++)
             AddNumber(value, false);
+
+        if (cvar->aliases)
+            AddValueAliases((valuealiastype_t)cvar->aliases);
+    }
     else if (flags & CF_BOOLEAN)
         AddValueAliases(cvar->aliases ? (valuealiastype_t)cvar->aliases : BOOLVALUEALIAS);
     else if (flags & CF_INTEGER)
@@ -1730,7 +1735,8 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
         if (cycle)
         {
             for (int i = 0; i < numcandidates; i++)
-                if ((exactcolor && atoi(candidates[i].text) == colorvalue)
+                if ((exactcolor && isdigit((unsigned char)candidates[i].text[0])
+                    && atoi(candidates[i].text) == colorvalue)
                     || (!exactcolor && SameValue(cvar, candidates[i].text, typed)))
                 {
                     session.index = (i + (reverse ? numcandidates - 1 : 1)) % numcandidates;
