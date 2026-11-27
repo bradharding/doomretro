@@ -4931,8 +4931,8 @@ bool C_Responder(event_t *ev)
 
             case KEY_TAB:
                 // autocomplete
-                if (consoleinput[0] != '\0' && caretpos > 0
-                    && (caretpos == len || !isalnum((unsigned char)consoleinput[caretpos])))
+                if (!len || (caretpos > 0
+                    && (caretpos == len || !isalnum((unsigned char)consoleinput[caretpos]))))
                 {
                     char    buffer[255];
                     char    rest[255];

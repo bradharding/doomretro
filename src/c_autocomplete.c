@@ -1686,9 +1686,6 @@ bool C_Autocomplete(char *input, const size_t size, int *caret, const bool rever
 {
     char    output[255];
 
-    if (!*input)
-        return false;
-
     if (session.active && numcandidates > 1 && !strcmp(input, session.output))
         session.index = (session.index + (reverse ? numcandidates - 1 : 1)) % numcandidates;
     else
