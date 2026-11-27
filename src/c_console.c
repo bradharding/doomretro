@@ -4644,7 +4644,7 @@ bool C_Responder(event_t *ev)
         if ((key == keyboardscreenshot || key == keyboardscreenshot2)
             && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL || consoleoverlaymenu))
         {
-            V_ScreenShot();
+            V_KeyboardScreenShot(key);
             return true;
         }
 

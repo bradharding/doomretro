@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,6 +43,7 @@
 #include "d_iwad.h"
 #include "d_main.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_swap.h"
@@ -68,6 +70,7 @@ static screenshotcounter_t  maincounter;
 static screenshotcounter_t  mapcounter;
 static int                  firstjob;
 static int                  numjobs;
+static bool                 keyboardscreenshotpending[NUMKEYS];
 
 static bool V_WritePNGChunk(FILE *file, const char *type, const byte *data, mz_uint32 length)
 {
@@ -375,7 +378,7 @@ static void V_FindScreenShotName(const char *folder, const char *base, screensho
     counter->next = count + 1;
 }
 
-void V_ScreenShot(void)
+bool V_ScreenShot(void)
 {
     bool            result;
     char            mapname[128];
@@ -525,4 +528,31 @@ void V_ScreenShot(void)
         C_ShowConsole(false);
         C_Warning(0, "A screenshot couldn't be taken.");
     }
+
+    return result;
+}
+
+void V_KeyboardScreenShot(const int key)
+{
+    assert(key > 0 && key < NUMKEYS);
+
+    if (V_ScreenShot())
+        keyboardscreenshotpending[key] = true;
+}
+
+void V_ReleaseKeyboardScreenShot(const int key)
+{
+    assert(key > 0 && key < NUMKEYS);
+
+    if (keyboardscreenshotpending[key])
+    {
+        keyboardscreenshotpending[key] = false;
+        V_ScreenShotSound();
+        V_FlashScreen();
+    }
+}
+
+void V_ClearKeyboardScreenShots(void)
+{
+    memset(keyboardscreenshotpending, 0, sizeof(keyboardscreenshotpending));
 }

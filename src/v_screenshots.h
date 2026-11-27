@@ -69,7 +69,10 @@ typedef struct
 
 extern bool takingcleancreenshot;
 
-void V_ScreenShot(void);
+bool V_ScreenShot(void);
+void V_KeyboardScreenShot(const int key);
+void V_ReleaseKeyboardScreenShot(const int key);
+void V_ClearKeyboardScreenShots(void);
 void V_FlashScreen(void);
 void V_ScreenShotSound(void);
 void V_UpdateScreenShot(void);

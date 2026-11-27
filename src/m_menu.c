@@ -4526,13 +4526,6 @@ bool M_Responder(event_t *ev)
             return true;
         }
 
-        if ((ev->data1 == keyboardscreenshot || ev->data1 == keyboardscreenshot2)
-            && (ev->data1 == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
-        {
-            V_ScreenShotSound();
-            V_FlashScreen();
-        }
-
         return false;
     }
 
@@ -4680,7 +4673,7 @@ handlekey:
 
         if (key == keyboardscreenshot || key == keyboardscreenshot2)
         {
-            V_ScreenShot();
+            V_KeyboardScreenShot(key);
             return false;
         }
 
@@ -4836,7 +4829,7 @@ handlekey:
             && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL)
             && !consoleoverlaymenu)
         {
-            V_ScreenShot();
+            V_KeyboardScreenShot(key);
             return false;
         }
 
@@ -5104,7 +5097,7 @@ handlekey:
         && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL)
         && !consoleactive)
     {
-        V_ScreenShot();
+        V_KeyboardScreenShot(key);
         return false;
     }
 

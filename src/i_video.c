@@ -61,6 +61,7 @@
 #include "m_random.h"
 #include "s_sound.h"
 #include "st_stuff.h"
+#include "v_screenshots.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -655,6 +656,7 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_MINIMIZED:
                             windowfocused = false;
                             M_CancelMenuInputPress(false);
+                            V_ClearKeyboardScreenShots();
 
                             if (!s_musicinbackground)
                                 S_PauseMusic();

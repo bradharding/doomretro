@@ -221,7 +221,13 @@ bool        d_startuperror;
 //
 void D_PostEvent(event_t *ev)
 {
-    if (dowipe || !windowfocused)
+    if (!windowfocused)
+        return;
+
+    if (ev->type == ev_keyup)
+        V_ReleaseKeyboardScreenShot(ev->data1);
+
+    if (dowipe)
         return;
 
     if (AM_TextMarkResponder(ev))
