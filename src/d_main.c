@@ -781,6 +781,10 @@ void D_SplashDrawer(void)
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump, tinttab75);
     I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic :
         (pagetic > 94 + SPLASHHOLDTICS) * (pagetic - 94 - SPLASHHOLDTICS)), 10) * 768]);
+
+    if (fadecount)
+        D_UpdateFade();
+
     I_Blit_NearestLinear_Splash();
     I_CapFPS(60);
 }

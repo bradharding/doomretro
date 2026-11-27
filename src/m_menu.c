@@ -3603,9 +3603,7 @@ static void M_TakeScreenshot(bool flash)
     if (flash)
     {
         V_ScreenShotSound();
-
-        if (!splashscreen)
-            V_FlashScreen();
+        V_FlashScreen();
     }
 }
 
@@ -4537,9 +4535,7 @@ bool M_Responder(event_t *ev)
             && (ev->data1 == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
         {
             V_ScreenShotSound();
-
-            if (!splashscreen)
-                V_FlashScreen();
+            V_FlashScreen();
         }
 
         return false;
