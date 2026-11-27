@@ -3016,14 +3016,14 @@ void C_UpdateFPSOverlay(void)
         previousfps = currentfps;
     }
 
-    graphwidth = fpstextwidth + 2 + fpswidth;
+    graphwidth = fpstextwidth + 2 + fpswidth + (*fpstext != '1') + (*fpstext == '4');
     graphx = SCREENWIDTH - graphwidth - OVERLAYTEXTX;
 
     if (!fpshistory)
     {
         const char  *temp = commifybuf(INT_MIN, fpsbuffer);
 
-        fpshistorycapacity = C_OverlayWidth(temp, true) + 2 + fpswidth;
+        fpshistorycapacity = C_OverlayWidth(temp, true) + 3 + fpswidth;
         fpshistory = I_Malloc((size_t)fpshistorycapacity * sizeof(*fpshistory));
     }
 
