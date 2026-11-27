@@ -313,7 +313,7 @@ void V_UpdateScreenShot(void)
 
 void V_FlashScreen(void)
 {
-    if (vanilla)
+    if (vanilla || !smoothtransitions)
         return;
 
     memset(screens[0], nearestwhite, SCREENAREA);

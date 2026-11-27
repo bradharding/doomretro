@@ -3596,17 +3596,6 @@ uint64_t    controllerwait = 0;
 uint64_t    mousewait = 0;
 bool        controllerpress = false;
 
-static void M_TakeScreenshot(bool flash)
-{
-    V_ScreenShot();
-
-    if (flash)
-    {
-        V_ScreenShotSound();
-        V_FlashScreen();
-    }
-}
-
 static bool M_IsAutomapMousePanning(void)
 {
     return (gamestate == GS_LEVEL && automapactive && !am_followmode && am_mousepanning && m_pointer
@@ -3792,7 +3781,9 @@ bool M_Responder(event_t *ev)
             {
                 controllerwait = I_GetTime() + 2;
                 usingcontroller = true;
-                M_TakeScreenshot(true);
+                V_ScreenShot();
+                V_ScreenShotSound();
+                V_FlashScreen();
                 return false;
             }
 
@@ -3912,7 +3903,9 @@ bool M_Responder(event_t *ev)
             {
                 controllerwait = I_GetTime() + 2;
                 usingcontroller = true;
-                M_TakeScreenshot(true);
+                V_ScreenShot();
+                V_ScreenShotSound();
+                V_FlashScreen();
                 return false;
             }
 
@@ -4440,7 +4433,9 @@ bool M_Responder(event_t *ev)
         {
             mousewait = I_GetTime() + 5;
             usingcontroller = false;
-            M_TakeScreenshot(true);
+            V_ScreenShot();
+            V_ScreenShotSound();
+            V_FlashScreen();
             return false;
         }
         else if (key == -1 && mousesizedown != -1 && (ev->data1 & mousesizedown) && mousewait < I_GetTime())

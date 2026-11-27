@@ -48,6 +48,7 @@
   * A bug is fixed whereby two screenshots would be created if taken while the console was open.
   * The white flash when taking a screenshot no longer interferes when taking multiple screenshots in quick succession.
   * The compression of screenshots can now be disabled using the new `compressscreenshots` CVAR, which is `on` by default.
+  * The screen no longer flashes white when the `smoothtransitions` CVAR is `off`.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * If `extras.wad` has autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack now isn’t so loud.
 * Minor visual anomalies no longer appear along the right edges of the player’s weapon as they move.
