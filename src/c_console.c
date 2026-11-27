@@ -2998,7 +2998,8 @@ void C_UpdateFPSOverlay(void)
     static int64_t      graphmin;
     static int64_t      graphmax;
     uint64_t            now = I_GetTimeMS();
-    int                 graphx = SCREENWIDTH - OVERLAYFPSGRAPHWIDTH - OVERLAYTEXTX;
+    int                 graphwidth;
+    int                 graphx;
     int                 graphy = OVERLAYTEXTY + 1;
     int                 prevpx = -1;
     int                 prevpy = -1;
@@ -3013,6 +3014,9 @@ void C_UpdateFPSOverlay(void)
         fpstextwidth = C_OverlayWidth(fpstext, true);
         previousfps = currentfps;
     }
+
+    graphwidth = fpstextwidth + 2 + fpswidth;
+    graphx = SCREENWIDTH - graphwidth - OVERLAYTEXTX;
 
     if ((!fpshistorycount || now - fpsgraphlastupdate >= 1000) && (!dowipe || !melt) && !fpssamplepending)
     {
@@ -3060,12 +3064,12 @@ void C_UpdateFPSOverlay(void)
     }
 
     for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
-        for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+        for (int xx = graphx; xx < graphx + graphwidth; xx++)
             tempscreen2[yy * SCREENWIDTH + xx] = PINK1;
 
     for (int i = firstpoint; i < OVERLAYFPSGRAPHWIDTH; i++)
     {
-        const int   px = graphx + i;
+        const int   px = graphx + i * (graphwidth - 1) / (OVERLAYFPSGRAPHWIDTH - 1);
         const int   py = pyvals[i];
         byte        *dest = &tempscreen2[py * SCREENWIDTH + px];
 
@@ -3132,7 +3136,7 @@ void C_UpdateFPSOverlay(void)
     if (overlaytexttinttab)
     {
         for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
-            for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+            for (int xx = graphx; xx < graphx + graphwidth; xx++)
             {
                 const int   i = yy * SCREENWIDTH + xx;
                 const byte  dot = tempscreen2[i];
@@ -3154,7 +3158,7 @@ void C_UpdateFPSOverlay(void)
     else
     {
         for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
-            for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+            for (int xx = graphx; xx < graphx + graphwidth; xx++)
             {
                 const int   i = yy * SCREENWIDTH + xx;
                 const byte  dot = tempscreen2[i];
