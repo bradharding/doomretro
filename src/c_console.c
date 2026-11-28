@@ -3021,7 +3021,8 @@ void C_UpdateFPSOverlay(void)
 
     if (!fpshistory)
     {
-        const char  *temp = commifybuf(INT_MIN, fpsbuffer);
+        char        buffer[COMMIFY_BUFSIZE];
+        const char  *temp = commifybuf(INT_MIN, buffer);
 
         fpshistorycapacity = C_OverlayWidth(temp, true) + 3 + fpswidth;
         fpshistory = I_Malloc((size_t)fpshistorycapacity * sizeof(*fpshistory));
