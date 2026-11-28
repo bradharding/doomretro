@@ -847,7 +847,7 @@ void I_StartTic(void)
 
     if (pendinggraphicsrestart)
     {
-        const bool recreatewindow = pendingrecreatewindow;
+        const bool  recreatewindow = pendingrecreatewindow;
 
         pendinggraphicsrestart = false;
         pendingrecreatewindow = false;

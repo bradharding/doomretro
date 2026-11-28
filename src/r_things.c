@@ -1935,11 +1935,11 @@ static void R_AddBloodSplats(void)
                 if ((sector = splat->sector) != prevsector)
                 {
                     const short lightlevel = (sector->floorlightsec ?
-                        sector->floorlightsec->lightlevel : sector->lightlevel);
+                                    sector->floorlightsec->lightlevel : sector->lightlevel);
 
                     if (lightlevel != prevlightlevel)
                     {
-                        const int i = BETWEEN(0, lightlevel, 255);
+                        const int   i = BETWEEN(0, lightlevel, 255);
 
                         if (!cached[i])
                         {

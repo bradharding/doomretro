@@ -309,7 +309,7 @@ static voxel_t *VX_Decode(const byte *source, int length)
     for (int x = 0; x < v->xsize; x++)
         for (int y = 0; y <= v->ysize; y++, p += 2)
         {
-            const int offset = (p[0] | p[1] << 8) + xoffsets[x];
+            const int   offset = (p[0] | p[1] << 8) + xoffsets[x];
 
             v->offsets[y * v->xsize + x] = offset;
             minoffset = MIN(minoffset, offset);

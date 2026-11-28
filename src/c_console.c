@@ -3228,11 +3228,8 @@ void C_UpdateClockOverlay(void)
     }
 
     if (timeformat == timeformat_standard)
-    {
         V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, (x -= ampmwidth), y, ampm[hour >= 12],
             ampmwidth, overlaytextcolor, overlaytextshadowcolor, overlaytexttinttab);
-        //x -= 2;
-    }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - clockwidth, y, buffer, true);
 }

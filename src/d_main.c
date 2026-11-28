@@ -2608,18 +2608,10 @@ static void D_DoomMainSetup(void)
 
         if (((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
             || titlepics > 1) && !nerve)
-        {
-            const int titlepic = W_GetNumForName("TITLEPIC");
-
-            unsupportedtitlepic = !W_IsSupportedGraphicLump(titlepic);
-        }
+            unsupportedtitlepic = !W_IsSupportedGraphicLump(W_GetNumForName("TITLEPIC"));
 
         if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
-        {
-            const int credit = W_GetNumForName("CREDIT");
-
-            unsupportedcredit = !W_IsSupportedGraphicLump(credit);
-        }
+            unsupportedcredit = !W_IsSupportedGraphicLump(W_GetNumForName("CREDIT"));
 
         if (((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
             || titlepics > 1) && !nerve && !unsupportedtitlepic)

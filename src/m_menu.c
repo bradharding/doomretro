@@ -3680,9 +3680,9 @@ bool M_Responder(event_t *ev)
 
     if (pressedslider)
     {
-        const bool released = ((sliderinput == ev_mouse && ev->type == ev_mouse && !(ev->data1 & MOUSE_LEFTBUTTON))
-            || (sliderinput == ev_keydown && ev->type == ev_keyup && ev->data1 == slidercontrol)
-            || (sliderinput == ev_controller && ev->type == ev_controller && !M_SliderControllerHeld()));
+        const bool  released = ((sliderinput == ev_mouse && ev->type == ev_mouse && !(ev->data1 & MOUSE_LEFTBUTTON))
+                        || (sliderinput == ev_keydown && ev->type == ev_keyup && ev->data1 == slidercontrol)
+                        || (sliderinput == ev_controller && ev->type == ev_controller && !M_SliderControllerHeld()));
 
         if (!menuhighlight || vanilla || !windowfocused || !menuactive || messagetoprint || consoleactive
             || currentmenu != pressedslider || released
@@ -3694,8 +3694,8 @@ bool M_Responder(event_t *ev)
 
     if (pressinput)
     {
-        const bool released = (pressinput == ev_keydown ? ev->type == ev_keyup && ev->data1 == presscontrol :
-            ev->type == ev_controller && !(controllerbuttons & presscontrol));
+        const bool  released = (pressinput == ev_keydown ? ev->type == ev_keyup && ev->data1 == presscontrol :
+                        ev->type == ev_controller && !(controllerbuttons & presscontrol));
 
         if (!menuhighlight || vanilla || !windowfocused || consoleactive || (consoleoverlaymenu && consoleheight)
             || (pressmessage ? !messagetoprint || !quitmessagebuttons || pressedmessagebutton == -1 :
@@ -4534,7 +4534,7 @@ bool M_Responder(event_t *ev)
         && (key == KEY_LEFTARROW || key == KEY_RIGHTARROW)
         && (currentmenu == &OptionsDef || currentmenu == &SoundDef))
     {
-        const int slider = (currentmenu->menuitems[itemon].status == -1 ? itemon - 1 : itemon);
+        const int   slider = (currentmenu->menuitems[itemon].status == -1 ? itemon - 1 : itemon);
 
         if (slider >= 0 && currentmenu->menuitems[slider].status == 2)
         {

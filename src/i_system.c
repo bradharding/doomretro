@@ -613,12 +613,12 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         I_LogRegisters(logfile, exceptionInfo->ContextRecord);
 
         if (symsinitialized)
+        {
             I_LogCallStack(logfile, process, thread, exceptionInfo->ContextRecord);
+            SymCleanup(process);
+        }
         else
             fprintf(logfile, "Call Stack:        Unavailable (symbol initialization failed).\n");
-
-        if (symsinitialized)
-            SymCleanup(process);
 
         fclose(logfile);
     }

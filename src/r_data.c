@@ -437,7 +437,7 @@ static void R_InitBrightmaps(void)
 
                     if (nummasks >= maxmasks)
                     {
-                        const int oldmaxmasks = maxmasks;
+                        const int   oldmaxmasks = maxmasks;
 
                         maxmasks *= 2;
                         masks = I_Realloc(masks, (size_t)maxmasks * sizeof(*masks));
